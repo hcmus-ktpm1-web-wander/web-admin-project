@@ -3,7 +3,6 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const sassMiddleware = require('node-sass-middleware');
 
 // const indexRouter = require('./routes/index');
 // const usersRouter = require('./routes/users');
@@ -13,8 +12,6 @@ const tablesRouter = require('./components/tables/tablesRouter')
 const profileRouter = require('./components/profile/profileRouter')
 const signInRouter = require('./components/sign-in/sign-inRouter')
 const signUpRouter = require('./components/sign-up/sign-upRouter')
-
-
 
 const app = express();
 
@@ -26,12 +23,6 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(sassMiddleware({
-  src: path.join(__dirname, 'public'),
-  dest: path.join(__dirname, 'public'),
-  indentedSyntax: true, // true = .sass and false = .scss
-  sourceMap: true
-}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', dashboardRouter);
@@ -40,8 +31,6 @@ app.use('/tables', tablesRouter);
 app.use('/profile', profileRouter);
 app.use('/sign-in', signInRouter);
 app.use('/sign-up', signUpRouter);
-
-
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
