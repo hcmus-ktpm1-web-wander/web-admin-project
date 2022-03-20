@@ -5,7 +5,7 @@ const signInController = require("./sign-inController");
 
 /*************************** GET methods ***************************/
 //render signIn
-router.get("/", signInController.renderSignIn);
+router.get("/sign-in", signInController.renderSignIn);
 
 
 /*************************** POST methods ***************************/
