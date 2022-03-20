@@ -3,15 +3,13 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const cors = require('cors');
-const methodOverride = require('method-override');
 
 const dashboardRouter = require('./components/dashboard/dashboardRouter')
 const billingRouter = require('./components/billing/billingRouter')
 const tablesRouter = require('./components/tables/tablesRouter')
 const profileRouter = require('./components/profile/profileRouter')
 const signInRouter = require('./components/sign-in/sign-inRouter')
-const loggedInGuard = require('./middlewares/LoggedInGuard')
+// const loggedInGuard = require('./middlewares/LoggedInGuard')
 
 const app = express();
 
