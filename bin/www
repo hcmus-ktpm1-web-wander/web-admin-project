@@ -3,7 +3,6 @@
 /**
  * Module dependencies.
  */
-
 const app = require('../src/app');
 const debug = require('debug')('web-admin-project:server');
 const http = require('http');
