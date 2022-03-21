@@ -25,6 +25,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Connect database
+db.connect();
+
 // Authentication middleware
 app.use('/', signInRouter);
 
@@ -43,8 +46,7 @@ app.use('/billing', billingRouter);
 app.use('/tables', tablesRouter);
 app.use('/profile', profileRouter);
 
-// Connect database
-db.connect();
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

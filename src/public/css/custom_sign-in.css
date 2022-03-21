@@ -12,3 +12,7 @@ button.login100-form-btn:hover {
     background-image: linear-gradient(to bottom left, #4358D0, #CA50C2) !important;
     /* background-color: #C750C2  !important; */
 }
+
+.announce {
+    color: red;
+}

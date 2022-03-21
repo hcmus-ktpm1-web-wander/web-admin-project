@@ -10,7 +10,7 @@ router.get("/", signInController.redirectSignIn);
 router.get("/sign-in", signInController.renderSignIn);
 
 /*************************** POST methods ***************************/
-
+router.post("/sign-in", signInController.Verify)
 /*************************** PUT methods ***************************/
 
 /*************************** DELETE methods ***************************/
