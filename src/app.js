@@ -3,6 +3,8 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const db = require("./config/database.config")
+
 
 const dashboardRouter = require('./components/dashboard/dashboardRouter')
 const billingRouter = require('./components/billing/billingRouter')
@@ -40,6 +42,9 @@ app.use('/', dashboardRouter);
 app.use('/billing', billingRouter);
 app.use('/tables', tablesRouter);
 app.use('/profile', profileRouter);
+
+// Connect database
+db.connect();
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
