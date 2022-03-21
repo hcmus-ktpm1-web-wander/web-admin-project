@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+con
 
 const dashboardRouter = require('./components/dashboard/dashboardRouter')
 const billingRouter = require('./components/billing/billingRouter')
@@ -36,7 +37,7 @@ app.use(function (req, res, next) {
 })
 
 // Router middlewares
-app.use('/', dashboardRouter);
+app.use('/dashboard', dashboardRouter);
 app.use('/billing', billingRouter);
 app.use('/tables', tablesRouter);
 app.use('/profile', profileRouter);

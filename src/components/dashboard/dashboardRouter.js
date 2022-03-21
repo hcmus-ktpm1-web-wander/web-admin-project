@@ -5,8 +5,7 @@ const dashboardController = require("./dashboardController");
 
 /*************************** GET methods ***************************/
 //render dashboard
-router.get("/", dashboardController.redictDashboard);
-router.get("/dashboard", dashboardController.renderDashboard);
+router.get("/", dashboardController.renderDashboard);
 
 
 /*************************** POST methods ***************************/

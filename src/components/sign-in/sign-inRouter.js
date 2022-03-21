@@ -4,9 +4,10 @@ const router = express.Router();
 const signInController = require("./sign-inController");
 
 /*************************** GET methods ***************************/
+//redirect signIn
+router.get("/", signInController.redirectSignIn);
 //render signIn
 router.get("/sign-in", signInController.renderSignIn);
-
 
 /*************************** POST methods ***************************/
 
