@@ -3157,7 +3157,8 @@
 }
 
 .container-login100 .wrap-login100 {
-    width: 960px;
+    width: 70vw ;
+    max-width: 900px;
     background: #fff;
     border-radius: 10px;
     overflow: hidden;
@@ -3168,8 +3169,8 @@
     display: -ms-flexbox;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 177px 130px 33px 95px;
+    justify-content: center;
+    padding: 100px 50px 100px 50px;
 }
 
 /*------------------------------------------------------------------
