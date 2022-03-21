@@ -38,7 +38,7 @@ app.use(function (req, res, next) {
 })
 
 // Router middlewares
-app.use('/', dashboardRouter);
+app.use('/dashboard', dashboardRouter);
 app.use('/billing', billingRouter);
 app.use('/tables', tablesRouter);
 app.use('/profile', profileRouter);
