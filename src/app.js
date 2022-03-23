@@ -49,11 +49,6 @@ app.use('/billing', billingRouter);
 app.use('/tables', tablesRouter);
 app.use('/profile', profileRouter);
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 3e80fc98a04e96fbb4e823bc3dcd16e4306a0a55
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
