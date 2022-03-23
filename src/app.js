@@ -13,6 +13,9 @@ const profileRouter = require('./components/profile/profileRouter')
 const signInRouter = require('./components/sign-in/sign-inRouter')
 // const loggedInGuard = require('./middlewares/LoggedInGuard')
 
+// Connect database
+db.connect();
+
 const app = express();
 
 // view engine setup
@@ -42,9 +45,6 @@ app.use('/dashboard', dashboardRouter);
 app.use('/billing', billingRouter);
 app.use('/tables', tablesRouter);
 app.use('/profile', profileRouter);
-
-// Connect database
-db.connect();
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
