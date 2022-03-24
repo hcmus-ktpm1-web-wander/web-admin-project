@@ -1,16 +1,15 @@
 const express = require("express");
-const { redirect } = require("express/lib/response");
 const router = express.Router();
-const signInController = require("./sign-inController");
+const authController = require("./authController");
 
 /*************************** GET methods ***************************/
-//redirect signIn
-router.get("/", signInController.redirectSignIn);
-//render signIn
-router.get("/sign-in", signInController.renderSignIn);
+//rendirect auth '/' to '/auth/sign-in'
+router.get("/", authController.redirectAuth_SignIn);
+
+
 
 /*************************** POST methods ***************************/
-router.post("/sign-in", signInController.Verify)
+
 /*************************** PUT methods ***************************/
 
 /*************************** DELETE methods ***************************/

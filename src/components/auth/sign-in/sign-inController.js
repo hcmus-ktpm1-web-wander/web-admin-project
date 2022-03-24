@@ -2,18 +2,17 @@ const service = require('./sign-inService')
 
 
 /*************************** GET methods ***************************/
-exports.redirectSignIn = (req, res) => {
-    res.redirect("/sign-in");
-}
+
 // Render sign-in fail
 exports.renderSignInFail = (req, res) => {
-    res.render("sign-in/views/sign-in", { layout: './sign-in/views/sign_in_layout', validate: { isTrue: false } });
+    res.render("auth/sign-in/views/sign-in", { layout: './auth/sign-in/views/sign_in_layout', validate: { isTrue: false } });
 };
 
 
 // Render sign-in
 exports.renderSignIn = (req, res) => {
-    res.render("sign-in/views/sign-in", { layout: './sign-in/views/sign_in_layout', validate: { isTrue: true } });
+    console.log("render signin");
+    res.render("auth/sign-in/views/sign-in", { layout: './auth/sign-in/views/sign_in_layout', validate: { isTrue: true } });
 };
 
 // Verify

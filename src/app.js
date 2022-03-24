@@ -10,7 +10,9 @@ const dashboardRouter = require('./components/dashboard/dashboardRouter')
 const billingRouter = require('./components/billing/billingRouter')
 const tablesRouter = require('./components/tables/tablesRouter')
 const profileRouter = require('./components/profile/profileRouter')
-const signInRouter = require('./components/sign-in/sign-inRouter')
+const authRouter = require('./components/auth/authRouter')
+const sign_inRouter = require("./components/auth/sign-in/sign-inRouter");
+
 // const loggedInGuard = require('./middlewares/LoggedInGuard')
 
 // Connect database
@@ -32,7 +34,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 db.connect();
 
 // Authentication middleware
-app.use('/', signInRouter);
+app.use('/', authRouter);
+
+// Sign-in middleware
+app.use('/auth/sign-in', sign_inRouter);
 
 // Secure middlewares
 //app.all('/*', loggedInGuard);
