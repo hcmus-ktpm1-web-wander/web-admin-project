@@ -10,7 +10,10 @@ const dashboardRouter = require('./components/dashboard/dashboardRouter')
 const billingRouter = require('./components/billing/billingRouter')
 const tablesRouter = require('./components/tables/tablesRouter')
 const profileRouter = require('./components/profile/profileRouter')
-const signInRouter = require('./components/sign-in/sign-inRouter')
+const authRouter = require('./components/auth/authRouter')
+const in_user_manageRouter = require("./components/user-manage/user/userRouter");
+const in_admin_manageRouter = require("./components/user-manage/admin/adminRouter");
+
 // const loggedInGuard = require('./middlewares/LoggedInGuard')
 
 // Connect database
@@ -30,7 +33,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride('_method', { methods: ['POST', 'GET'] }));
 
 // Authentication middleware
-app.use('/', signInRouter);
+app.use('/', authRouter);
+
+// Sign-in middleware
+
 
 // Secure middlewares
 //app.all('/*', loggedInGuard);
@@ -46,6 +52,10 @@ app.use('/dashboard', dashboardRouter);
 app.use('/billing', billingRouter);
 app.use('/tables', tablesRouter);
 app.use('/profile', profileRouter);
+
+app.use('/manage/user', in_user_manageRouter);
+app.use('/manage/admin', in_admin_manageRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
