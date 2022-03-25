@@ -39,13 +39,14 @@
     border-radius: 0px;
 }
 
-
 .form-select:hover {
     cursor: pointer;
 }
 
-
-
 .modal-body div {
     font-size: 13px;
+}
+
+.modal-body div a:hover{
+    color: #CB0C9F !important;
 }

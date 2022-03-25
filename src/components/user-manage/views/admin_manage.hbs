@@ -10,26 +10,26 @@
 						<div class="table-responsive p-0">
 							<table class="table align-items-center mb-0">
 								<thead>
-								<tr>
-									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-										Author
-									</th>
-									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-										Function
-									</th>
-									<th
+									<tr>
+										<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+											Author
+										</th>
+										<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+											Function
+										</th>
+										<th
 											class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-										Employed
-									</th>
-									<th
+											Employed
+										</th>
+										<th
 											class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-										Detail
-									</th>
-									<th class="text-secondary opacity-7"></th>
-								</tr>
+											Detail
+										</th>
+										<th class="text-secondary opacity-7"></th>
+									</tr>
 								</thead>
 								<tbody>
-								{{#each result.admins}}
+									{{#each result.admins}}
 
 									<tr>
 										<td>
@@ -52,11 +52,10 @@
 										</td>
 										<td class="align-middle text-center text-sm">
 											<button class="button-add btn-view badge badge-sm bg-gradient-success"
-													data-bs-toggle="modal" data-bs-target='#account{{@index}}'>View
+												data-bs-toggle="modal" data-bs-target='#account{{@index}}'>View
 											</button>
 										</td>
 										<td class="align-middle">
-<<<<<<< HEAD
 											<form action="edit/{{_id}}" method="post">
 												<div class="dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown"
 													aria-expanded="false">
@@ -77,51 +76,28 @@
 													</li>
 												</ul>
 											</form>
-=======
-											<div class="dropdown-toggle" id="dropdownMenuButton1"
-												 data-bs-toggle="dropdown"
-												 aria-expanded="false">
-												Edit
-											</div>
-											<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-												<li>
-													<button class="dropdown-item" href="#">Delete</button>
-												</li>
-												<li>
-													<select class="form-select">
-														<option selected>Change role</option>
-														<option value="admin">Admin</option>
-														<option value="manager">Manager</option>
-													</select>
-												</li>
-											</ul>
->>>>>>> d4fa998e94c82c298a7760d212124a69519d2601
 										</td>
 
 										<!-- Modal -->
 										<div class="modal fade" id='account{{@index}}' tabindex="-1"
-											 aria-labelledby="exampleModalLabel" aria-hidden="true">
+											aria-labelledby="exampleModalLabel" aria-hidden="true">
 											<div class="modal-dialog">
 												<div class="modal-content">
 													<div class="modal-header">
-<<<<<<< HEAD
-														<h5 class="modal-title" id="exampleModalLabel">Account information
-														</h5>
-=======
-														<h5 class="modal-title" id="exampleModalLabel">Account
-															information</h5>
->>>>>>> d4fa998e94c82c298a7760d212124a69519d2601
+
+														<h5 class="modal-title" id="exampleModalLabel">Account information</h5>
 
 													</div>
 													<div class="modal-body">
-														<h5>{{fullname}}</h5>
-														<h6>@{{username}} </h6>
+														<h5 style=" margin-bottom: -3px;">{{fullname}}</h5>
+														<h6 class="mb-1" style="font-weight: 500;">@{{username}} </h6>
 														<div><b>UserID:</b> {{_id}}</div>
 														<div><b>Role:</b> {{role}}</div>
 														<div><b>Email:</b> {{email}}</div>
 														<div><b>Create at:</b> {{employed}}</div>
 														<div><b>Avatar URL:</b>
-															<a href="{{avatar_url}}">
+															<a style="text-decoration: underline; color: #67748E;"
+																href="{{avatar_url}}">
 																{{avatar_url}}</a>
 														</div>
 														<div><b>Status:</b> Active</div>
@@ -129,15 +105,14 @@
 														<div><b>Phone number:</b> {{phone}}</div>
 													</div>
 													<div class="modal-footer">
-														<button type="button" class="btn btn-secondary"
-																data-bs-dismiss="modal">Close
+														<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
 														</button>
 													</div>
 												</div>
 											</div>
 										</div>
 									</tr>
-								{{/each}}
+									{{/each}}
 								</tbody>
 							</table>
 						</div>
@@ -149,13 +124,13 @@
 
 						<li class="page-item" style="{{result.disablePrev}}">
 							<a class="page-link" href="/manage/admin?page={{result.prev}}" aria-label="Previous">
-							<span aria-hidden="true">&laquo;</span>
+								<span aria-hidden="true">&laquo;</span>
 							</a>
 						</li>
 						<li class="page-item"><a class="page-link" href="#">{{result.page}}</a></li>
 						<li class="page-item" style="{{result.disableNext}}">
-							<a class="page-link" href="/manage/admin?page={{result.next}}" aria-label="Next" >
-							<span aria-hidden="true">&raquo;</span>
+							<a class="page-link" href="/manage/admin?page={{result.next}}" aria-label="Next">
+								<span aria-hidden="true">&raquo;</span>
 							</a>
 						</li>
 					</ul>
@@ -199,15 +174,12 @@
 			<a href="javascript:void(0)" class="switch-trigger background-color">
 				<div class="badge-colors my-2 text-start">
 					<span class="badge filter bg-gradient-primary active" data-color="primary"
-						  onclick="sidebarColor(this)"></span>
+						onclick="sidebarColor(this)"></span>
 					<span class="badge filter bg-gradient-dark" data-color="dark" onclick="sidebarColor(this)"></span>
 					<span class="badge filter bg-gradient-info" data-color="info" onclick="sidebarColor(this)"></span>
-					<span class="badge filter bg-gradient-success" data-color="success"
-						  onclick="sidebarColor(this)"></span>
-					<span class="badge filter bg-gradient-warning" data-color="warning"
-						  onclick="sidebarColor(this)"></span>
-					<span class="badge filter bg-gradient-danger" data-color="danger"
-						  onclick="sidebarColor(this)"></span>
+					<span class="badge filter bg-gradient-success" data-color="success" onclick="sidebarColor(this)"></span>
+					<span class="badge filter bg-gradient-warning" data-color="warning" onclick="sidebarColor(this)"></span>
+					<span class="badge filter bg-gradient-danger" data-color="danger" onclick="sidebarColor(this)"></span>
 				</div>
 			</a>
 			<!-- Sidenav Type -->
@@ -217,10 +189,10 @@
 			</div>
 			<div class="d-flex">
 				<button class="btn bg-gradient-primary w-100 px-3 mb-2 active" data-class="bg-transparent"
-						onclick="sidebarType(this)">Transparent
+					onclick="sidebarType(this)">Transparent
 				</button>
 				<button class="btn bg-gradient-primary w-100 px-3 mb-2 ms-2" data-class="bg-white"
-						onclick="sidebarType(this)">White
+					onclick="sidebarType(this)">White
 				</button>
 			</div>
 			<p class="text-sm d-xl-none d-block mt-2">You can change the sidenav type just on desktop view.</p>
@@ -229,8 +201,7 @@
 				<h6 class="mb-0">Navbar Fixed</h6>
 			</div>
 			<div class="form-check form-switch ps-0">
-				<input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed"
-					   onclick="navbarFixed(this)">
+				<input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed" onclick="navbarFixed(this)">
 			</div>
 		</div>
 	</div>
