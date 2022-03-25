@@ -1,17 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const authController = require("./user_manageController");
+const admin_manageController = require("./user_manageController");
 
 /*************************** GET methods ***************************/
-//rendirect auth '/' to '/auth/sign-in'
-router.get("/", authController.redirectAuth_SignIn);
+//render admin
+router.get("/admin", admin_manageController.renderAdminManage);
 
-
-const admin_manageController = require("./adminController");
-
-/*************************** GET methods ***************************/
-//render signIn
-router.get("/", admin_manageController.renderAdminManage);
+//render user
+router.get("/user", admin_manageController.renderUserManage);
 /*************************** POST methods ***************************/
 
 /*************************** PUT methods ***************************/

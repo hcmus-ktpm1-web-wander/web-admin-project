@@ -10,8 +10,10 @@ router.get("/", authController.redirectLogin);
 router.get("/login", authController.renderLogin);
 
 /*************************** POST methods ***************************/
+router.post("/login", authController.Verify);
 
 /*************************** PUT methods ***************************/
+
 
 /*************************** DELETE methods ***************************/
 

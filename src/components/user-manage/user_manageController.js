@@ -1,25 +1,15 @@
-const service = require('./adminService')
+const service = require('./user_manageService');
 
-
-/*************************** GET methods ***************************/
-exports.redirectAuth_SignIn = (req, res) => {
-    res.redirect("/auth/sign-in");
-}
-
-
-
-
-
-
-/*************************** GET methods ***************************/
 
 // Render admin manage
 exports.renderAdminManage = async (req, res) => {
     const admin_info = await service.getAdminInfo();
+    res.render("user-manage/views/admin_manage", { active: { AdminManage: true }, page: "Admin manage", admin_info });
+};
 
-    console.log(admin_info);
-
-
-    res.render("user-manage/admin/views/admin_manage", { active: { AdminManage: true }, page: "Admin manage", admin_info });
+// Render admin manage
+exports.renderUserManage = async (req, res) => {
+    const admin_info = await service.getAdminInfo();
+    res.render("user-manage/views/user_manage", { active: { UserManage: true }, page: "User manage", admin_info });
 };
 

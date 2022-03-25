@@ -1,4 +1,4 @@
-const model = require('./adminModel')
+const model = require('./models/adminModel');
 
 
 module.exports.getAdminInfo = async () => {
