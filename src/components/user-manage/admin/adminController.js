@@ -10,7 +10,6 @@ exports.renderAdminManage = async (req, res) => {
     console.log(admin_info);
 
 
-    res.render("user-manage/admin/views/admin_manage", { active: { AdminManage: true }, page: "Admin manage", admin_info: admin_info });
-}
-
+    res.render("user-manage/admin/views/admin_manage", { active: { AdminManage: true }, page: "Admin manage", admin_info });
+};
 

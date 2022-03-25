@@ -3,10 +3,11 @@ const router = express.Router();
 const authController = require("./authController");
 
 /*************************** GET methods ***************************/
-//rendirect auth '/' to '/auth/sign-in'
-router.get("/", authController.redirectAuth_SignIn);
+//redirect auth '/' to '/auth/sign-in'
+router.get("/", authController.redirectLogin);
 
-
+//render login page
+router.get("/login", authController.renderLogin);
 
 /*************************** POST methods ***************************/
 

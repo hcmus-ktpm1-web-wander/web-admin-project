@@ -7,7 +7,11 @@ const authController = require("./user_manageController");
 router.get("/", authController.redirectAuth_SignIn);
 
 
+const admin_manageController = require("./adminController");
 
+/*************************** GET methods ***************************/
+//render signIn
+router.get("/", admin_manageController.renderAdminManage);
 /*************************** POST methods ***************************/
 
 /*************************** PUT methods ***************************/

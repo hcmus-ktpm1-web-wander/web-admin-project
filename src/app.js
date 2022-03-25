@@ -4,12 +4,13 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const db = require("./config/database.config")
+const methodOverride = require('method-override');
+
 const dashboardRouter = require('./components/dashboard/dashboardRouter')
 const billingRouter = require('./components/billing/billingRouter')
 const tablesRouter = require('./components/tables/tablesRouter')
 const profileRouter = require('./components/profile/profileRouter')
 const authRouter = require('./components/auth/authRouter')
-const sign_inRouter = require("./components/auth/sign-in/sign-inRouter");
 const in_user_manageRouter = require("./components/user-manage/user/userRouter");
 const in_admin_manageRouter = require("./components/user-manage/admin/adminRouter");
 
@@ -29,15 +30,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-// Connect database
-db.connect();
+app.use(methodOverride('_method', { methods: ['POST', 'GET'] }));
 
 // Authentication middleware
 app.use('/', authRouter);
 
 // Sign-in middleware
-app.use('/auth/sign-in', sign_inRouter);
+
 
 // Secure middlewares
 //app.all('/*', loggedInGuard);
