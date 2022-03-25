@@ -17,17 +17,18 @@
 											Function</th>
 										<th
 											class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-											Status
+											Employed
 										</th>
 										<th
 											class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-											Employed
+											Detail
 										</th>
 										<th class="text-secondary opacity-7"></th>
 									</tr>
 								</thead>
 								<tbody>
 									{{#each admin_info}}
+
 									<tr>
 										<td>
 											<div class="d-flex px-2 py-1">
@@ -44,11 +45,12 @@
 											<p class="text-xs font-weight-bold mb-0">{{role}}</p>
 											<p class="text-xs text-secondary mb-0">Organization</p>
 										</td>
-										<td class="align-middle text-center text-sm">
-											<span class="badge badge-sm bg-gradient-success">Online</span>
-										</td>
 										<td class="align-middle text-center">
 											<span class="text-secondary text-xs font-weight-bold">{{employed}}</span>
+										</td>
+										<td class="align-middle text-center text-sm">
+											<button class="button-add btn-view badge badge-sm bg-gradient-success"
+												data-bs-toggle="modal" data-bs-target='#account{{@index}}'>View</button>
 										</td>
 										<td class="align-middle">
 											<div class="dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown"
@@ -67,9 +69,42 @@
 													</select>
 												</li>
 											</ul>
-
 										</td>
+
+										<!-- Modal -->
+										<div class="modal fade" id='account{{@index}}' tabindex="-1"
+											aria-labelledby="exampleModalLabel" aria-hidden="true">
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<div class="modal-header">
+														<h5 class="modal-title" id="exampleModalLabel">Account information</h5>
+
+													</div>
+													<div class="modal-body">
+														<h5>{{fullname}}</h5>
+														<h6>@{{username}} </h6>
+														<div><b>UserID:</b> {{_id}}</div>
+														<div><b>Role:</b> {{role}}</div>
+														<div><b>Email:</b> {{email}}</div>
+														<div><b>Create at:</b> {{employed}}</div>
+														<div><b>Avatar URL:</b>
+															<a href="{{avatar_url}}">
+																{{avatar_url}}</a>
+														</div>
+														<div><b>Status:</b> Active</div>
+														<div><b>Address:</b> {{address}} </div>
+														<div><b>Phone number:</b> {{phone}}</div>
+													</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-secondary"
+															data-bs-dismiss="modal">Close</button>
+													</div>
+												</div>
+											</div>
+										</div>
 									</tr>
+
+
 									{{/each}}
 								</tbody>
 							</table>
@@ -81,7 +116,7 @@
 		</div>
 		<div class="row d-flex flex-column align-items-center">
 			{{!-- button add --}}
-			<button class=" button-add badge badge-sm bg-gradient-success">Add Administrator</button>
+			<button class=" btn btn-primary button-add">Add Administrator</button>
 		</div>
 
 

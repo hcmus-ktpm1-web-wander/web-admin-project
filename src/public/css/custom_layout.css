@@ -6,9 +6,18 @@
     height: 50px;
 }
 
-.button-add:hover {
+.btn-view {
+    border-width: 0px;
+    height: 30px;
+    width: 65px ;
+    text-align: center;
+}
+
+
+.btn-view:hover {
     background-image: linear-gradient(to right, #2eaa08, #369b17, #30a50d);
 }
+
 
 .dropdown-toggle {
     font-size: 12px;
@@ -33,4 +42,10 @@
 
 .form-select:hover {
     cursor: pointer;
+}
+
+
+
+.modal-body div {
+    font-size: 13px;
 }
