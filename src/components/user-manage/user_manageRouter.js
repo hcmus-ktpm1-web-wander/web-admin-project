@@ -1,15 +1,16 @@
 const express = require("express");
 const router = express.Router();
-const admin_manageController = require("./user_manageController");
+const user_manageController = require("./user_manageController");
 
 /*************************** GET methods ***************************/
 //render admin
-router.get("/admin", admin_manageController.renderAdminManage);
+router.get("/admin", user_manageController.renderAdminManage);
 
 //render user
-router.get("/user", admin_manageController.renderUserManage);
-/*************************** POST methods ***************************/
+router.get("/user", user_manageController.renderUserManage);
 
+/*************************** POST methods ***************************/
+router.post("/edit/:userID", user_manageController.editUser);
 /*************************** PUT methods ***************************/
 
 /*************************** DELETE methods ***************************/

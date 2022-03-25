@@ -13,3 +13,20 @@ exports.renderUserManage = async (req, res) => {
     res.render("user-manage/views/user_manage", { active: { UserManage: true }, page: "User manage", admin_info });
 };
 
+// edit user
+exports.editUser = async (req, res) => {
+    const id = await req.params.userID;
+    const body = await req.body;
+    console.log(req.body);
+
+    if (body.delete === "delete") {
+        service.deleteUser(id);
+    } else {
+        service.changeRole(id, body);
+    }
+
+    // reload page
+    res.redirect('back');
+
+};
+
