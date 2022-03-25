@@ -4,7 +4,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const db = require("./config/database.config")
-
+const methodOverride = require('method-override');
 
 const dashboardRouter = require('./components/dashboard/dashboardRouter')
 const billingRouter = require('./components/billing/billingRouter')
@@ -27,9 +27,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-// Connect database
-db.connect();
+app.use(methodOverride('_method', { methods: ['POST', 'GET'] }));
 
 // Authentication middleware
 app.use('/', signInRouter);
