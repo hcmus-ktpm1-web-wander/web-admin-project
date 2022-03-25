@@ -4,8 +4,6 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const db = require("./config/database.config")
-
-
 const dashboardRouter = require('./components/dashboard/dashboardRouter')
 const billingRouter = require('./components/billing/billingRouter')
 const tablesRouter = require('./components/tables/tablesRouter')
@@ -58,6 +56,7 @@ app.use('/profile', profileRouter);
 
 app.use('/manage/user', in_user_manageRouter);
 app.use('/manage/admin', in_admin_manageRouter);
+
 
 
 // catch 404 and forward to error handler

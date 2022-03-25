@@ -7,4 +7,4 @@ const admin = new Schema({
     passwd: String,
 });
 
-module.exports = mongoose.model('admin', admin, 'admin');
+module.exports = mongoose.model('admin_account', admin, 'admin_account');
