@@ -12,6 +12,8 @@ const tablesRouter = require('./components/tables/tablesRouter')
 const profileRouter = require('./components/profile/profileRouter')
 const authRouter = require('./components/auth/authRouter')
 const sign_inRouter = require("./components/auth/sign-in/sign-inRouter");
+const in_user_manageRouter = require("./components/user-manage/user/userRouter");
+const in_admin_manageRouter = require("./components/user-manage/admin/adminRouter");
 
 // const loggedInGuard = require('./middlewares/LoggedInGuard')
 
@@ -53,6 +55,10 @@ app.use('/dashboard', dashboardRouter);
 app.use('/billing', billingRouter);
 app.use('/tables', tablesRouter);
 app.use('/profile', profileRouter);
+
+app.use('/manage/user', in_user_manageRouter);
+app.use('/manage/admin', in_admin_manageRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
