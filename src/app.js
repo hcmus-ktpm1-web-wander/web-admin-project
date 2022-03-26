@@ -1,5 +1,7 @@
 const createError = require('http-errors');
 const express = require('express');
+const { body, validationResult } = require('express-validator');
+
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -15,6 +17,7 @@ const user_manageRouter = require("./components/user-manage/user_manageRouter");
 
 // const loggedInGuard = require('./middlewares/LoggedInGuard')
 
+
 // Connect database
 db.connect();
 
@@ -23,6 +26,7 @@ const app = express();
 // view engine setup
 app.set('views', [path.join(__dirname, 'views'), path.join(__dirname, "components")]);
 app.set('view engine', 'hbs');
+
 
 app.use(logger('dev'));
 app.use(express.json());

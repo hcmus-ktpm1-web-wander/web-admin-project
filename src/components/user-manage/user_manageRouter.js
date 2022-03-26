@@ -11,6 +11,7 @@ router.get("/user", user_manageController.renderUserManage);
 
 /*************************** POST methods ***************************/
 router.post("/edit/:userID", user_manageController.editUser);
+router.post("/add-user", user_manageController.addUser);
 /*************************** PUT methods ***************************/
 
 /*************************** DELETE methods ***************************/

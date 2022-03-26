@@ -85,3 +85,20 @@ exports.editUser = async (req, res) => {
 
 };
 
+// add User
+exports.addUser = async (req, res) => {
+    console.log('------------');
+    console.log((req.params));
+    console.log('------------');
+    console.log(req.body);
+    console.log('------------');
+
+    const body = await req.body;
+
+    service.addUser(req.body);
+
+    // reload page
+    res.redirect('back');
+
+};
+

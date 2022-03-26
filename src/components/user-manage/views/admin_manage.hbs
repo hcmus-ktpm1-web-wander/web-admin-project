@@ -148,7 +148,7 @@
 
 
 		<!-- Modal add user -->
-		<form action="add-user/" method="get">
+		<form action="add-user/" method="post">
 			<div class="modal fade" id='add-user' tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">
@@ -165,80 +165,59 @@
 								<div class="col-9">
 									<b>Avatar:</b>
 									<input type="file" class="form-control form-control-sm" id="input-avatar"
-										name="avatar" accept="image/*">
+										name="avatar_url" accept="image/*">
 								</div>
 							</div>
 
-							<script>
-								document.getElementById('input-avatar').onchange = function (evt) {
-									var tgt = evt.target || window.event.srcElement,
-										files = tgt.files;
-
-									// FileReader support
-									if (FileReader && files && files.length) {
-										var fr = new FileReader();
-										fr.onload = function () {
-											document.getElementById("avatar").src = fr.result;
-										}
-										fr.readAsDataURL(files[0]);
-									}
-
-									// Not supported
-									else {
-										// fallback -- perhaps submit the input to an iframe and temporarily store
-										// them on the server until the user's session ends.
-									}
-								}
-							</script>
-
-							<b>Full name:</b>
+							<b>Full name:</b> <span class="red-start">*</span>
 							<div class="input-group input-group-sm mb-2">
-								<input type="text" aria-label="First name" class="form-control"
-									placeholder="First name">
-								<input type="text" aria-label="Last name" class="form-control" placeholder="Last name">
+								<input type="text" aria-label="First name" class="form-control" placeholder="First name"
+									name="fname">
+								<input type="text" aria-label="Last name" class="form-control" placeholder="Last name"
+									name="lname">
 							</div>
 
-							<b>Username:</b>
+							<b>Username:</b> <span class="red-start">*</span>
 							<div class="input-group input-group-sm mb-2">
 								<span class="input-group-text" id="basic-addon1">@</span>
 								<input type="text" class="form-control" placeholder="Username" aria-label="Username"
 									aria-describedby="basic-addon1" name="username">
 							</div>
-							<b>Password:</b>
+
+							<b>Password:</b> <span class="red-start">*</span>
 							<div class="mb-2">
 								<div class="input-group input-group-sm mb-1">
 									<input type="password" class="form-control" placeholder="Password" id="passwd"
-										aria-label="Passwd" aria-describedby="basic-addon1" name="passwd">
+										aria-label="Passwd" name="passwd">
 									<span class="input-group-text">
 										<i class="far fa-eye-slash" id="togglePassword-passwd"></i>
 									</span>
 								</div>
 								<div class="input-group input-group-sm mb-1">
 									<input type="password" class="form-control form-control-sm" id="confirm-passwd"
-										placeholder="Confirm password" aria-label="Passwd"
-										aria-describedby="basic-addon1" name="confirm-passwd">
+										placeholder="Confirm password" aria-label="Passwd" name="confirm_passwd">
 									<span class="input-group-text">
 										<i class="far fa-eye-slash" id="togglePassword-confirmPasswd"></i>
 									</span>
 								</div>
 							</div>
 
-							<b>Email:</b>
+							<b>Email:</b> <span class="red-start">*</span>
 							<div class="input-group input-group-sm mb-2">
-								<input type="text" class="form-control" name="mail-username" placeholder="Username"
-									aria-label="Username">
+								<input type="text" class="form-control" placeholder="Username" aria-label="Username"
+									name='mail_username'>
 								<span class="input-group-text">@</span>
-								<input type="text" class="form-control" name="mail-domain" placeholder="gmail.com"
+								<input type="text" class="form-control" name='mail_domain' placeholder="gmail.com"
 									aria-label="Server">
 							</div>
 
 							<b>Address:</b>
 							<input type="text" class="form-control form-control-sm mb-2" placeholder="Address"
-								aria-label="addr" aria-describedby="basic-addon1" name="addr">
+								aria-label="addr" name="address">
 
 							<b>Phone number:</b>
 							<input type="tel" class="form-control form-control-sm" placeholder="Phone number"
-								aria-label="phone-num" aria-describedby="basic-addon1" name="phone-num">
+								aria-label="phone-num" name="phone">
 
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancle
@@ -350,3 +329,27 @@
 		this.classList.toggle('fa-eye-slash');
 	});
 </script>
+
+
+{{!-- load image from <file> to <img> --}}
+	<script>
+		document.getElementById('input-avatar').onchange = function (evt) {
+			var tgt = evt.target || window.event.srcElement,
+				files = tgt.files;
+
+			// FileReader support
+			if (FileReader && files && files.length) {
+				var fr = new FileReader();
+				fr.onload = function () {
+					document.getElementById("avatar").src = fr.result;
+				}
+				fr.readAsDataURL(files[0]);
+			}
+
+			// Not supported
+			else {
+				// fallback -- perhaps submit the input to an iframe and temporarily store
+				// them on the server until the user's session ends.
+			}
+		}
+	</script>

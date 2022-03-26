@@ -67,3 +67,7 @@ i:hover {
     cursor: pointer;
     color: gray;
 }
+
+.red-start {
+    color: red;
+}
