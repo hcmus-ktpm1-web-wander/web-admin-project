@@ -2,7 +2,7 @@ const service = require('./user_manageService');
 
 // Render admin manage
 exports.renderAdminManage = async (req, res) => {
-    const admins = await service.getAdminInfo();
+    const admins = await service.getInfo('Admin');
 
     const page = parseInt(req.query.page) || 1;
     const limit = 5;
@@ -21,7 +21,7 @@ exports.renderAdminManage = async (req, res) => {
         result.numberNext = 'display: none;';
     }
 
-    if(startIndex > 0) {
+    if (startIndex > 0) {
         result.prev = page - 1;
     }
     else {
@@ -32,20 +32,47 @@ exports.renderAdminManage = async (req, res) => {
     result.page = page;
     result.admins = admins.slice(startIndex, endIndex);
 
-    res.render("user-manage/views/admin_manage", { active: { AdminManage: true }, page: "Admin manage", result});
+    res.render("user-manage/views/admin_manage", { active: { AdminManage: true }, page: "Admin manage", result });
 };
 
 // Render admin manage
 exports.renderUserManage = async (req, res) => {
-    const admin_info = await service.getAdminInfo();
-    res.render("user-manage/views/user_manage", { active: { UserManage: true }, page: "User manage", admin_info });
+    const users = await service.getInfo("User");
+
+    const page = parseInt(req.query.page) || 1;
+    const limit = 5;
+
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+
+    const result = {};
+
+    console.log('end index:', endIndex);
+    console.log('users:', users.length);
+
+    if (endIndex < users.length) {
+        result.next = page + 1;
+    }
+    else {
+        result.disableNext = 'pointer-events: none;';
+    }
+
+    if (startIndex > 0) {
+        result.prev = page - 1;
+    }
+    else {
+        result.disablePrev = 'pointer-events: none;';
+    }
+    result.page = page;
+    result.admins = users.slice(startIndex, endIndex);
+
+    res.render("user-manage/views/user_manage", { active: { UserManage: true }, page: "User manage", result });
 };
 
 // edit user
 exports.editUser = async (req, res) => {
-    const id = req.params.userID;
-    const body = req.body;
-    console.log(id,body);
+    const id = await req.params.userID;
+    const body = await req.body;
 
     if (body.delete === "delete") {
         await service.deleteUser(id);

@@ -39,13 +39,31 @@
     border-radius: 0px;
 }
 
-
 .form-select:hover {
     cursor: pointer;
 }
 
-
-
 .modal-body div {
     font-size: 13px;
+}
+
+.modal-body div a:hover{
+    color: #CB0C9F !important;
+}
+
+.in-avatar {
+    border: 2px solid lightgray;
+    width: 100px !important;
+    height: 100px !important;
+    object-fit: contain !important;
+}
+
+i {
+    color: lightgray;
+    transition: 0.2s;
+}
+
+i:hover {
+    cursor: pointer;
+    color: gray;
 }
