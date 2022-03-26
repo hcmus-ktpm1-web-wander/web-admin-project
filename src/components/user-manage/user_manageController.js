@@ -1,5 +1,5 @@
 const service = require('./user_manageService');
-const utils = require('./user_managerUtils');
+const utils = require('./user_manageUtils');
 
 /************************************* GET methods *************************************/
 /**
