@@ -57,26 +57,29 @@
 											</button>
 										</td>
 										<td class="align-middle">
-											<form action="edit/{{_id}}" method="post">
-												<div class="dropdown-toggle" id="dropdownMenuButton1"
-													data-bs-toggle="dropdown" aria-expanded="false">
-													Edit
-												</div>
-												<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-													<li>
+											<div class="dropdown-toggle" id="dropdownMenuButton1"
+												data-bs-toggle="dropdown" aria-expanded="false">
+												Edit
+											</div>
+											<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+												<li>
+													<form action="edit/{{_id}}?_method=DELETE" method="post">
 														<button class="dropdown-item" type="submit" name="delete"
-															value="delete">Delete</button>
-													</li>
-													<li>
+															value="delete">Delete
+														</button>
+													</form>
+												</li>
+												<li>
+													<form action="edit/{{_id}}?_method=PUT" method="post">
 														<select class="form-select" name="to_role"
-															onchange='if(this.value != 0) { this.form.submit();}'>
+															onchange='if(this.value !== 0) { this.form.submit();}'>
 															<option value="0">Change role</option>
 															<option value="User">User</option>
 															<option value="Admin">Admin</option>
 														</select>
-													</li>
-												</ul>
-											</form>
+													</form>
+												</li>
+											</ul>
 										</td>
 
 										<!-- User Modal -->
@@ -85,9 +88,9 @@
 											<div class="modal-dialog">
 												<div class="modal-content">
 													<div class="modal-header">
-
 														<h5 class="modal-title" id="exampleModalLabel">Account
-															information</h5>
+															information
+														</h5>
 
 													</div>
 													<div class="modal-body">
@@ -125,12 +128,26 @@
 				<nav aria-label="Page navigation example">
 					<ul class="pagination" style="display: flex; justify-content: right;">
 
-						<li class="page-item" style="{{result.disablePrev}}">
+						<li class="page-item" style="{{result.disablePrev}} ">
 							<a class="page-link" href="/manage/admin?page={{result.prev}}" aria-label="Previous">
 								<span aria-hidden="true">&laquo;</span>
 							</a>
 						</li>
-						<li class="page-item"><a class="page-link" href="#">{{result.page}}</a></li>
+
+						<li class="page-item {{result.hiddenPrev}}"
+							style="{{result.disablePrev}} {{result.numberPrev}}">
+							<a class="page-link" href="/manage/admin?page={{result.prev}}"> {{result.prev}} </a>
+						</li>
+
+						<li class="page-item active">
+							<a class="page-link" href="/manage/admin?page={{result.page}}"> {{result.page}} </a>
+						</li>
+
+						<li class="page-item {{result.hiddenNext}}"
+							style="{{result.disableNext}} {{result.numberNext}}">
+							<a class="page-link" href="/manage/admin?page={{result.next}}"> {{result.next}} </a>
+						</li>
+
 						<li class="page-item" style="{{result.disableNext}}">
 							<a class="page-link" href="/manage/admin?page={{result.next}}" aria-label="Next">
 								<span aria-hidden="true">&raquo;</span>
@@ -148,7 +165,7 @@
 
 
 		<!-- Modal add user -->
-		<form action="add-user/" method="post">
+		<form action="add-user/" method="post" enctype="multipart/form-data">
 			<div class="modal fade" id='add-user' tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">

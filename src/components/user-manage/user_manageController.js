@@ -1,97 +1,47 @@
 const service = require('./user_manageService');
-
+const utils = require('./user_managerutils');
 
 // Render admin manage
 exports.renderAdminManage = async (req, res) => {
     const admins = await service.getInfo('Admin');
-
     const page = parseInt(req.query.page) || 1;
-    const limit = 5;
-
-    const startIndex = (page - 1) * limit;
-    const endIndex = page * limit;
-
-    const result = {};
-
-    console.log('end index:', endIndex);
-    console.log('admins:', admins.length);
-
-    if (endIndex < admins.length) {
-        result.next = page + 1;
-    }
-    else {
-        result.disableNext = 'pointer-events: none;';
-    }
-
-    if (startIndex > 0) {
-        result.prev = page - 1;
-    }
-    else {
-        result.disablePrev = 'pointer-events: none;';
-    }
-    result.page = page;
-    result.admins = admins.slice(startIndex, endIndex);
-
+    const result = utils.paging(admins, page);
     res.render("user-manage/views/admin_manage", { active: { AdminManage: true }, page: "Admin manage", result });
 };
 
 // Render admin manage
 exports.renderUserManage = async (req, res) => {
     const users = await service.getInfo("User");
-
     const page = parseInt(req.query.page) || 1;
-    const limit = 5;
-
-    const startIndex = (page - 1) * limit;
-    const endIndex = page * limit;
-
-    const result = {};
-
-    console.log('end index:', endIndex);
-    console.log('users:', users.length);
-
-    if (endIndex < users.length) {
-        result.next = page + 1;
-    }
-    else {
-        result.disableNext = 'pointer-events: none;';
-    }
-
-    if (startIndex > 0) {
-        result.prev = page - 1;
-    }
-    else {
-        result.disablePrev = 'pointer-events: none;';
-    }
-    result.page = page;
-    result.admins = users.slice(startIndex, endIndex);
-
+    const result = utils.paging(users, page);
     res.render("user-manage/views/user_manage", { active: { UserManage: true }, page: "User manage", result });
 };
 
 // edit user
 exports.editUser = async (req, res) => {
+    console.log('edit USer');
     const id = await req.params.userID;
     const body = await req.body;
 
-    if (body.delete === "delete") {
-        service.deleteUser(id);
-    } else {
-        service.changeRole(id, body);
-    }
+    await service.changeRole(id, body);
 
     // reload page
     res.redirect('back');
+};
 
+// delete user
+exports.deleteUser = async (req, res) => {
+    console.log('delete USer');
+    const id = await req.params.userID;
+
+    await service.deleteUser(id);
+
+    // reload page
+    res.redirect('back');
 };
 
 // add User
 exports.addUser = async (req, res) => {
-    console.log('------------');
-    console.log((req.params));
-    console.log('------------');
-    console.log(req.body);
-    console.log('------------');
 
     const body = await req.body;
 

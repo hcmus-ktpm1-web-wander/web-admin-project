@@ -10,10 +10,12 @@ router.get("/admin", user_manageController.renderAdminManage);
 router.get("/user", user_manageController.renderUserManage);
 
 /*************************** POST methods ***************************/
-router.post("/edit/:userID", user_manageController.editUser);
 router.post("/add-user", user_manageController.addUser);
+
 /*************************** PUT methods ***************************/
+router.put("/edit/:userID", user_manageController.editUser);
 
 /*************************** DELETE methods ***************************/
+router.delete("/edit/:userID", user_manageController.deleteUser);
 
 module.exports = router;

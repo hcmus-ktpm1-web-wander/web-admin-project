@@ -1,5 +1,7 @@
 const model = require('./models/adminModel');
 const mongoose = require("mongoose");
+const cloudinary = '../../config/cloudinary.config.js';
+const utils = './user_manageUtils.js';
 
 module.exports.getInfo = async (role) => {
     try {
@@ -9,12 +11,10 @@ module.exports.getInfo = async (role) => {
     }
 }
 
-
 module.exports.deleteUser = async (id) => {
     try {
         await model.find({ _id: id }).remove()
             .then(() => { console.log("> Deleted", id); });
-        return;
     } catch (err) {
         throw err;
     }
@@ -25,24 +25,44 @@ module.exports.changeRole = async (id, body) => {
         console.log('> change role', body.to_role);
         await model.findByIdAndUpdate({ _id: id }, { $set: { role: body.to_role } })
             .then(() => {
-                console.log("> Changed", id, "-> role:", role);
+                console.log("> Changed", id, "-> role:", body.to_role);
             });
-        return;
     } catch (err) {
         throw err;
     }
+}
+
+UploadImage = async (image) => {
+    cloudinary.uploader.upload(image)
+        .then((result) => {
+            response.status(200).send({
+                message: "success",
+                result,
+            });
+        }).catch((error) => {
+            response.status(500).send({
+                message: "failure",
+                error,
+            });
+        });
 }
 
 module.exports.addUser = async (body) => {
     try {
         console.log('> Add user');
 
-        const objectID = await new mongoose.Types.ObjectId();
+        // const objectID = await new mongoose.Types.ObjectId();
+
+
+        // upload image
+        // await UploadImage(body.avatar_url);
+
+        // admin.avatar_url = url;
 
         body['fullname'] = body.fname + ' ' + body.lname;
         body['email'] = body.mail_username + body.mail_domain;
         body['employed'] = new Date();
-        body['avatar_url'] = '';
+        body['avatar_url'] = url;
 
 
         delete body.fname;

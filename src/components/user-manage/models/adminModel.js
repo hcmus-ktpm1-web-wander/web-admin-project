@@ -9,10 +9,11 @@ const admin = new Schema({
     username: String,
     email: String,
     role: String,
-    addr: String,
-    phone_num: String,
-    employed: Date
-
+    employed: Date,
+    avatar_url: String,
+    address: String,
+    fullname: String,
+    phone: String,
 });
 
 module.exports = mongoose.model('admin', admin, 'admin');
