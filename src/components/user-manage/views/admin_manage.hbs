@@ -14,7 +14,8 @@
 										<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
 											Author
 										</th>
-										<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+										<th
+											class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
 											Function
 										</th>
 										<th
@@ -57,8 +58,8 @@
 										</td>
 										<td class="align-middle">
 											<form action="edit/{{_id}}" method="post">
-												<div class="dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-													aria-expanded="false">
+												<div class="dropdown-toggle" id="dropdownMenuButton1"
+													data-bs-toggle="dropdown" aria-expanded="false">
 													Edit
 												</div>
 												<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -78,14 +79,15 @@
 											</form>
 										</td>
 
-										<!-- Modal -->
+										<!-- User Modal -->
 										<div class="modal fade" id='account{{@index}}' tabindex="-1"
 											aria-labelledby="exampleModalLabel" aria-hidden="true">
 											<div class="modal-dialog">
 												<div class="modal-content">
 													<div class="modal-header">
 
-														<h5 class="modal-title" id="exampleModalLabel">Account information</h5>
+														<h5 class="modal-title" id="exampleModalLabel">Account
+															information</h5>
 
 													</div>
 													<div class="modal-body">
@@ -105,7 +107,8 @@
 														<div><b>Phone number:</b> {{phone}}</div>
 													</div>
 													<div class="modal-footer">
-														<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+														<button type="button" class="btn btn-secondary"
+															data-bs-dismiss="modal">Close
 														</button>
 													</div>
 												</div>
@@ -139,11 +142,119 @@
 		</div>
 		<div class="row d-flex flex-column align-items-center">
 			{{!-- button add --}}
-			<button class=" btn btn-primary button-add">Add Administrator</button>
+			<button class=" btn btn-primary button-add" data-bs-toggle="modal" data-bs-target='#add-user'>Add
+				Administrator</button>
 		</div>
 
 
-		<footer class="footer pt-3  "></footer>
+		<!-- Modal add user -->
+		<form action="add-user/" method="get">
+			<div class="modal fade" id='add-user' tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Add new admin account</h5>
+						</div>
+
+						<div class="modal-body">
+							<div class="row">
+								<div class="col-3">
+									<img src="/img/default-avtar.jpg" class="in-avatar rounded float-start" id="avatar"
+										alt="avatar">
+								</div>
+								<div class="col-9">
+									<b>Avatar:</b>
+									<input type="file" class="form-control form-control-sm" id="input-avatar"
+										name="avatar" accept="image/*">
+								</div>
+							</div>
+
+							<script>
+								document.getElementById('input-avatar').onchange = function (evt) {
+									var tgt = evt.target || window.event.srcElement,
+										files = tgt.files;
+
+									// FileReader support
+									if (FileReader && files && files.length) {
+										var fr = new FileReader();
+										fr.onload = function () {
+											document.getElementById("avatar").src = fr.result;
+										}
+										fr.readAsDataURL(files[0]);
+									}
+
+									// Not supported
+									else {
+										// fallback -- perhaps submit the input to an iframe and temporarily store
+										// them on the server until the user's session ends.
+									}
+								}
+							</script>
+
+							<b>Full name:</b>
+							<div class="input-group input-group-sm mb-2">
+								<input type="text" aria-label="First name" class="form-control"
+									placeholder="First name">
+								<input type="text" aria-label="Last name" class="form-control" placeholder="Last name">
+							</div>
+
+							<b>Username:</b>
+							<div class="input-group input-group-sm mb-2">
+								<span class="input-group-text" id="basic-addon1">@</span>
+								<input type="text" class="form-control" placeholder="Username" aria-label="Username"
+									aria-describedby="basic-addon1" name="username">
+							</div>
+							<b>Password:</b>
+							<div class="mb-2">
+								<div class="input-group input-group-sm mb-1">
+									<input type="password" class="form-control" placeholder="Password" id="passwd"
+										aria-label="Passwd" aria-describedby="basic-addon1" name="passwd">
+									<span class="input-group-text">
+										<i class="far fa-eye-slash" id="togglePassword-passwd"></i>
+									</span>
+								</div>
+								<div class="input-group input-group-sm mb-1">
+									<input type="password" class="form-control form-control-sm" id="confirm-passwd"
+										placeholder="Confirm password" aria-label="Passwd"
+										aria-describedby="basic-addon1" name="confirm-passwd">
+									<span class="input-group-text">
+										<i class="far fa-eye-slash" id="togglePassword-confirmPasswd"></i>
+									</span>
+								</div>
+							</div>
+
+							<b>Email:</b>
+							<div class="input-group input-group-sm mb-2">
+								<input type="text" class="form-control" name="mail-username" placeholder="Username"
+									aria-label="Username">
+								<span class="input-group-text">@</span>
+								<input type="text" class="form-control" name="mail-domain" placeholder="gmail.com"
+									aria-label="Server">
+							</div>
+
+							<b>Address:</b>
+							<input type="text" class="form-control form-control-sm mb-2" placeholder="Address"
+								aria-label="addr" aria-describedby="basic-addon1" name="addr">
+
+							<b>Phone number:</b>
+							<input type="tel" class="form-control form-control-sm" placeholder="Phone number"
+								aria-label="phone-num" aria-describedby="basic-addon1" name="phone-num">
+
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancle
+								</button>
+								<button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Submit
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
+	</div>
+
+	<footer class="footer pt-3  "></footer>
 	</div>
 </main>
 
@@ -177,9 +288,12 @@
 						onclick="sidebarColor(this)"></span>
 					<span class="badge filter bg-gradient-dark" data-color="dark" onclick="sidebarColor(this)"></span>
 					<span class="badge filter bg-gradient-info" data-color="info" onclick="sidebarColor(this)"></span>
-					<span class="badge filter bg-gradient-success" data-color="success" onclick="sidebarColor(this)"></span>
-					<span class="badge filter bg-gradient-warning" data-color="warning" onclick="sidebarColor(this)"></span>
-					<span class="badge filter bg-gradient-danger" data-color="danger" onclick="sidebarColor(this)"></span>
+					<span class="badge filter bg-gradient-success" data-color="success"
+						onclick="sidebarColor(this)"></span>
+					<span class="badge filter bg-gradient-warning" data-color="warning"
+						onclick="sidebarColor(this)"></span>
+					<span class="badge filter bg-gradient-danger" data-color="danger"
+						onclick="sidebarColor(this)"></span>
 				</div>
 			</a>
 			<!-- Sidenav Type -->
@@ -201,8 +315,38 @@
 				<h6 class="mb-0">Navbar Fixed</h6>
 			</div>
 			<div class="form-check form-switch ps-0">
-				<input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed" onclick="navbarFixed(this)">
+				<input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed"
+					onclick="navbarFixed(this)">
 			</div>
 		</div>
 	</div>
 </div>
+
+
+{{!-- script show password --}}
+<script>
+	const togglePassword = document.querySelector("#togglePassword-passwd");
+	const toggleConfirmPassword = document.querySelector("#togglePassword-confirmPasswd");
+	const password = document.querySelector("#passwd");
+	const confirmPassword = document.querySelector("#confirm-passwd");
+
+	togglePassword.addEventListener("click", function () {
+
+		// toggle the type attribute
+		const type = password.getAttribute("type") === "password" ? "text" : "password";
+		password.setAttribute("type", type);
+		// toggle the eye icon
+		this.classList.toggle('fa-eye');
+		this.classList.toggle('fa-eye-slash');
+
+	});
+	toggleConfirmPassword.addEventListener("click", function () {
+
+		// toggle the type attribute
+		const type = confirmPassword.getAttribute("type") === "password" ? "text" : "password";
+		confirmPassword.setAttribute("type", type);
+		// toggle the eye icon
+		this.classList.toggle('fa-eye');
+		this.classList.toggle('fa-eye-slash');
+	});
+</script>
