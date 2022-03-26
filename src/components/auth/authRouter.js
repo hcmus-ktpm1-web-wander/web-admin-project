@@ -10,11 +10,8 @@ router.get("/", authController.redirectLogin);
 router.get("/login", authController.renderLogin);
 
 /*************************** POST methods ***************************/
+// check login credentials
 router.post("/login", authController.Verify);
 
-/*************************** PUT methods ***************************/
-
-
-/*************************** DELETE methods ***************************/
 
 module.exports = router;

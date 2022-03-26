@@ -1,6 +1,5 @@
 const createError = require('http-errors');
 const express = require('express');
-const { body, validationResult } = require('express-validator');
 
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -37,9 +36,6 @@ app.use(methodOverride('_method', { methods: ['POST', 'GET'] }));
 
 // Authentication middleware
 app.use('/', authRouter);
-
-// Sign-in middleware
-
 
 // Secure middlewares
 //app.all('/*', loggedInGuard);

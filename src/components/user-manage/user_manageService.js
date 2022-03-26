@@ -1,8 +1,11 @@
 const model = require('./models/adminModel');
-const mongoose = require("mongoose");
 const cloudinary = require('../../config/cloudinary.config');
 
-
+/**
+ * Get all admin or user
+ * @param role {string:{Admin, User}}
+ * @returns {Promise<[Admin-User: model]>}
+ */
 module.exports.getInfo = async (role) => {
     try {
         return await model.find({ role }).lean();
@@ -11,6 +14,11 @@ module.exports.getInfo = async (role) => {
     }
 }
 
+/**
+ * delete admin or user
+ * @param id {string: String}
+ * @returns {Promise<void>}
+ */
 module.exports.deleteUser = async (id) => {
     try {
         await model.find({ _id: id }).remove();
@@ -19,6 +27,12 @@ module.exports.deleteUser = async (id) => {
     }
 }
 
+/**
+ * change role of admin or user
+ * @param id {string: String}
+ * @param body {string: String}
+ * @returns {Promise<void>}
+ */
 module.exports.changeRole = async (id, body) => {
     try {
         await model.findByIdAndUpdate({ _id: id }, { $set: { role: body.to_role } });
