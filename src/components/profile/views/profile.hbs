@@ -131,7 +131,7 @@
 									</span>
 								</div>
 								<b>New password:</b> <span class="red-start">*</span>
-								<div class="mb-3">
+								<div class="mb-4">
 									<div class="input-group mb-2">
 										<input type="password" class="form-control" placeholder="New password"
 											id="new_passwd" aria-label="Passwd" name="new_passwd">
@@ -147,6 +147,19 @@
 											<i class="far fa-eye-slash" id="togglePassword-confirmPasswd"></i>
 										</span>
 									</div>
+									<span id="change-passwd-announce" style="color: red;">
+										New password and confirm password are not match
+									</span>
+									<script>
+										var element = document.getElementById("confirm-passwd");
+										var confirmPass = document.getElementById("confirm-passwd");
+										confirmPass.addEventListener("blur", function () {
+											console.log('Elvis has left the city (input)!');
+											var announce = document.getElementById("change-passwd-announce");
+											announce.style.visibility = "hidden";
+										}
+										);
+									</script>
 								</div>
 							</div>
 
