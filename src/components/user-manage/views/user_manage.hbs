@@ -4,7 +4,7 @@
 			<div class="col-12 ">
 				<div class="card mb-4">
 					<div class="card-header pb-0">
-						<h6>Admin table</h6>
+						<h6>User table</h6>
 					</div>
 					<div class="card-body px-0 pt-0 pb-2">
 						<div class="table-responsive p-0">
@@ -69,7 +69,7 @@
 													</li>
 													<li>
 														<select class="form-select" name="to_role"
-															onchange='if(this.value != 0) { this.form.submit();}'>
+															onchange='if(this.value !== 0) { this.form.submit();}'>
 															<option value="0">Change role</option>
 															<option value="User">User</option>
 															<option value="Admin">Admin</option>

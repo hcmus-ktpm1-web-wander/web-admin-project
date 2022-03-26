@@ -1,5 +1,5 @@
 const model = require('./models/adminModel');
-
+const cloudinary = '../../config/cloudinary.config.js';
 
 module.exports.getInfo = async (role) => {
     try {
@@ -9,7 +9,6 @@ module.exports.getInfo = async (role) => {
     }
 }
 
-
 module.exports.deleteUser = async (id) => {
     try {
         await model.find({ _id: id }).remove()
@@ -17,6 +16,8 @@ module.exports.deleteUser = async (id) => {
     } catch (err) {
         throw err;
     }
+
+
 }
 
 module.exports.changeRole = async (id, body) => {
