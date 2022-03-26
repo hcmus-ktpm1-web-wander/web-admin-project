@@ -1,7 +1,7 @@
 const model = require('./models/adminModel');
 const mongoose = require("mongoose");
-const cloudinary = '../../config/cloudinary.config.js';
-const utils = './user_manageUtils.js';
+const cloudinary = require('../../config/cloudinary.config');
+
 
 module.exports.getInfo = async (role) => {
     try {
@@ -13,8 +13,7 @@ module.exports.getInfo = async (role) => {
 
 module.exports.deleteUser = async (id) => {
     try {
-        await model.find({ _id: id }).remove()
-            .then(() => { console.log("> Deleted", id); });
+        await model.find({ _id: id }).remove();
     } catch (err) {
         throw err;
     }
@@ -22,42 +21,28 @@ module.exports.deleteUser = async (id) => {
 
 module.exports.changeRole = async (id, body) => {
     try {
-        console.log('> change role', body.to_role);
-        await model.findByIdAndUpdate({ _id: id }, { $set: { role: body.to_role } })
-            .then(() => {
-                console.log("> Changed", id, "-> role:", body.to_role);
-            });
+        await model.findByIdAndUpdate({ _id: id }, { $set: { role: body.to_role } });
     } catch (err) {
         throw err;
     }
 }
 
-UploadImage = async (image) => {
-    cloudinary.uploader.upload(image)
-        .then((result) => {
-            response.status(200).send({
-                message: "success",
-                result,
-            });
-        }).catch((error) => {
-            response.status(500).send({
-                message: "failure",
-                error,
-            });
-        });
-}
-
-module.exports.addUser = async (body) => {
+module.exports.addUser = async (body,file) => {
     try {
-        console.log('> Add user');
 
         // const objectID = await new mongoose.Types.ObjectId();
 
-
         // upload image
-        // await UploadImage(body.avatar_url);
+        let result;
+        if (file) {
+            result = await cloudinary.v2.uploader.upload(file.path, {
+                folder: "admin_avatar",
+                use_filename: true,
+            });
+        }
+        const { url } = result ?? "";
 
-        // admin.avatar_url = url;
+        //admin.avatar_url = url;
 
         body['fullname'] = body.fname + ' ' + body.lname;
         body['email'] = body.mail_username + body.mail_domain;
@@ -78,8 +63,6 @@ module.exports.addUser = async (body) => {
         // insert 
         // await model.insertMany(body)
 
-
-        return;
     } catch (err) {
         throw err;
     }

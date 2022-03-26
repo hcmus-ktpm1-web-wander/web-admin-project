@@ -42,13 +42,8 @@ exports.deleteUser = async (req, res) => {
 
 // add User
 exports.addUser = async (req, res) => {
-
-    const body = await req.body;
-
-    service.addUser(req.body);
-
+    await service.addUser(req.body,req.file);
     // reload page
     res.redirect('back');
-
 };
 
