@@ -9,9 +9,8 @@ router.get("/admin", user_manageController.renderAdminManage);
 //render user
 router.get("/user", user_manageController.renderUserManage);
 
-/*************************** POST methods ***************************/
-router.post("/edit/:userID", user_manageController.editUser);
-/*************************** PUT methods ***************************/
+/*************************** put methods ***************************/
+router.put("/edit/:userID", user_manageController.editUser);
 
 /*************************** DELETE methods ***************************/
 

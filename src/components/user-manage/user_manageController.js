@@ -1,6 +1,5 @@
 const service = require('./user_manageService');
 
-
 // Render admin manage
 exports.renderAdminManage = async (req, res) => {
     const admins = await service.getAdminInfo();
@@ -13,14 +12,13 @@ exports.renderAdminManage = async (req, res) => {
 
     const result = {};
 
-    console.log('end index:', endIndex);
-    console.log('admins:',admins.length);
-
     if(endIndex < admins.length) {
         result.next = page + 1;
     }
     else {
         result.disableNext = 'pointer-events: none;';
+        result.hiddenNext = 'hidden';
+        result.numberNext = 'display: none;';
     }
 
     if(startIndex > 0) {
@@ -28,6 +26,8 @@ exports.renderAdminManage = async (req, res) => {
     }
     else {
         result.disablePrev = 'pointer-events: none;';
+        result.hiddenPrev = 'hidden';
+        result.numberPrev = 'display: none;';
     }
     result.page = page;
     result.admins = admins.slice(startIndex, endIndex);
@@ -43,18 +43,16 @@ exports.renderUserManage = async (req, res) => {
 
 // edit user
 exports.editUser = async (req, res) => {
-    const id = await req.params.userID;
-    const body = await req.body;
-    console.log(req.body);
+    const id = req.params.userID;
+    const body = req.body;
+    console.log(id,body);
 
     if (body.delete === "delete") {
-        service.deleteUser(id);
+        await service.deleteUser(id);
     } else {
-        service.changeRole(id, body);
+        await service.changeRole(id, body);
     }
-
     // reload page
     res.redirect('back');
-
 };
 
