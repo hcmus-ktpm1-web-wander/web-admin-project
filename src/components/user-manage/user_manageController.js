@@ -1,5 +1,5 @@
 const service = require('./user_manageService');
-const utils = require('./user_managerutils');
+const utils = require('./user_managerUtils');
 
 /************************************* GET methods *************************************/
 /**
@@ -49,7 +49,7 @@ exports.renderUserManage = async (req, res) => {
  */
 exports.addUser = async (req, res) => {
     try{
-        await service.addUser(req.body);
+        await service.addUser(req.body,req.file);
         res.redirect('back');
     }
     catch (e) {

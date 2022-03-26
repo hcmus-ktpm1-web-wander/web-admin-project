@@ -43,7 +43,6 @@ module.exports.changeRole = async (id, body) => {
 
 module.exports.addUser = async (body, file) => {
     try {
-
         // const objectID = await new mongoose.Types.ObjectId();
 
         // upload image
@@ -54,25 +53,26 @@ module.exports.addUser = async (body, file) => {
                 use_filename: true,
             });
         }
-        const { url } = result ?? "";
 
+        const { url } = result ?? "";
+        console.log(url);
         //admin.avatar_url = url;
 
-        body['fullname'] = body.fname + ' ' + body.lname;
-        body['email'] = body.mail_username + body.mail_domain;
-        body['employed'] = new Date();
-        body['avatar_url'] = url;
-
-
-        delete body.fname;
-        delete body.lname;
-        delete body.passwd;
-        delete body.confirm_passwd;
-        delete body.mail_username;
-        delete body.mail_domain;
-
-        console.log('------------');
-        console.log(body);
+        // body['fullname'] = body.fname + ' ' + body.lname;
+        // body['email'] = body.mail_username + body.mail_domain;
+        // body['employed'] = new Date();
+        // body['avatar_url'] = url;
+        //
+        //
+        // delete body.fname;
+        // delete body.lname;
+        // delete body.passwd;
+        // delete body.confirm_passwd;
+        // delete body.mail_username;
+        // delete body.mail_domain;
+        //
+        // console.log('------------');
+        // console.log(body);
 
         // insert 
         await model.insertMany(body)
