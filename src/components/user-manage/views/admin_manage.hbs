@@ -165,7 +165,7 @@
 
 
 		<!-- Modal add user -->
-		<form action="add-user/" method="post" enctype="multipart/form-data">
+		<form action="/manage/add-user" method="post" enctype="multipart/form-data">
 			<div class="modal fade" id='add-user' tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">
@@ -182,7 +182,7 @@
 								<div class="col-9">
 									<b>Avatar:</b>
 									<input type="file" class="form-control form-control-sm" id="input-avatar"
-										name="avatar_url" accept="image/*">
+										name="avatar_url" accept=".jpg,.jpeg,.png">
 								</div>
 							</div>
 
@@ -251,7 +251,6 @@
 	</div>
 
 	<footer class="footer pt-3  "></footer>
-	</div>
 </main>
 
 
@@ -351,12 +350,12 @@
 {{!-- load image from <file> to <img> --}}
 	<script>
 		document.getElementById('input-avatar').onchange = function (evt) {
-			var tgt = evt.target || window.event.srcElement,
+			const tgt = evt.target || window.event.srcElement,
 				files = tgt.files;
 
 			// FileReader support
 			if (FileReader && files && files.length) {
-				var fr = new FileReader();
+				const fr = new FileReader();
 				fr.onload = function () {
 					document.getElementById("avatar").src = fr.result;
 				}

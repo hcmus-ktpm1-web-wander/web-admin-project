@@ -27,6 +27,15 @@ module.exports.editIntro = async (req, res) => {
     } catch (err) {
         throw err;
     }
-
 };
 
+
+module.exports.changePassword = async (req, res) => {
+    await service.changePassword(req, res);
+    res.redirect('back');
+};
+
+module.exports.changeAvatar = async (req, res) => {
+    await service.changeAvatar(req, res);
+    res.redirect('back');
+};

@@ -1,12 +1,11 @@
 const createError = require('http-errors');
 const express = require('express');
-const { body, validationResult } = require('express-validator');
 
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const db = require("./config/database.config")
-// const methodOverride = require('method-override');
+const methodOverride = require('method-override');
 
 const dashboardRouter = require('./components/dashboard/dashboardRouter')
 const billingRouter = require('./components/billing/billingRouter')
@@ -33,22 +32,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-// app.use(methodOverride('_method', { methods: ['POST', 'GET'] }));
+app.use(methodOverride('_method', { methods: ['POST', 'GET'] }));
 
 // Authentication middleware
 app.use('/', authRouter);
-
-// Sign-in middleware
-
 
 // Secure middlewares
 //app.all('/*', loggedInGuard);
 
 // Store account
-// app.use(function (req, res, next) {
-//   res.locals.admin = req.user;
-//   next();
-// })
+app.use(function (req, res, next) {
+  res.locals.admin = req.user;
+  next();
+})
 
 // Router middlewares
 app.use('/dashboard', dashboardRouter);

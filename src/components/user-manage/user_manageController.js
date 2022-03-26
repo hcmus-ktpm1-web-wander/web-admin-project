@@ -1,54 +1,96 @@
 const service = require('./user_manageService');
 const utils = require('./user_managerutils');
 
-// Render admin manage
+/************************************* GET methods *************************************/
+/**
+ *  get admin information list and pagination data
+ *
+ * @param req request
+ * @param res response
+ * @returns {Promise<void>}
+ */
 exports.renderAdminManage = async (req, res) => {
-    const admins = await service.getInfo('Admin');
-    const page = parseInt(req.query.page) || 1;
-    const result = utils.paging(admins, page);
-    res.render("user-manage/views/admin_manage", { active: { AdminManage: true }, page: "Admin manage", result });
+    try{
+        const admins = await service.getInfo('Admin');
+        const page = parseInt(req.query.page) || 1;
+        const result = utils.paging(admins, page);
+        res.render("user-manage/views/admin_manage", { active: { AdminManage: true }, page: "Admin manage", result });
+
+    }catch (e) {
+        res.render("error", { error: e });
+    }
 };
 
-// Render admin manage
+/**
+ *  get user information list and pagination data
+ *
+ * @param req request
+ * @param res response
+ * @returns {Promise<void>}
+ */
 exports.renderUserManage = async (req, res) => {
-    const users = await service.getInfo("User");
-    const page = parseInt(req.query.page) || 1;
-    const result = utils.paging(users, page);
-    res.render("user-manage/views/user_manage", { active: { UserManage: true }, page: "User manage", result });
+    try {
+        const users = await service.getInfo('User');
+        const page = parseInt(req.query.page) || 1;
+        const result = utils.paging(users, page);
+        res.render("user-manage/views/user_manage", {active: {UserManage: true}, page: "User manage", result});
+    } catch (e) {
+        res.render("error", { error: e });
+    }
 };
 
-// edit user
-exports.editUser = async (req, res) => {
-    console.log('edit USer');
-    const id = await req.params.userID;
-    const body = await req.body;
-
-    await service.changeRole(id, body);
-
-    // reload page
-    res.redirect('back');
-};
-
-// delete user
-exports.deleteUser = async (req, res) => {
-    console.log('delete USer');
-    const id = await req.params.userID;
-
-    await service.deleteUser(id);
-
-    // reload page
-    res.redirect('back');
-};
-
-// add User
+/************************************* POST methods *************************************/
+/**
+ *  add user
+ *
+ * @param req request
+ * @param res response
+ * @returns {Promise<void>}
+ */
 exports.addUser = async (req, res) => {
-
-    const body = await req.body;
-
-    service.addUser(req.body);
-
-    // reload page
-    res.redirect('back');
-
+    try{
+        await service.addUser(req.body);
+        res.redirect('back');
+    }
+    catch (e) {
+        res.render("error", { error: e });
+    }
 };
+
+/************************************* PUT methods *************************************/
+/**
+ *  edit role of user
+ *
+ * @param req request
+ * @param res response
+ * @returns {Promise<void>}
+ */
+exports.editUser = async (req, res) => {
+    try{
+        await service.changeRole(req.params.userID, req.body);
+        res.redirect('back');
+    }
+    catch (e) {
+        res.render("error", { error: e });
+    }
+};
+
+/************************************* DELETE methods *************************************/
+/**
+ *  delete user
+ *
+ * @param req request
+ * @param res response
+ * @returns {Promise<void>}
+ */
+exports.deleteUser = async (req, res) => {
+    try{
+        await service.deleteUser(req.params.userID);
+        res.redirect('back');
+    }
+    catch (e) {
+        res.render("error", { error: e });
+    }
+};
+
 
