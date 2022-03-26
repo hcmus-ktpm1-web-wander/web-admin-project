@@ -1,7 +1,6 @@
-module.exports = function loggedInGuard(req, res, next)  {
-    if (req.user) {
-        next();
-    } else {
-        res.redirect('/sign-in');
-    }
+const authModel = require('/auth/authModel');
+
+module.exports.loggedInGuard = (req, res, next) => {
+    const usr_cookie = req.cookies.user;
+
 };

@@ -9,6 +9,14 @@ router.get("/", profileController.renderProfile);
 
 
 /*************************** POST methods ***************************/
+//edit intro
+router.post("/edit/intro", profileController.editIntro);
+
+//change password
+router.post("/edit/change-password", profileController.changePassword);
+
+//change avatar
+router.post("/edit/change-avatar", profileController.changeAvatar);
 
 /*************************** PUT methods ***************************/
 

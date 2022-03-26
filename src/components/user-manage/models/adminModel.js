@@ -14,6 +14,7 @@ const admin = new Schema({
     address: String,
     fullname: String,
     phone: String,
+    intro: String,
 });
 
 module.exports = mongoose.model('admin', admin, 'admin');
