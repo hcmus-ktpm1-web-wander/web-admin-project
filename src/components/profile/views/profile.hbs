@@ -94,8 +94,8 @@
 					</div>
 					<div class="modal-body">
 						<b>Avatar:</b>
-						<input type="file" class="form-control mb-4" id="input-avatar" name="avatar_url"
-							accept="image/*">
+						<input type="file" class="form-control form-control-sm" id="input-avatar" name="avatar_url"
+							accept=".jpg,.jpeg,.png">
 						<div class="w-100 d-flex flex-row justify-content-end ">
 							<button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal"
 								aria-label="Close">Cancle
@@ -254,8 +254,8 @@
 
 
 							{{#if active.editInfo}}
-							<form action="/profile/edit/info" id="form_edit_false" name="edit_info" method="GET">
-								<button type="submit" class="edit_info" name="edit_info" value="false">
+							<form action="/profile" id="form_edit_false" name="edit_info" method="GET">
+								<button type="submit" class="edit_info">
 									<i class="fas fa-user-edit text-secondary text-sm" data-bs-toggle="tooltip"
 										data-bs-placement="top" title="Edit Profile"></i>
 								</button>

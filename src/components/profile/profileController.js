@@ -31,7 +31,15 @@ module.exports.changePassword = async (req, res) => {
 };
 
 module.exports.changeAvatar = async (req, res) => {
-    await service.changeAvatar(req, res);
-    res.redirect('back');
+    try {
+        console.log("--- controller change avatar ---");
+        // Change avatar
+
+        await service.changeAvatar(req, req.file);
+        res.redirect('back');
+    }
+    catch (e) {
+        res.render("error", { error: e });
+    }
 };
 

@@ -1,4 +1,6 @@
 const model = require('../user-manage/user_manageModel');
+const cloudinary = require('../../config/cloudinary.config');
+
 
 module.exports.getProfile = async (req, res) => {
     const user_cookie = req.cookies.user;
@@ -45,7 +47,36 @@ module.exports.changePassword = async (req, res) => {
     res.redirect('back');
 };
 
-module.exports.changeAvatar = async (req, res) => {
-    await service.changeAvatar(req, res);
-    res.redirect('back');
+module.exports.changeAvatar = async (req, file) => {
+    try {
+        console.log("--- service change avatar ---");
+        console.log("file:", file);
+        // upload image
+        let result;
+        if (file) {
+            result = await cloudinary.v2.uploader.upload(file.path, {
+                folder: "admin_avatar",
+                use_filename: true,
+            });
+        }
+        console.log("new url", url);
+
+        // get image url
+        let { url } = result ?? "";
+        if (url === undefined) {
+            // default avatar
+            url = 'https://res.cloudinary.com/web-hcmus/image/upload/v1648341181/Default_avatar/default-avtar_wmf6yf.jpg';
+        }
+        console.log("new url", url);
+
+        const id = req.cookies.user.split("_")[0];
+
+
+        await model.findByIdAndUpdate({ _id: id });
+        console.log("model:", model);
+
+        // res.redirect('back');
+    } catch (err) {
+        throw err;
+    }
 };

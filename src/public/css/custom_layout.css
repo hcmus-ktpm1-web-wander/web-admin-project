@@ -90,3 +90,10 @@ textarea {
     background-color: transparent;
     border-width: 0px;
 }
+
+.nav-link:hover {
+    transition: 0.2s all;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: 600;
+}
