@@ -62,7 +62,8 @@ module.exports.addUser = async (body, file) => {
 
         var { url } = result ?? "";
         if (url === undefined) {
-            url = '/img/default-avtar.jpg';
+            // default avatar
+            url = 'https://res.cloudinary.com/web-hcmus/image/upload/v1648341181/Default_avatar/default-avtar_wmf6yf.jpg';
         }
 
         var now = (new Date()).toString().split(" ");

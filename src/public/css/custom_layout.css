@@ -85,3 +85,8 @@ textarea {
     display: flex;
     justify-content: right;
 }
+
+.edit_info {
+    background-color: transparent;
+    border-width: 0px;
+}

@@ -251,64 +251,113 @@
 							<h6 class="mb-0">Profile Information</h6>
 						</div>
 						<div class="col-md-4 text-end">
-							<a data-bs-toggle="collapse" href="#collapseEditIntro" role="button" aria-expanded="false"
-								aria-controls="collapseEditIntro">
-								<i class="fas fa-user-edit text-secondary text-sm" data-bs-toggle="tooltip"
-									data-bs-placement="top" title="Edit Profile"></i>
-							</a>
+
+
+							{{#if active.editInfo}}
+							<form action="/profile/edit/info" id="form_edit_false" name="edit_info" method="GET">
+								<button type="submit" class="edit_info" name="edit_info" value="false">
+									<i class="fas fa-user-edit text-secondary text-sm" data-bs-toggle="tooltip"
+										data-bs-placement="top" title="Edit Profile"></i>
+								</button>
+							</form>
+							{{else}}
+							<form action="/profile/edit/info" name="edit_info" method="GET">
+								<button type="submit" class="edit_info" name="edit_info" value="true">
+									<i class="fas fa-user-edit text-secondary text-sm" data-bs-toggle="tooltip"
+										data-bs-placement="top" title="Edit Profile"></i>
+								</button>
+							</form>
+							{{/if}}
+							{{!--
+							</a> --}}
+							</form>
 						</div>
 					</div>
 				</div>
 				<div class="card-body p-3">
-					<p class="text-sm">
-						{{profile.intro}}
-					</p>
-					<form action="profile/edit/intro" method="POST">
-						<div class="collapse card" id="collapseEditIntro">
-							<div class="card-body">
-								<span for="exampleFormControlTextarea1" class="form-label profile-edit-intro">Edit
-									introduce</span>
-								<textarea class="form-control mb-2" name="intro" id="exampleFormControlTextarea1"
-									rows="4">{{profile.intro}}</textarea>'
+					<form action="/profile/edit/detail-info" method="POST">
+						{{#if active.editInfo}}
+						<textarea class="form-control mb-2" name="intro" id="exampleFormControlTextarea1"
+							rows="4">{{profile.intro}}</textarea>'
+						{{else}}
+						<p class="text-sm">
+							{{profile.intro}}
+						</p>
+						{{/if}}
+						<hr class="horizontal gray-light my-4">
+						<ul class="list-group">
+							<li class="list-group-item border-0 ps-0  text-sm"><strong class="text-dark">Full
+									Name:</strong>
+								&nbsp;
+								{{#if active.editInfo}}
+								<input type="text" class="form-control" id="edit_fullname"
+									placeholder="{{profile.fullname}}" name="edit_fullname"
+									value="{{profile.fullname}}">
+								{{else}}
+								{{profile.fullname}}
+								{{/if}}
+							</li>
+							<li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">User
+									Name:</strong>
+								&nbsp;
+								{{#if active.editInfo}}
+								<input type="text" class="form-control" id="edit_fullname"
+									placeholder="{{profile.username}}" name="edit_username"
+									value="{{profile.username}}">
+								{{else}}
+								{{profile.username}}
+								{{/if}}
+							</li>
+							<li class="list-group-item border-0 ps-0  text-sm"><strong
+									class="text-dark">Mobile:</strong>
+								&nbsp;
+
+								{{#if active.editInfo}}
+								<input type="tel" class="form-control" id="edit_phone" placeholder="{{profile.phone}}"
+									value="{{profile.phone}}" name="edit_phone">
+								{{else}}
+								{{profile.phone}}
+								{{/if}}
+							</li>
+							<li class="list-group-item border-0 ps-0  text-sm"><strong class="text-dark">Email:</strong>
+								&nbsp;
+
+								{{#if active.editInfo}}
+								<input type="email" class="form-control" id="edit_email" placeholder="{{profile.email}}"
+									value="{{profile.email}}" name="edit_email">
+								{{else}}
+								{{profile.email}}
+								{{/if}}
+							</li>
+							<li class="list-group-item border-0 ps-0 text-sm"><strong
+									class="text-dark">Location:</strong>
+								&nbsp;
+
+								{{#if active.editInfo}}
+								<input type="text" class="form-control" id="edit_addr" placeholder="{{profile.address}}"
+									value="{{profile.address}}" name="edit_addr">
+								{{else}}
+								{{profile.address}}
+								{{/if}}
+							</li>
+							<li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Employed
+									:</strong>
+								&nbsp; {{profile.employed}}
+							</li>
+							<li>
+								{{#if active.editInfo}}
 								<div class="w-100 d-flex flex-row justify-content-end ">
-									<button type="button" class="btn btn-secondary me-2"
-										onclick="closeCollapse('collapseEditIntro')">Cancle
+									<button type="submit" class="btn btn-secondary me-2" form="form_edit_false">Cancle
 									</button>
 									<button type="submit" class="btn btn-primary"
 										onclick="closeCollapse('collapseEditIntro')">Submit
 									</button>
 
 								</div>
-							</div>
-						</div>
+								{{/if}}
+							</li>
+						</ul>
 					</form>
-					<hr class="horizontal gray-light my-4">
-					<ul class="list-group">
-						<li class="list-group-item border-0 ps-0  text-sm"><strong class="text-dark">Full
-								Name:</strong>
-							&nbsp; {{profile.fullname}}
-						</li>
-						<li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">User
-								Name:</strong>
-							&nbsp; {{profile.username}}
-						</li>
-						<li class="list-group-item border-0 ps-0  text-sm"><strong class="text-dark">Mobile:</strong>
-							&nbsp; {{profile.phone}}
-						</li>
-						<li class="list-group-item border-0 ps-0  text-sm"><strong class="text-dark">Email:</strong>
-							&nbsp;
-							{{profile.email}}
-						</li>
-						<li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Location:</strong>
-							&nbsp;
-							{{profile.address}}
-						</li>
-						<li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Employed
-								:</strong>
-							&nbsp; {{profile.employed}}
-						</li>
-
-					</ul>
 				</div>
 			</div>
 		</div>

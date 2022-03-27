@@ -14,15 +14,25 @@ module.exports.getProfile = async (req, res) => {
     }
 }
 
-module.exports.editIntro = async (req, res) => {
+module.exports.editDetailInfo = async (req, res, profile) => {
     const id = req.cookies.user.split("_")[0];
 
-    console.log("profile:", req.body.intro);
+    console.log("profile:", req.body);
 
     try {
-        await model.findByIdAndUpdate({ _id: id }, { $set: { intro: req.body.intro } })
+        await model.findByIdAndUpdate({ _id: id },
+            {
+                $set: {
+                    intro: req.body.intro,
+                    fullname: req.body.edit_fullname,
+                    username: req.body.edit_username,
+                    phone: req.body.edit_phone,
+                    email: req.body.edit_email,
+                    address: req.body.edit_addr
+                }
+            })
             .then(() => {
-                console.log("> Changed intro");
+                console.log("> Changed detail information");
             });
     } catch (err) {
         throw err;

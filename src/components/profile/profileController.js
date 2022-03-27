@@ -7,9 +7,22 @@ module.exports.renderProfile = async (req, res) => {
     res.render("profile/views/profile", { active: { Profile: true }, page: "Profile", profile });
 };
 
-module.exports.editIntro = async (req, res) => {
-    const edit = await service.editIntro(req, res);
-    res.redirect('back');
+module.exports.editDetailInfo = async (req, res) => {
+    console.log('---- edit detail info ---');
+    var profile = await service.getProfile(req, res);
+    const edit = await service.editDetailInfo(req, res, profile);
+    profile = await service.getProfile(req, res);
+
+    //redirect
+    res.redirect("/profile");
+};
+
+module.exports.editInfo = async (req, res) => {
+    console.log("--- edit info ---");
+    var isTrueSet = (req.query.edit_info === 'true');
+    const profile = await service.getProfile(req, res);
+
+    res.render("profile/views/profile", { active: { Profile: true, editInfo: isTrueSet }, page: "Profile", profile });
 };
 
 module.exports.changePassword = async (req, res) => {
