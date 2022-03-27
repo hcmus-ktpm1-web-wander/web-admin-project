@@ -1,4 +1,4 @@
-const model = require('../user-manage/models/adminModel');
+const model = require('../user-manage/user_manageModel');
 
 module.exports.getProfile = async (req, res) => {
     const user_cookie = req.cookies.user;

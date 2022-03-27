@@ -32,6 +32,7 @@ module.exports.paging = (data, page) => {
     // get the data for the current page
     result.page = page;
     result.admins = data.slice(startIndex, endIndex);
+    result.users = data.slice(startIndex, endIndex);
     return result;
 }
 

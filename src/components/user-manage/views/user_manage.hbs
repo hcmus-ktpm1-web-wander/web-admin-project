@@ -30,7 +30,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									{{#each result.admins}}
+									{{#each result.users}}
 
 									<tr>
 										<td>
@@ -57,37 +57,40 @@
 											</button>
 										</td>
 										<td class="align-middle">
-											<form action="edit/{{_id}}" method="post">
-												<div class="dropdown-toggle" id="dropdownMenuButton1"
-													data-bs-toggle="dropdown" aria-expanded="false">
-													Edit
-												</div>
-												<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-													<li>
+											<div class="dropdown-toggle" id="dropdownMenuButton1"
+												data-bs-toggle="dropdown" aria-expanded="false">
+												Edit
+											</div>
+											<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+												<li>
+													<form action="edit/{{_id}}?_method=DELETE" method="post">
 														<button class="dropdown-item" type="submit" name="delete"
-															value="delete">Delete</button>
-													</li>
-													<li>
+															value="delete">Delete
+														</button>
+													</form>
+												</li>
+												<li>
+													<form action="edit/{{_id}}?_method=PUT" method="post">
 														<select class="form-select" name="to_role"
 															onchange='if(this.value !== 0) { this.form.submit();}'>
 															<option value="0">Change role</option>
 															<option value="User">User</option>
 															<option value="Admin">Admin</option>
 														</select>
-													</li>
-												</ul>
-											</form>
+													</form>
+												</li>
+											</ul>
 										</td>
 
-										<!-- Modal -->
+										<!-- User Modal -->
 										<div class="modal fade" id='account{{@index}}' tabindex="-1"
 											aria-labelledby="exampleModalLabel" aria-hidden="true">
 											<div class="modal-dialog">
 												<div class="modal-content">
 													<div class="modal-header">
-
 														<h5 class="modal-title" id="exampleModalLabel">Account
-															information</h5>
+															information
+														</h5>
 
 													</div>
 													<div class="modal-body">
@@ -99,7 +102,7 @@
 														<div><b>Create at:</b> {{employed}}</div>
 														<div><b>Avatar URL:</b>
 															<a style="text-decoration: underline; color: #67748E;"
-																href="{{avatar_url}}">
+																href="{{avatar_url}}" target="_blank">
 																{{avatar_url}}</a>
 														</div>
 														<div><b>Status:</b> Active</div>
@@ -127,11 +130,12 @@
 
 						<li class="page-item" style="{{result.disablePrev}} ">
 							<a class="page-link" href="/manage/user?page={{result.prev}}" aria-label="Previous">
-							<span aria-hidden="true">&laquo;</span>
+								<span aria-hidden="true">&laquo;</span>
 							</a>
 						</li>
 
-						<li class="page-item {{result.hiddenPrev}}" style="{{result.disablePrev}} {{result.numberPrev}}">
+						<li class="page-item {{result.hiddenPrev}}"
+							style="{{result.disablePrev}} {{result.numberPrev}}">
 							<a class="page-link" href="/manage/user?page={{result.prev}}"> {{result.prev}} </a>
 						</li>
 
@@ -139,13 +143,14 @@
 							<a class="page-link" href="/manage/user?page={{result.page}}"> {{result.page}} </a>
 						</li>
 
-						<li class="page-item {{result.hiddenNext}}" style="{{result.disableNext}} {{result.numberNext}}">
+						<li class="page-item {{result.hiddenNext}}"
+							style="{{result.disableNext}} {{result.numberNext}}">
 							<a class="page-link" href="/manage/user?page={{result.next}}"> {{result.next}} </a>
 						</li>
 
 						<li class="page-item" style="{{result.disableNext}}">
 							<a class="page-link" href="/manage/user?page={{result.next}}" aria-label="Next">
-							<span aria-hidden="true">&raquo;</span>
+								<span aria-hidden="true">&raquo;</span>
 							</a>
 						</li>
 					</ul>
@@ -154,12 +159,99 @@
 		</div>
 		<div class="row d-flex flex-column align-items-center">
 			{{!-- button add --}}
-			<button class=" btn btn-primary button-add">Add Administrator</button>
+			<button class=" btn btn-primary button-add" data-bs-toggle="modal" data-bs-target='#add-user'>Add
+				User</button>
 		</div>
 
 
-		<footer class="footer pt-3  "></footer>
+		<!-- Modal add user -->
+		<form action="/manage/add-user" method="post" enctype="multipart/form-data">
+			<div class="modal fade" id='add-user' tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Add new user account</h5>
+						</div>
+
+						<div class="modal-body">
+							<div class="row">
+								<div class="col-3">
+									<img src="/img/default-avtar.jpg" class="in-avatar rounded float-start" id="avatar"
+										alt="avatar">
+								</div>
+								<div class="col-9">
+									<b>Avatar:</b>
+									<input type="file" class="form-control form-control-sm" id="input-avatar"
+										name="avatar_url" accept=".jpg,.jpeg,.png">
+								</div>
+							</div>
+
+							<b>Full name:</b> <span class="red-start">*</span>
+							<div class="input-group input-group-sm mb-2">
+								<input type="text" aria-label="First name" class="form-control" placeholder="First name"
+									name="fname">
+								<input type="text" aria-label="Last name" class="form-control" placeholder="Last name"
+									name="lname">
+							</div>
+
+							<b>Username:</b> <span class="red-start">*</span>
+							<div class="input-group input-group-sm mb-2">
+								<span class="input-group-text" id="basic-addon1">@</span>
+								<input type="text" class="form-control" placeholder="Username" aria-label="Username"
+									aria-describedby="basic-addon1" name="username">
+							</div>
+
+							<b>Password:</b> <span class="red-start">*</span>
+							<div class="mb-2">
+								<div class="input-group input-group-sm mb-1">
+									<input type="password" class="form-control" placeholder="Password" id="passwd"
+										aria-label="Passwd" name="passwd">
+									<span class="input-group-text">
+										<i class="far fa-eye-slash" id="togglePassword-passwd"></i>
+									</span>
+								</div>
+								<div class="input-group input-group-sm mb-1">
+									<input type="password" class="form-control form-control-sm" id="confirm-passwd"
+										placeholder="Confirm password" aria-label="Passwd" name="confirm_passwd">
+									<span class="input-group-text">
+										<i class="far fa-eye-slash" id="togglePassword-confirmPasswd"></i>
+									</span>
+								</div>
+							</div>
+
+							<b>Email:</b> <span class="red-start">*</span>
+							<div class="input-group input-group-sm mb-2">
+								<input type="text" class="form-control" placeholder="Username" aria-label="Username"
+									name='mail_username'>
+								<span class="input-group-text">@</span>
+								<input type="text" class="form-control" name='mail_domain' placeholder="gmail.com"
+									aria-label="Server">
+							</div>
+
+							<b>Address:</b>
+							<input type="text" class="form-control form-control-sm mb-2" placeholder="Address"
+								aria-label="addr" name="address">
+
+							<b>Phone number:</b>
+							<input type="tel" class="form-control form-control-sm" placeholder="Phone number"
+								aria-label="phone-num" name="phone">
+
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancle
+								</button>
+								<button type="submit" class="btn btn-primary" data-bs-dismiss="modal" name="role"
+									value="User">Submit
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
 	</div>
+
+	<footer class="footer pt-3  "></footer>
 </main>
 
 
@@ -225,3 +317,56 @@
 		</div>
 	</div>
 </div>
+
+
+{{!-- script show password --}}
+<script>
+	const togglePassword = document.querySelector("#togglePassword-passwd");
+	const toggleConfirmPassword = document.querySelector("#togglePassword-confirmPasswd");
+	const password = document.querySelector("#passwd");
+	const confirmPassword = document.querySelector("#confirm-passwd");
+
+	togglePassword.addEventListener("click", function () {
+
+		// toggle the type attribute
+		const type = password.getAttribute("type") === "password" ? "text" : "password";
+		password.setAttribute("type", type);
+		// toggle the eye icon
+		this.classList.toggle('fa-eye');
+		this.classList.toggle('fa-eye-slash');
+
+	});
+	toggleConfirmPassword.addEventListener("click", function () {
+
+		// toggle the type attribute
+		const type = confirmPassword.getAttribute("type") === "password" ? "text" : "password";
+		confirmPassword.setAttribute("type", type);
+		// toggle the eye icon
+		this.classList.toggle('fa-eye');
+		this.classList.toggle('fa-eye-slash');
+	});
+</script>
+
+
+{{!-- load image from <file> to <img> --}}
+	<script>
+		document.getElementById('input-avatar').onchange = function (evt) {
+			const tgt = evt.target || window.event.srcElement,
+				files = tgt.files;
+
+			// FileReader support
+			if (FileReader && files && files.length) {
+				const fr = new FileReader();
+				fr.onload = function () {
+					document.getElementById("avatar").src = fr.result;
+				}
+				fr.readAsDataURL(files[0]);
+			}
+
+			// Not supported
+			else {
+				// fallback -- perhaps submit the input to an iframe and temporarily store
+				// them on the server until the user's session ends.
+			}
+		}
+	</script>

@@ -10,13 +10,13 @@ const utils = require('./user_manageUtils');
  * @returns {Promise<void>}
  */
 exports.renderAdminManage = async (req, res) => {
-    try{
+    try {
         const admins = await service.getInfo('Admin');
         const page = parseInt(req.query.page) || 1;
         const result = utils.paging(admins, page);
         res.render("user-manage/views/admin_manage", { active: { AdminManage: true }, page: "Admin manage", result });
 
-    }catch (e) {
+    } catch (e) {
         res.render("error", { error: e });
     }
 };
@@ -33,7 +33,7 @@ exports.renderUserManage = async (req, res) => {
         const users = await service.getInfo('User');
         const page = parseInt(req.query.page) || 1;
         const result = utils.paging(users, page);
-        res.render("user-manage/views/user_manage", {active: {UserManage: true}, page: "User manage", result});
+        res.render("user-manage/views/user_manage", { active: { UserManage: true }, page: "User manage", result });
     } catch (e) {
         res.render("error", { error: e });
     }
@@ -48,8 +48,8 @@ exports.renderUserManage = async (req, res) => {
  * @returns {Promise<void>}
  */
 exports.addUser = async (req, res) => {
-    try{
-        await service.addUser(req.body,req.file);
+    try {
+        await service.addUser(req.body, req.file);
         res.redirect('back');
     }
     catch (e) {
@@ -66,7 +66,7 @@ exports.addUser = async (req, res) => {
  * @returns {Promise<void>}
  */
 exports.editUser = async (req, res) => {
-    try{
+    try {
         await service.changeRole(req.params.userID, req.body);
         res.redirect('back');
     }
@@ -84,7 +84,7 @@ exports.editUser = async (req, res) => {
  * @returns {Promise<void>}
  */
 exports.deleteUser = async (req, res) => {
-    try{
+    try {
         await service.deleteUser(req.params.userID);
         res.redirect('back');
     }

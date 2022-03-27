@@ -1,5 +1,7 @@
-const model = require('./models/adminModel');
+const model = require('./user_manageModel');
 const cloudinary = require('../../config/cloudinary.config');
+const upload = require("../../config/multer.config");
+var mongoose = require('mongoose');
 
 /**
  * Get all admin or user
@@ -35,6 +37,9 @@ module.exports.deleteUser = async (id) => {
  */
 module.exports.changeRole = async (id, body) => {
     try {
+        console.log('--- change role ---');
+        console.log((body));
+        console.log("id:", id);
         await model.findByIdAndUpdate({ _id: id }, { $set: { role: body.to_role } });
     } catch (err) {
         throw err;
@@ -43,7 +48,8 @@ module.exports.changeRole = async (id, body) => {
 
 module.exports.addUser = async (body, file) => {
     try {
-        // const objectID = await new mongoose.Types.ObjectId();
+        console.log('------------');
+        console.log(body);
 
         // upload image
         let result;
@@ -54,25 +60,35 @@ module.exports.addUser = async (body, file) => {
             });
         }
 
-        const { url } = result ?? "";
-        console.log(url);
-        //admin.avatar_url = url;
+        var { url } = result ?? "";
+        if (url === undefined) {
+            url = '/img/default-avtar.jpg';
+        }
 
-        // body['fullname'] = body.fname + ' ' + body.lname;
-        // body['email'] = body.mail_username + body.mail_domain;
-        // body['employed'] = new Date();
-        // body['avatar_url'] = url;
-        //
-        //
-        // delete body.fname;
-        // delete body.lname;
-        // delete body.passwd;
-        // delete body.confirm_passwd;
-        // delete body.mail_username;
-        // delete body.mail_domain;
-        //
-        // console.log('------------');
-        // console.log(body);
+        var now = (new Date()).toString().split(" ");
+        var gen_id = new mongoose.Types.ObjectId().toHexString();
+        if (body.mail_username != '' && body.mail_domain != "") {
+            body.mail_domain = '@' + body.mail_domain;
+        } else if (body.mail_username != '' && body.mail_domain == "") {
+            body.mail_domain = '@gmail.com';
+        }
+
+        body["_id"] = gen_id;
+        body['fullname'] = body.fname + ' ' + body.lname;
+        body["role"] = body.role;
+        body['email'] = body.mail_username + body.mail_domain;
+        body['employed'] = now[2] + ' ' + now[1] + ', ' + now[3];
+        body['avatar_url'] = url;
+
+        delete body.fname;
+        delete body.lname;
+        delete body.passwd;
+        delete body.confirm_passwd;
+        delete body.mail_username;
+        delete body.mail_domain;
+
+        console.log('------------');
+        console.log(body);
 
         // insert 
         await model.insertMany(body)

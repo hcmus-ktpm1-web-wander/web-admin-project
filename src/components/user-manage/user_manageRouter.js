@@ -12,7 +12,7 @@ router.get("/user", user_manageController.renderUserManage);
 
 /*************************** POST methods ***************************/
 // insert user and upload image
-router.post("/add-user",upload.single('avatar_url'), user_manageController.addUser);
+router.post("/add-user", upload.single('avatar_url'), user_manageController.addUser);
 
 /*************************** PUT methods ***************************/
 // change user role

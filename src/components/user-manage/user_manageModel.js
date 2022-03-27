@@ -9,7 +9,7 @@ const admin = new Schema({
     username: String,
     email: String,
     role: String,
-    employed: Date,
+    employed: String,
     avatar_url: String,
     address: String,
     fullname: String,
