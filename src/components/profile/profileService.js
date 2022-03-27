@@ -66,9 +66,7 @@ module.exports.changeAvatar = async (req, file) => {
 
         const id = req.cookies.user.split("_")[0];
 
-        await model.findByIdAndUpdate(id,{avatar_url: url});
-
-        // res.redirect('back');
+        await model.findByIdAndUpdate(id, { avatar_url: url });
     } catch (err) {
         throw err;
     }

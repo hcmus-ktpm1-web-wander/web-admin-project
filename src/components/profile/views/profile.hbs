@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <div class="container-fluid">
 	<div class="page-header min-height-300 border-radius-xl mt-4"
 		style="background-image: url('/img/curved-images/curved0.jpg'); background-position-y: 50%;">
@@ -84,7 +86,7 @@
 
 	</div>
 
-	<form action="/profile/edit/change-avatar" method="POST" enctype="multipart/form-data">
+	<form action="/profile/edit/change-avatar" method="POST" id="change-avatar-form" enctype="multipart/form-data">
 		<div class="modal fade" id="modalChangeAvatar" tabindex="-1" aria-labelledby="modalChangeAvatar"
 			aria-hidden="true">
 			<div class="modal-dialog">
@@ -97,11 +99,13 @@
 						<input type="file" class="form-control form-control-sm" id="input-avatar" name="avatar_url"
 							accept=".jpg,.jpeg,.png">
 						<div class="w-100 d-flex flex-row justify-content-end mt-3">
-							<button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal"
+							<button type="button" id="cancle-btn" class="btn btn-secondary me-2" data-bs-dismiss="modal"
 								aria-label="Close">Cancle
 							</button>
-							<button type="submit" class="btn btn-primary">Submit
+							<button type="submit" id="submit-btn" class="btn btn-primary" onclick="loadImage()">
+								Submit
 							</button>
+
 
 						</div>
 					</div>
@@ -422,11 +426,28 @@
 	</div>
 </div>
 
-
+{{!-- hide collapse --}}
 <script>
 	closeCollapse = (id) => {
 		console.log(" collapse"); document.getElementById(id).classList.remove("show");
 		document.getElementById(id).classList.add("hide");
+	}
+</script>
+
+
+{{!-- disable button when load image --}}
+<script>
+	function loadImage() {
+		console.log("button load image clicked");
+		const submit_btn = document.getElementById('submit-btn');
+		const cancle_btn = document.getElementById('cancle-btn');
+		const form = document.getElementById("change-avatar-form");
+
+		cancle_btn.disabled = true;
+		submit_btn.disabled = true;
+		submit_btn.innerHTML = '<i class = "fa fa-spinner fa-spin"></i>&nbsp; Please wait...';
+
+		form.submit();
 	}
 </script>
 
