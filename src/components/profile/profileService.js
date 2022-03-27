@@ -7,9 +7,8 @@ module.exports.getProfile = async (req, res) => {
     const id = user_cookie.split("_")[0];
 
     const user = await model.findOne({ _id: id });
-    console.log("user:", user);
 
-    if (!user || user == null) {
+    if (!user) {
         res.redirect('/auth/login');
     } else {
         return user;
@@ -49,8 +48,6 @@ module.exports.changePassword = async (req, res) => {
 
 module.exports.changeAvatar = async (req, file) => {
     try {
-        console.log("--- service change avatar ---");
-        console.log("file:", file);
         // upload image
         let result;
         if (file) {
@@ -59,7 +56,6 @@ module.exports.changeAvatar = async (req, file) => {
                 use_filename: true,
             });
         }
-        console.log("new url", url);
 
         // get image url
         let { url } = result ?? "";
@@ -67,13 +63,10 @@ module.exports.changeAvatar = async (req, file) => {
             // default avatar
             url = 'https://res.cloudinary.com/web-hcmus/image/upload/v1648341181/Default_avatar/default-avtar_wmf6yf.jpg';
         }
-        console.log("new url", url);
 
         const id = req.cookies.user.split("_")[0];
 
-
-        await model.findByIdAndUpdate({ _id: id });
-        console.log("model:", model);
+        await model.findByIdAndUpdate(id,{avatar_url: url});
 
         // res.redirect('back');
     } catch (err) {
