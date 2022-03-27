@@ -12,8 +12,7 @@ module.exports.paging = (data, page) => {
     // check if there is a next page
     if (endIndex < data.length) {
         result.next = page + 1;
-    }
-    else {
+    } else {
         result.disableNext = 'pointer-events: none;';
         result.hiddenNext = 'hidden';
         result.numberNext = 'display: none;';
@@ -22,8 +21,7 @@ module.exports.paging = (data, page) => {
     // check if there is a previous page
     if (startIndex > 0) {
         result.prev = page - 1;
-    }
-    else {
+    } else {
         result.disablePrev = 'pointer-events: none;';
         result.hiddenPrev = 'hidden';
         result.numberPrev = 'display: none;';
@@ -35,4 +33,3 @@ module.exports.paging = (data, page) => {
     result.users = data.slice(startIndex, endIndex);
     return result;
 }
-

@@ -1,6 +1,6 @@
 const service = require('./user_manageService');
 const utils = require('./user_manageUtils');
-
+const{validationResult } = require('express-validator');
 /************************************* GET methods *************************************/
 /**
  *  get admin information list and pagination data
@@ -49,6 +49,13 @@ exports.renderUserManage = async (req, res) => {
  */
 exports.addUser = async (req, res) => {
     try {
+        // validate request
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        // insert data to database
         await service.addUser(req.body, req.file);
         res.redirect('back');
     }
