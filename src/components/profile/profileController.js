@@ -4,7 +4,14 @@ const service = require("./profileService");
 // Render profile
 module.exports.renderProfile = async (req, res) => {
     const profile = await service.getProfile(req, res);
-    res.render("profile/views/profile", { active: { Profile: true }, page: "Profile", profile });
+    console.log("query: ", req.query);
+    if (req.query.error === "wrong-pass") {
+        res.render("profile/views/profile", { active: { Profile: true, error: true }, page: "Profile", profile });
+    } else if (req.query.change_pass === "success") {
+        res.render("profile/views/profile", { active: { Profile: true, success: true }, page: "Profile", profile });
+    } else {
+        res.render("profile/views/profile", { active: { Profile: true }, page: "Profile", profile });
+    }
 };
 
 module.exports.editDetailInfo = async (req, res) => {
@@ -27,13 +34,13 @@ module.exports.editInfo = async (req, res) => {
 
 module.exports.changePassword = async (req, res) => {
     await service.changePassword(req, res);
-    res.redirect('back');
 };
 
 module.exports.changeAvatar = async (req, res) => {
     try {
-        await service.changeAvatar(req, req.file);
-        res.redirect('back');
+        await service.changeAvatar(req, res, req.file);
+
+        res.redirect('/profile');
     }
     catch (e) {
         res.render("error", { error: e });

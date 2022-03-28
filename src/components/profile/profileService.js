@@ -1,12 +1,15 @@
-const model = require('../user-manage/user_manageModel');
+const userModel = require('../user-manage/user_manageModel');
+const accModel = require('../auth/authModel');
 const cloudinary = require('../../config/cloudinary.config');
+const url = require('url');
+const mongoose = require('mongoose');
 
 
 module.exports.getProfile = async (req, res) => {
     const user_cookie = req.cookies.user;
     const id = user_cookie.split("_")[0];
 
-    const user = await model.findOne({ _id: id });
+    const user = await userModel.findOne({ _id: id });
 
     if (!user) {
         res.redirect('/auth/login');
@@ -21,7 +24,7 @@ module.exports.editDetailInfo = async (req, res, profile) => {
     console.log("profile:", req.body);
 
     try {
-        await model.findByIdAndUpdate({ _id: id },
+        await userModel.findByIdAndUpdate({ _id: id },
             {
                 $set: {
                     intro: req.body.intro,
@@ -40,13 +43,31 @@ module.exports.editDetailInfo = async (req, res, profile) => {
     }
 };
 
-
 module.exports.changePassword = async (req, res) => {
-    await service.changePassword(req, res);
-    res.redirect('back');
+    const id = req.cookies.user.split("_")[0];
+
+    const finded_account = await accModel.findOne({ account_id: id }).lean();
+
+    if (req.body.old_passwd !== finded_account.passwd) {
+        await res.redirect(url.format({
+            pathname: "/profile",
+            query: {
+                "error": "wrong-pass",
+            }
+        }));
+        return;
+    }
+
+    await accModel.findOneAndUpdate({ account_id: id }, { $set: { passwd: req.body.new_passwd } });
+    await res.redirect(url.format({
+        pathname: "/profile",
+        query: {
+            "change_pass": "success",
+        }
+    }));
 };
 
-module.exports.changeAvatar = async (req, file) => {
+module.exports.changeAvatar = async (req, res, file) => {
     try {
         // upload image
         let result;
@@ -60,13 +81,14 @@ module.exports.changeAvatar = async (req, file) => {
         // get image url
         let { url } = result ?? "";
         if (url === undefined) {
+            const profile = this.getProfile(req, res);
             // default avatar
-            url = 'https://res.cloudinary.com/web-hcmus/image/upload/v1648341181/Default_avatar/default-avtar_wmf6yf.jpg';
+            url = profile.avatar_url;
         }
 
         const id = req.cookies.user.split("_")[0];
 
-        await model.findByIdAndUpdate(id, { avatar_url: url });
+        await userModel.findByIdAndUpdate(id, { avatar_url: url });
     } catch (err) {
         throw err;
     }
