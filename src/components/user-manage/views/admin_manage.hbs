@@ -1,12 +1,6 @@
 <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg ">
 	<div class="container-fluid py-4">
-		<div class="row mb-3">
-			<div class="col-12">
-				<div class="card">
-					error
-				</div>
-			</div>
-		</div>
+
 		<div class="row">
 			<div class="col-12 ">
 				<div class="card mb-4">
@@ -166,67 +160,72 @@
 			</div>
 		</div>
 
-		{{#if checkErrors}}
-		<div class="row">
-			<div class="col-12">
-				{{!-- button check error --}}
-				<button class=" btn btn-primary button-danger" data-bs-toggle="modal" data-bs-target='#show-error'>
-					CHECK ERROR
-				</button>
-			</div>
-		</div>
-
-
-		<!-- Modal check error -->
-		<form>
-			<div class="modal fade" id='show-error' tabindex="-1" aria-labelledby="exampleModalLabel"
-				aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLabel">ERRORS</h5>
-						</div>
-						<div class="modal-body">
-							<div class="row">
-								<div class="col-9">
-									{{#if errors.password}}
-									<b>Password:</b>
-									<span> {{errors.password}}</span>
-									{{/if}}
-
-									{{#if errors.phone}}
-									<b>Phone:</b>
-									<span> {{errors.phone}}</span>
-									{{/if}}
-
-									{{#if errors.username}}
-									<b>Username:</b>
-									<span> {{errors.username}}</span>
-									{{/if}}
-
-									{{#if errors.confirm_password}}
-									<b>Confirm password:</b>
-									<span> {{errors.confirm_password}}</span>
-									{{/if}}
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</form>
-		{{/if}}
-
 		<div class="row d-flex flex-column align-items-center">
 			{{!-- button add --}}
-			<button class=" btn btn-primary button-add" data-bs-toggle="modal" data-bs-target='#add-user'>Add
+			<button class=" btn btn-primary button-add" data-bs-toggle="modal" data-bs-target='#add-user'
+				onmousedown="addAdmin()">Add
 				Administrator
 			</button>
+			<script>
+				function addAdmin() {
+					document.getElementById("error").innerHTML = "";
+				}
+			</script>
 		</div>
+
+
+		{{#if checkErrors}}
+		<div id="error">
+			<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+				<symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+					<path
+						d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+				</symbol>
+			</svg>
+
+			<div class="alert alert-danger d-flex align-items-center mt-3" role="alert"
+				style="background-image: linear-gradient(to right, #e09ea4, #e08d94);">
+				<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+					<use xlink:href="#exclamation-triangle-fill" />
+				</svg>
+
+				<div>
+					{{#if errors.password}}
+					<div class="mx-4">
+						<b>Password:</b>
+						<span> {{errors.password}}</span>
+					</div>
+					{{/if}}
+
+					{{#if errors.phone}}
+					<div class="mx-4">
+						<b>Phone:</b>
+						<span> {{errors.phone}}</span>
+					</div>
+					{{/if}}
+
+					{{#if errors.username}}
+					<div class="mx-4">
+						<b>Username:</b>
+						<span> {{errors.username}}</span>
+					</div>
+					{{/if}}
+
+					{{#if errors.confirm_password}}
+					<div class="mx-4">
+						<b>Confirm password:</b>
+						<span> {{errors.confirm_password}}</span>
+					</div>
+					{{/if}}
+				</div>
+			</div>
+		</div>
+		{{/if}}
+
 
 
 		<!-- Modal add user -->
-		<form action="/manage/add-user" method="post" enctype="multipart/form-data">
+		<form action="/manage/add-user" method="post" id="add-user-form" enctype="multipart/form-data">
 			<div class="modal fade" id='add-user' tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">
@@ -298,11 +297,26 @@
 								aria-label="phone-num" name="phone">
 
 							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancle
+								<button type="reset" id="cancle-add-btn" class="btn btn-secondary"
+									data-bs-dismiss="modal">Cancle
 								</button>
-								<button type="submit" class="btn btn-primary" data-bs-dismiss="modal" name="role"
-									value="Admin">Submit
+								<button type="submit" id="submit-add-btn" class="btn btn-primary"
+									data-bs-dismiss="modal" name="role" value="Admin"
+									onmousedown="clickSubmitBtn()">Submit
 								</button>
+								<script>
+									function clickSubmitBtn() {
+										const btn_submit = document.getElementById("submit-add-btn");
+										const btn_cancle = document.getElementById("cancle-add-btn");
+										const form = document.getElementById("add-user-form");
+
+										btn_cancle.disabled = true;
+										btn_submit.disabled = true;
+										btn_submit.innerHTML = '<i class = "fa fa-spinner fa-spin"></i>&nbsp; Please wait...';
+
+										form.submit();
+									}
+								</script>
 							</div>
 						</div>
 					</div>
