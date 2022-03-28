@@ -1,7 +1,6 @@
 const model = require('./user_manageModel');
 const cloudinary = require('../../config/cloudinary.config');
 const mongoose = require('mongoose');
-const bcrypt = require("bcrypt");
 
 /**
  * Get all admin or user
