@@ -1,5 +1,5 @@
 const orderModel = require('./orderModel');
-const customerModel = require('./customerModel');
+const customerModel = require('../user-manage/user_manageModel');
 const productModel = require("../product-manage/product_manageModel");
 
 module.exports.caclOrderTotal = async (products) => {
@@ -35,7 +35,6 @@ module.exports.getOrders = async () => {
         }
 
         return orders;
-
     } catch (err) {
         throw err;
     }

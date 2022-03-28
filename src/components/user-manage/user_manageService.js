@@ -1,6 +1,7 @@
 const model = require('./user_manageModel');
 const cloudinary = require('../../config/cloudinary.config');
 const mongoose = require('mongoose');
+const bcrypt = require("bcrypt");
 
 /**
  * Get all admin or user
@@ -57,8 +58,8 @@ module.exports.changeRole = async (id, body) => {
 
 /**
  * insert user
- * @param file{path: String}
  * @param body{_id, name, email, password, role, employed, phone, address}
+ * @param file{path: String}
  * @returns {Promise<void>}
  */
 module.exports.addUser = async (body, file) => {
@@ -91,12 +92,16 @@ module.exports.addUser = async (body, file) => {
         }
 
         // body to model
-        body["_id"] = gen_id;
         body['fullname'] = body.fname + ' ' + body.lname;
-        body["role"] = body.role;
+        body["role"] = 'User';
         body['email'] = body.mail_username + body.mail_domain;
-        body['employed'] = now[2] + ' ' + now[1] + ', ' + now[3];
+        body['employed'] = now[2] + ' ' + now[1] + ',' + now[3];
         body['avatar_url'] = url;
+        body['password'] = '123'
+        body['phone'] = "";
+        body['address'] = "";
+        body['intro'] = "";
+        body['username'] = body.username;
 
         // delete unnecessary field
         delete body.fname;

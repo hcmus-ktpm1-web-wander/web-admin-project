@@ -1,6 +1,3 @@
-const service = require('./authService');
-
-
 /*************************** GET methods ***************************/
 // redirect to login page
 exports.redirectLogin = (req, res) => {
@@ -12,10 +9,10 @@ exports.renderLogin = (req, res) => {
     res.render("auth/views/login", { layout: '/auth/views/login-layout' });
 }
 
-// verify login
-exports.Verify = (req, res) => {
-    service.Verify(req, res);
-};
+// render login page
+exports.redirectToDashboard = (req, res) => {
+    res.redirect("/dashboard");
+}
 
 
 

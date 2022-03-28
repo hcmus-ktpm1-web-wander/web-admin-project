@@ -3,9 +3,8 @@ const { default: mongoose } = require("mongoose");
 const Schema = mongoose.Schema;
 
 const user = new Schema({
-    fname: String,
-    lname: String,
     username: String,
+    password: String,
     email: String,
     role: String,
     employed: String,
@@ -13,7 +12,9 @@ const user = new Schema({
     address: String,
     fullname: String,
     phone: String,
-    intro: String,
+    intro: String
+}, {
+    versionKey: false // You should be aware of the outcome after set to false
 });
 
 module.exports = mongoose.model('user', user, 'user');
