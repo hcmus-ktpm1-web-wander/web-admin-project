@@ -1,0 +1,258 @@
+<div class="container-fluid py-4">
+	<div class="row">
+		<div class="col-12 ">
+			<div class="card mb-4">
+				<div class="card-body px-0 pt-0 pb-2">
+					<div class="table-responsive p-0">
+						<table class="table align-items-center mb-0">
+							<thead>
+								<tr>
+									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+										Order ID
+									</th>
+									<th
+										class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+										Customer
+									</th>
+									<th
+										class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+										Date
+									</th>
+									<th
+										class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+										Status
+									</th>
+									<th
+										class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+										Total
+									</th>
+									<th class="text-secondary opacity-7"></th>
+								</tr>
+							</thead>
+							<tbody>
+								{{#each result.data}}
+								<tr>
+									<td>
+										<div class="d-flex px-2 py-1">
+											<div>
+												<span class="text-secondary text-xs font-weight-bold">{{_id}}</span>
+											</div>
+
+										</div>
+									</td>
+									<td>
+										<div class="d-flex flex-column justify-content-center">
+											<h6 class="mb-0 text-sm">{{customer_name}}</h6>
+											<p class="text-xs text-secondary mb-0">{{customer_id}}</p>
+										</div>
+									</td>
+									<td class="align-middle text-center">
+										<span class="text-secondary text-xs font-weight-bold">{{create_date}}</span>
+									</td>
+									<td class="align-middle text-center">
+										{{#if status}}
+										<span class="badge badge-sm bg-gradient-success">Complete</span>
+										{{else}}
+										<span class="badge badge-sm bg-gradient-danger">Fail</span>
+										{{/if}}
+
+									</td>
+									<td class="align-middle text-center">
+										<span>{{total}}$</span>
+									</td>
+									<td class="align-middle text-center text-sm">
+										<button class="button-add btn-view badge badge-sm bg-gradient-secondary"
+											data-bs-toggle="modal" data-bs-target='#order{{@index}}'>View
+										</button>
+									</td>
+								</tr>
+								<!-- User Modal -->
+								<div class="modal fade" id='order{{@index}}' tabindex="-1"
+									aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalLabel">Order
+													information
+												</h5>
+
+											</div>
+											<div class="modal-body">
+												<h6 class="mb-2"><b>ID: {{_id}}</b></h6>
+												<div class="mb-1"><b>Customer name:</b> {{customer_name}}</div>
+												<div class="mb-1"><b>Customer ID:</b> {{customer_id}}</div>
+												<div class="mb-1"><b>Create at:</b> {{create_date}}</div>
+												<div class="mb-3"><b>Status:</b>
+													{{#if status}}
+													<span class="badge badge-sm bg-gradient-success">Complete</span>
+													{{else}}
+													<span class="badge badge-sm bg-gradient-danger">Fail</span>
+													{{/if}}
+												</div>
+
+												<div class="custom-table p-3 mb-3">
+													<div class="row">
+														<div class="col-7 ">
+															<b>Product</b>
+														</div>
+														<div class="col-3 ">
+															<b>Quantity</b>
+														</div>
+														<div class="col-2">
+															<b>Price</b>
+														</div>
+													</div>
+													<hr>
+													<div class="row">
+														{{#each products}}
+
+														<div class="col-7">
+															<div class="row">
+																<div class="col product-image">
+																	<img src="{{thumbnail}}" class="avatar avatar-sm"
+																		alt="thumnail">
+																</div>
+																<div
+																	class="col-9 d-flex flex-column justify-content-center">
+																	<h6 class="mb-0 text-sm">{{detail.name}}</h6>
+																	<span
+																		class="text-secondary text-xs font-weight-bold">{{detail._id}}</span>
+																</div>
+															</div>
+														</div>
+														<div class="col-3 align-middle text-center">
+															<span
+																class="text-secondary text-xs font-weight-bold">x{{quantity}}</span>
+														</div>
+
+														<div class="col-2 align-middle">
+															<span
+																class="text-secondary text-xs font-weight-bold">{{detail.price}}$</span>
+														</div>
+														<hr class="my-2">
+														{{/each}}
+													</div>
+													<div class="row">
+														<h6 class="col">Total:</h6>
+														<div class="col-2">
+															<h6 class="text-secondary font-weight-bold">
+																{{total}}$</h6>
+														</div>
+													</div>
+												</div>
+
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary"
+													data-bs-dismiss="modal">Close
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								{{/each}}
+							</tbody>
+						</table>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<nav aria-label="Page navigation example">
+			<ul class="pagination" style="display: flex; justify-content: right;">
+
+				<li class="page-item" style="{{result.disablePrev}} ">
+					<a class="page-link" href="/order?page={{result.prev}}" aria-label="Previous">
+						<span aria-hidden="true">&laquo;</span>
+					</a>
+				</li>
+
+				<li class="page-item {{result.hiddenPrev}}" style="{{result.disablePrev}} {{result.numberPrev}}">
+					<a class="page-link" href="/order?page={{result.prev}}"> {{result.prev}} </a>
+				</li>
+
+				<li class="page-item active">
+					<a class="page-link" href="/order?page={{result.page}}"> {{result.page}} </a>
+				</li>
+
+				<li class="page-item {{result.hiddenNext}}" style="{{result.disableNext}} {{result.numberNext}}">
+					<a class="page-link" href="/order?page={{result.next}}"> {{result.next}} </a>
+				</li>
+
+				<li class="page-item" style="{{result.disableNext}}">
+					<a class="page-link" href="/order?page={{result.next}}" aria-label="Next">
+						<span aria-hidden="true">&raquo;</span>
+					</a>
+				</li>
+			</ul>
+		</nav>
+	</div>
+</div>
+
+<footer class="footer pt-3  "></footer>
+</div>
+
+
+<div class="fixed-plugin">
+	<a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
+		<i class="fa fa-cog py-2"> </i>
+	</a>
+	<div class="card shadow-lg ">
+		<div class="card-header pb-0 pt-3 ">
+			<div class="float-start">
+				<h5 class="mt-3 mb-0">Soft UI Configurator</h5>
+				<p>See our dashboard options.</p>
+			</div>
+			<div class="float-end mt-4">
+				<button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
+					<i class="fa fa-close"></i>
+				</button>
+			</div>
+			<!-- End Toggle Button -->
+		</div>
+		<hr class="horizontal dark my-1">
+		<div class="card-body pt-sm-3 pt-0">
+			<!-- Sidebar Backgrounds -->
+			<div>
+				<h6 class="mb-0">Sidebar Colors</h6>
+			</div>
+			<a href="javascript:void(0)" class="switch-trigger background-color">
+				<div class="badge-colors my-2 text-start">
+					<span class="badge filter bg-gradient-primary active" data-color="primary"
+						onclick="sidebarColor(this)"></span>
+					<span class="badge filter bg-gradient-dark" data-color="dark" onclick="sidebarColor(this)"></span>
+					<span class="badge filter bg-gradient-info" data-color="info" onclick="sidebarColor(this)"></span>
+					<span class="badge filter bg-gradient-success" data-color="success"
+						onclick="sidebarColor(this)"></span>
+					<span class="badge filter bg-gradient-warning" data-color="warning"
+						onclick="sidebarColor(this)"></span>
+					<span class="badge filter bg-gradient-danger" data-color="danger"
+						onclick="sidebarColor(this)"></span>
+				</div>
+			</a>
+			<!-- Sidenav Type -->
+			<div class="mt-3">
+				<h6 class="mb-0">Sidenav Type</h6>
+				<p class="text-sm">Choose between 2 different sidenav types.</p>
+			</div>
+			<div class="d-flex">
+				<button class="btn bg-gradient-primary w-100 px-3 mb-2 active" data-class="bg-transparent"
+					onclick="sidebarType(this)">Transparent
+				</button>
+				<button class="btn bg-gradient-primary w-100 px-3 mb-2 ms-2" data-class="bg-white"
+					onclick="sidebarType(this)">White
+				</button>
+			</div>
+			<p class="text-sm d-xl-none d-block mt-2">You can change the sidenav type just on desktop view.</p>
+			<!-- Navbar Fixed -->
+			<div class="mt-3">
+				<h6 class="mb-0">Navbar Fixed</h6>
+			</div>
+			<div class="form-check form-switch ps-0">
+				<input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed"
+					onclick="navbarFixed(this)">
+			</div>
+		</div>
+	</div>
+</div>

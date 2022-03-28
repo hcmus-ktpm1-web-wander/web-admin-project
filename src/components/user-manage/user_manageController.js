@@ -1,6 +1,6 @@
 const service = require('./user_manageService');
 const utils = require('./user_manageUtils');
-const {validationResult} = require('express-validator');
+const { validationResult } = require('express-validator');
 
 /************************************* GET methods *************************************/
 /**
@@ -18,15 +18,14 @@ exports.renderAdminManage = async (req, res) => {
         if (req.session.errors !== undefined) {
             const errors = req.session.errors;
             req.session.errors = undefined;
-            res.render("user-manage/views/admin_manage", {active: {AdminManage: true}, page: "Admin manage", result, errors, checkErrors:true});
+            res.render("user-manage/views/admin_manage", { active: { AdminManage: true }, page: "Admin manage", result, errors, checkErrors: true });
         }
-        else
-        {
+        else {
             req.session.errors = undefined
-            res.render("user-manage/views/admin_manage", {active: {AdminManage: true}, page: "Admin manage", result});
+            res.render("user-manage/views/admin_manage", { active: { AdminManage: true }, page: "Admin manage", result });
         }
     } catch (e) {
-        res.render("error", {error: e});
+        res.render("error", { error: e });
     }
 };
 
@@ -42,9 +41,18 @@ exports.renderUserManage = async (req, res) => {
         const users = await service.getInfo('User');
         const page = parseInt(req.query.page) || 1;
         const result = utils.paging(users, page);
-        res.render("user-manage/views/user_manage", {active: {UserManage: true}, page: "User manage", result});
+
+        if (req.session.errors !== undefined) {
+            const errors = req.session.errors;
+            req.session.errors = undefined;
+            res.render("user-manage/views/user_manage", { active: { UserManage: true }, page: "User manage", result, errors, checkErrors: true });
+        }
+        else {
+            req.session.errors = undefined
+            res.render("user-manage/views/user_manage", { active: { UserManage: true }, page: "User manage", result });
+        }
     } catch (e) {
-        res.render("error", {error: e});
+        res.render("error", { error: e });
     }
 };
 
@@ -61,24 +69,20 @@ exports.addUser = async (req, res) => {
         // validate request
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            var e = {};
+            const e = {};
             for (let i = 0; i < errors.array().length; i++) {
-               if(errors.array()[i].param === "passwd")
-               {
-                   e.password = errors.array()[i].msg;
-               }
-               else if(errors.array()[i].param === "phone")
-               {
-                   e.phone = errors.array()[i].msg;
-               }
-               else if(errors.array()[i].param === "username")
-               {
-                   e.username = errors.array()[i].msg;
-               }
-               else if(errors.array()[i].param === "confirm_passwd")
-               {
-                   e.confirm_password = errors.array()[i].msg;
-               }
+                if (errors.array()[i].param === "passwd") {
+                    e.password = errors.array()[i].msg;
+                }
+                else if (errors.array()[i].param === "phone") {
+                    e.phone = errors.array()[i].msg;
+                }
+                else if (errors.array()[i].param === "username") {
+                    e.username = errors.array()[i].msg;
+                }
+                else if (errors.array()[i].param === "confirm_passwd") {
+                    e.confirm_password = errors.array()[i].msg;
+                }
             }
             req.session.errors = e;
             res.redirect('back');
@@ -89,7 +93,7 @@ exports.addUser = async (req, res) => {
             res.redirect('back');
         }
     } catch (e) {
-        res.render("error", {error: e});
+        res.render("error", { error: e });
     }
 };
 
@@ -106,7 +110,7 @@ exports.editUser = async (req, res) => {
         await service.changeRole(req.params.userID, req.body);
         res.redirect('back');
     } catch (e) {
-        res.render("error", {error: e});
+        res.render("error", { error: e });
     }
 };
 
@@ -123,7 +127,7 @@ exports.deleteUser = async (req, res) => {
         await service.deleteUser(req.params.userID);
         res.redirect('back');
     } catch (e) {
-        res.render("error", {error: e});
+        res.render("error", { error: e });
     }
 };
 

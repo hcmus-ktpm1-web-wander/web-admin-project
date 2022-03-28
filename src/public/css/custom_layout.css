@@ -15,7 +15,7 @@
 
 
 .btn-view:hover {
-    background-image: linear-gradient(to right, #2eaa08, #369b17, #30a50d);
+    background-image: linear-gradient(to bottom right, #8997b4, #546683);
 }
 
 
@@ -91,9 +91,19 @@ textarea {
     border-width: 0px;
 }
 
-.nav-link:hover {
+.hover-zoom:hover {
     transition: 0.2s all;
     cursor: pointer;
     font-size: 17px;
     font-weight: 600;
+}
+
+.custom-table {
+    border-width: 0px;
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+}
+
+.product-image {
+    width: 50px !important;
 }

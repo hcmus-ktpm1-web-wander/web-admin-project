@@ -1,6 +1,3 @@
-const multer = require("multer");
-const path = require("path");
-
 // pagination function
 module.exports.paging = (data, page) => {
     // get the total number of pages
@@ -29,7 +26,7 @@ module.exports.paging = (data, page) => {
 
     // get the data for the current page
     result.page = page;
-    result.admins = data.slice(startIndex, endIndex);
-    result.users = data.slice(startIndex, endIndex);
+    result.data = data.slice(startIndex, endIndex);
+
     return result;
 }

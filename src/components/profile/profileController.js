@@ -5,6 +5,7 @@ const service = require("./profileService");
 module.exports.renderProfile = async (req, res) => {
     const profile = await service.getProfile(req, res);
     console.log("query: ", req.query);
+
     if (req.query.error === "wrong-pass") {
         res.render("profile/views/profile", { active: { Profile: true, error: true }, page: "Profile", profile });
     } else if (req.query.change_pass === "success") {
