@@ -10,3 +10,13 @@ exports.renderProductManage = async (req, res) => {
         res.render("error", { error: e });
     }
 };
+
+
+exports.renderProductDetail = async (req, res) => {
+    try {
+        res.render("product-manage/views/product_detail", { active: { ProductManage: true }, page: "Product detail" });
+
+    } catch (e) {
+        res.render("error", { error: e });
+    }
+};

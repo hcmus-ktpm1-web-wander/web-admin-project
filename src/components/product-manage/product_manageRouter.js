@@ -8,6 +8,8 @@ const { body } = require("express-validator");
 // render product
 router.get("/", product_manageController.renderProductManage);
 
+router.get("/:id", product_manageController.renderProductDetail);
+
 
 /*************************** POST methods ***************************/
 // upload image and insert user

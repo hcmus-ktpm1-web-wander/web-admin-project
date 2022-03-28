@@ -11,7 +11,6 @@ const flash = require("connect-flash");
 
 const dashboardRouter = require('./components/dashboard/dashboardRouter')
 const orderRouter = require('./components/order/orderRouter')
-const tablesRouter = require('./components/tables/tablesRouter')
 const profileRouter = require('./components/profile/profileRouter')
 const authRouter = require('./components/auth/authRouter')
 const productRouter = require('./components/product-manage/product_manageRouter')
@@ -59,7 +58,6 @@ app.use(function (req, res, next) {
 // Router middlewares
 app.use('/dashboard', dashboardRouter);
 app.use('/order', orderRouter);
-app.use('/tables', tablesRouter);
 app.use('/profile', profileRouter);
 app.use('/manage', user_manageRouter);
 app.use('/product', productRouter);
