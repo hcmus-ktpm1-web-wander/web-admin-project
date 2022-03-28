@@ -17,7 +17,7 @@ module.exports.renderProfile = async (req, res) => {
 module.exports.editDetailInfo = async (req, res) => {
     console.log('---- edit detail info ---');
     let profile = await service.getProfile(req, res);
-    const edit = await service.editDetailInfo(req, res, profile);
+    await service.editDetailInfo(req, res, profile);
     await service.getProfile(req, res);
 
     //redirect
