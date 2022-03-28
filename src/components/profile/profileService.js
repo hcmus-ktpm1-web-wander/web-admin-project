@@ -46,9 +46,9 @@ module.exports.editDetailInfo = async (req, res, profile) => {
 module.exports.changePassword = async (req, res) => {
     const id = req.cookies.user.split("_")[0];
 
-    const finded_account = await accModel.findOne({ account_id: id }).lean();
+    const find_account = await accModel.findOne({ account_id: id }).lean();
 
-    if (req.body.old_passwd !== finded_account.passwd) {
+    if (req.body.old_passwd !== find_account.passwd) {
         await res.redirect(url.format({
             pathname: "/profile",
             query: {

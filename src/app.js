@@ -6,6 +6,8 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const db = require("./config/database.config")
 const methodOverride = require('method-override');
+const session = require("express-session");
+const flash = require("connect-flash");
 
 const dashboardRouter = require('./components/dashboard/dashboardRouter')
 const orderRouter = require('./components/order/orderRouter')
@@ -16,7 +18,6 @@ const productRouter = require('./components/product-manage/product_manageRouter'
 const user_manageRouter = require("./components/user-manage/user_manageRouter");
 
 // const loggedInGuard = require('./middlewares/LoggedInGuard')
-
 
 // Connect database
 db.connect();
@@ -31,9 +32,17 @@ app.set('view engine', 'hbs');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser("ecommerce-web-app"));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride('_method', { methods: ['POST', 'GET'] }));
+
+app.use(session({
+  secret: "ecommerce-web-app",
+  resave: true,
+  saveUninitialized: true
+}));
+
+app.use(flash());
 
 // Authentication middleware
 app.use('/', authRouter);
@@ -54,8 +63,6 @@ app.use('/tables', tablesRouter);
 app.use('/profile', profileRouter);
 app.use('/manage', user_manageRouter);
 app.use('/product', productRouter);
-
-
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

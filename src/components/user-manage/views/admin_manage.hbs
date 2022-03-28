@@ -165,10 +165,63 @@
 				</nav>
 			</div>
 		</div>
+
+		{{#if checkErrors}}
+		<div class="row">
+			<div class="col-12">
+				{{!-- button check error --}}
+				<button class=" btn btn-primary button-danger" data-bs-toggle="modal" data-bs-target='#show-error'>
+					CHECK ERROR
+				</button>
+			</div>
+		</div>
+
+
+		<!-- Modal check error -->
+		<form>
+			<div class="modal fade" id='show-error' tabindex="-1" aria-labelledby="exampleModalLabel"
+				aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">ERRORS</h5>
+						</div>
+						<div class="modal-body">
+							<div class="row">
+								<div class="col-9">
+									{{#if errors.password}}
+									<b>Password:</b>
+									<span> {{errors.password}}</span>
+									{{/if}}
+
+									{{#if errors.phone}}
+									<b>Phone:</b>
+									<span> {{errors.phone}}</span>
+									{{/if}}
+
+									{{#if errors.username}}
+									<b>Username:</b>
+									<span> {{errors.username}}</span>
+									{{/if}}
+
+									{{#if errors.confirm_password}}
+									<b>Confirm password:</b>
+									<span> {{errors.confirm_password}}</span>
+									{{/if}}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+		{{/if}}
+
 		<div class="row d-flex flex-column align-items-center">
 			{{!-- button add --}}
 			<button class=" btn btn-primary button-add" data-bs-toggle="modal" data-bs-target='#add-user'>Add
-				Administrator</button>
+				Administrator
+			</button>
 		</div>
 
 
@@ -322,6 +375,17 @@
 				<input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed"
 					onclick="navbarFixed(this)">
 			</div>
+		</div>
+	</div>
+	<div role="alert" aria-live="assertive" aria-atomic="true" class="toast" data-bs-autohide="false">
+		<div class="toast-header">
+			<img src="..." class="rounded me-2" alt="...">
+			<strong class="me-auto">Bootstrap</strong>
+			<small>11 mins ago</small>
+			<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+		</div>
+		<div class="toast-body">
+			Hello, world! This is a toast message.
 		</div>
 	</div>
 </div>
