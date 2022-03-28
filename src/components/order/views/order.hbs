@@ -1,19 +1,3 @@
-<!--
-=========================================================
-* Soft UI Dashboard - v1.0.3
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://www.creative-tim.com/license)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
--->
-
 <div class="container-fluid py-4">
 	<div class="row">
 		<div class="col-12 ">
@@ -46,8 +30,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								{{#each orders}}
-
+								{{#each result.data}}
 								<tr>
 									<td>
 										<div class="d-flex px-2 py-1">
@@ -180,25 +163,25 @@
 			<ul class="pagination" style="display: flex; justify-content: right;">
 
 				<li class="page-item" style="{{result.disablePrev}} ">
-					<a class="page-link" href="/manage/user?page={{result.prev}}" aria-label="Previous">
+					<a class="page-link" href="/order?page={{result.prev}}" aria-label="Previous">
 						<span aria-hidden="true">&laquo;</span>
 					</a>
 				</li>
 
 				<li class="page-item {{result.hiddenPrev}}" style="{{result.disablePrev}} {{result.numberPrev}}">
-					<a class="page-link" href="/manage/user?page={{result.prev}}"> {{result.prev}} </a>
+					<a class="page-link" href="/order?page={{result.prev}}"> {{result.prev}} </a>
 				</li>
 
 				<li class="page-item active">
-					<a class="page-link" href="/manage/user?page={{result.page}}"> {{result.page}} </a>
+					<a class="page-link" href="/order?page={{result.page}}"> {{result.page}} </a>
 				</li>
 
 				<li class="page-item {{result.hiddenNext}}" style="{{result.disableNext}} {{result.numberNext}}">
-					<a class="page-link" href="/manage/user?page={{result.next}}"> {{result.next}} </a>
+					<a class="page-link" href="/order?page={{result.next}}"> {{result.next}} </a>
 				</li>
 
 				<li class="page-item" style="{{result.disableNext}}">
-					<a class="page-link" href="/manage/user?page={{result.next}}" aria-label="Next">
+					<a class="page-link" href="/order?page={{result.next}}" aria-label="Next">
 						<span aria-hidden="true">&raquo;</span>
 					</a>
 				</li>

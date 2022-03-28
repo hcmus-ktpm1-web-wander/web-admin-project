@@ -41,7 +41,16 @@ exports.renderUserManage = async (req, res) => {
         const users = await service.getInfo('User');
         const page = parseInt(req.query.page) || 1;
         const result = utils.paging(users, page);
-        res.render("user-manage/views/user_manage", { active: { UserManage: true }, page: "User manage", result });
+
+        if (req.session.errors !== undefined) {
+            const errors = req.session.errors;
+            req.session.errors = undefined;
+            res.render("user-manage/views/user_manage", { active: { UserManage: true }, page: "User manage", result, errors, checkErrors: true });
+        }
+        else {
+            req.session.errors = undefined
+            res.render("user-manage/views/user_manage", { active: { UserManage: true }, page: "User manage", result });
+        }
     } catch (e) {
         res.render("error", { error: e });
     }
@@ -57,13 +66,10 @@ exports.renderUserManage = async (req, res) => {
  */
 exports.addUser = async (req, res) => {
     try {
-        console.log('-----------');
-        console.log("req body:", req.body);
-        console.log("req sesion:", req.session);
         // validate request
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            var e = {};
+            const e = {};
             for (let i = 0; i < errors.array().length; i++) {
                 if (errors.array()[i].param === "passwd") {
                     e.password = errors.array()[i].msg;
