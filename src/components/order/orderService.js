@@ -18,13 +18,13 @@ module.exports.getOrders = async () => {
     try {
         const orders = await orderModel.find().lean();
 
-        for (let i = 0; i < 2; i++) {
+        for (let i = 0; i < orders.length; i++) {
             // get customer name
             const customer = await customerModel.findById(orders[i].customer_id).lean();
             orders[i].customer_name = customer.username;
 
             // caclulate total
-            var total = await this.caclOrderTotal(orders[i].products);
+            const total = await this.caclOrderTotal(orders[i].products);
             orders[i].total = Math.round(total * 100) / 100;
 
             // get product
