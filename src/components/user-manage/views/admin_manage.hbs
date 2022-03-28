@@ -158,11 +158,12 @@
 			</div>
 		</div>
 
+
 		{{#if checkErrors}}
 		<div class="row">
 			<div class="col-12">
 				{{!-- button check error --}}
-				<button class=" btn btn-primary button-danger"  data-bs-toggle="modal" data-bs-target='#show-error'>
+				<button class="btn btn-primary button-danger" id="btn-check-error"  data-bs-toggle="modal" data-bs-target='#show-error'>
 					CHECK ERROR
 				</button>
 			</div>
@@ -431,5 +432,9 @@
 			// fallback -- perhaps submit the input to an iframe and temporarily store
 			// them on the server until the user's session ends.
 		}
+	}
+
+	document.getElementById('input-avatar').onchange = function (evt) {
+
 	}
 </script>
