@@ -8,10 +8,11 @@ const db = require("./config/database.config")
 const methodOverride = require('method-override');
 
 const dashboardRouter = require('./components/dashboard/dashboardRouter')
-const billingRouter = require('./components/billing/billingRouter')
+const orderRouter = require('./components/order/orderRouter')
 const tablesRouter = require('./components/tables/tablesRouter')
 const profileRouter = require('./components/profile/profileRouter')
 const authRouter = require('./components/auth/authRouter')
+const productRouter = require('./components/product-manage/product_manageRouter')
 const user_manageRouter = require("./components/user-manage/user_manageRouter");
 
 // const loggedInGuard = require('./middlewares/LoggedInGuard')
@@ -48,10 +49,11 @@ app.use(function (req, res, next) {
 
 // Router middlewares
 app.use('/dashboard', dashboardRouter);
-app.use('/billing', billingRouter);
+app.use('/order', orderRouter);
 app.use('/tables', tablesRouter);
 app.use('/profile', profileRouter);
 app.use('/manage', user_manageRouter);
+app.use('/product', productRouter);
 
 
 

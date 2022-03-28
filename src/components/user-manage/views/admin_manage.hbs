@@ -1,5 +1,12 @@
 <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg ">
 	<div class="container-fluid py-4">
+		<div class="row mb-3">
+			<div class="col-12">
+				<div class="card">
+					error
+				</div>
+			</div>
+		</div>
 		<div class="row">
 			<div class="col-12 ">
 				<div class="card mb-4">
@@ -52,7 +59,7 @@
 											<span class="text-secondary text-xs font-weight-bold">{{employed}}</span>
 										</td>
 										<td class="align-middle text-center text-sm">
-											<button class="button-add btn-view badge badge-sm bg-gradient-success"
+											<button class="button-add btn-view badge badge-sm bg-gradient-secondary"
 												data-bs-toggle="modal" data-bs-target='#account{{@index}}'>View
 											</button>
 										</td>
@@ -95,7 +102,8 @@
 													</div>
 													<div class="modal-body">
 														<h5 style=" margin-bottom: -3px;">{{fullname}}</h5>
-														<h6 class="mb-1" style="font-weight: 500;">@{{username}} </h6>
+														<h6 class="mb-1" style="font-weight: 500;">@{{username}}
+														</h6>
 														<div><b>UserID:</b> {{_id}}</div>
 														<div><b>Role:</b> {{role}}</div>
 														<div><b>Email:</b> {{email}}</div>
