@@ -1,12 +1,12 @@
 const orderModel = require('./orderModel');
-const customerModel = require('./customerModel');
+const userModel = require('../user-manage/user_manageModel');
 const productModel = require("../product-manage/product_manageModel");
 
 module.exports.caclOrderTotal = async (products) => {
     let total = 0;
-
     for (let i = 0; i < products.length; i++) {
         const product = await productModel.findById(products[i].product_id).lean();
+        console.log('product: ', product);
         total += product.price * products[i].quantity;
     }
 
@@ -17,10 +17,9 @@ module.exports.caclOrderTotal = async (products) => {
 module.exports.getOrders = async () => {
     try {
         const orders = await orderModel.find().lean();
-
         for (let i = 0; i < orders.length; i++) {
             // get customer name
-            const customer = await customerModel.findById(orders[i].customer_id).lean();
+            const customer = await userModel.findById(orders[i].customer_id).lean();
             orders[i].customer_name = customer.username;
 
             // caclulate total

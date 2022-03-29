@@ -1,19 +1,24 @@
 
-const model = require('./authModel');
+const userModel = require('../user-manage/user_manageModel');
 
 module.exports.Verify = async (req, res) => {
     try {
-        const credential = await model.findOne({ usrname: req.body.usrname })
-        if (!credential) {
-             new Error("This user does not exist");
+        console.log("req.body:", req.body);
+
+        const credential = await userModel.findOne({ username: req.body.usrname });
+
+        if (!credential || credential === null) {
+            throw new Error("This user does not exist");
         }
 
-        if (credential.passwd !== req.body.passwd) {
-             new Error("Wrong password");
+        console.log("cre:", credential);
+
+        if (credential.password !== req.body.passwd) {
+            throw new Error("Wrong password");
         }
 
         // auth success
-        res.cookie('user', credential.account_id + '_login_success');
+        res.cookie('user', credential._id + '_login_success');
 
         // temp
         res.redirect('/profile');

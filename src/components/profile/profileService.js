@@ -1,5 +1,5 @@
 const userModel = require('../user-manage/user_manageModel');
-const accModel = require('../auth/authModel');
+const accModel = require('../user-manage/user_manageModel');
 const cloudinary = require('../../config/cloudinary.config');
 const url = require('url');
 const mongoose = require('mongoose');
