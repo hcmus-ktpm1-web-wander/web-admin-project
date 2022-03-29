@@ -83,9 +83,10 @@ exports.editProduct = async (req, res) => {
 /************************************* DELETE methods *************************************/
 exports.deleteProduct = async (req, res) => {
     try {
-
-
+        await service.deleteProduct(req.params.productID);
+        res.redirect('/product');
     } catch (e) {
         res.render("error", { error: e });
     }
 };
+

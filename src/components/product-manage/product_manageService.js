@@ -1,6 +1,15 @@
 const productModel = require('./product_manageModel');
 const cloudinary = require('../../config/cloudinary.config');
 
+module.exports.deleteProduct = async (id) => {
+    try {
+        console.log('delete product');
+        await productModel.find({ _id: id }).remove();
+    } catch (err) {
+        throw err;
+    }
+}
+
 /**
  * Get all admin or user
  * @param id
