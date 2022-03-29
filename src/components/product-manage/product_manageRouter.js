@@ -8,20 +8,24 @@ const { body } = require("express-validator");
 // render product
 router.get("/", product_manageController.renderProductManage);
 
-router.get("/:id", product_manageController.renderProductDetail);
+// render product detail
+router.get("/:productID", product_manageController.renderProductDetail);
 
+// render product edit
+router.get("/edit/:productID", product_manageController.renderProductDetailEdit);
 
 /*************************** POST methods ***************************/
-// upload image and insert user
-
+// edit product
+router.post("/edit/:productID", product_manageController.editProduct);
 
 
 /*************************** PUT methods ***************************/
-// change user role
-router.put("/edit/:userID", product_manageController.renderProductManage);
+// add product
+router.put("/edit/:productID", product_manageController.addProduct);
+
 
 /*************************** DELETE methods ***************************/
-// delete user
-router.delete("/edit/:userID", product_manageController.renderProductManage);
+// delete product
+router.delete("/edit/:productID", product_manageController.deleteProduct);
 
 module.exports = router;

@@ -9,6 +9,7 @@ const methodOverride = require('method-override');
 const session = require("express-session");
 const flash = require("connect-flash");
 
+
 const dashboardRouter = require('./components/dashboard/dashboardRouter')
 const orderRouter = require('./components/order/orderRouter')
 const profileRouter = require('./components/profile/profileRouter')
@@ -66,6 +67,7 @@ app.use('/product', productRouter);
 app.use(function (req, res, next) {
   next(createError(404));
 });
+
 
 // error handler
 app.use(function (err, req, res, next) {

@@ -1,17 +1,180 @@
 <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg ">
 	<div class="container-fluid py-4">
-
 		<div class="d-flex">
+			<button type="submit" class="btn btn-primary align-bottom mx-2" data-bs-toggle="collapse"
+				data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
+				style="width: 200px; height: 50px;" onmousedown="">
+				Add product
+			</button>
+			<div class="collapse w-75" id="collapseExample">
+				<div class="card card-body ms-2 mb-2">
+					<h3 class="card-title">
+						<input type="text" class="form-control mb-2 p-2" value="{{name}}" name="name"
+							style="font-size: 23px; font-weight:bold;">
+					</h3>
+					<div class="mb-4 d-flex">
+						<h3>
+							<div class="input-group">
+								<input type="number" class="form-control"
+									aria-label="Dollar amount (with dot and two decimal places)" value="{{price}}"
+									name="price" style="font-size: 23px; font-weight:bold; width:150px;">
+								<span class="input-group-text" style="font-size: 23px; font-weight:bold;">$</span>
+							</div>
+						</h3>
 
-			<div class="card" style="width: 18rem;">
-				<img src="https://mondaycareer.com/wp-content/uploads/2020/11/background-%C4%91%E1%BA%B9p-3-1024x682.jpg"
-					class="card-img-top" alt="thumbnail">
-				<div class="card-body">
-					<h6 class="card-title">Product 1</h6>
-					<div class="card-text mb-3 text-sm">Price: <b>50$</b></div>
-					<a href="/product/123" class="btn btn-primary">Detail</a>
+						<span class="badge bg-info d-flex align-items-center ms-2" style="height: 30px;">
+							Best saler
+						</span>
+
+					</div>
+					<div class="row mb-2">
+						<div class="me-3 text-sm col-sm-6 col-md-4 col-lg-3">
+							<b>Category: </b>
+							<span class="red-start">*</span>
+							<div class="ps-3 pe-2">
+								<div class="row">
+									<div class="form-check col-6">
+										<input class="form-check-input" type="radio" name="category" id="category"
+											value="bag">
+										<label class="form-check-label" for="flexRadioDefault1">
+											Bag
+										</label>
+									</div>
+									<div class="form-check col-6">
+										<input class="form-check-input" type="radio" name="category" id="category"
+											value="clothing">
+										<label class="form-check-label" for="flexRadioDefault1">
+											Clothing
+										</label>
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-check col-6">
+										<input class="form-check-input" type="radio" name="category" id="category"
+											value="shoes">
+										<label class="form-check-label" for="flexRadioDefault1">
+											Shoes
+										</label>
+									</div>
+									<div class="form-check col-6">
+										<input class="form-check-input" type="radio" name="category" id="category"
+											value="accessories">
+										<label class="form-check-label" for="flexRadioDefault1">
+											Accessories
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md ">
+							<div class="mb-3 d-flex flex-md-column align-items-center align-items-md-start text-sm">
+								<b>Brand: </b>
+								<input type="text" class="form-control " value="{{brand}}" name="brand">
+							</div>
+						</div>
+					</div>
+					<div class="text-sm d-flex mb-2">
+						<b class="me-3">Size: </b>
+						<div class="form-check me-2">
+							<input class="form-check-input" type="checkbox" name="size" value="26"
+								id="flexCheckDefault">
+							<span style="margin-left: -5px;">26</span>
+						</div>
+						<div class="form-check me-2">
+							<input class="form-check-input" type="checkbox" name="size" value="27"
+								id="flexCheckDefault">
+							<span style="margin-left: -5px;">27</span>
+						</div>
+						<div class="form-check me-2">
+							<input class="form-check-input" type="checkbox" name="size" value="28"
+								id="flexCheckDefault">
+							<span style="margin-left: -5px;">28</span>
+						</div>
+						<div class="form-check me-2">
+							<input class="form-check-input" type="checkbox" name="size" value="29"
+								id="flexCheckDefault">
+							<span style="margin-left: -5px;">29</span>
+						</div>
+						<div class="form-check me-2">
+							<input class="form-check-input" type="checkbox" name="size" value="30"
+								id="flexCheckDefault">
+							<span style="margin-left: -5px;">30</span>
+						</div>
+						<div class="form-check me-2">
+							<input class="form-check-input" type="checkbox" name="size" value="31"
+								id="flexCheckDefault">
+							<span style="margin-left: -5px;">31</span>
+						</div>
+						<div class="form-check me-2">
+							<input class="form-check-input" type="checkbox" name="size" value="32"
+								id="flexCheckDefault">
+							<span style="margin-left: -5px;">32</span>
+						</div>
+						<div class="form-check me-2">
+							<input class="form-check-input" type="checkbox" name="size" value="33"
+								id="flexCheckDefault">
+							<span style="margin-left: -5px;">33</span>
+						</div>
+						<div class="form-check me-2">
+							<input class="form-check-input" type="checkbox" name="size" value="34"
+								id="flexCheckDefault">
+							<span style="margin-left: -5px;">34</span>
+						</div>
+						<div class="form-check me-2">
+							<input class="form-check-input" type="checkbox" name="size" value="35"
+								id="flexCheckDefault">
+							<span style="margin-left: -5px;">35</span>
+						</div>
+
+
+					</div>
+
+					<div class="mb-2">
+						<b class="text-sm">Color:&nbsp;</b>
+						<div class="mb-2 d-flex">
+							<input type="color" class="form-control form-control-sm form-control-color mx-1"
+								id="exampleColorInput">
+						</div>
+					</div>
+					<div class=" mb-3 text-sm">
+						<b>Description:</b>
+						<textarea class="form-control form-control-sm mb-2" id="exampleFormControlTextarea1" rows="4">
+					                                    </textarea>
+					</div>
+					<div class=" mb-3 text-sm">
+						<b>Detail:</b>
+						<textarea class="form-control form-control-sm mb-2" id="exampleFormControlTextarea1" rows="4">
+										                                    </textarea>
+					</div>
+
+
+					<div class="card-footer">
+						<button type="reset" class="btn btn-secondary align-bottom me-2" data-bs-toggle="collapse"
+							data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+							Cancle
+						</button>
+						<button type="submit" class="btn btn-primary align-bottom " onmousedown="">
+							Submit
+						</button>
+					</div>
 				</div>
 			</div>
+		</div>
+
+
+		<div class="d-flex">
+			{{#each products}}
+			<div class="card mx-2 my-2" style="width: 18rem;">
+				<div class="card-img">
+					<img src="{{thumbnail}}" class="card-img-top" alt="thumbnail">
+				</div>
+				<div class="card-body">
+					<h6 class="card-title">{{name}}</h6>
+					<div class="card-text mb-3 text-sm">Price: <b>{{price}}$</b></div>
+					<a href="/product/{{_id}}" class="btn btn-primary">Detail</a>
+				</div>
+			</div>
+			{{/each}}
 
 		</div>
 
