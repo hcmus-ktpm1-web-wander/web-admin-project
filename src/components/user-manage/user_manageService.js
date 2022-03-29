@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
  */
 module.exports.getInfo = async (role) => {
     try {
-        return await model.find({role}).lean();
+        return await model.find({ role }).lean();
     } catch (err) {
         throw err;
     }
@@ -22,7 +22,7 @@ module.exports.getInfo = async (role) => {
  */
 module.exports.deleteUser = async (id) => {
     try {
-        await model.find({_id: id}).remove();
+        await model.find({ _id: id }).remove();
     } catch (err) {
         throw err;
     }
@@ -35,7 +35,7 @@ module.exports.deleteUser = async (id) => {
  */
 module.exports.checkUsername = async (username) => {
     try {
-        return await model.findOne({username}).lean();
+        return await model.findOne({ username }).lean();
     } catch (err) {
         throw err;
     }
@@ -49,7 +49,7 @@ module.exports.checkUsername = async (username) => {
  */
 module.exports.changeRole = async (id, body) => {
     try {
-        await model.findByIdAndUpdate({_id: id}, {$set: {role: body.to_role}});
+        await model.findByIdAndUpdate({ _id: id }, { $set: { role: body.to_role } });
     } catch (err) {
         throw err;
     }
@@ -73,7 +73,7 @@ module.exports.addUser = async (body, file) => {
         }
 
         // get image url
-        let {url} = result ?? "";
+        let { url } = result ?? "";
         if (url === undefined) {
             // default avatar
             url = 'https://res.cloudinary.com/web-hcmus/image/upload/v1648341181/Default_avatar/default-avtar_wmf6yf.jpg';
@@ -92,7 +92,7 @@ module.exports.addUser = async (body, file) => {
 
         // body to model
         body['fullname'] = body.fname + ' ' + body.lname;
-        body["role"] = 'User';
+        body["role"] = body.role;
         body['email'] = body.mail_username + body.mail_domain;
         body['employed'] = now[2] + ' ' + now[1] + ',' + now[3];
         body['avatar_url'] = url;
