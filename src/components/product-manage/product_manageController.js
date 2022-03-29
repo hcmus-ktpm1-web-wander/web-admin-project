@@ -1,27 +1,32 @@
 const service = require('./product_manageService');
 const { validationResult } = require('express-validator');
 /************************************* GET methods *************************************/
-
+/**
+ *  get admin information list and pagination data
+ *
+ * @param req request
+ * @param res response
+ * @returns {Promise<void>}
+ */
 exports.renderProductManage = async (req, res) => {
     try {
-        console.log('---- render product  ----');
         const products = await service.getProducts();
-        console.log(products);
-
         res.render("product-manage/views/product", { active: { ProductManage: true }, page: "Product manage", products });
-
     } catch (e) {
         res.render("error", { error: e });
     }
 };
 
-
+/**
+ *  get admin information list and pagination data
+ *
+ * @param req request
+ * @param res response
+ * @returns {Promise<void>}
+ */
 exports.renderProductDetailEdit = async (req, res) => {
     try {
-        console.log('---- render product detail edit ----');
         const product = await service.getProducts(req.params.productID);
-        console.log(product);
-
         res.render("product-manage/views/product_detail", { active: { ProductManage: true, editProduct: true }, page: "Product detail/edit", product });
 
     } catch (e) {
@@ -29,22 +34,42 @@ exports.renderProductDetailEdit = async (req, res) => {
     }
 };
 
-
-
+/**
+ *  get admin information list and pagination data
+ *
+ * @param req request
+ * @param res response
+ * @returns {Promise<void>}
+ */
 exports.renderProductDetail = async (req, res) => {
-    console.log('---- render product detail ----');
     try {
-
         const product = await service.getProducts(req.params.productID);
-        console.log(product);
-
         res.render("product-manage/views/product_detail", { active: { ProductManage: true }, page: "Product detail", product });
-
     } catch (e) {
         res.render("error", { error: e });
     }
 };
 
+/************************************* GET methods *************************************/
+/**
+ *  get admin information list and pagination data
+ *
+ * @param req request
+ * @param res response
+ * @returns {Promise<void>}
+ */
+exports.addProduct = async (req, res) => {
+    try {
+        // insert data to database
+        await service.addProduct(req.body, req.file);
+        res.redirect('back');
+    }
+    catch (e) {
+        res.render("error", { error: e });
+    }
+};
+
+/************************************* PUT methods *************************************/
 exports.editProduct = async (req, res) => {
     try {
         console.log('---- edit product ----');
@@ -55,21 +80,7 @@ exports.editProduct = async (req, res) => {
     }
 };
 
-exports.addProduct = async (req, res) => {
-    try {
-        console.log('---- add product ----');
-        console.log('req.body', req.body);
-
-        // insert data to database
-        await service.addUser(req.body, req.file);
-        res.redirect('back');
-    }
-    catch (e) {
-        res.render("error", { error: e });
-    }
-};
-
-
+/************************************* DELETE methods *************************************/
 exports.deleteProduct = async (req, res) => {
     try {
 
