@@ -57,9 +57,14 @@ exports.editProduct = async (req, res) => {
 
 exports.addProduct = async (req, res) => {
     try {
+        console.log('---- add product ----');
+        console.log('req.body', req.body);
 
-
-    } catch (e) {
+        // insert data to database
+        await service.addUser(req.body, req.file);
+        res.redirect('back');
+    }
+    catch (e) {
         res.render("error", { error: e });
     }
 };

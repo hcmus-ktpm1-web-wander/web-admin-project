@@ -6,163 +6,195 @@
 				style="width: 200px; height: 50px;" onmousedown="">
 				Add product
 			</button>
-			<div class="collapse w-75" id="collapseExample">
-				<div class="card card-body ms-2 mb-2">
-					<h3 class="card-title">
-						<input type="text" class="form-control mb-2 p-2" value="{{name}}" name="name"
-							style="font-size: 23px; font-weight:bold;">
-					</h3>
-					<div class="mb-4 d-flex">
-						<h3>
-							<div class="input-group">
-								<input type="number" class="form-control"
-									aria-label="Dollar amount (with dot and two decimal places)" value="{{price}}"
-									name="price" style="font-size: 23px; font-weight:bold; width:150px;">
-								<span class="input-group-text" style="font-size: 23px; font-weight:bold;">$</span>
-							</div>
+			<form class="w-100" action="/product/add-product?_method=PUT" method="post">
+				<div class="collapse w-100" id="collapseExample">
+					<div class="card card-body ms-2 mb-2">
+						<h3 class="card-title">
+							<input type="text" class="form-control mb-2 p-2" value="{{name}}" name="name"
+								placeholder="product's name" style="font-size: 23px; font-weight:bold;">
 						</h3>
+						<div class="mb-2 row">
+							<div class="col-sm-3 mb-sm-2">
+								<img src="/img/default-avtar.jpg" class="in-avatar rounded float-start"
+									id="product-thumbnail" alt="product-thumnail">
+							</div>
+							<div class="col-9">
+								<h3>
+									<div class="input-group mb-2">
+										<input type="text" class="form-control"
+											aria-label="Dollar amount (with dot and two decimal places)"
+											value="{{price}}" name="price" placeholder="price"
+											style="font-size: 23px; font-weight:bold; width:150px;">
+										<span class="input-group-text"
+											style="font-size: 23px; font-weight:bold;">$</span>
+									</div>
+								</h3>
 
-						<span class="badge bg-info d-flex align-items-center ms-2" style="height: 30px;">
-							Best saler
-						</span>
-
-					</div>
-					<div class="row mb-2">
-						<div class="me-3 text-sm col-sm-6 col-md-4 col-lg-3">
-							<b>Category: </b>
-							<span class="red-start">*</span>
-							<div class="ps-3 pe-2">
-								<div class="row">
-									<div class="form-check col-6">
-										<input class="form-check-input" type="radio" name="category" id="category"
-											value="bag">
-										<label class="form-check-label" for="flexRadioDefault1">
-											Bag
-										</label>
-									</div>
-									<div class="form-check col-6">
-										<input class="form-check-input" type="radio" name="category" id="category"
-											value="clothing">
-										<label class="form-check-label" for="flexRadioDefault1">
-											Clothing
-										</label>
-									</div>
-								</div>
-								<div class="row">
-									<div class="form-check col-6">
-										<input class="form-check-input" type="radio" name="category" id="category"
-											value="shoes">
-										<label class="form-check-label" for="flexRadioDefault1">
-											Shoes
-										</label>
-									</div>
-									<div class="form-check col-6">
-										<input class="form-check-input" type="radio" name="category" id="category"
-											value="accessories">
-										<label class="form-check-label" for="flexRadioDefault1">
-											Accessories
-										</label>
-									</div>
+								<div>
+									<b>Image:</b>
+									<input type="file" class="form-control form-control-sm" id="input-product-image"
+										name="img" accept=".jpg,.jpeg,.png">
 								</div>
 							</div>
 						</div>
-						<div class="col-md ">
-							<div class="mb-3 d-flex flex-md-column align-items-center align-items-md-start text-sm">
+						<div class="row">
+
+							<div class="mb-3 text-sm col-md-6">
+								<b>SKU: </b>
+								<input type="text" class="form-control " value="{{brand}}" name="SKU">
+							</div>
+							<div class="mb-3 text-sm col-md-6">
 								<b>Brand: </b>
 								<input type="text" class="form-control " value="{{brand}}" name="brand">
 							</div>
 						</div>
-					</div>
-					<div class="text-sm d-flex mb-2">
-						<b class="me-3">Size: </b>
-						<div class="form-check me-2">
-							<input class="form-check-input" type="checkbox" name="size" value="26"
-								id="flexCheckDefault">
-							<span style="margin-left: -5px;">26</span>
+						<div class="row mb-2">
+							<div class="me-3 text-sm col-5 col-sm-4 col-lg-3">
+								<b>Category: </b>
+								<span class="red-start">*</span>
+								<div class="ps-3 pe-2">
+									<div class="row">
+										<div class="form-check col-6">
+											<input class="form-check-input" type="radio" name="category" id="category"
+												value="bag">
+											<label class="form-check-label" for="flexRadioDefault1">
+												Bag
+											</label>
+										</div>
+										<div class="form-check col-6">
+											<input class="form-check-input" type="radio" name="category" id="category"
+												value="clothing">
+											<label class="form-check-label" for="flexRadioDefault1">
+												Clothing
+											</label>
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-check col-6">
+											<input class="form-check-input" type="radio" name="category" id="category"
+												value="shoes">
+											<label class="form-check-label" for="flexRadioDefault1">
+												Shoes
+											</label>
+										</div>
+										<div class="form-check col-6">
+											<input class="form-check-input" type="radio" name="category" id="category"
+												value="accessories">
+											<label class="form-check-label" for="flexRadioDefault1">
+												Accessories
+											</label>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
-						<div class="form-check me-2">
-							<input class="form-check-input" type="checkbox" name="size" value="27"
-								id="flexCheckDefault">
-							<span style="margin-left: -5px;">27</span>
-						</div>
-						<div class="form-check me-2">
-							<input class="form-check-input" type="checkbox" name="size" value="28"
-								id="flexCheckDefault">
-							<span style="margin-left: -5px;">28</span>
-						</div>
-						<div class="form-check me-2">
-							<input class="form-check-input" type="checkbox" name="size" value="29"
-								id="flexCheckDefault">
-							<span style="margin-left: -5px;">29</span>
-						</div>
-						<div class="form-check me-2">
-							<input class="form-check-input" type="checkbox" name="size" value="30"
-								id="flexCheckDefault">
-							<span style="margin-left: -5px;">30</span>
-						</div>
-						<div class="form-check me-2">
-							<input class="form-check-input" type="checkbox" name="size" value="31"
-								id="flexCheckDefault">
-							<span style="margin-left: -5px;">31</span>
-						</div>
-						<div class="form-check me-2">
-							<input class="form-check-input" type="checkbox" name="size" value="32"
-								id="flexCheckDefault">
-							<span style="margin-left: -5px;">32</span>
-						</div>
-						<div class="form-check me-2">
-							<input class="form-check-input" type="checkbox" name="size" value="33"
-								id="flexCheckDefault">
-							<span style="margin-left: -5px;">33</span>
-						</div>
-						<div class="form-check me-2">
-							<input class="form-check-input" type="checkbox" name="size" value="34"
-								id="flexCheckDefault">
-							<span style="margin-left: -5px;">34</span>
-						</div>
-						<div class="form-check me-2">
-							<input class="form-check-input" type="checkbox" name="size" value="35"
-								id="flexCheckDefault">
-							<span style="margin-left: -5px;">35</span>
+						<div class="text-sm mb-3">
+							<b class="mb-1">Size: </b>
+							<div class="d-flex">
+								<div class="form-check me-2">
+									<input class="form-check-input" type="checkbox" name="size" value="26"
+										id="flexCheckDefault">
+									<span style="margin-left: -5px;">26</span>
+								</div>
+								<div class="form-check me-2">
+									<input class="form-check-input" type="checkbox" name="size" value="27"
+										id="flexCheckDefault">
+									<span style="margin-left: -5px;">27</span>
+								</div>
+								<div class="form-check me-2">
+									<input class="form-check-input" type="checkbox" name="size" value="28"
+										id="flexCheckDefault">
+									<span style="margin-left: -5px;">28</span>
+								</div>
+								<div class="form-check me-2">
+									<input class="form-check-input" type="checkbox" name="size" value="29"
+										id="flexCheckDefault">
+									<span style="margin-left: -5px;">29</span>
+								</div>
+								<div class="form-check me-2">
+									<input class="form-check-input" type="checkbox" name="size" value="30"
+										id="flexCheckDefault">
+									<span style="margin-left: -5px;">30</span>
+								</div>
+								<div class="form-check me-2">
+									<input class="form-check-input" type="checkbox" name="size" value="31"
+										id="flexCheckDefault">
+									<span style="margin-left: -5px;">31</span>
+								</div>
+								<div class="form-check me-2">
+									<input class="form-check-input" type="checkbox" name="size" value="32"
+										id="flexCheckDefault">
+									<span style="margin-left: -5px;">32</span>
+								</div>
+								<div class="form-check me-2">
+									<input class="form-check-input" type="checkbox" name="size" value="33"
+										id="flexCheckDefault">
+									<span style="margin-left: -5px;">33</span>
+								</div>
+								<div class="form-check me-2">
+									<input class="form-check-input" type="checkbox" name="size" value="34"
+										id="flexCheckDefault">
+									<span style="margin-left: -5px;">34</span>
+								</div>
+								<div class="form-check me-2">
+									<input class="form-check-input" type="checkbox" name="size" value="35"
+										id="flexCheckDefault">
+									<span style="margin-left: -5px;">35</span>
+								</div>
+							</div>
+
 						</div>
 
+						<div class="mb-2">
+							<div class="d-flex mb-1">
+								<b class="text-sm">Color:&nbsp;</b>
 
-					</div>
+								<a class="d-flex align-items-center" onmousedown="addColor()">
+									<i class="fa fa-plus-square-o" aria-hidden="true" style="font-size: 18px;"></i>
+								</a>
+							</div>
+							<div class="mb-2 d-flex flex-wrap" id="add-color">
+								<input type="color" class="form-control form-control-sm 
+						                                            form-control-color mx-1" name="color" id="exampleColorInput">
+							</div>
+							<script>
+								var numberadd = 0;
+								var div_add_color = document.getElementById('add-color');
 
-					<div class="mb-2">
-						<b class="text-sm">Color:&nbsp;</b>
-						<div class="mb-2 d-flex">
-							<input type="color" class="form-control form-control-sm form-control-color mx-1"
-								id="exampleColorInput">
+								function addColor() {
+									console.log("add color");
+									div_add_color.innerHTML += "<input type=\"color\" class=\"form-control form-control-sm  form-control-color mx-1\" name=\"color\" value=\"#cb0c9f\" id=\"exampleColorInput\"  >";
+								}
+
+							</script>
 						</div>
-					</div>
-					<div class=" mb-3 text-sm">
-						<b>Description:</b>
-						<textarea class="form-control form-control-sm mb-2" id="exampleFormControlTextarea1" rows="4">
-					                                    </textarea>
-					</div>
-					<div class=" mb-3 text-sm">
-						<b>Detail:</b>
-						<textarea class="form-control form-control-sm mb-2" id="exampleFormControlTextarea1" rows="4">
-										                                    </textarea>
-					</div>
+						<div class="mb-3 text-sm">
+							<b>Description:</b>
+							<textarea class="form-control form-control-sm mb-2" id="exampleFormControlTextarea1"
+								rows="4"></textarea>
+						</div>
+						<div class="mb-3 text-sm">
+							<b>Detail:</b>
+							<textarea class="form-control form-control-sm mb-2" id="exampleFormControlTextarea1"
+								rows="4"></textarea>
+						</div>
 
-
-					<div class="card-footer">
-						<button type="reset" class="btn btn-secondary align-bottom me-2" data-bs-toggle="collapse"
-							data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-							Cancle
-						</button>
-						<button type="submit" class="btn btn-primary align-bottom " onmousedown="">
-							Submit
-						</button>
+						<div class="card-footer">
+							<button type="reset" class="btn btn-secondary align-bottom me-2" data-bs-toggle="collapse"
+								data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+								Cancle
+							</button>
+							<button type="submit" class="btn btn-primary align-bottom">
+								Submit
+							</button>
+						</div>
 					</div>
 				</div>
-			</div>
+			</form>
 		</div>
 
 
-		<div class="d-flex">
+		<div class="d-flex flex-wrap">
 			{{#each products}}
 			<div class="card mx-2 my-2" style="width: 18rem;">
 				<div class="card-img">
@@ -362,39 +394,9 @@
 	</div>
 </div>
 
-
-{{!-- script show password --}}
-<script>
-	const togglePassword = document.querySelector("#togglePassword-passwd");
-	const toggleConfirmPassword = document.querySelector("#togglePassword-confirmPasswd");
-	const password = document.querySelector("#passwd");
-	const confirmPassword = document.querySelector("#confirm-passwd");
-
-	togglePassword.addEventListener("click", function () {
-
-		// toggle the type attribute
-		const type = password.getAttribute("type") === "password" ? "text" : "password";
-		password.setAttribute("type", type);
-		// toggle the eye icon
-		this.classList.toggle('fa-eye');
-		this.classList.toggle('fa-eye-slash');
-
-	});
-	toggleConfirmPassword.addEventListener("click", function () {
-
-		// toggle the type attribute
-		const type = confirmPassword.getAttribute("type") === "password" ? "text" : "password";
-		confirmPassword.setAttribute("type", type);
-		// toggle the eye icon
-		this.classList.toggle('fa-eye');
-		this.classList.toggle('fa-eye-slash');
-	});
-</script>
-
-
 {{!-- load image from <file> to <img> --}}
 	<script>
-		document.getElementById('input-avatar').onchange = function (evt) {
+		document.getElementById('input-product-image').onchange = function (evt) {
 			const tgt = evt.target || window.event.srcElement,
 				files = tgt.files;
 
@@ -402,7 +404,7 @@
 			if (FileReader && files && files.length) {
 				const fr = new FileReader();
 				fr.onload = function () {
-					document.getElementById("avatar").src = fr.result;
+					document.getElementById("product-thumbnail").src = fr.result;
 				}
 				fr.readAsDataURL(files[0]);
 			}

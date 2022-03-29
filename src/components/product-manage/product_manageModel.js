@@ -5,11 +5,14 @@ const Schema = mongoose.Schema;
 const product = new Schema({
     name: String,
     price: Number,
-    color: String,
-    category: String,
     brand: String,
-    size: String,
+    size: [Number],
+    color: [String],
+    category: String,
     img: [String],
+    SKU: String,
+    introduction: String,
+    infomation: String,
 }, {
     versionKey: false // You should be aware of the outcome after set to false
 });
