@@ -72,9 +72,10 @@ exports.addProduct = async (req, res) => {
 
 exports.deleteProduct = async (req, res) => {
     try {
-
-
+        await service.deleteProduct(req.params.productID);
+        res.redirect('/product');
     } catch (e) {
         res.render("error", { error: e });
     }
 };
+
