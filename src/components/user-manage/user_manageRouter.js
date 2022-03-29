@@ -26,7 +26,7 @@ router.post("/add-user", upload.single('avatar_url'),
     }),
 
     body("confirm_passwd").custom((value, { req }) => {
-        if (value !== req.body.confirm_passwd) {
+        if (value !== req.body.passwd) {
             throw new Error("Passwords don't match");
         }
         return true;
