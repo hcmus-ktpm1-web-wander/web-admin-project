@@ -9,9 +9,7 @@ router.get("/", authController.redirectLogin);
 //render login page
 router.get("/login", authController.renderLogin);
 
-/*************************** POST methods ***************************/
-// check login credentials
-router.post("/login", authController.Verify);
-
+//render login page
+router.post("/verify", authController.redirectToDashboard);
 
 module.exports = router;

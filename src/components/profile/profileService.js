@@ -1,73 +1,74 @@
 const userModel = require('../user-manage/user_manageModel');
-const accModel = require('../user-manage/user_manageModel');
 const cloudinary = require('../../config/cloudinary.config');
 const url = require('url');
-const mongoose = require('mongoose');
 
-
-module.exports.getProfile = async (req, res) => {
-    const user_cookie = req.cookies.user;
-    const id = user_cookie.split("_")[0];
-
-    const user = await userModel.findOne({ _id: id });
-
-    if (!user) {
-        res.redirect('/auth/login');
-    } else {
-        return user;
-    }
-}
-
-module.exports.editDetailInfo = async (req, res, profile) => {
-    const id = req.cookies.user.split("_")[0];
-
-    console.log("profile:", req.body);
+/**
+ *  get user profile
+ *
+ * @param id {string}
+ * @returns {Promise<*>}
+ */
+module.exports.getProfile = async (id) => {
 
     try {
-        await userModel.findByIdAndUpdate({ _id: id },
+        return userModel.findById(id);
+    } catch (err) {
+        throw err;
+    }
+
+}
+
+/**
+ *  edit profile page
+ *
+ * @param body {object}
+ * @param id {string}
+ * @returns {Promise<void>}
+ */
+module.exports.editDetailInfo = async (id, body) => {
+    try {
+        await userModel.findByIdAndUpdate(id,
             {
                 $set: {
-                    intro: req.body.intro,
-                    fullname: req.body.edit_fullname,
-                    username: req.body.edit_username,
-                    phone: req.body.edit_phone,
-                    email: req.body.edit_email,
-                    address: req.body.edit_addr
+                    intro: body.intro,
+                    fullname: body.edit_fullname,
+                    username: body.edit_username,
+                    phone: body.edit_phone,
+                    email: body.edit_email,
+                    address: body.edit_addr
                 }
-            })
-            .then(() => {
-                console.log("> Changed detail information");
             });
     } catch (err) {
         throw err;
     }
 };
 
-module.exports.changePassword = async (req, res) => {
-    const id = req.cookies.user.split("_")[0];
-
-    const find_account = await accModel.findOne({ account_id: id }).lean();
-
-    if (req.body.old_passwd !== find_account.passwd) {
-        await res.redirect(url.format({
-            pathname: "/profile",
-            query: {
-                "error": "wrong-pass",
-            }
-        }));
-        return;
+/**
+ *  change password of user
+ *
+ * @param newPass {string}
+ * @param id {string}
+ * @returns {Promise<void>}
+ */
+module.exports.changePassword = async (id, newPass) => {
+    try {
+        await userModel.findOneAndUpdate(
+            { account_id: id },
+            { $set: { password: newPass } });
+    } catch (err) {
+        throw err;
     }
 
-    await accModel.findOneAndUpdate({ account_id: id }, { $set: { passwd: req.body.new_passwd } });
-    await res.redirect(url.format({
-        pathname: "/profile",
-        query: {
-            "change_pass": "success",
-        }
-    }));
 };
 
-module.exports.changeAvatar = async (req, res, file) => {
+/**
+ *  change avatar of user
+ *
+ * @param file {object}
+ * @param id {string}
+ * @returns {Promise<void>}
+ */
+module.exports.changeAvatar = async (id, file) => {
     try {
         // upload image
         let result;
@@ -81,12 +82,12 @@ module.exports.changeAvatar = async (req, res, file) => {
         // get image url
         let { url } = result ?? "";
         if (url === undefined) {
-            const profile = this.getProfile(req, res);
+            const profile = this.getProfile(id);
             // default avatar
             url = profile.avatar_url;
         }
 
-        const id = req.cookies.user.split("_")[0];
+        //const id = req.cookies.user.split("_")[0];
 
         await userModel.findByIdAndUpdate(id, { avatar_url: url });
     } catch (err) {

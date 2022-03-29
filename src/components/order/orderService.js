@@ -34,7 +34,6 @@ module.exports.getOrders = async () => {
         }
 
         return orders;
-
     } catch (err) {
         throw err;
     }

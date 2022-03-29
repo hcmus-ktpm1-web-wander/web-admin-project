@@ -12,7 +12,9 @@ const user = new Schema({
     avatar_url: String,
     address: String,
     phone: String,
-    intro: String,
+    intro: String
+}, {
+    versionKey: false // You should be aware of the outcome after set to false
 });
 
 module.exports = mongoose.model('user', user, 'user');

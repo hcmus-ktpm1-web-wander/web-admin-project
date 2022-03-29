@@ -17,11 +17,15 @@ module.exports.Verify = async (req, res) => {
             throw new Error("Wrong password");
         }
 
+        if (credential.role !== "Admin") {
+            throw new Error("This account is not admin");
+        }
+
         // auth success
         res.cookie('user', credential._id + '_login_success');
 
         // temp
-        res.redirect('/profile');
+        res.redirect('/dashboard');
     } catch (error) {
         console.log("error:", error);
         res.render("auth/views/login", { layout: '/auth/views/login-layout', error });
