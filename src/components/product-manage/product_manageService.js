@@ -1,28 +1,18 @@
 const productModel = require('./product_manageModel');
 const cloudinary = require('../../config/cloudinary.config');
 
-module.exports.deleteProduct = async (id) => {
-    try {
-        console.log('delete product');
-        await productModel.find({ _id: id }).remove();
-    } catch (err) {
-        throw err;
-    }
-}
-
 /**
- * Get all admin or user
- * @param id
- * @returns {Promise<[Admin-User: model]>}
+ * Get all the products
+ * @param id {string||null}
+ * @returns {Promise<productModel>}
  */
-module.exports.getProducts = async (id = null) => {
+module.exports.getProducts = async (id= null) => {
     try {
         if (id === null) {
             const products = await productModel.find().lean();
             for (let i = 0; i < products.length; i++) {
                 products[i].thumbnail = products[i].img[0];
             }
-
             return products;
         } else {
             const product = await productModel.findById(id).lean();
@@ -39,28 +29,15 @@ module.exports.getProducts = async (id = null) => {
 }
 
 /**
- * Get all admin or user
+ * add new product
  * @param body {Object}
  * @param file {object}
- * @returns {Promise<[Admin-User: model]>}
+ * @returns {Promise<void>}
  */
 module.exports.addProduct = async (body, file) => {
     try {
         // upload image
-        let result;
-        if (file) {
-            result = await cloudinary.v2.uploader.upload(file.path, {
-                folder: "product",
-                use_filename: true,
-            });
-        }
-
-        // get image url
-        let { url } = result ?? "";
-        if (url === undefined) {
-            // default avatar
-            url = 'https://res.cloudinary.com/web-hcmus/image/upload/v1648341181/Default_avatar/default-avtar_wmf6yf.jpg';
-        }
+        const url = await cloudinary.upload(file.path,'product');
 
         // body to model
         body['img'] = [url];
@@ -90,10 +67,19 @@ module.exports.addProduct = async (body, file) => {
     }
 }
 
-module.exports.changeProductInfo = async (id, body) => {
+/**
+ * change product
+ * @param id {String}
+ * @param body {Object}
+ * @param files {Object}
+ * @returns {Promise<void>}
+ */
+module.exports.changeProductInfo = async (id, body,files) => {
     try {
         console.log('change product detail');
         console.log('body', body);
+        console.log('files', files);
+
         await productModel.findByIdAndUpdate({ _id: id }, {
             $set: {
                 name: body.name,
@@ -108,6 +94,19 @@ module.exports.changeProductInfo = async (id, body) => {
                 infomation: body.infomation,
             }
         });
+    } catch (err) {
+        throw err;
+    }
+}
+
+/**
+ * change product
+ * @param id {String}
+ * @returns {Promise<void>}
+ */
+module.exports.deleteProduct = async (id) => {
+    try {
+        await productModel.find({ _id: id }).remove();
     } catch (err) {
         throw err;
     }

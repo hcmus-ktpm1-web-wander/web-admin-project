@@ -13,9 +13,9 @@ router.get("/user", user_manageController.renderUserManage);
 /*************************** POST methods ***************************/
 // upload image and insert user
 router.post("/add-user", upload.single('avatar_url'),
-    body("username").isLength({ min: 6 }).withMessage("Username must be at least 3 characters long"),
+    body("username").isLength({ min: 3 }).withMessage("Username must be at least 3 characters long"),
     body("username").isLength({ max: 20 }).withMessage("Username must be at most 20 characters long"),
-    body("passwd").isLength({ min: 6 }).withMessage("Password must be at least 3 characters long"),
+    body("passwd").isLength({ min: 6 }).withMessage("Password must be at least 6 characters long"),
     body("passwd").isLength({ max: 20 }).withMessage("Password must be at most 20 characters long"),
     body('username').custom(value => {
         return require('./user_manageService').checkUsername(value).then(result => {
