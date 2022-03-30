@@ -2,7 +2,7 @@ const service = require('./product_manageService');
 const { validationResult } = require('express-validator');
 /************************************* GET methods *************************************/
 /**
- *  get admin information list and pagination data
+ *  get product information list
  *
  * @param req request
  * @param res response
@@ -18,7 +18,7 @@ exports.renderProductManage = async (req, res) => {
 };
 
 /**
- *  get admin information list and pagination data
+ *  render product edit page
  *
  * @param req request
  * @param res response
@@ -35,7 +35,7 @@ exports.renderProductDetailEdit = async (req, res) => {
 };
 
 /**
- *  get admin information list and pagination data
+ *  get product information by id
  *
  * @param req request
  * @param res response
@@ -51,22 +51,9 @@ exports.renderProductDetail = async (req, res) => {
     }
 };
 
-exports.editProduct = async (req, res) => {
-    try {
-        console.log('---- edit product ----');
-        console.log("req.params", req.body);
-        await service.changeProductInfo(req.params.productID, req.body);
-
-        res.redirect('/product/' + req.params.productID);
-
-    } catch (e) {
-        res.render("error", { error: e });
-    }
-};
-
 /************************************* GET methods *************************************/
 /**
- *  get admin information list and pagination data
+ *  add new product
  *
  * @param req request
  * @param res response
@@ -86,17 +73,32 @@ exports.addProduct = async (req, res) => {
 };
 
 /************************************* PUT methods *************************************/
+
+/**
+ *  edit product information
+ *
+ * @param req request
+ * @param res response
+ * @returns {Promise<void>}
+ */
 exports.editProduct = async (req, res) => {
     try {
-        console.log('---- edit product ----');
-        console.log("req.params", req.body);
-
+        console.log(req.files);
+        // await service.changeProductInfo(req.params.productID, req.body, req.files);
+        // res.redirect('/product/' + req.params.productID);
     } catch (e) {
         res.render("error", { error: e });
     }
 };
 
 /************************************* DELETE methods *************************************/
+/**
+ *  delete product by id
+ *
+ * @param req request
+ * @param res response
+ * @returns {Promise<void>}
+ */
 exports.deleteProduct = async (req, res) => {
     try {
         await service.deleteProduct(req.params.productID);

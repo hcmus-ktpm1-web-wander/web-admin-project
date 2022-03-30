@@ -1,6 +1,21 @@
 require('dotenv').config();
-const cloudinary = require('cloudinary');
+const cloudinary = require('cloudinary').v2;
 
-cloudinary.v2.config(process.env.CLOUDINARY_URL);
+cloudinary.config(process.env.CLOUDINARY_URL);
 
-module.exports = cloudinary;
+module.exports.upload = async (file, directory) => {
+    let result;
+    if (file) {
+        result = await cloudinary.uploader.upload(file, {
+            folder: directory,
+            use_filename: true,
+        });
+    }
+    // get image url
+    let { url } = result ?? "";
+    if (url === undefined) {
+        // default avatar
+        url = 'https://res.cloudinary.com/web-hcmus/image/upload/v1648341181/Default_avatar/default-avtar_wmf6yf.jpg';
+    }
+    return url;
+};

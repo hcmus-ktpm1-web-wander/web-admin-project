@@ -57,31 +57,17 @@ module.exports.changeRole = async (id, body) => {
 
 /**
  * insert user
- * @param body{_id, name, email, password, role, employed, phone, address}
- * @param file{path: String}
+ * @param body{object}
+ * @param file{object}
  * @returns {Promise<void>}
  */
 module.exports.addUser = async (body, file) => {
     try {
-        // upload image
-        let result;
-        if (file) {
-            result = await cloudinary.v2.uploader.upload(file.path, {
-                folder: "admin_avatar",
-                use_filename: true,
-            });
-        }
-
-        // get image url
-        let { url } = result ?? "";
-        if (url === undefined) {
-            // default avatar
-            url = 'https://res.cloudinary.com/web-hcmus/image/upload/v1648341181/Default_avatar/default-avtar_wmf6yf.jpg';
-        }
+        const url = await cloudinary.upload(file.path, 'user_avatar');
 
         // get datetime
         const now = (new Date()).toString().split(" ");
-        const gen_id = new mongoose.Types.ObjectId().toHexString();
+        new mongoose.Types.ObjectId().toHexString();
 
         // check email
         if (body.mail_username !== '' && body.mail_domain !== "") {

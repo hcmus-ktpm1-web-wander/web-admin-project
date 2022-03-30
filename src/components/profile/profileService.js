@@ -71,21 +71,7 @@ module.exports.changePassword = async (id, newPass) => {
 module.exports.changeAvatar = async (id, file) => {
     try {
         // upload image
-        let result;
-        if (file) {
-            result = await cloudinary.v2.uploader.upload(file.path, {
-                folder: "admin_avatar",
-                use_filename: true,
-            });
-        }
-
-        // get image url
-        let { url } = result ?? "";
-        if (url === undefined) {
-            const profile = this.getProfile(id);
-            // default avatar
-            url = profile.avatar_url;
-        }
+        const url = await cloudinary.upload(file.path,'user_avatar');
 
         //const id = req.cookies.user.split("_")[0];
 
