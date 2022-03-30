@@ -74,6 +74,8 @@ exports.editProduct = async (req, res) => {
  */
 exports.addProduct = async (req, res) => {
     try {
+        console.log('---- add product ----');
+        console.log("req.body:", req.body);
         // insert data to database
         await service.addProduct(req.body, req.file);
         res.redirect('back');
