@@ -1,7 +1,5 @@
 const productModel = require('./product_manageModel');
 const cloudinary = require('../../config/cloudinary.config');
-const mongoose = require('mongoose');
-
 
 module.exports.deleteProduct = async (id) => {
     try {
@@ -14,7 +12,7 @@ module.exports.deleteProduct = async (id) => {
 
 /**
  * Get all admin or user
- * @param role {string:{Admin, User}}
+ * @param id
  * @returns {Promise<[Admin-User: model]>}
  */
 module.exports.getProducts = async (id = null) => {
@@ -31,8 +29,7 @@ module.exports.getProducts = async (id = null) => {
 
             // remove first img
             product.thumbnail = product.img[0];
-            var theRemovedElement = product.img.shift();
-
+            const theRemovedElement = product.img.shift();
             return product;
         }
 
@@ -41,15 +38,19 @@ module.exports.getProducts = async (id = null) => {
     }
 }
 
-module.exports.addUser = async (body, file) => {
+/**
+ * Get all admin or user
+ * @param body {Object}
+ * @param file {object}
+ * @returns {Promise<[Admin-User: model]>}
+ */
+module.exports.addProduct = async (body, file) => {
     try {
-        console.log("body", body);
-
         // upload image
         let result;
         if (file) {
             result = await cloudinary.v2.uploader.upload(file.path, {
-                folder: "admin_avatar",
+                folder: "product",
                 use_filename: true,
             });
         }
@@ -61,12 +62,8 @@ module.exports.addUser = async (body, file) => {
             url = 'https://res.cloudinary.com/web-hcmus/image/upload/v1648341181/Default_avatar/default-avtar_wmf6yf.jpg';
         }
 
-        console.log("name", body.name);
-        console.log("brand", body.brand);
-        console.log("infomation", body.infomation);
-
         // body to model
-        body['img'] = url;
+        body['img'] = [url];
         if (body.brand === "") {
             body['brand'] = "BoBui";
         }
@@ -84,8 +81,6 @@ module.exports.addUser = async (body, file) => {
         if (body.infomation === undefined) {
             body['infomation'] = 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested.Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H.Rackham.';
         }
-
-        console.log('update:', body);
 
         // insert 
         await productModel.insertMany(body)
