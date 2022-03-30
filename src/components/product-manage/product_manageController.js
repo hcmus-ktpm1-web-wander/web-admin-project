@@ -49,6 +49,9 @@ exports.editProduct = async (req, res) => {
     try {
         console.log('---- edit product ----');
         console.log("req.params", req.body);
+        await service.changeProductInfo(req.params.productID, req.body);
+
+        res.redirect('/product/' + req.params.productID);
 
     } catch (e) {
         res.render("error", { error: e });

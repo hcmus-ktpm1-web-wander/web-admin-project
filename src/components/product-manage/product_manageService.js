@@ -94,3 +94,26 @@ module.exports.addUser = async (body, file) => {
         throw err;
     }
 }
+
+module.exports.changeProductInfo = async (id, body) => {
+    try {
+        console.log('change product detail');
+        console.log('body', body);
+        await productModel.findByIdAndUpdate({ _id: id }, {
+            $set: {
+                name: body.name,
+                price: body.price,
+                brand: body.brand,
+                size: body.size,
+                color: body.color,
+                category: body.category,
+                img: body.img,
+                SKU: body.SKU,
+                introduction: body.introduction,
+                infomation: body.infomation,
+            }
+        });
+    } catch (err) {
+        throw err;
+    }
+}

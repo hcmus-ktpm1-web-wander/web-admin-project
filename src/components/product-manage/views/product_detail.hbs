@@ -11,31 +11,55 @@
             <div class="card pb-3 mb-4">
                 <div class="card-body ">
                     <div class="row ">
-                        <div class="mb-3 col-sm-12 col-md-3 col-lg-4">
-                            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-                                <div class="carousel-inner">
-                                    <div class="carousel-item active">
-                                        <img src="{{thumbnail}}" class="d-block w-100" alt="image">
+                        <div class="mb-3 col-sm-12 col-md-4">
+                            <div id="add-img">
+                                {{#img}}
+                                <div id="product-img-{{@index}}-wrap" class="row mb-2">
+                                    <div class="col-3">
+                                        <img src="{{this}}" class="in-avatar rounded float-start"
+                                            id="product-img-{{@index}}-show" alt="avatar">
+
                                     </div>
-                                    {{#img}}
-                                    <div class="carousel-item">
-                                        <img src="{{this}}" id="carousel-item-{{@index}}" class="d-block w-100"
-                                            alt="image">
+                                    <div class="col-12 col-md-9">
+                                        <b>Image {{@index}}:</b>
+                                        <a id="product-img-{{@index}}-minus"
+                                            onmousedown="removeImg('product-img-{{@index}}')">
+                                            <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                        </a>
+                                        <input type="file" class="form-control" id="product-img-{{@index}}-input"
+                                            name="img" accept=".jpg,.jpeg,.png"
+                                            onchange="document.getElementById('product-img-{{@index}}-show').src = window.URL.createObjectURL(this.files[0])">
                                     </div>
-                                    {{/img}}
                                 </div>
-                                <button class="carousel-control-prev" type="button"
-                                    data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Previous</span>
-                                </button>
-                                <button class="carousel-control-next" type="button"
-                                    data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
-                                </button>
+                                {{/img}}
                             </div>
+                            <a class="d-flex align-items-center" style="z-index: 2;" onmousedown="addImg()">
+                                <i class="fa fa-plus-square-o" aria-hidden="true" style="font-size: 35px;"></i>
+                            </a>
+
+                            <script>
+                                var number_add = {{ img.length }};
+                                const add_img = document.getElementById('add-img');
+
+                                function addImg() {
+                                    console.log("add img");
+                                    var add_img_div = "<div id='product-img-" + number_add + "-wrap' class='row mb-2'> <div class='col-3'> <img src='/img/default-avtar.jpg' class='in-avatar rounded float-start'id='product-img-" + number_add + "-show' alt='avatar'> </div> <div class='col-12 col-md-9'> <b>Image " + number_add + ":</b>  <a id='product-img-" + number_add + "-minus'  onmousedown=\"removeImg('product-img-" + number_add + "')\"> <i class='fa fa-minus-circle' aria-hidden='true'></i>  </a> <input type='file' class='form-control' id=\"product-img-" + number_add + "-input\" name='img' accept='.jpg,.jpeg,.png' onchange='document.getElementById(\"product-img-" + number_add + "-show\").src = window.URL.createObjectURL(this.files[0])'>  </div>  </div >";
+                                    add_img.innerHTML += add_img_div;
+
+                                    number_add += 1;
+                                    console.log("num:", number_add);
+                                }
+
+                                function removeImg(id) {
+                                    console.log("remove", id)
+                                    document.getElementById(id + '-wrap').remove();
+                                    document.getElementById(id + '-show').remove();
+                                    document.getElementById(id + '-minus').remove();
+                                    document.getElementById(id + '-input').remove();
+                                }
+                            </script>
                         </div>
+
                         <div class="col">
                             <div class="mx-md-5">
                                 <h3 class="card-title">
@@ -166,38 +190,63 @@
                                         name="SKU">
                                 </div>
                                 <div class="mb-2">
-                                    <div class="d-flex mb-1">
+                                    <div class="d-flex mb-2">
                                         <b class="text-sm">Color:&nbsp;</b>
 
-                                        <a class="d-flex align-items-center" onmousedown="addColor()">
+                                        <a class="d-flex align-items-center" style="z-index: 2;"
+                                            onmousedown="addColor()">
                                             <i class="fa fa-plus-square-o" aria-hidden="true"
                                                 style="font-size: 20px;"></i>
                                         </a>
+
                                     </div>
-                                    <div class="mb-2 d-flex" id="add-color">
-                                        {{#color}}
-                                        <input type="color" class="form-control form-control-sm
-                                            form-control-color mx-1" name="color" id="exampleColorInput"
-                                            value="{{this}}" title="{{this}}">
-                                        {{/color}}
+
+                                    <div class="mb-2">
+                                        <div class="mb-2 d-flex flex-wrap" id="add-color">
+                                            {{#color}}
+                                            <div id="color-{{@index}}-wrap" class="position-relative mx-1 mb-2">
+                                                <input type="color" class="form-control-color" name="color"
+                                                    id="color-{{@index}}" value="{{this}}">
+
+                                                <a id="color-{{@index}}-minus"
+                                                    onmousedown="removeColor('color-{{@index}}')">
+                                                    <i class="fa fa-minus-circle position-absolute"
+                                                        style=" z-index: 1; right:-5px; top:-4px;"
+                                                        aria-hidden="true"></i>
+                                                </a>
+                                            </div>
+                                            {{/color}}
+                                        </div>
+
                                     </div>
                                     <script>
-                                        var numberadd = 0;
+                                        var numberadd = {{ color.length }};
                                         var div_add_color = document.getElementById('add-color');
+                                        const add_div = "<div id='color-" + numberadd + "-wrap' class='position-relative mx-1 mb-2'> <input type='color' class='form-control-color' name='color' id=\"color-" + numberadd + "\"> <a id=\"color-" + numberadd + "-minus\"  onmousedown='removeColor(\"color-" + numberadd + "\")'> <i class='fa fa-minus-circle position-absolute' style=' z-index: 1; right:-5px; top:-4px;' aria-hidden='true'> </i > </a > </div >";
 
                                         function addColor() {
+                                            const _id = 'color-' + numberadd;
+                                            const _id_minus = _id + '-minus';
                                             console.log("add color");
-                                            div_add_color.innerHTML += "<input type=\"color\" class=\"form-control form-control-sm  form-control-color mx-1\" name=\"color\" value=\"#cb0c9f\" id=\"exampleColorInput\"  >";
+
+                                            div_add_color.innerHTML += add_div;
+
+                                            numberadd++;
                                         }
 
+                                        function removeColor(id) {
+                                            console.log("remove", id)
+                                            document.getElementById(id).remove();
+                                            document.getElementById(id + '-minus').remove();
+                                            document.getElementById(id + '-wrap').remove();
+                                        }
                                     </script>
                                 </div>
+
                                 <div class=" mb-3 text-sm">
                                     <b>Description:</b>
                                     <textarea class="form-control form-control-sm mb-2" name="description"
-                                        id="exampleFormControlTextarea1" rows="4">
-                                    {{introduction}}
-                                    </textarea>
+                                        id="exampleFormControlTextarea1" rows="4">{{introduction}}</textarea>
                                 </div>
                                 <button type="button" class="btn btn-secondary align-bottom mt-4" style="width: 120px;"
                                     onmousedown="cancleEdit()">
@@ -218,9 +267,7 @@
             <div class="card">
                 <div class="card-body">
                     <textarea class="form-control form-control-sm mb-2" id="exampleFormControlTextarea1"
-                        name="detail_info" rows="4">
-                        {{infomation}}
-                    </textarea>
+                        name="detail_info" rows="4">{{infomation}}</textarea>
                 </div>
             </div>
         </form>
@@ -496,3 +543,4 @@
             }
         }
     </script>
+    {{!-- {{ color.length }}; --}}
