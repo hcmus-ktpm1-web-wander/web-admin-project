@@ -7,7 +7,7 @@ const logger = require('morgan');
 const db = require("./config/database.config")
 const methodOverride = require('method-override');
 const session = require("express-session");
-const flash = require("connect-flash");
+const cors = require("cors");
 
 const dashboardRouter = require('./components/dashboard/dashboardRouter')
 const orderRouter = require('./components/order/orderRouter')
@@ -34,6 +34,7 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride('_method', {methods: ['POST', 'GET']}));
+app.use(cors());
 
 // session
 app.use(session({

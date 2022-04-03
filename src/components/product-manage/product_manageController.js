@@ -13,7 +13,7 @@ exports.renderProductManage = async (req, res) => {
         const products = await service.getProducts();
         res.render("product-manage/views/product", { active: { ProductManage: true }, page: "Product manage", products });
     } catch (e) {
-        res.render("error", { error: e });
+        res.status(500).json({ message: e.message });
     }
 };
 
@@ -30,7 +30,7 @@ exports.renderProductDetailEdit = async (req, res) => {
         res.render("product-manage/views/product_detail", { active: { ProductManage: true, editProduct: true }, page: "Product detail/edit", product });
 
     } catch (e) {
-        res.render("error", { error: e });
+        res.status(500).json({ message: e.message });
     }
 };
 
@@ -47,7 +47,7 @@ exports.renderProductDetail = async (req, res) => {
         res.render("product-manage/views/product_detail", { active: { ProductManage: true }, page: "Product detail", product });
 
     } catch (e) {
-        res.render("error", { error: e });
+        res.status(500).json({ message: e.message });
     }
 };
 
@@ -68,7 +68,7 @@ exports.addProduct = async (req, res) => {
         res.redirect('back');
     }
     catch (e) {
-        res.render("error", { error: e });
+        res.status(500).json({ message: e.message });
     }
 };
 
@@ -87,7 +87,7 @@ exports.editProduct = async (req, res) => {
         // await service.changeProductInfo(req.params.productID, req.body, req.files);
         // res.redirect('/product/' + req.params.productID);
     } catch (e) {
-        res.render("error", { error: e });
+        res.status(500).json({ message: e.message });
     }
 };
 
@@ -104,7 +104,7 @@ exports.deleteProduct = async (req, res) => {
         await service.deleteProduct(req.params.productID);
         res.redirect('/product');
     } catch (e) {
-        res.render("error", { error: e });
+        res.status(500).json({ message: e.message });
     }
 };
 

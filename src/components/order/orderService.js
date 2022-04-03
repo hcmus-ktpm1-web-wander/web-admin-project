@@ -32,7 +32,6 @@ module.exports.getOrders = async () => {
                 orders[i].products[j].thumbnail = orders[i].products[j].detail.img[0];
             }
         }
-
         return orders;
     } catch (err) {
         throw err;

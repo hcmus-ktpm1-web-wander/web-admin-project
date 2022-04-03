@@ -29,7 +29,7 @@ module.exports.renderProfile = async (req, res) => {
             res.render("profile/views/profile", {active: {Profile: true}, page: "Profile", profile});
         }
     } catch (err) {
-        throw err;
+        res.status(500).json({ message: err.message });
     }
 };
 
@@ -58,7 +58,7 @@ module.exports.editInfo = async (req, res) => {
 
         res.render("profile/views/profile", {active: {Profile: true, editInfo: isTrueSet}, page: "Profile", profile});
     } catch (err) {
-        throw err;
+        res.status(500).json({ message: err.message });
     }
 
 };
@@ -77,7 +77,7 @@ module.exports.editDetailInfo = async (req, res) => {
         await service.editDetailInfo(req.user._id, req.body);
         res.redirect("/profile");
     } catch (err) {
-        throw err;
+        res.status(500).json({ message: err.message });
     }
 };
 
@@ -120,9 +120,8 @@ module.exports.changePassword = async (req, res) => {
             }));
         }
     } catch (err) {
-        throw err;
+        res.status(500).json({ message: err.message });
     }
-
 };
 
 /**
@@ -136,8 +135,8 @@ module.exports.changeAvatar = async (req, res) => {
     try {
         await service.changeAvatar(req.user._id, req.file);
         res.redirect('/profile');
-    } catch (e) {
-        res.render("error", {error: e});
+    } catch (err) {
+        res.status(500).json({ message: err.message });
     }
 };
 
