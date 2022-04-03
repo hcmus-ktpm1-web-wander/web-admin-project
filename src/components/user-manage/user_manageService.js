@@ -1,6 +1,7 @@
 const model = require('./user_manageModel');
 const cloudinary = require('../../config/cloudinary.config');
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 /**
  * Get all admin or user
@@ -29,8 +30,8 @@ module.exports.deleteUser = async (id) => {
 }
 
 /**
- * Get all admin or user
- * @param username {string:{Admin, User}}
+ * get user by username
+ * @param username {string}
  * @returns {Promise<[Admin-User: model]>}
  */
 module.exports.checkUsername = async (username) => {
@@ -82,22 +83,25 @@ module.exports.addUser = async (body, file) => {
         body['email'] = body.mail_username + body.mail_domain;
         body['employed'] = now[2] + ' ' + now[1] + ',' + now[3];
         body['avatar_url'] = url;
-        body['password'] = '123'
-        body['phone'] = "";
-        body['address'] = "";
+        body['phone'] = body.phone.replace(/\D/g, '');
         body['intro'] = "";
         body['username'] = body.username;
 
-        // delete unnecessary field
-        delete body.fname;
-        delete body.lname;
-        delete body.passwd;
-        delete body.confirm_passwd;
-        delete body.mail_username;
-        delete body.mail_domain;
+        await bcrypt.hash(body.passwd, 4).then(async (hash) => {
+            body['password'] = hash;
 
-        // insert 
-        await model.insertMany(body)
+            // delete unnecessary field
+            delete body.fname;
+            delete body.lname;
+            delete body.passwd;
+            delete body.confirm_passwd;
+            delete body.mail_username;
+            delete body.mail_domain;
+
+            await model.create(body);
+        });
+        // // insert
+        // await model.insertMany(body)
 
     } catch (err) {
         throw err;

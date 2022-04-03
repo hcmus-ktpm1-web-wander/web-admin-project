@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const product_manageController = require("./product_manageController");
 const upload = require("../../config/multer.config");
-const { body } = require("express-validator");
 
 /*************************** GET methods ***************************/
 // render product

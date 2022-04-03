@@ -1,15 +1,20 @@
 const express = require("express");
 const router = express.Router();
 const authController = require("./authController");
+const passport = require("../../config/passport.config");
 
 /*************************** GET methods ***************************/
-//redirect auth '/' to '/auth/sign-in'
-router.get("/", authController.redirectLogin);
-
-//render login page
+// render login page
 router.get("/login", authController.renderLogin);
 
-//render login page
-router.post("/verify", authController.redirectToDashboard);
+// Logout
+router.get('/logout', authController.logout);
+
+/*************************** POST methods ***************************/
+// login
+router.post("/login", passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/login?invalid-account'
+}));
 
 module.exports = router;

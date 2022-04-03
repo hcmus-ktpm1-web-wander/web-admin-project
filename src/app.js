@@ -9,15 +9,15 @@ const methodOverride = require('method-override');
 const session = require("express-session");
 const flash = require("connect-flash");
 
-
 const dashboardRouter = require('./components/dashboard/dashboardRouter')
 const orderRouter = require('./components/order/orderRouter')
 const profileRouter = require('./components/profile/profileRouter')
 const authRouter = require('./components/auth/authRouter')
 const productRouter = require('./components/product-manage/product_manageRouter')
 const user_manageRouter = require("./components/user-manage/user_manageRouter");
+const passport = require("./config/passport.config");
 
-// const loggedInGuard = require('./middlewares/LoggedInGuard')
+const loggedInGuard = require('./middlewares/LoggedInGuard')
 
 // Connect database
 db.connect();
@@ -28,56 +28,55 @@ const app = express();
 app.set('views', [path.join(__dirname, 'views'), path.join(__dirname, "components")]);
 app.set('view engine', 'hbs');
 
-
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser("ecommerce-web-app"));
+app.use(express.urlencoded({extended: false}));
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(methodOverride('_method', { methods: ['POST', 'GET'] }));
+app.use(methodOverride('_method', {methods: ['POST', 'GET']}));
 
+// session
 app.use(session({
-  secret: "ecommerce-web-app",
-  resave: true,
-  saveUninitialized: true
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false,
 }));
-
-app.use(flash());
+app.use(passport.authenticate('session'));
 
 // Authentication middleware
 app.use('/', authRouter);
 
 // Secure middlewares
-//app.all('/*', loggedInGuard);
+app.all('/*', loggedInGuard);
 
 // Store account
 app.use(function (req, res, next) {
-  res.locals.admin = req.user;
-  next();
+    res.locals.admin = req.user;
+    next();
 })
 
 // Router middlewares
-app.use('/dashboard', dashboardRouter);
-app.use('/order', orderRouter);
-app.use('/profile', profileRouter);
-app.use('/manage', user_manageRouter);
-app.use('/product', productRouter);
+app.use('/',loggedInGuard, dashboardRouter);
+app.use('/order',loggedInGuard, orderRouter);
+app.use('/profile',loggedInGuard, profileRouter);
+app.use('/manage',loggedInGuard, user_manageRouter);
+app.use('/product',loggedInGuard, productRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  next(createError(404));
+    next(createError(404));
 });
 
 
 // error handler
 app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
 });
 
 module.exports = app;

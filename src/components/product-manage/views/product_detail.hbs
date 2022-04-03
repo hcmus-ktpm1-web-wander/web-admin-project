@@ -27,7 +27,7 @@
                                             <i class="fa fa-minus-circle" aria-hidden="true"></i>
                                         </a>
                                         <input type="file" class="form-control" id="product-img-{{@index}}-input"
-                                            name="img" accept=".jpg,.jpeg,.png"
+                                            name="img" accept=".jpg,.jpeg,.png" multiple
                                             onchange="document.getElementById('product-img-{{@index}}-show').src = window.URL.createObjectURL(this.files[0])">
                                     </div>
                                 </div>

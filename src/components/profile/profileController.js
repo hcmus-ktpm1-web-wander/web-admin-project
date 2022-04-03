@@ -1,6 +1,8 @@
 const service = require("./profileService");
 const url = require("url");
+const bcrypt = require("bcrypt");
 const {validationResult} = require("express-validator")
+const adminService = require("../user-manage/user_manageService");
 /******************************** GET methods ********************************/
 /**
  *  render profile page checking if user changed his password, avatar
@@ -11,15 +13,13 @@ const {validationResult} = require("express-validator")
  */
 module.exports.renderProfile = async (req, res) => {
     try {
-        const user_cookie = req.cookies.user;
-        const id = user_cookie.split("_")[0];
-        const profile = await service.getProfile(id);
+        const profile = req.user;
 
         if (!profile) res.redirect('/auth/login');
 
         if (req.query.invalid === "email-error") {
             res.render("profile/views/profile", {active: {Profile: true, invalid: true}, page: "Profile", profile});
-        }else if (req.query.error === "wrong-pass") {
+        } else if (req.query.error === "wrong-pass") {
             res.render("profile/views/profile", {active: {Profile: true, error: true}, page: "Profile", profile});
         } else if (req.query.error === "wrong-pass") {
             res.render("profile/views/profile", {active: {Profile: true, error: true}, page: "Profile", profile});
@@ -41,23 +41,26 @@ module.exports.renderProfile = async (req, res) => {
  * @returns {Promise<void>}
  */
 module.exports.editInfo = async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        await res.redirect(url.format({
-            pathname: "/profile",
-            query: {
-                "invalid": "email-error"
-            }
-        }));
-        return;
+    try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            await res.redirect(url.format({
+                pathname: "/profile",
+                query: {
+                    "invalid": "email-error"
+                }
+            }));
+            return;
+        }
+
+        const isTrueSet = (req.query.edit_info === 'true');
+        const profile = req.user;
+
+        res.render("profile/views/profile", {active: {Profile: true, editInfo: isTrueSet}, page: "Profile", profile});
+    } catch (err) {
+        throw err;
     }
 
-    const user_cookie = req.cookies.user;
-    const id = user_cookie.split("_")[0];
-    const isTrueSet = (req.query.edit_info === 'true');
-    const profile = await service.getProfile(id);
-
-    res.render("profile/views/profile", {active: {Profile: true, editInfo: isTrueSet}, page: "Profile", profile});
 };
 
 /******************************** POST methods ********************************/
@@ -71,15 +74,11 @@ module.exports.editInfo = async (req, res) => {
  */
 module.exports.editDetailInfo = async (req, res) => {
     try {
-        const user_cookie = req.cookies.user;
-        const id = user_cookie.split("_")[0];
-        await service.editDetailInfo(id, req.body);
-
+        await service.editDetailInfo(req.user._id, req.body);
         res.redirect("/profile");
     } catch (err) {
         throw err;
     }
-
 };
 
 /**
@@ -90,38 +89,40 @@ module.exports.editDetailInfo = async (req, res) => {
  * @returns {Promise<void>}
  */
 module.exports.changePassword = async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        await res.redirect(url.format({
-            pathname: "/profile",
-            query: {
-                "warning": "password-error"
-            }
-        }));
-        return;
+    try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            await res.redirect(url.format({
+                pathname: "/profile",
+                query: {
+                    "warning": "password-error"
+                }
+            }));
+            return;
+        }
+
+        const user = await adminService.checkUsername(req.user.username);
+        if (!(await bcrypt.compare(req.body.old_passwd, user.password))) {
+            await res.redirect(url.format({
+                pathname: "/profile",
+                query: {
+                    "error": "wrong-pass",
+                }
+            }));
+        } else {
+            await service.changePassword(req.user._id, req.body.new_passwd);
+
+            await res.redirect(url.format({
+                pathname: "/profile",
+                query: {
+                    "change_pass": "success",
+                }
+            }));
+        }
+    } catch (err) {
+        throw err;
     }
 
-    const user_cookie = req.cookies.user;
-    const id = user_cookie.split("_")[0];
-    const find_account = await service.getProfile(id);
-
-    if (req.body.old_passwd !== find_account.password) {
-        await res.redirect(url.format({
-            pathname: "/profile",
-            query: {
-                "error": "wrong-pass",
-            }
-        }));
-    } else {
-        await service.changePassword(id, req.body.new_passwd);
-
-        await res.redirect(url.format({
-            pathname: "/profile",
-            query: {
-                "change_pass": "success",
-            }
-        }));
-    }
 };
 
 /**
@@ -133,10 +134,7 @@ module.exports.changePassword = async (req, res) => {
  */
 module.exports.changeAvatar = async (req, res) => {
     try {
-        const user_cookie = req.cookies.user;
-        const id = user_cookie.split("_")[0];
-        await service.changeAvatar(id, req.file);
-
+        await service.changeAvatar(req.user._id, req.file);
         res.redirect('/profile');
     } catch (e) {
         res.render("error", {error: e});
