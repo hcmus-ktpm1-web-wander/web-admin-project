@@ -1,22 +1,6 @@
 const userModel = require('../user-manage/user_manageModel');
 const cloudinary = require('../../config/cloudinary.config');
-const url = require('url');
-
-/**
- *  get user profile
- *
- * @param id {string}
- * @returns {Promise<*>}
- */
-module.exports.getProfile = async (id) => {
-
-    try {
-        return userModel.findById(id);
-    } catch (err) {
-        throw err;
-    }
-
-}
+const bcrypt = require("bcrypt");
 
 /**
  *  edit profile page
@@ -52,9 +36,11 @@ module.exports.editDetailInfo = async (id, body) => {
  */
 module.exports.changePassword = async (id, newPass) => {
     try {
-        await userModel.findOneAndUpdate(
-            { account_id: id },
-            { $set: { password: newPass } });
+        await bcrypt.hash(newPass, 4).then(async (hash) => {
+            await userModel.findOneAndUpdate(
+                { _id: id },
+                { $set: { password: hash } });
+        });
     } catch (err) {
         throw err;
     }
@@ -72,8 +58,6 @@ module.exports.changeAvatar = async (id, file) => {
     try {
         // upload image
         const url = await cloudinary.upload(file.path,'user_avatar');
-
-        //const id = req.cookies.user.split("_")[0];
 
         await userModel.findByIdAndUpdate(id, { avatar_url: url });
     } catch (err) {

@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const product_manageController = require("./product_manageController");
 const upload = require("../../config/multer.config");
-const { body } = require("express-validator");
 
 /*************************** GET methods ***************************/
 // render product
@@ -16,7 +15,7 @@ router.get("/edit/:productID", product_manageController.renderProductDetailEdit)
 
 /*************************** POST methods ***************************/
 // edit product
-router.post("/edit/:productID", upload.array('img'), product_manageController.editProduct);
+router.post("/edit/:productID", upload.array('img',10), product_manageController.editProduct);
 
 /*************************** PUT methods ***************************/
 // add product

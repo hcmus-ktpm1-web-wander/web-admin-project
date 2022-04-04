@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const upload = require("../../config/multer.config");
 const profileController = require("./profileController");
+const adminService = require("../user-manage/user_manageService");
 const {body}= require("express-validator");
 /*************************** GET methods ***************************/
 //render profile
@@ -18,7 +19,7 @@ router.post("/edit/detail-info",
 
 //change password
 router.post("/edit/change-password",
-    body("new_passwd").isLength({ min: 6 }).withMessage("Password must be at least 6 characters long"),
+    body("new_passwd").isLength({ min: 5 }).withMessage("Password must be at least 5 characters long"),
     body("new_passwd").isLength({ max: 20 }).withMessage("Password must be less than 20 characters long"),
     profileController.changePassword);
 

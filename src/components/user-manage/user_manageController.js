@@ -25,7 +25,7 @@ exports.renderAdminManage = async (req, res) => {
             res.render("user-manage/views/admin_manage", { active: { AdminManage: true }, page: "Admin manage", result });
         }
     } catch (e) {
-        res.render("error", { error: e });
+        res.status(500).json({ message: e.message });
     }
 };
 
@@ -52,7 +52,7 @@ exports.renderUserManage = async (req, res) => {
             res.render("user-manage/views/user_manage", { active: { UserManage: true }, page: "User manage", result });
         }
     } catch (e) {
-        res.render("error", { error: e });
+        res.status(500).json({ message: e.message });
     }
 };
 
@@ -93,7 +93,7 @@ exports.addUser = async (req, res) => {
             res.redirect('back');
         }
     } catch (e) {
-        res.render("error", { error: e });
+        res.status(500).json({ message: e.message });
     }
 };
 
@@ -110,7 +110,7 @@ exports.editUser = async (req, res) => {
         await service.changeRole(req.params.userID, req.body);
         res.redirect('back');
     } catch (e) {
-        res.render("error", { error: e });
+        res.status(500).json({ message: e.message });
     }
 };
 
@@ -127,7 +127,7 @@ exports.deleteUser = async (req, res) => {
         await service.deleteUser(req.params.userID);
         res.redirect('back');
     } catch (e) {
-        res.render("error", { error: e });
+        res.status(500).json({ message: e.message });
     }
 };
 
