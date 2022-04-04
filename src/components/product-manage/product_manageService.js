@@ -6,7 +6,7 @@ const cloudinary = require('../../config/cloudinary.config');
  * @param id {string||null}
  * @returns {Promise<productModel>}
  */
-module.exports.getProducts = async (id= null) => {
+module.exports.getProducts = async (id = null) => {
     try {
         if (id === null) {
             const products = await productModel.find().lean();
@@ -31,13 +31,15 @@ module.exports.getProducts = async (id= null) => {
 /**
  * add new product
  * @param body {Object}
- * @param file {object}
+ * @param files {object}
+ * @param existFile {array}
  * @returns {Promise<void>}
  */
-module.exports.addProduct = async (body, file) => {
+module.exports.addProduct = async (body, files, existFile) => {
     try {
-        // upload image
-        const url = await cloudinary.upload(file.path,'product');
+        if (files) {
+            var url = await cloudinary.upload(files.path, 'product');
+        }
 
         // body to model
         body['img'] = [url];
@@ -59,7 +61,7 @@ module.exports.addProduct = async (body, file) => {
             body['infomation'] = 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested.Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H.Rackham.';
         }
 
-        // insert 
+        // insert
         await productModel.insertMany(body)
 
     } catch (err) {
@@ -72,15 +74,22 @@ module.exports.addProduct = async (body, file) => {
  * @param id {String}
  * @param body {Object}
  * @param files {Object}
+ * @param existFiles {object}
  * @returns {Promise<void>}
  */
-module.exports.changeProductInfo = async (id, body,files) => {
+module.exports.changeProductInfo = async (id, body, files, existFiles) => {
     try {
-        console.log('change product detail');
-        console.log('body', body);
-        console.log('files', files);
+        let listImg = [];
+        for (const [key, value] of Object.entries(existFiles)) {
+            listImg.push(value);
+        }
+        for (let i = 0; i < files.length; i++) {
+            console.log(files[i]);
+            listImg.push(await cloudinary.upload(files[i].path, 'product'));
+        }
 
-        await productModel.findByIdAndUpdate({ _id: id }, {
+
+        await productModel.findByIdAndUpdate({_id: id}, {
             $set: {
                 name: body.name,
                 price: body.price,
@@ -88,7 +97,7 @@ module.exports.changeProductInfo = async (id, body,files) => {
                 size: body.size,
                 color: body.color,
                 category: body.category,
-                img: body.img,
+                img: listImg,
                 SKU: body.SKU,
                 introduction: body.introduction,
                 infomation: body.infomation,
@@ -106,7 +115,7 @@ module.exports.changeProductInfo = async (id, body,files) => {
  */
 module.exports.deleteProduct = async (id) => {
     try {
-        await productModel.find({ _id: id }).remove();
+        await productModel.find({_id: id}).remove();
     } catch (err) {
         throw err;
     }

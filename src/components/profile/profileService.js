@@ -57,8 +57,9 @@ module.exports.changePassword = async (id, newPass) => {
 module.exports.changeAvatar = async (id, file) => {
     try {
         // upload image
-        const url = await cloudinary.upload(file.path,'user_avatar');
+        if (!file) return;
 
+        var url = await cloudinary.upload(file.path,'user_avatar');
         await userModel.findByIdAndUpdate(id, { avatar_url: url });
     } catch (err) {
         throw err;

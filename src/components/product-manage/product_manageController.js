@@ -84,10 +84,8 @@ exports.addProduct = async (req, res) => {
  */
 exports.editProduct = async (req, res) => {
     try {
-        console.log("array image:", req.files);
-        console.log("req.body.exist_img:", req.body.exist_img);
-        // await service.changeProductInfo(req.params.productID, req.body, req.files);
-        // res.redirect('/product/' + req.params.productID);
+        await service.changeProductInfo(req.params.productID, req.body, req.files, req.body.exist_img);
+        res.redirect('back');
     } catch (e) {
         res.status(500).json({ message: e.message });
     }

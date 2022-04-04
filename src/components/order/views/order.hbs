@@ -43,19 +43,62 @@
 									<td>
 										<div class="d-flex flex-column justify-content-center">
 											<h6 class="mb-0 text-sm">{{customer_name}}</h6>
-											<p class="text-xs text-secondary mb-0">{{customer_id}}</p>
 										</div>
 									</td>
 									<td class="align-middle text-center">
 										<span class="text-secondary text-xs font-weight-bold">{{create_date}}</span>
 									</td>
 									<td class="align-middle text-center">
-										{{#if status}}
-										<span class="badge badge-sm bg-gradient-success">Complete</span>
-										{{else}}
-										<span class="badge badge-sm bg-gradient-danger">Fail</span>
-										{{/if}}
+										{{#ifEq status "Pending"}}
+											<div class="dropdown">
+												<button class="btn btn-secondary dropdown-toggle text-black-50 w-70" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+													Pending
+												</button>
+												<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+													<form action="/order/{{_id}}?_method=PUT" method="post">
+														<button class="dropdown-item" type="submit" name="type"
+																value="In Progress">In progress
+														</button>
+														<button class="dropdown-item" type="submit" name="type"
+																value="Delivered">Complete
+														</button>
+														<button class="dropdown-item" type="submit" name="type"
+																value="Fail">Fail
+														</button>
+													</form>
+												</ul>
+											</div>
+										{{/ifEq}}
 
+										{{#ifEq status "Delivered"}}
+											<button class="btn btn-success text-black-50 w-70">
+												Complete
+											</button>
+										{{/ifEq}}
+
+										{{#ifEq status "In Progress"}}
+											<div class="dropdown">
+												<button class="btn btn-warning dropdown-toggle text-black-50 w-70" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+													In Progress
+												</button>
+												<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+													<form action="/order/{{_id}}?_method=PUT" method="post">
+														<button class="dropdown-item" type="submit" name="type"
+																value="Delivered">Complete
+														</button>
+														<button class="dropdown-item" type="submit" name="type"
+																value="Fail">Fail
+														</button>
+													</form>
+												</ul>
+											</div>
+										{{/ifEq}}
+
+										{{#ifEq status "Fail"}}
+											<button class="btn btn-danger text-black-50 w-70">
+												Fail
+											</button>
+										{{/ifEq}}
 									</td>
 									<td class="align-middle text-center">
 										<span>{{total}}$</span>
@@ -83,11 +126,18 @@
 												<div class="mb-1"><b>Customer ID:</b> {{customer_id}}</div>
 												<div class="mb-1"><b>Create at:</b> {{create_date}}</div>
 												<div class="mb-3"><b>Status:</b>
-													{{#if status}}
-													<span class="badge badge-sm bg-gradient-success">Complete</span>
-													{{else}}
-													<span class="badge badge-sm bg-gradient-danger">Fail</span>
-													{{/if}}
+													{{#ifEq status "Pending"}}
+														<span class="badge badge-sm bg-gradient-secondary">Pending</span>
+													{{/ifEq}}
+													{{#ifEq status "Delivered"}}
+														<span class="badge badge-sm bg-gradient-success">Complete</span>
+													{{/ifEq}}
+													{{#ifEq status "In Progress"}}
+														<span class="badge badge-sm bg-gradient-warning">In Progress</span>
+													{{/ifEq}}
+													{{#ifEq status "Fail"}}
+														<span class="badge badge-sm bg-gradient-danger">Fail</span>
+													{{/ifEq}}
 												</div>
 
 												<div class="custom-table p-3 mb-3">
@@ -134,7 +184,7 @@
 													</div>
 													<div class="row">
 														<h6 class="col">Total:</h6>
-														<div class="col-2">
+														<div class="col-3">
 															<h6 class="text-secondary font-weight-bold">
 																{{total}}$</h6>
 														</div>
@@ -256,3 +306,8 @@
 		</div>
 	</div>
 </div>
+<script>
+	Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
+		return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+	});
+</script>

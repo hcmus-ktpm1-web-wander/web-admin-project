@@ -2,18 +2,24 @@ const orderModel = require('./orderModel');
 const userModel = require('../user-manage/user_manageModel');
 const productModel = require("../product-manage/product_manageModel");
 
+/**
+ * calculate total price of order
+ * @param products {Object}
+ * @returns {Promise<Number>}
+ */
 module.exports.caclOrderTotal = async (products) => {
     let total = 0;
     for (let i = 0; i < products.length; i++) {
         const product = await productModel.findById(products[i].product_id).lean();
-        console.log('product: ', product);
         total += product.price * products[i].quantity;
     }
-
     return total;
 }
 
-
+/**
+ * get all orders
+ * @returns {Promise<Object>}
+ */
 module.exports.getOrders = async () => {
     try {
         const orders = await orderModel.find().lean();
@@ -22,7 +28,7 @@ module.exports.getOrders = async () => {
             const customer = await userModel.findById(orders[i].customer_id).lean();
             orders[i].customer_name = customer.username;
 
-            // caclulate total
+            // calculate total
             const total = await this.caclOrderTotal(orders[i].products);
             orders[i].total = Math.round(total * 100) / 100;
 
@@ -33,6 +39,20 @@ module.exports.getOrders = async () => {
             }
         }
         return orders;
+    } catch (err) {
+        throw err;
+    }
+}
+
+/**
+ * update order status
+ * @param id {String}
+ * @param type {String}
+ * @returns {Promise<void>}
+ */
+module.exports.updateOrder = async (id, type) => {
+    try {
+        await orderModel.findByIdAndUpdate(id, {status: type});
     } catch (err) {
         throw err;
     }

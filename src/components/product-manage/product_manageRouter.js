@@ -15,7 +15,7 @@ router.get("/edit/:productID", product_manageController.renderProductDetailEdit)
 
 /*************************** POST methods ***************************/
 // edit product
-router.post("/edit/:productID", upload.array('img',10), product_manageController.editProduct);
+router.put("/edit/:productID", upload.array('img',10), product_manageController.editProduct);
 
 /*************************** PUT methods ***************************/
 // add product

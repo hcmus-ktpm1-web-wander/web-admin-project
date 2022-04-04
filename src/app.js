@@ -8,6 +8,7 @@ const db = require("./config/database.config")
 const methodOverride = require('method-override');
 const session = require("express-session");
 const cors = require("cors");
+const hbs = require("hbs");
 
 const dashboardRouter = require('./components/dashboard/dashboardRouter')
 const orderRouter = require('./components/order/orderRouter')
@@ -27,6 +28,7 @@ const app = express();
 // view engine setup
 app.set('views', [path.join(__dirname, 'views'), path.join(__dirname, "components")]);
 app.set('view engine', 'hbs');
+app.set('view engine', 'hbs');
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -43,6 +45,14 @@ app.use(session({
     saveUninitialized: false,
 }));
 app.use(passport.authenticate('session'));
+
+hbs.registerHelper('ifEq', function (a, b, opts) {
+    if (a === b) {
+        return opts.fn(this);
+    } else {
+        return opts.inverse(this);
+    }
+});
 
 // Authentication middleware
 app.use('/', authRouter);
