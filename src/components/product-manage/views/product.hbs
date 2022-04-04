@@ -14,35 +14,25 @@
 							<div class="row ">
 								<div class="mb-3 col-sm-12 col-md-4">
 									<div id="add-img">
-										<div id="product-img-0-wrap" class="row mb-2">
-											<div class="col-3">
-												<img src="/img/default-avtar.jpg" class="in-avatar rounded float-start"
-													id="product-img-0-show" alt="avatar">
 
-											</div>
-											<div class="col-12 col-md-9">
-												<b>Image 0:</b>
-												<a id="product-img-0-minus" onmousedown="removeImg('product-img-0')">
-													<i class="fa fa-minus-circle" aria-hidden="true"></i>
-												</a>
-												<input type="file" class="form-control" id="product-img-0-input"
-													name="img" accept=".jpg,.jpeg,.png"
-													onchange="document.getElementById('product-img-0-show').src = window.URL.createObjectURL(this.files[0])">
-											</div>
-										</div>
 									</div>
 									<a class="d-flex align-items-center" style="z-index: 2;" onmousedown="addImg()">
 										<i class="fa fa-plus-square-o" aria-hidden="true" style="font-size: 35px;"></i>
 									</a>
 
 									<script>
-										var number_add = 2;
+										var number_add = 0;
 										const add_img = document.getElementById('add-img');
 
 										function addImg() {
 											console.log("add img");
 											var add_img_div = "<div id='product-img-" + number_add + "-wrap' class='row mb-2'> <div class='col-3'> <img src='/img/default-avtar.jpg' class='in-avatar rounded float-start'id='product-img-" + number_add + "-show' alt='avatar'> </div> <div class='col-12 col-md-9'> <b>Image " + number_add + ":</b>  <a id='product-img-" + number_add + "-minus'  onmousedown=\"removeImg('product-img-" + number_add + "')\"> <i class='fa fa-minus-circle' aria-hidden='true'></i>  </a> <input type='file' class='form-control' id=\"product-img-" + number_add + "-input\" name='img' accept='.jpg,.jpeg,.png' onchange='document.getElementById(\"product-img-" + number_add + "-show\").src = window.URL.createObjectURL(this.files[0])'>  </div>  </div >";
 											add_img.innerHTML += add_img_div;
+
+											for (let i = 0; i <= number_add; i++) {
+												const img = document.getElementById('product-img-' + i + '-show');
+												img.src = "/img/default-avtar.jpg";
+											}
 
 											number_add += 1;
 											console.log("num:", number_add);

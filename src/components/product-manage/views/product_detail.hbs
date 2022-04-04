@@ -18,17 +18,15 @@
                                     <div class="col-3">
                                         <img src="{{this}}" class="in-avatar rounded float-start"
                                             id="product-img-{{@index}}-show" alt="avatar">
+                                        <input type="hidden" name="exist_img" value="{{this}}">
 
                                     </div>
-                                    <div class="col-12 col-md-9">
+                                    <div class="col">
                                         <b>Image {{@index}}:</b>
                                         <a id="product-img-{{@index}}-minus"
                                             onmousedown="removeImg('product-img-{{@index}}')">
                                             <i class="fa fa-minus-circle" aria-hidden="true"></i>
                                         </a>
-                                        <input type="file" class="form-control" id="product-img-{{@index}}-input"
-                                            name="img" accept=".jpg,.jpeg,.png"
-                                            onchange="document.getElementById('product-img-{{@index}}-show').src = window.URL.createObjectURL(this.files[0])">
                                     </div>
                                 </div>
                                 {{/img}}
@@ -38,13 +36,19 @@
                             </a>
 
                             <script>
-                                var number_add = {{ img.length }};
+                                const number_existed_img = {{ img.length }};
+                                var number_add = number_existed_img;
                                 const add_img = document.getElementById('add-img');
 
                                 function addImg() {
                                     console.log("add img");
                                     var add_img_div = "<div id='product-img-" + number_add + "-wrap' class='row mb-2'> <div class='col-3'> <img src='/img/default-avtar.jpg' class='in-avatar rounded float-start'id='product-img-" + number_add + "-show' alt='avatar'> </div> <div class='col-12 col-md-9'> <b>Image " + number_add + ":</b>  <a id='product-img-" + number_add + "-minus'  onmousedown=\"removeImg('product-img-" + number_add + "')\"> <i class='fa fa-minus-circle' aria-hidden='true'></i>  </a> <input type='file' class='form-control' id=\"product-img-" + number_add + "-input\" name='img' accept='.jpg,.jpeg,.png' onchange='document.getElementById(\"product-img-" + number_add + "-show\").src = window.URL.createObjectURL(this.files[0])'>  </div>  </div >";
                                     add_img.innerHTML += add_img_div;
+
+                                    for (let i = number_existed_img; i <= number_add; i++) {
+                                        const img = document.getElementById('product-img-' + i + '-show');
+                                        img.src = "/img/default-avtar.jpg";
+                                    }
 
                                     number_add += 1;
                                     console.log("num:", number_add);

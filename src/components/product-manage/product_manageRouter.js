@@ -20,7 +20,7 @@ router.post("/edit/:productID", upload.array('img'), product_manageController.ed
 
 /*************************** PUT methods ***************************/
 // add product
-router.put("/add-product", upload.single('img'), product_manageController.addProduct);
+router.put("/add-product", upload.array('img'), product_manageController.addProduct);
 
 /*************************** DELETE methods ***************************/
 // delete product

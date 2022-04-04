@@ -62,6 +62,7 @@ exports.renderProductDetail = async (req, res) => {
 exports.addProduct = async (req, res) => {
     try {
         console.log('---- add product ----');
+        console.log("array image:", req.files);
         console.log("req.body:", req.body);
         // insert data to database
         await service.addProduct(req.body, req.file);
@@ -83,7 +84,8 @@ exports.addProduct = async (req, res) => {
  */
 exports.editProduct = async (req, res) => {
     try {
-        console.log(req.files);
+        console.log("array image:", req.files);
+        console.log("req.body.exist_img:", req.body.exist_img);
         // await service.changeProductInfo(req.params.productID, req.body, req.files);
         // res.redirect('/product/' + req.params.productID);
     } catch (e) {
