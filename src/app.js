@@ -18,7 +18,7 @@ const productRouter = require('./components/product-manage/product_manageRouter'
 const user_manageRouter = require("./components/user-manage/user_manageRouter");
 const passport = require("./config/passport.config");
 
-const loggedInGuard = require('./middlewares/LoggedInGuard')
+const loggedInGuard = require('./middlewares/loggedInGuard');
 
 // Connect database
 db.connect();
@@ -67,11 +67,11 @@ app.use(function (req, res, next) {
 })
 
 // Router middlewares
-app.use('/',loggedInGuard, dashboardRouter);
-app.use('/order',loggedInGuard, orderRouter);
-app.use('/profile',loggedInGuard, profileRouter);
-app.use('/manage',loggedInGuard, user_manageRouter);
-app.use('/product',loggedInGuard, productRouter);
+app.use('/', dashboardRouter);
+app.use('/order', orderRouter);
+app.use('/profile', profileRouter);
+app.use('/manage', user_manageRouter);
+app.use('/product', productRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

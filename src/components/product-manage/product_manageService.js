@@ -84,7 +84,6 @@ module.exports.changeProductInfo = async (id, body, files, existFiles) => {
             listImg.push(value);
         }
         for (let i = 0; i < files.length; i++) {
-            console.log(files[i]);
             listImg.push(await cloudinary.upload(files[i].path, 'product'));
         }
 
