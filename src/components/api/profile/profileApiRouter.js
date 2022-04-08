@@ -4,8 +4,7 @@ const upload = require('../../../config/multer.config');
 const profileApiController = require('./profileApiController')
 
 
-router.use('/info', profileApiController.getInfo);
-router.use('/edit-info', profileApiController.editInfo);
-router.use('/change-avatar', upload.single('avatar_url'), profileApiController.changeAvatar);
+router.get('/info', profileApiController.getInfo);
+router.post('/edit-info', profileApiController.editInfo);
 
 module.exports = router;

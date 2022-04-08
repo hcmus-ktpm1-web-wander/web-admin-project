@@ -28,8 +28,6 @@ module.exports.renderProfile = async (req, res) => {
         } else {
             res.render("profile/views/profile", { active: { Profile: true }, page: "Profile", profile });
         }
-
-        res.render("profile/views/profile", { active: { Profile: true }, page: "Profile" });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
