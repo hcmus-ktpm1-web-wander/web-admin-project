@@ -32,26 +32,26 @@ module.exports.getProducts = async (id = null) => {
  * add new product
  * @param body {Object}
  * @param files {object}
- * @param existFile {array}
  * @returns {Promise<void>}
  */
-module.exports.addProduct = async (body, files, existFile) => {
+module.exports.addProduct = async (body, files) => {
     try {
-        if (files) {
-            var url = await cloudinary.upload(files.path, 'product');
+        let url = [];
+        for (let i = 0; i < files.length; i++) {
+            url.push(await cloudinary.upload(files[i].path, 'product'));
         }
+        console.log(url);
 
         // body to model
-        body['img'] = [url];
+        body['img'] = url;
         if (body.brand === "") {
             body['brand'] = "BoBui";
         }
-
         if (body.category === undefined) {
             body['category'] = "Clothing";
         }
         if (body.size === undefined) {
-            body['size'] = 28;
+            body['size'] = ['XL', 'L', 'M', 'S'];
         }
         if (body.introduction === undefined) {
             body['introduction'] = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
