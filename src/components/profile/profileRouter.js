@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const upload = require("../../config/multer.config");
 const profileController = require("./profileController");
-const adminService = require("../user-manage/user_manageService");
 const {body}= require("express-validator");
 /*************************** GET methods ***************************/
 //render profile

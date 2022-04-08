@@ -1,5 +1,3 @@
-window.onload = getInfo()
-
 function getInfo() {
 
     console.log('-- Ajax edit info --');
@@ -17,7 +15,7 @@ function getInfo() {
 
         const $btnEdit = $('#edit-info-btn');
 
-        if ($btnEdit.attr("value") == "true") {
+        if ($btnEdit.attr("value") === "true") {
             $btnEdit.val("false");
 
             var info = `
@@ -122,7 +120,6 @@ function getInfo() {
     });
 }
 
-
 function editInfo() {
     console.log('-- Ajax edit info --');
 
@@ -142,42 +139,6 @@ function editInfo() {
     })
 
     $('#edit-info-btn').val("true");
-
-    getInfo();
-}
-
-function loadImage() {
-    console.log("-- Ajax load image --");
-
-    $('cancle-btn').prop('disabled', true);
-    $('submit-img-btn').prop('disabled', true);
-    $('submit-img-btn').html('<i class = "fa fa-spinner fa-spin"></i>&nbsp; Please wait...');
-
-    console.log("avt:", $('#input-avatar')[0].files[0]);
-
-    const form = new FormData();
-    form.append('image', $('#input-avatar')[0].files[0]);
-
-
-    const url = "/api/profile/change-avatar";
-    fetch(url, {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        contentType: false,
-        processData: false,
-        data: form,
-        body: JSON.stringify({
-            avatar_url: $('#input-avatar')[0].files[0]
-        })
-    }).then(r => r.json()).then(data => {
-        console.log('upload successful!\n' + data);
-
-        console.log("data: ", data);
-
-    });
-
 
     getInfo();
 }
