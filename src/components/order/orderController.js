@@ -13,9 +13,10 @@ exports.renderOrder = async (req, res) => {
         const orders = await service.getOrders();
         const page = parseInt(req.query.page) || 1;
         const result = utils.paging(orders, page);
-        res.render("order/views/order", {active: {Order: true}, page: "Order", result});
+        res.render("order/views/order", { active: { Order: true }, page: "Order", result });
+
     } catch (e) {
-        res.status(500).json({message: e.message});
+        res.status(500).json({ message: e.message });
     }
 };
 
@@ -30,7 +31,7 @@ exports.changeStatus = async (req, res) => {
         await service.updateOrder(req.params.id, req.body.type);
         res.redirect("back");
     } catch (e) {
-        res.status(500).json({message: e.message});
+        res.status(500).json({ message: e.message });
     }
 }
 

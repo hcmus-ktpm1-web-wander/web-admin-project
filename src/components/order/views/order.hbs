@@ -50,54 +50,50 @@
 									</td>
 									<td class="align-middle text-center">
 										{{#ifEq status "Pending"}}
-											<div class="dropdown">
-												<button class="btn btn-secondary dropdown-toggle text-black-50 w-70" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-													Pending
-												</button>
-												<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-													<form action="/order/{{_id}}?_method=PUT" method="post">
-														<button class="dropdown-item" type="submit" name="type"
-																value="In Progress">In progress
-														</button>
-														<button class="dropdown-item" type="submit" name="type"
-																value="Delivered">Complete
-														</button>
-														<button class="dropdown-item" type="submit" name="type"
-																value="Fail">Fail
-														</button>
-													</form>
-												</ul>
-											</div>
+										<div class="dropdown">
+											<button class="btn btn-secondary dropdown-toggle text-black-50 w-70"
+												type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+												aria-expanded="false">
+												Pending
+											</button>
+											<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+												<form action="/order/{{_id}}?_method=PUT" method="post">
+													<button class="dropdown-item" type="submit" name="type"
+														value="In Progress">In progress
+													</button>
+													<button class="dropdown-item" type="submit" name="type"
+														value="Delivered">Complete
+													</button>
+													<button class="dropdown-item" type="submit" name="type"
+														value="Fail">Fail
+													</button>
+												</form>
+											</ul>
+										</div>
 										{{/ifEq}}
 
 										{{#ifEq status "Delivered"}}
-											<button class="btn btn-success text-black-50 w-70">
-												Complete
-											</button>
+										<button class="badge badge-sm bg-gradient-success w-70"
+											style="border-width: 0px;">
+											Complete
+										</button>
 										{{/ifEq}}
 
 										{{#ifEq status "In Progress"}}
-											<div class="dropdown">
-												<button class="btn btn-warning dropdown-toggle text-black-50 w-70" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-													In Progress
-												</button>
-												<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-													<form action="/order/{{_id}}?_method=PUT" method="post">
-														<button class="dropdown-item" type="submit" name="type"
-																value="Delivered">Complete
-														</button>
-														<button class="dropdown-item" type="submit" name="type"
-																value="Fail">Fail
-														</button>
-													</form>
-												</ul>
-											</div>
+										<div class="dropdown">
+											<button class="badge badge-sm bg-gradient-warning w-70"
+												style="border-width: 0px;">
+												In Progress
+											</button>
+
+										</div>
 										{{/ifEq}}
 
 										{{#ifEq status "Fail"}}
-											<button class="btn btn-danger text-black-50 w-70">
-												Fail
-											</button>
+										<button class="badge badge-sm bg-gradient-danger w-70"
+											style="border-width: 0px;">
+											Fail
+										</button>
 										{{/ifEq}}
 									</td>
 									<td class="align-middle text-center">
@@ -127,16 +123,16 @@
 												<div class="mb-1"><b>Create at:</b> {{create_date}}</div>
 												<div class="mb-3"><b>Status:</b>
 													{{#ifEq status "Pending"}}
-														<span class="badge badge-sm bg-gradient-secondary">Pending</span>
+													<span class="badge badge-sm bg-gradient-secondary">Pending</span>
 													{{/ifEq}}
 													{{#ifEq status "Delivered"}}
-														<span class="badge badge-sm bg-gradient-success">Complete</span>
+													<span class="badge badge-sm bg-gradient-success">Complete</span>
 													{{/ifEq}}
 													{{#ifEq status "In Progress"}}
-														<span class="badge badge-sm bg-gradient-warning">In Progress</span>
+													<span class="badge badge-sm bg-gradient-warning">In Progress</span>
 													{{/ifEq}}
 													{{#ifEq status "Fail"}}
-														<span class="badge badge-sm bg-gradient-danger">Fail</span>
+													<span class="badge badge-sm bg-gradient-danger">Fail</span>
 													{{/ifEq}}
 												</div>
 
@@ -307,7 +303,9 @@
 	</div>
 </div>
 <script>
-	Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
+	Handlebars.registerHelper('ifEquals', function (arg1, arg2, options) {
 		return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
 	});
 </script>
+
+<script src="/js/orderAjax.js"></script>

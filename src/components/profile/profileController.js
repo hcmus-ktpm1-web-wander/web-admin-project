@@ -1,7 +1,7 @@
 const service = require("./profileService");
 const url = require("url");
 const bcrypt = require("bcrypt");
-const {validationResult} = require("express-validator")
+const { validationResult } = require("express-validator")
 const adminService = require("../user-manage/user_manageService");
 /******************************** GET methods ********************************/
 /**
@@ -18,16 +18,18 @@ module.exports.renderProfile = async (req, res) => {
         if (!profile) res.redirect('/auth/login');
 
         if (req.query.invalid === "email-error") {
-            res.render("profile/views/profile", {active: {Profile: true, invalid: true}, page: "Profile", profile});
+            res.render("profile/views/profile", { active: { Profile: true, invalid: true }, page: "Profile", profile });
         } else if (req.query.error === "wrong-pass") {
-            res.render("profile/views/profile", {active: {Profile: true, error: true}, page: "Profile", profile});
+            res.render("profile/views/profile", { active: { Profile: true, error: true }, page: "Profile", profile });
         } else if (req.query.error === "wrong-pass") {
-            res.render("profile/views/profile", {active: {Profile: true, error: true}, page: "Profile", profile});
+            res.render("profile/views/profile", { active: { Profile: true, error: true }, page: "Profile", profile });
         } else if (req.query.change_pass === "success") {
-            res.render("profile/views/profile", {active: {Profile: true, success: true}, page: "Profile", profile});
+            res.render("profile/views/profile", { active: { Profile: true, success: true }, page: "Profile", profile });
         } else {
-            res.render("profile/views/profile", {active: {Profile: true}, page: "Profile", profile});
+            res.render("profile/views/profile", { active: { Profile: true }, page: "Profile", profile });
         }
+
+        res.render("profile/views/profile", { active: { Profile: true }, page: "Profile" });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
@@ -56,7 +58,7 @@ module.exports.editInfo = async (req, res) => {
         const isTrueSet = (req.query.edit_info === 'true');
         const profile = req.user;
 
-        res.render("profile/views/profile", {active: {Profile: true, editInfo: isTrueSet}, page: "Profile", profile});
+        res.render("profile/views/profile", { active: { Profile: true, editInfo: isTrueSet }, page: "Profile", profile });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }

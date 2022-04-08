@@ -11,6 +11,8 @@ const bcrypt = require("bcrypt");
  */
 module.exports.editDetailInfo = async (id, body) => {
     try {
+        console.log("body: ", body);
+
         await userModel.findByIdAndUpdate(id,
             {
                 $set: {
@@ -18,7 +20,6 @@ module.exports.editDetailInfo = async (id, body) => {
                     fullname: body.edit_fullname,
                     username: body.edit_username,
                     phone: body.edit_phone,
-                    email: body.edit_email,
                     address: body.edit_addr
                 }
             });
@@ -59,7 +60,7 @@ module.exports.changeAvatar = async (id, file) => {
         // upload image
         if (!file) return;
 
-        var url = await cloudinary.upload(file.path,'user_avatar');
+        var url = await cloudinary.upload(file.path, 'user_avatar');
         await userModel.findByIdAndUpdate(id, { avatar_url: url });
     } catch (err) {
         throw err;

@@ -16,6 +16,7 @@ const profileRouter = require('./components/profile/profileRouter')
 const authRouter = require('./components/auth/authRouter')
 const productRouter = require('./components/product-manage/product_manageRouter')
 const user_manageRouter = require("./components/user-manage/user_manageRouter");
+const apiRouter = require("./components/api/apiRouter");
 const passport = require("./config/passport.config");
 
 const loggedInGuard = require('./middlewares/loggedInGuard');
@@ -32,10 +33,10 @@ app.set('view engine', 'hbs');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(methodOverride('_method', {methods: ['POST', 'GET']}));
+app.use(methodOverride('_method', { methods: ['POST', 'GET'] }));
 app.use(cors());
 
 // session
@@ -72,6 +73,7 @@ app.use('/order', orderRouter);
 app.use('/profile', profileRouter);
 app.use('/manage', user_manageRouter);
 app.use('/product', productRouter);
+app.use('/api', apiRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
