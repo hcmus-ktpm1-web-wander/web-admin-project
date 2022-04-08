@@ -147,11 +147,17 @@ function editInfo() {
 }
 
 function loadImage() {
-    console.log("button load image clicked");
+    console.log("-- Ajax load image --");
 
     $('cancle-btn').prop('disabled', true);
     $('submit-img-btn').prop('disabled', true);
     $('submit-img-btn').html('<i class = "fa fa-spinner fa-spin"></i>&nbsp; Please wait...');
+
+    console.log("avt:", $('#input-avatar')[0].files[0]);
+
+    const form = new FormData();
+    form.append('image', $('#input-avatar')[0].files[0]);
+
 
     const url = "/api/profile/change-avatar";
     fetch(url, {
@@ -159,10 +165,19 @@ function loadImage() {
         headers: {
             'Content-Type': 'application/json'
         },
+        contentType: false,
+        processData: false,
+        data: form,
         body: JSON.stringify({
-            avatar_url: $('#input-avatar').val()
+            avatar_url: $('#input-avatar')[0].files[0]
         })
-    })
+    }).then(r => r.json()).then(data => {
+        console.log('upload successful!\n' + data);
+
+        console.log("data: ", data);
+
+    });
+
 
     getInfo();
 }

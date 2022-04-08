@@ -27,6 +27,7 @@ module.exports.changeAvatar = async (req, res) => {
     console.log("-- api profile - change avatar --");
 
     console.log("req.body: ", req.body);
+    console.log("req.data:", req.data);
     console.log("req.file: ", req.file);
 
     await profileService.changeAvatar(req.user._id, req.file);
