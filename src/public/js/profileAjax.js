@@ -1,3 +1,5 @@
+window.onload = getInfo();
+
 function getInfo() {
 
     console.log('-- Ajax edit info --');
