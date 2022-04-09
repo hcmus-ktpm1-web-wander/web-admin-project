@@ -1,3 +1,5 @@
+window.onload = getInfo();
+
 function getInfo() {
 
     console.log('-- Ajax edit info --');
@@ -12,9 +14,7 @@ function getInfo() {
 
         console.log("data: ", data);
         const $showInfo = $('#show-info');
-
         const $btnEdit = $('#edit-info-btn');
-
         if ($btnEdit.attr("value") === "true") {
             $btnEdit.val("false");
 
@@ -53,7 +53,6 @@ function getInfo() {
                     &nbsp; ${data.employed}
                 </li>
             </ul>`;
-
             $showInfo.html(info);
         } else {
             $btnEdit.val("true");

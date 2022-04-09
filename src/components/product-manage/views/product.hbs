@@ -260,8 +260,38 @@
 					</div>
 				</div>
 				{{/each}}
-
 			</div>
+
+		<nav aria-label="Page navigation example">
+			<ul class="pagination" style="display: flex; justify-content: right;">
+
+				<li class="page-item" style="{{result.disablePrev}} ">
+					<a class="page-link" href="/manage/user?page={{result.prev}}" aria-label="Previous">
+					<span aria-hidden="true">&laquo;</span>
+					</a>
+				</li>
+
+				<li class="page-item {{result.hiddenPrev}}"
+					style="{{result.disablePrev}} {{result.numberPrev}}">
+					<a class="page-link" href="/manage/user?page={{result.prev}}"> {{result.prev}} </a>
+				</li>
+
+				<li class="page-item active">
+					<a class="page-link" href="/manage/user?page={{result.page}}"> {{result.page}} </a>
+				</li>
+
+				<li class="page-item {{result.hiddenNext}}"
+					style="{{result.disableNext}} {{result.numberNext}}">
+					<a class="page-link" href="/manage/user?page={{result.next}}"> {{result.next}} </a>
+				</li>
+
+				<li class="page-item" style="{{result.disableNext}}">
+					<a class="page-link" href="/manage/user?page={{result.next}}" aria-label="Next">
+					<span aria-hidden="true">&raquo;</span>
+					</a>
+				</li>
+			</ul>
+		</nav>
 		</div>
 
 		<footer class="footer pt-3  "></footer>
