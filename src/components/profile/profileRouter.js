@@ -16,12 +16,6 @@ router.post("/edit/detail-info",
     body("edit_email").isEmail().withMessage("Invalid email"),
     profileController.editDetailInfo);
 
-//change password
-router.post("/edit/change-password",
-    body("new_passwd").isLength({ min: 5 }).withMessage("Password must be at least 5 characters long"),
-    body("new_passwd").isLength({ max: 20 }).withMessage("Password must be less than 20 characters long"),
-    profileController.changePassword);
-
 //change avatar
 router.post("/edit/change-avatar", upload.single('avatar_url'), profileController.changeAvatar);
 

@@ -82,49 +82,6 @@ module.exports.editDetailInfo = async (req, res) => {
 };
 
 /**
- *  change password page
- *
- * @param req request
- * @param res response
- * @returns {Promise<void>}
- */
-module.exports.changePassword = async (req, res) => {
-    try {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            await res.redirect(url.format({
-                pathname: "/profile",
-                query: {
-                    "warning": "password-error"
-                }
-            }));
-            return;
-        }
-
-        const user = await adminService.checkUsername(req.user.username);
-        if (!(await bcrypt.compare(req.body.old_passwd, user.password))) {
-            await res.redirect(url.format({
-                pathname: "/profile",
-                query: {
-                    "error": "wrong-pass",
-                }
-            }));
-        } else {
-            await service.changePassword(req.user._id, req.body.new_passwd);
-
-            await res.redirect(url.format({
-                pathname: "/profile",
-                query: {
-                    "change_pass": "success",
-                }
-            }));
-        }
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-};
-
-/**
  *  change avatar page
  *
  * @param req request
