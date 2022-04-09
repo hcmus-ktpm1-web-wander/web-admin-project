@@ -11,26 +11,26 @@
 						<div class="table-responsive p-0">
 							<table class="table align-items-center mb-0">
 								<thead>
-								<tr>
-									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-										Author
-									</th>
-									<th
+									<tr>
+										<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+											Author
+										</th>
+										<th
 											class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-										Function
-									</th>
-									<th
+											Function
+										</th>
+										<th
 											class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-										Employed
-									</th>
-									<th
+											Employed
+										</th>
+										<th
 											class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-										Detail
-									</th>
-								</tr>
+											Detail
+										</th>
+									</tr>
 								</thead>
 								<tbody>
-								{{#each result.data}}
+									{{#each result.data}}
 
 									<tr>
 										<td>
@@ -53,7 +53,7 @@
 										</td>
 										<td class="align-middle text-center text-sm">
 											<button class="button-add btn-view badge badge-sm bg-gradient-secondary"
-													data-bs-toggle="modal" data-bs-target='#account{{@index}}'>View
+												data-bs-toggle="modal" data-bs-target='#account{{@index}}'>View
 											</button>
 										</td>
 										{{!-- <td class="align-middle">
@@ -84,7 +84,7 @@
 
 										<!-- User Modal -->
 										<div class="modal fade" id='account{{@index}}' tabindex="-1"
-											 aria-labelledby="exampleModalLabel" aria-hidden="true">
+											aria-labelledby="exampleModalLabel" aria-hidden="true">
 											<div class="modal-dialog">
 												<div class="modal-content">
 													<div class="modal-header">
@@ -103,7 +103,7 @@
 														<div><b>Create at:</b> {{employed}}</div>
 														<div><b>Avatar URL:</b>
 															<a style="text-decoration: underline; color: #67748E;"
-															   href="{{avatar_url}}" target="_blank">
+																href="{{avatar_url}}" target="_blank">
 																{{avatar_url}}</a>
 														</div>
 														<div><b>Status:</b> Active</div>
@@ -112,14 +112,14 @@
 													</div>
 													<div class="modal-footer">
 														<button type="button" class="btn btn-secondary"
-																data-bs-dismiss="modal">Close
+															data-bs-dismiss="modal">Close
 														</button>
 													</div>
 												</div>
 											</div>
 										</div>
 									</tr>
-								{{/each}}
+									{{/each}}
 								</tbody>
 							</table>
 						</div>
@@ -131,7 +131,7 @@
 
 						<li class="page-item" style="{{result.disablePrev}} ">
 							<a class="page-link" href="/manage/admin?page={{result.prev}}" aria-label="Previous">
-							<span aria-hidden="true">&laquo;</span>
+								<span aria-hidden="true">&laquo;</span>
 							</a>
 						</li>
 
@@ -151,7 +151,7 @@
 
 						<li class="page-item" style="{{result.disableNext}}">
 							<a class="page-link" href="/manage/admin?page={{result.next}}" aria-label="Next">
-							<span aria-hidden="true">&raquo;</span>
+								<span aria-hidden="true">&raquo;</span>
 							</a>
 						</li>
 					</ul>
@@ -162,7 +162,7 @@
 		<div class="row d-flex flex-column align-items-center">
 			{{!-- button add --}}
 			<button class=" btn btn-primary button-add" data-bs-toggle="modal" data-bs-target='#add-user'
-					onmousedown="addAdmin()">Add
+				onmousedown="addAdmin()">Add
 				Administrator
 			</button>
 			<script>
@@ -174,51 +174,51 @@
 
 
 		{{#if checkErrors}}
-			<div id="error">
-				<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-					<symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
-						<path
-								d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-					</symbol>
+		<div id="error">
+			<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+				<symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+					<path
+						d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+				</symbol>
+			</svg>
+
+			<div class="alert alert-danger d-flex align-items-center mt-3" role="alert"
+				style="background-image: linear-gradient(to right, #e09ea4, #e08d94);">
+				<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+					<use xlink:href="#exclamation-triangle-fill" />
 				</svg>
 
-				<div class="alert alert-danger d-flex align-items-center mt-3" role="alert"
-					 style="background-image: linear-gradient(to right, #e09ea4, #e08d94);">
-					<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
-						<use xlink:href="#exclamation-triangle-fill"/>
-					</svg>
-
-					<div>
-						{{#if errors.username}}
-							<div class="mx-4">
-								<b>Username:</b>
-								<span> {{errors.username}}</span>
-							</div>
-						{{/if}}
-
-						{{#if errors.password}}
-							<div class="mx-4">
-								<b>Password:</b>
-								<span> {{errors.password}}</span>
-							</div>
-						{{/if}}
-
-						{{#if errors.phone}}
-							<div class="mx-4">
-								<b>Phone:</b>
-								<span> {{errors.phone}}</span>
-							</div>
-						{{/if}}
-
-						{{#if errors.confirm_password}}
-							<div class="mx-4">
-								<b>Confirm password:</b>
-								<span> {{errors.confirm_password}}</span>
-							</div>
-						{{/if}}
+				<div>
+					{{#if errors.username}}
+					<div class="mx-4">
+						<b>Username:</b>
+						<span> {{errors.username}}</span>
 					</div>
+					{{/if}}
+
+					{{#if errors.password}}
+					<div class="mx-4">
+						<b>Password:</b>
+						<span> {{errors.password}}</span>
+					</div>
+					{{/if}}
+
+					{{#if errors.phone}}
+					<div class="mx-4">
+						<b>Phone:</b>
+						<span> {{errors.phone}}</span>
+					</div>
+					{{/if}}
+
+					{{#if errors.confirm_password}}
+					<div class="mx-4">
+						<b>Confirm password:</b>
+						<span> {{errors.confirm_password}}</span>
+					</div>
+					{{/if}}
 				</div>
 			</div>
+		</div>
 		{{/if}}
 
 
@@ -236,42 +236,42 @@
 							<div class="row">
 								<div class="col-3">
 									<img src="/img/default-avtar.jpg" class="in-avatar rounded float-start" id="avatar"
-										 alt="avatar">
+										alt="avatar">
 								</div>
 								<div class="col-9">
 									<b>Avatar:</b>
 									<input type="file" class="form-control form-control-sm" id="input-avatar"
-										   name="avatar_url" accept=".jpg,.jpeg,.png">
+										name="avatar_url" accept=".jpg,.jpeg,.png">
 								</div>
 							</div>
 
 							<b>Full name:</b> <span class="red-start">*</span>
 							<div class="input-group input-group-sm mb-2">
 								<input type="text" aria-label="First name" class="form-control" placeholder="First name"
-									   name="fname">
+									name="fname">
 								<input type="text" aria-label="Last name" class="form-control" placeholder="Last name"
-									   name="lname">
+									name="lname">
 							</div>
 
 							<b>Username:</b> <span class="red-start">*</span>
 							<div class="input-group input-group-sm mb-2">
 								<span class="input-group-text" id="basic-addon1">@</span>
 								<input type="text" class="form-control" placeholder="Username" aria-label="Username"
-									   aria-describedby="basic-addon1" name="username">
+									aria-describedby="basic-addon1" name="username">
 							</div>
 
 							<b>Password:</b> <span class="red-start">*</span>
 							<div class="mb-2">
 								<div class="input-group input-group-sm mb-1">
 									<input type="password" class="form-control" placeholder="Password" id="passwd"
-										   aria-label="Passwd" name="passwd">
+										aria-label="Passwd" name="passwd">
 									<span class="input-group-text">
 										<i class="far fa-eye-slash" id="togglePassword-passwd"></i>
 									</span>
 								</div>
 								<div class="input-group input-group-sm mb-1">
 									<input type="password" class="form-control form-control-sm" id="confirm-passwd"
-										   placeholder="Confirm password" aria-label="Passwd" name="confirm_passwd">
+										placeholder="Confirm password" aria-label="Passwd" name="confirm_passwd">
 									<span class="input-group-text">
 										<i class="far fa-eye-slash" id="togglePassword-confirmPasswd"></i>
 									</span>
@@ -281,28 +281,27 @@
 							<b>Email:</b> <span class="red-start">*</span>
 							<div class="input-group input-group-sm mb-2">
 								<input type="text" class="form-control" placeholder="Username" aria-label="Username"
-									   name='mail_username'>
+									name='mail_username'>
 								<span class="input-group-text">@</span>
 								<input type="text" class="form-control" name='mail_domain' placeholder="gmail.com"
-									   aria-label="Server">
+									aria-label="Server">
 							</div>
 
 							<b>Address:</b>
 							<input type="text" class="form-control form-control-sm mb-2" placeholder="Address"
-								   aria-label="addr" name="address">
+								aria-label="addr" name="address">
 
 							<b>Phone number:</b>
 							<input type="tel" class="form-control form-control-sm" placeholder="Phone number"
-								   aria-label="phone-num" name="phone">
+								aria-label="phone-num" name="phone">
 
 							<div class="modal-footer">
 								<button type="reset" id="cancle-add-btn" class="btn btn-secondary"
-										data-bs-dismiss="modal">Cancle
+									data-bs-dismiss="modal">Cancle
 								</button>
 								<input type="hidden" name="role" value="Admin">
 								<button type="submit" id="submit-add-btn" class="btn btn-primary"
-										data-bs-dismiss="modal"
-										onmousedown="clickSubmitBtn()">Submit
+									data-bs-dismiss="modal" onmousedown="clickSubmitBtn()">Submit
 								</button>
 								<script>
 									function clickSubmitBtn() {
@@ -356,15 +355,15 @@
 			<a href="javascript:void(0)" class="switch-trigger background-color">
 				<div class="badge-colors my-2 text-start">
 					<span class="badge filter bg-gradient-primary active" data-color="primary"
-						  onclick="sidebarColor(this)"></span>
+						onclick="sidebarColor(this)"></span>
 					<span class="badge filter bg-gradient-dark" data-color="dark" onclick="sidebarColor(this)"></span>
 					<span class="badge filter bg-gradient-info" data-color="info" onclick="sidebarColor(this)"></span>
 					<span class="badge filter bg-gradient-success" data-color="success"
-						  onclick="sidebarColor(this)"></span>
+						onclick="sidebarColor(this)"></span>
 					<span class="badge filter bg-gradient-warning" data-color="warning"
-						  onclick="sidebarColor(this)"></span>
+						onclick="sidebarColor(this)"></span>
 					<span class="badge filter bg-gradient-danger" data-color="danger"
-						  onclick="sidebarColor(this)"></span>
+						onclick="sidebarColor(this)"></span>
 				</div>
 			</a>
 			<!-- Sidenav Type -->
@@ -374,10 +373,10 @@
 			</div>
 			<div class="d-flex">
 				<button class="btn bg-gradient-primary w-100 px-3 mb-2 active" data-class="bg-transparent"
-						onclick="sidebarType(this)">Transparent
+					onclick="sidebarType(this)">Transparent
 				</button>
 				<button class="btn bg-gradient-primary w-100 px-3 mb-2 ms-2" data-class="bg-white"
-						onclick="sidebarType(this)">White
+					onclick="sidebarType(this)">White
 				</button>
 			</div>
 			<p class="text-sm d-xl-none d-block mt-2">You can change the sidenav type just on desktop view.</p>
@@ -387,7 +386,7 @@
 			</div>
 			<div class="form-check form-switch ps-0">
 				<input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed"
-					   onclick="navbarFixed(this)">
+					onclick="navbarFixed(this)">
 			</div>
 		</div>
 	</div>
@@ -434,24 +433,24 @@
 
 
 {{!-- load image from <file> to <img> --}}
-<script>
-	document.getElementById('input-avatar').onchange = function (evt) {
-		const tgt = evt.target || window.event.srcElement,
+	<script>
+		document.getElementById('input-avatar').onchange = function (evt) {
+			const tgt = evt.target || window.event.srcElement,
 				files = tgt.files;
 
-		// FileReader support
-		if (FileReader && files && files.length) {
-			const fr = new FileReader();
-			fr.onload = function () {
-				document.getElementById("avatar").src = fr.result;
+			// FileReader support
+			if (FileReader && files && files.length) {
+				const fr = new FileReader();
+				fr.onload = function () {
+					document.getElementById("avatar").src = fr.result;
+				}
+				fr.readAsDataURL(files[0]);
 			}
-			fr.readAsDataURL(files[0]);
-		}
 
-		// Not supported
-		else {
-			// fallback -- perhaps submit the input to an iframe and temporarily store
-			// them on the server until the user's session ends.
+			// Not supported
+			else {
+				// fallback -- perhaps submit the input to an iframe and temporarily store
+				// them on the server until the user's session ends.
+			}
 		}
-	}
-</script>
+	</script>

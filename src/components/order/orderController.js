@@ -10,9 +10,15 @@ const utils = require("../user-manage/user_manageUtils");
  */
 exports.renderOrder = async (req, res) => {
     try {
+        console.log("-- render order --");
         const orders = await service.getOrders();
+        console.log(orders);
+
         const page = parseInt(req.query.page) || 1;
+
         const result = utils.paging(orders, page);
+        console.log(result);
+
         res.render("order/views/order", { active: { Order: true }, page: "Order", result });
 
     } catch (e) {
