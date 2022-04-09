@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const user_manageController = require("./user_manageController");
+const user_manageController = require("./userController");
 const upload = require("../../config/multer.config");
 const { body } = require("express-validator");
 
@@ -18,7 +18,7 @@ router.post("/add-user", upload.single('avatar_url'),
     body("passwd").isLength({ min: 5 }).withMessage("Password must be at least 5 characters long"),
     body("passwd").isLength({ max: 20 }).withMessage("Password must be at most 20 characters long"),
     body('username').custom(value => {
-        return require('./user_manageService').checkUsername(value).then(result => {
+        return require('./userService').checkUsername(value).then(result => {
             if (result) {
                 return Promise.reject("Username already exists");
             }

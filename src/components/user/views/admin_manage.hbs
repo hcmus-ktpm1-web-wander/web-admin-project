@@ -1,50 +1,51 @@
-<div class="container-fluid py-4">
-	<div class="row">
-		<div class="col-12 ">
-			<div class="card mb-4">
-				<div class="card-body px-0 pt-0 pb-2">
-					<div class="table-responsive p-0">
-						<table class="table align-items-center mb-0">
-							<thead>
-							<tr>
-								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-									Order ID
-								</th>
-								<th
-										class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-									Customer
-								</th>
-								<th
-										class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-									Date
-								</th>
-								<th
-										class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-									Status
-								</th>
-								<th
-										class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-									Total
-								</th>
-								<th class="text-secondary opacity-7"></th>
-							</tr>
-							</thead>
-							<tbody id="order-body">
-							</tbody>
-						</table>
+<main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg ">
+	<div class="container-fluid py-4">
+
+		<div class="row">
+			<div class="col-12 ">
+				<div class="card mb-4">
+					<div class="card-header pb-0">
+						<h6>Admin table</h6>
 					</div>
+					<div class="card-body px-0 pt-0 pb-2">
+						<div class="table-responsive p-0">
+							<table class="table align-items-center mb-0">
+								<thead>
+								<tr>
+									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+										Author
+									</th>
+									<th
+											class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+										Function
+									</th>
+									<th
+											class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+										Employed
+									</th>
+									<th
+											class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+										Detail
+									</th>
+								</tr>
+								</thead>
+								<tbody id="admin-body">
+								</tbody>
+							</table>
+						</div>
+					</div>
+
 				</div>
+				<nav aria-label="Page navigation example">
+					<ul class="pagination" style="display: flex; justify-content: right;" id="admin-pagination">
+					</ul>
+				</nav>
 			</div>
-
 		</div>
-		<nav aria-label="Page navigation example">
-			<ul class="pagination" style="display: flex; justify-content: right;" id="order-pagination">
-			</ul>
-		</nav>
 	</div>
-</div>
 
-<footer class="footer pt-3  "></footer>
+	<footer class="footer pt-3  "></footer>
+</main>
 
 
 <div class="fixed-plugin">
@@ -108,6 +109,16 @@
 			</div>
 		</div>
 	</div>
+	<div role="alert" aria-live="assertive" aria-atomic="true" class="toast" data-bs-autohide="false">
+		<div class="toast-header">
+			<strong class="me-auto">Bootstrap</strong>
+			<small>11 mins ago</small>
+			<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+		</div>
+		<div class="toast-body">
+			Hello, world! This is a toast message.
+		</div>
+	</div>
 </div>
 
-<script src="/js/orderAjax.js"></script>
+<script src="/js/userAjax.js"></script>

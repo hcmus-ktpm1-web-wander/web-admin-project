@@ -1,0 +1,288 @@
+<main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg ">
+	<div class="container-fluid py-4">
+		{{!-- <div class="d-flex"> --}}
+		<button type="submit" class="btn btn-primary align-bottom mx-2" data-bs-toggle="collapse"
+				data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
+				style="width: 200px; height: 50px;" onmousedown="">
+			Add product
+		</button>
+
+		<form action="/product/add-product" method="post" enctype="multipart/form-data">
+			<div class="collapse w-100" id="collapseExample">
+				<div class="card pb-3 mb-4">
+					<div class="card-body ">
+						<div class="row ">
+							<div class="mb-3 col-sm-12 col-md-4">
+								<div id="add-img">
+
+								</div>
+								<a class="d-flex align-items-center" style="z-index: 2;" onmousedown="addImg()">
+									<i class="fa fa-plus-square-o" aria-hidden="true" style="font-size: 35px;"></i>
+								</a>
+
+								<script>
+									var number_add = 0;
+									const add_img = document.getElementById('add-img');
+
+									function addImg() {
+										console.log("add img");
+										var add_img_div = "<div id='product-img-" + number_add + "-wrap' class='row mb-2'> <div class='col-3'> <img src='/img/default-avtar.jpg' class='in-avatar rounded float-start'id='product-img-" + number_add + "-show' alt='avatar'> </div> <div class='col-12 col-md-9'> <b>Image " + number_add + ":</b>  <a id='product-img-" + number_add + "-minus'  onmousedown=\"removeImg('product-img-" + number_add + "')\"> <i class='fa fa-minus-circle' aria-hidden='true'></i>  </a> <input type='file' class='form-control' id=\"product-img-" + number_add + "-input\" name='img' accept='.jpg,.jpeg,.png' onchange='document.getElementById(\"product-img-" + number_add + "-show\").src = window.URL.createObjectURL(this.files[0])'>  </div>  </div >";
+										add_img.innerHTML += add_img_div;
+
+										for (let i = 0; i <= number_add; i++) {
+											const img = document.getElementById('product-img-' + i + '-show');
+											img.src = "/img/default-avtar.jpg";
+										}
+
+										number_add += 1;
+										console.log("num:", number_add);
+									}
+
+									function removeImg(id) {
+										console.log("remove", id)
+										document.getElementById(id + '-wrap').remove();
+										document.getElementById(id + '-show').remove();
+										document.getElementById(id + '-minus').remove();
+										document.getElementById(id + '-input').remove();
+									}
+								</script>
+							</div>
+
+							<div class="col">
+								<div class="mx-md-5">
+									<h3 class="card-title">
+										<input type="text" class="form-control mb-2 p-2" value="{{name}}"
+											   name="name" style="font-size: 28px; font-weight:bold;">
+									</h3>
+									<div class="mb-4 d-flex">
+										<h3>
+											<div class="input-group">
+												<input type="text" class="form-control"
+													   aria-label="Dollar amount (with dot and two decimal places)"
+													   value="{{price}}" name="price"
+													   style="font-size: 28px; font-weight:bold; width:150px;">
+												<span class="input-group-text"
+													  style="font-size: 28px; font-weight:bold;">$</span>
+											</div>
+										</h3>
+
+										<span class="badge bg-info d-flex align-items-center ms-2"
+											  style="height: 30px;">
+												Best saler
+											</span>
+
+									</div>
+
+									<div class="mb-2 text-sm">
+										<b>Category: </b>
+										<span class="red-start">*</span>
+									</div>
+									<div class="px-3">
+										<div class="row">
+											<div class="form-check col-6">
+												<input class="form-check-input" type="radio" name="category"
+													   id="category" value="bag">
+												<label class="form-check-label" for="flexRadioDefault1">
+													Bag
+												</label>
+											</div>
+											<div class="form-check col-6">
+												<input class="form-check-input" type="radio" name="category"
+													   id="category" value="clothing">
+												<label class="form-check-label" for="flexRadioDefault1">
+													Clothing
+												</label>
+											</div>
+										</div>
+										<div class="row">
+											<div class="form-check col-6">
+												<input class="form-check-input" type="radio" name="category"
+													   id="category" value="shoes">
+												<label class="form-check-label" for="flexRadioDefault1">
+													Shoes
+												</label>
+											</div>
+											<div class="form-check col-6">
+												<input class="form-check-input" type="radio" name="category"
+													   id="category" value="accessories">
+												<label class="form-check-label" for="flexRadioDefault1">
+													Accessories
+												</label>
+											</div>
+										</div>
+									</div>
+									<div class="mb-2 d-flex align-items-center text-sm">
+										<b>Brand: </b>
+										<input type="text" class="form-control form-control-sm ms-2" name="brand"
+											   value="{{brand}}">
+									</div>
+
+									<div class="mb-2 text-sm d-flex">
+										<b class="me-3">Size: </b>
+										<div class="form-check me-2">
+											<input class="form-check-input" type="checkbox" name="size" value="XS"
+												   id="flexCheckDefault">
+											<span style="margin-left: -5px;">XS</span>
+										</div>
+										<div class="form-check me-2">
+											<input class="form-check-input" type="checkbox" name="size" value="S"
+												   id="flexCheckDefault">
+											<span style="margin-left: -5px;">S</span>
+										</div>
+										<div class="form-check me-2">
+											<input class="form-check-input" type="checkbox" name="size" value="M"
+												   id="flexCheckDefault">
+											<span style="margin-left: -5px;">M</span>
+										</div>
+										<div class="form-check me-2">
+											<input class="form-check-input" type="checkbox" name="size" value="L"
+												   id="flexCheckDefault">
+											<span style="margin-left: -5px;">L</span>
+										</div>
+										<div class="form-check me-2">
+											<input class="form-check-input" type="checkbox" name="size" value="XL"
+												   id="flexCheckDefault">
+											<span style="margin-left: -5px;">XL</span>
+										</div>
+										<div class="form-check me-2">
+											<input class="form-check-input" type="checkbox" name="size" value="2XL"
+												   id="flexCheckDefault">
+											<span style="margin-left: -5px;">2XL</span>
+										</div>
+										<div class="form-check me-2">
+											<input class="form-check-input" type="checkbox" name="size" value="3XL"
+												   id="flexCheckDefault">
+											<span style="margin-left: -5px;">3XL</span>
+										</div>
+										<div class="form-check me-2">
+											<input class="form-check-input" type="checkbox" name="size" value="4XL"
+												   id="flexCheckDefault">
+											<span style="margin-left: -5px;">4XL</span>
+										</div>
+									</div>
+
+									<div class="mb-2 d-flex align-items-center text-sm">
+										<b>SKU: </b>
+										<input type="text" class="form-control form-control-sm ms-2" value="{{SKU}}"
+											   name="SKU">
+									</div>
+									<div class="mb-2">
+										<div class="d-flex mb-2">
+											<b class="text-sm">Color:&nbsp;</b>
+
+											<a class="d-flex align-items-center" style="z-index: 2;"
+											   onmousedown="addColor()">
+												<i class="fa fa-plus-square-o" aria-hidden="true"
+												   style="font-size: 20px;"></i>
+											</a>
+
+										</div>
+
+										<div class="mb-2">
+											<div class="mb-2 d-flex flex-wrap" id="add-color">
+												{{#color}}
+													<div id="color-{{@index}}-wrap" class="position-relative mx-1 mb-2">
+														<input type="color" class="form-control-color" name="color"
+															   id="color-{{@index}}" value="{{this}}">
+
+														<a id="color-{{@index}}-minus"
+														   onmousedown="removeColor('color-{{@index}}')">
+															<i class="fa fa-minus-circle position-absolute"
+															   style=" z-index: 1; right:-5px; top:-4px;"
+															   aria-hidden="true"></i>
+														</a>
+													</div>
+												{{/color}}
+											</div>
+
+										</div>
+										<script>
+											var numberadd = {{ color.length }} || 0;
+											var div_add_color = document.getElementById('add-color');
+											const add_div = "<div id='color-" + numberadd + "-wrap' class='position-relative mx-1 mb-2'> <input type='color' class='form-control-color' name='color' id=\"color-" + numberadd + "\"> <a id=\"color-" + numberadd + "-minus\"  onmousedown='removeColor(\"color-" + numberadd + "\")'> <i class='fa fa-minus-circle position-absolute' style=' z-index: 1; right:-5px; top:-4px;' aria-hidden='true'> </i > </a > </div >";
+
+											function addColor() {
+												const _id = 'color-' + numberadd;
+												const _id_minus = _id + '-minus';
+												console.log("add color");
+
+												div_add_color.innerHTML += add_div;
+
+												numberadd++;
+											}
+
+											function removeColor(id) {
+												console.log("remove", id)
+												document.getElementById(id).remove();
+												document.getElementById(id + '-minus').remove();
+												document.getElementById(id + '-wrap').remove();
+											}
+										</script>
+									</div>
+
+									<div class=" mb-3 text-sm">
+										<b>Description:</b>
+										<textarea class="form-control form-control-sm mb-2" name="description"
+												  id="exampleFormControlTextarea1" rows="4"></textarea>
+									</div>
+									<div class=" mb-3 text-sm">
+										<b>Product detail:</b>
+										<textarea class="form-control form-control-sm mb-2" name="infomation"
+												  id="exampleFormControlTextarea1" rows="4"></textarea>
+									</div>
+									<button type="button" class="btn btn-secondary align-bottom mt-4"
+											style="width: 120px;" data-bs-toggle="collapse" data-bs-target="#collapseExample"
+									 			aria-expanded="false" aria-controls="collapseExample">
+										Cancel
+									</button>
+									<button type="submit" class="btn btn-primary align-bottom ms-2 mt-4 bg-primary"
+											style="width: 150px;">
+										Submit
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</form>
+
+		<div class="col-11">
+			<div class="d-flex flex-wrap" id="list-product-render">
+			</div>
+		</div>
+		<div class="col-11">
+			<nav aria-label="Page navigation example">
+				<ul class="pagination" style="display: flex; justify-content: right;" id="product-pagination">
+				</ul>
+			</nav>
+		</div>
+	</div>
+	<footer class="footer pt-3  "></footer>
+</main>
+
+{{!-- load image from <file> to <img> --}}
+<script>
+	document.getElementById('input-product-image').onchange = function (evt) {
+		const tgt = evt.target || window.event.srcElement,
+				files = tgt.files;
+
+		// FileReader support
+		if (FileReader && files && files.length) {
+			const fr = new FileReader();
+			fr.onload = function () {
+				document.getElementById("product-thumbnail").src = fr.result;
+			}
+			fr.readAsDataURL(files[0]);
+		}
+
+		// Not supported
+		else {
+			// fallback -- perhaps submit the input to an iframe and temporarily store
+			// them on the server until the user's session ends.
+		}
+	}
+</script>
+
+<script src="/js/productAjax.js"></script>

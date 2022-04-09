@@ -1,5 +1,3 @@
-window.onload = getInfo();
-
 function getInfo() {
 
     console.log('-- Ajax edit info --');
@@ -88,7 +86,7 @@ function getInfo() {
                             class="text-dark">Location:</strong>
                         &nbsp;
                         <input type="text" class="form-control" id="edit_addr" placeholder="${data.address}"
-                            value="${data.address}}" name="edit_addr">
+                            value="${data.address}" name="edit_addr">
                     </li>
                      <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Email:</strong>
                         &nbsp; ${data.email}
@@ -138,6 +136,9 @@ function editInfo() {
     })
 
     $('#edit-info-btn').val("true");
+    getInfo();
+}
 
+window.onload = function () {
     getInfo();
 }

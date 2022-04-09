@@ -1,5 +1,5 @@
-const service = require('./product_manageService');
-const { validationResult } = require('express-validator');
+const service = require('./productService');
+const utils = require("../../public/js/paging");
 /************************************* GET methods *************************************/
 /**
  *  get product information list
@@ -11,7 +11,9 @@ const { validationResult } = require('express-validator');
 exports.renderProductManage = async (req, res) => {
     try {
         const products = await service.getProducts();
-        res.render("product-manage/views/product", { active: { ProductManage: true }, page: "Product manage", products });
+        const page = parseInt(req.query.page) || 1;
+        const result = utils.paging(products, page, 6);
+        res.render("product/views/product", { active: { ProductManage: true }, page: "Product manage", result });
     } catch (e) {
         res.status(500).json({ message: e.message });
     }
@@ -27,7 +29,7 @@ exports.renderProductManage = async (req, res) => {
 exports.renderProductDetailEdit = async (req, res) => {
     try {
         const product = await service.getProducts(req.params.productID);
-        res.render("product-manage/views/product_detail", { active: { ProductManage: true, editProduct: true }, page: "Product detail/edit", product });
+        res.render("product/views/product_detail", { active: { ProductManage: true, editProduct: true }, page: "Product detail/edit", product });
 
     } catch (e) {
         res.status(500).json({ message: e.message });
@@ -44,8 +46,7 @@ exports.renderProductDetailEdit = async (req, res) => {
 exports.renderProductDetail = async (req, res) => {
     try {
         const product = await service.getProducts(req.params.productID);
-        res.render("product-manage/views/product_detail", { active: { ProductManage: true }, page: "Product detail", product });
-
+        res.render("product/views/product_detail", { active: { ProductManage: true }, page: "Product detail", product });
     } catch (e) {
         res.status(500).json({ message: e.message });
     }

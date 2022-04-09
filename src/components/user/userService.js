@@ -1,4 +1,4 @@
-const model = require('./user_manageModel');
+const model = require('./userModel');
 const cloudinary = require('../../config/cloudinary.config');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');

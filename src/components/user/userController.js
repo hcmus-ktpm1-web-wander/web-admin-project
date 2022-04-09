@@ -1,5 +1,5 @@
-const service = require('./user_manageService');
-const utils = require('./user_manageUtils');
+const service = require('./userService');
+const utils = require('../../public/js/paging');
 const { validationResult } = require('express-validator');
 
 /************************************* GET methods *************************************/
@@ -14,15 +14,15 @@ exports.renderAdminManage = async (req, res) => {
     try {
         const admins = await service.getInfo('Admin');
         const page = parseInt(req.query.page) || 1;
-        const result = utils.paging(admins, page);
+        const result = utils.paging(admins, page, 5);
         if (req.session.errors !== undefined) {
             const errors = req.session.errors;
             req.session.errors = undefined;
-            res.render("user-manage/views/admin_manage", { active: { AdminManage: true }, page: "Admin manage", result, errors, checkErrors: true });
+            res.render("user/views/admin_manage", { active: { AdminManage: true }, page: "Admin manage", result, errors, checkErrors: true });
         }
         else {
             req.session.errors = undefined
-            res.render("user-manage/views/admin_manage", { active: { AdminManage: true }, page: "Admin manage", result });
+            res.render("user/views/admin_manage", { active: { AdminManage: true }, page: "Admin manage", result });
         }
     } catch (e) {
         res.status(500).json({ message: e.message });
@@ -40,16 +40,16 @@ exports.renderUserManage = async (req, res) => {
     try {
         const users = await service.getInfo('User');
         const page = parseInt(req.query.page) || 1;
-        const result = utils.paging(users, page);
+        const result = utils.paging(users, page, 5);
 
         if (req.session.errors !== undefined) {
             const errors = req.session.errors;
             req.session.errors = undefined;
-            res.render("user-manage/views/user_manage", { active: { UserManage: true }, page: "User manage", result, errors, checkErrors: true });
+            res.render("user/views/user_manage", { active: { UserManage: true }, page: "User manage", result, errors, checkErrors: true });
         }
         else {
             req.session.errors = undefined
-            res.render("user-manage/views/user_manage", { active: { UserManage: true }, page: "User manage", result });
+            res.render("user/views/user_manage", { active: { UserManage: true }, page: "User manage", result });
         }
     } catch (e) {
         res.status(500).json({ message: e.message });

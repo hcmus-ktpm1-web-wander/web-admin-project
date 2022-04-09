@@ -14,8 +14,8 @@ const dashboardRouter = require('./components/dashboard/dashboardRouter')
 const orderRouter = require('./components/order/orderRouter')
 const profileRouter = require('./components/profile/profileRouter')
 const authRouter = require('./components/auth/authRouter')
-const productRouter = require('./components/product-manage/product_manageRouter')
-const user_manageRouter = require("./components/user-manage/user_manageRouter");
+const productRouter = require('./components/product/productRouter')
+const user_manageRouter = require("./components/user/userRouter");
 const apiRouter = require("./components/api/apiRouter");
 const passport = require("./config/passport.config");
 

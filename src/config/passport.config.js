@@ -1,6 +1,6 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
-const adminService = require("../components/user-manage/user_manageService");
+const adminService = require("../components/user/userService");
 const bcrypt = require('bcrypt');
 
 passport.use(new LocalStrategy(async function valid (username, password, done){

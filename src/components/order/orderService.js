@@ -1,6 +1,6 @@
 const orderModel = require('./orderModel');
-const userModel = require('../user-manage/user_manageModel');
-const productModel = require("../product-manage/product_manageModel");
+const userModel = require('../user/userModel');
+const productModel = require("../product/productModel");
 
 /**
  * calculate total price of order

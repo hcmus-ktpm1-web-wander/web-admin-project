@@ -1,4 +1,4 @@
-const userModel = require('../user-manage/user_manageModel');
+const userModel = require('../user/userModel');
 const cloudinary = require('../../config/cloudinary.config');
 const bcrypt = require("bcrypt");
 
@@ -60,6 +60,20 @@ module.exports.changeAvatar = async (id, file) => {
         console.log(file);
         const url = await cloudinary.upload(file.path, 'user_avatar');
         await userModel.findByIdAndUpdate(id, { avatar_url: url });
+    } catch (err) {
+        throw err;
+    }
+};
+
+/**
+ *  change avatar of user
+ *
+ * @param id {string}
+ * @returns {Promise<void>}
+ */
+module.exports.getInfoByID = async (id) => {
+    try {
+        return await userModel.findById(id).lean();
     } catch (err) {
         throw err;
     }

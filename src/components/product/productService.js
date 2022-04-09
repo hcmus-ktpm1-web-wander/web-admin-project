@@ -1,4 +1,4 @@
-const productModel = require('./product_manageModel');
+const productModel = require('./productModel');
 const cloudinary = require('../../config/cloudinary.config');
 
 /**
@@ -16,13 +16,11 @@ module.exports.getProducts = async (id = null) => {
             return products;
         } else {
             const product = await productModel.findById(id).lean();
-
             // remove first img
             product.thumbnail = product.img[0];
-            const theRemovedElement = product.img.shift();
+            product.img.shift();
             return product;
         }
-
     } catch (err) {
         throw err;
     }
@@ -86,7 +84,6 @@ module.exports.changeProductInfo = async (id, body, files, existFiles) => {
         for (let i = 0; i < files.length; i++) {
             listImg.push(await cloudinary.upload(files[i].path, 'product'));
         }
-
 
         await productModel.findByIdAndUpdate({_id: id}, {
             $set: {

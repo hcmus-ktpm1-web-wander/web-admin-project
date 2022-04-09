@@ -2,7 +2,7 @@ const service = require("./profileService");
 const url = require("url");
 const bcrypt = require("bcrypt");
 const { validationResult } = require("express-validator")
-const adminService = require("../user-manage/user_manageService");
+const adminService = require("../user/userService");
 /******************************** GET methods ********************************/
 /**
  *  render profile page checking if user changed his password, avatar
