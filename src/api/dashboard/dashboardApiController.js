@@ -1,6 +1,6 @@
-const orderService = require("../../order/orderService");
-const userService = require("../../user/userService");
-const productService = require('../../product/productService');
+const orderService = require("../../components/order/orderService");
+const userService = require("../../components/user/userService");
+const productService = require('../../components/product/productService');
 
 /**
  *  get dashboard
@@ -11,12 +11,10 @@ const productService = require('../../product/productService');
  */
 module.exports.getDashboard = async (req, res) => {
     try {
-        console.log("-- dashboard api - get dashboard --");
-
         // fetch database
         const orders = await orderService.getOrders();
         const products = await productService.getProducts();
-        const users = await (await userService.getInfo("User")).concat(await userService.getInfo("Admin"));
+        const users = (await userService.getInfo("User")).concat(await userService.getInfo("Admin"));
 
         const now = (new Date()).toString().split(" ");
         const today = now[2] + ' ' + now[1] + ',' + now[3];
@@ -44,13 +42,10 @@ module.exports.getDashboard = async (req, res) => {
         };
 
         // year sale
-        console.log("year sales");
         const date = new Date();
         for (i = date.getMonth(); i >= 0; i--) {
             const d = new Date(date.getFullYear(), date.getMonth() - i, 1).toString().split(" ");
             const this_month = d[1] + ',' + d[3];
-
-            console.log("pre month:", this_month);
             let tt = 0;
 
             let category = {
@@ -85,7 +80,7 @@ module.exports.getDashboard = async (req, res) => {
             total += order.total;
 
             // today's money
-            if (order.create_date == today) {
+            if (order.create_date === today) {
                 today_total += order.total;
                 today_order += 1;
             }
@@ -93,8 +88,8 @@ module.exports.getDashboard = async (req, res) => {
             // top user + this month product
             if (order.create_date.includes(this_month)) {
                 // top user
-                if (top_user[order.customer_id] == undefined) {
-                    let user = users.find(element => element._id == order.customer_id);
+                if (top_user[order.customer_id] === undefined) {
+                    let user = users.find(element => element._id === order.customer_id);
 
                     top_user[order.customer_id] = {
                         fullname: user.fullname,
@@ -123,13 +118,13 @@ module.exports.getDashboard = async (req, res) => {
         // today's new client
         let today_new_client = 0;
         users.forEach(user => {
-            if (user.employed == today) {
+            if (user.employed === today) {
                 today_new_client++;
             }
         })
 
         // Create items array
-        var top_three_user = Object.keys(top_user).map(function (key) {
+        const top_three_user = Object.keys(top_user).map(function (key) {
             return [key, top_user[key]];
         });
         // Sort the array based on the second element
@@ -143,17 +138,16 @@ module.exports.getDashboard = async (req, res) => {
             }
         }
 
-        console.log("total user", total_user);
-        console.log("total:", total);
-        console.log("total product:", total_product);
-        console.log("today_total: ", today_total);
+        // console.log("total user", total_user);
+        // console.log("total:", total);
+        // console.log("total product:", total_product);
+        // console.log("today_total: ", today_total);
         // console.log("today_order: ", today_order);
         // console.log("top_user: ", top_user);
         // console.log("month_product: ", month_order);
-        console.log("today_new_client: ", today_new_client);
-        console.log("chart bars: ", chart_label, chart_bars_data);
-        console.log("chart lines: ", chart_label, chart_lines_data);
-
+        // console.log("today_new_client: ", today_new_client);
+        // console.log("chart bars: ", chart_label, chart_bars_data);
+        // console.log("chart lines: ", chart_label, chart_lines_data);
 
         res.send({
             total_user, total, total_product, today_total, today_order, top_three_user, month_order, today_new_client, chart_label, chart_bars_data, chart_lines_data
