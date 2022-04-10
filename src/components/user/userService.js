@@ -64,7 +64,7 @@ module.exports.changeRole = async (id, body) => {
  */
 module.exports.addUser = async (body, file) => {
     try {
-        if(file) {
+        if (file) {
             var url = await cloudinary.upload(file.path, 'user_avatar');
         }
 
