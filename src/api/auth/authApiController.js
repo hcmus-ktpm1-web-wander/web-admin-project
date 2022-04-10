@@ -1,5 +1,5 @@
-const userService = require('../../../components/user/userService');
-const pagination = require("../../../public/js/paging");
+const userService = require('../../components/user/userService');
+const pagination = require("../../public/js/paging");
 
 /**
  *  get all information of admin

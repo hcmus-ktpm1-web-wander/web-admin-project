@@ -1,5 +1,5 @@
-const orderService = require('../../order/orderService');
-const pagination = require('../../../public/js/paging');
+const orderService = require('../../components/order/orderService');
+const pagination = require('../../public/js/paging');
 
 module.exports.getOrders = async (req,res)=>{
     try {

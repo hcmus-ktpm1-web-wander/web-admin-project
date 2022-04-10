@@ -1,8 +1,8 @@
-const profileService = require('../../../components/profile/profileService');
-const adminService = require("../../user/userService");
+const profileService = require('../../components/profile/profileService');
+const adminService = require("../../components/user/userService");
 const bcrypt = require("bcrypt");
 const {validationResult} = require('express-validator');
-const service = require("../../profile/profileService");
+const service = require("../../components/profile/profileService");
 const url = require("url");
 
 /**
