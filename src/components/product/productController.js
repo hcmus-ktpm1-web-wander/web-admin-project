@@ -1,4 +1,4 @@
-const service = require('./productService');
+const productService = require('./productService');
 const utils = require("../../public/js/paging");
 /************************************* GET methods *************************************/
 /**
@@ -10,7 +10,7 @@ const utils = require("../../public/js/paging");
  */
 exports.renderProductManage = async (req, res) => {
     try {
-        const products = await service.getProducts();
+        const products = await productService.getProducts();
         const page = parseInt(req.query.page) || 1;
         const result = utils.paging(products, page, 6);
         res.render("product/views/product", { active: { ProductManage: true }, page: "Product manage", result });
@@ -28,7 +28,7 @@ exports.renderProductManage = async (req, res) => {
  */
 exports.renderProductDetailEdit = async (req, res) => {
     try {
-        const product = await service.getProducts(req.params.productID);
+        const product = await productService.getProducts(req.params.productID);
         res.render("product/views/product_detail", { active: { ProductManage: true, editProduct: true }, page: "Product detail/edit", product });
 
     } catch (e) {
@@ -45,7 +45,7 @@ exports.renderProductDetailEdit = async (req, res) => {
  */
 exports.renderProductDetail = async (req, res) => {
     try {
-        const product = await service.getProducts(req.params.productID);
+        const product = await productService.getProducts(req.params.productID);
         res.render("product/views/product_detail", { active: { ProductManage: true }, page: "Product detail", product });
     } catch (e) {
         res.status(500).json({ message: e.message });
@@ -62,7 +62,7 @@ exports.renderProductDetail = async (req, res) => {
  */
 exports.addProduct = async (req, res) => {
     try {
-        await service.addProduct(req.body, req.files);
+        await productService.addProduct(req.body, req.files);
         res.redirect('back');
     }
     catch (e) {
@@ -81,7 +81,7 @@ exports.addProduct = async (req, res) => {
  */
 exports.editProduct = async (req, res) => {
     try {
-        await service.changeProductInfo(req.params.productID, req.body, req.files, req.body.exist_img);
+        await productService.changeProductInfo(req.params.productID, req.body, req.files, req.body.exist_img);
         res.redirect('back');
     } catch (e) {
         res.status(500).json({ message: e.message });
@@ -98,7 +98,7 @@ exports.editProduct = async (req, res) => {
  */
 exports.deleteProduct = async (req, res) => {
     try {
-        await service.deleteProduct(req.params.productID);
+        await productService.deleteProduct(req.params.productID);
         res.redirect('/product');
     } catch (e) {
         res.status(500).json({ message: e.message });

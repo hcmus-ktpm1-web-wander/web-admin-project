@@ -12,7 +12,7 @@ module.exports.getInfOfAdmin = async (req, res) => {
     try {
         const admin = await userService.getInfo('Admin');
         const page =  parseInt(req.query.page || 1);
-        const result = pagination.paging(admin,page,5);
+        const result = pagination.paging(admin,page,8);
         res.send(result);
     } catch (e) {
         res.status(500).json({message: e.message});
@@ -30,7 +30,7 @@ module.exports.getInfOfUser = async (req, res) => {
     try {
         const user = await userService.getInfo('User');
         const page =  parseInt(req.query.page || 1);
-        const result = pagination.paging(user,page,5);
+        const result = pagination.paging(user,page,8);
         res.send(result);
     } catch (e) {
         res.status(500).json({message: e.message});

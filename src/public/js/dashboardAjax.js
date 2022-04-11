@@ -13,8 +13,6 @@ function getDashboard(period) {
         $("#top-three-user-title").text("diamond user " + period);
         $("#period-order-overview-title").text(period + "'s orders overview");
         $("#period-total-title").text(period + "'s total:")
-
-        $("#period-total").text('$' + data.period_total);
         $("#period-total-order").text(data.period_total_order);
         $("#period-new-client").text(data.period_new_client);
         $("#total-user").text(data.total_user);
@@ -109,15 +107,15 @@ function getDashboard(period) {
             $("#all-period-order").append(html);
         }
 
-        var time;
+        let time;
         const now = (new Date()).toString().split(" ");
-        if (period == "Today") {
+        if (period === "Today") {
             time = now[2] + ' ' + now[1] + ',' + now[3];
-        } else if (period == "Week") {
+        } else if (period === "Week") {
             time = "this Week";
-        } else if (period == "Month") {
+        } else if (period === "Month") {
             time = now[1] + ',' + now[3];
-        } else if (period == "Year") {
+        } else if (period === "Year") {
             time = now[3];
         }
 
@@ -132,7 +130,7 @@ function getDashboard(period) {
 function drawCharBars(label, data, period) {
     $("#chart-bars-container").html(`<canvas id="chart-bars" class="chart-canvas" height="170"></canvas>`)
 
-    var ctx = document.getElementById("chart-bars").getContext("2d");
+    let ctx = document.getElementById("chart-bars").getContext("2d");
 
     new Chart(ctx, {
         type: "bar",
@@ -204,15 +202,15 @@ function drawCharBars(label, data, period) {
 
 function drawCharLine(label, data) {
     $("#chart-line-container").html(`<canvas id="chart-line" class="chart-canvas" height="300"></canvas>`);
-    var ctx2 = document.getElementById("chart-line").getContext("2d");
+    let ctx2 = document.getElementById("chart-line").getContext("2d");
 
-    var gradientStroke1 = ctx2.createLinearGradient(0, 230, 0, 50);
+    let gradientStroke1 = ctx2.createLinearGradient(0, 230, 0, 50);
 
     gradientStroke1.addColorStop(1, 'rgba(203,12,159,0.2)');
     gradientStroke1.addColorStop(0.2, 'rgba(72,72,176,0.0)');
     gradientStroke1.addColorStop(0, 'rgba(203,12,159,0)'); //purple colors
 
-    var gradientStroke2 = ctx2.createLinearGradient(0, 230, 0, 50);
+    let gradientStroke2 = ctx2.createLinearGradient(0, 230, 0, 50);
 
     gradientStroke2.addColorStop(1, 'rgba(20,23,39,0.2)');
     gradientStroke2.addColorStop(0.2, 'rgba(72,72,176,0.0)');
@@ -225,7 +223,6 @@ function drawCharLine(label, data) {
             datasets: [{
                 label: "Bags",
                 tension: 0.4,
-                borderWidth: 0,
                 pointRadius: 0,
                 borderColor: "#cb0c9f",
                 borderWidth: 3,
@@ -238,7 +235,6 @@ function drawCharLine(label, data) {
             {
                 label: "Clothing",
                 tension: 0.4,
-                borderWidth: 0,
                 pointRadius: 0,
                 borderColor: "#e4f478",
                 borderWidth: 3,
@@ -250,7 +246,6 @@ function drawCharLine(label, data) {
             {
                 label: "Accessories",
                 tension: 0.4,
-                borderWidth: 0,
                 pointRadius: 0,
                 borderColor: "#3A416F",
                 borderWidth: 3,
@@ -262,7 +257,6 @@ function drawCharLine(label, data) {
             {
                 label: "Shoes",
                 tension: 0.4,
-                borderWidth: 0,
                 pointRadius: 0,
                 borderColor: "#3A416F",
                 borderWidth: 3,

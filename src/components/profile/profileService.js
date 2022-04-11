@@ -57,7 +57,6 @@ module.exports.changeAvatar = async (id, file) => {
     try {
         // upload image
         if (!file) return;
-        console.log(file);
         const url = await cloudinary.upload(file.path, 'user_avatar');
         await userModel.findByIdAndUpdate(id, { avatar_url: url });
     } catch (err) {

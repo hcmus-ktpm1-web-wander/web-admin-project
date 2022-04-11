@@ -1,6 +1,4 @@
-const service = require("./profileService");
-const url = require("url");
-const { validationResult } = require("express-validator")
+const profileService = require("./profileService");
 /******************************** GET methods ********************************/
 /**
  *  render profile page checking if user changed his password, avatar
@@ -30,54 +28,7 @@ module.exports.renderProfile = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 };
-
-/**
- *  render info page
- *
- * @param req request
- * @param res response
- * @returns {Promise<void>}
- */
-module.exports.editInfo = async (req, res) => {
-    try {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            await res.redirect(url.format({
-                pathname: "/profile",
-                query: {
-                    "invalid": "email-error"
-                }
-            }));
-            return;
-        }
-
-        const isTrueSet = (req.query.edit_info === 'true');
-        const profile = req.user;
-
-        res.render("profile/views/profile", { active: { Profile: true, editInfo: isTrueSet }, page: "Profile", profile });
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-
-};
-
 /******************************** POST methods ********************************/
-
-/**
- *  edit profile page
- *
- * @param req request
- * @param res response
- * @returns {Promise<void>}
- */
-module.exports.editDetailInfo = async (req, res) => {
-    try {
-        await service.editDetailInfo(req.user._id, req.body);
-        res.redirect("/profile");
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-};
 
 /**
  *  change avatar page
@@ -88,7 +39,7 @@ module.exports.editDetailInfo = async (req, res) => {
  */
 module.exports.changeAvatar = async (req, res) => {
     try {
-        await service.changeAvatar(req.user._id, req.file);
+        await profileService.changeAvatar(req.user._id, req.file);
         res.redirect('/profile');
     } catch (err) {
         res.status(500).json({ message: err.message });

@@ -1,5 +1,4 @@
-const express = require("express");
-const router = express.Router();
+const router = require("express").Router();
 const user_manageController = require("./userController");
 const upload = require("../../config/multer.config");
 const { body } = require("express-validator");

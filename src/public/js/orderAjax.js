@@ -6,7 +6,7 @@ function paging(page) {
 
         $('#order-body').html('');
         data.result.data.forEach(function (item, index) {
-            const number = (index + 1) + (page - 1) * 5;
+            const number = (index + 1) + (page - 1) * 8;
             let str = `
             <tr>
                 <td>
