@@ -1,4 +1,5 @@
-const model = require('./userModel');
+const userModel = require('./userModel');
+const orderModel = require('../order/orderModel');
 const cloudinary = require('../../config/cloudinary.config');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
@@ -10,7 +11,7 @@ const bcrypt = require('bcrypt');
  */
 module.exports.getInfo = async (role) => {
     try {
-        return await model.find({ role }).lean();
+        return await userModel.find({ role }).lean();
     } catch (err) {
         throw err;
     }
@@ -23,7 +24,8 @@ module.exports.getInfo = async (role) => {
  */
 module.exports.deleteUser = async (id) => {
     try {
-        await model.find({ _id: id }).remove();
+        await userModel.find({ _id: id }).remove();
+        await orderModel.find({ customer_id: id }).remove();
     } catch (err) {
         throw err;
     }
@@ -36,7 +38,7 @@ module.exports.deleteUser = async (id) => {
  */
 module.exports.checkUsername = async (username) => {
     try {
-        return await model.findOne({ username }).lean();
+        return await userModel.findOne({ username }).lean();
     } catch (err) {
         throw err;
     }
@@ -50,7 +52,7 @@ module.exports.checkUsername = async (username) => {
  */
 module.exports.changeRole = async (id, body) => {
     try {
-        await model.findByIdAndUpdate({ _id: id }, { $set: { role: body.to_role } });
+        await userModel.findByIdAndUpdate({ _id: id }, { $set: { role: body.to_role } });
     } catch (err) {
         throw err;
     }
@@ -100,7 +102,7 @@ module.exports.addUser = async (body, file) => {
             delete body.mail_username;
             delete body.mail_domain;
 
-            await model.create(body);
+            await userModel.create(body);
         });
         // // insert
         // await model.insertMany(body)
