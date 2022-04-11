@@ -1,4 +1,12 @@
+<link rel="stylesheet" type="text/css" href="/css/order.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <div class="container-fluid py-4">
+	<div class="row" id="wait-screen">
+		<button class="btn buttonload">
+			<i class="fa fa-spinner fa-spin"></i> Loading...
+		</button>
+	</div>
 	<div class="row">
 		<div class="col-12 ">
 			<div class="card mb-4">
@@ -6,28 +14,28 @@
 					<div class="table-responsive p-0">
 						<table class="table align-items-center mb-0">
 							<thead>
-							<tr>
-								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-									Order ID
-								</th>
-								<th
+								<tr>
+									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+										Order ID
+									</th>
+									<th
 										class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-									Customer
-								</th>
-								<th
+										Customer
+									</th>
+									<th
 										class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-									Date
-								</th>
-								<th
+										Date
+									</th>
+									<th
 										class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-									Status
-								</th>
-								<th
+										Status
+									</th>
+									<th
 										class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-									Total
-								</th>
-								<th class="text-secondary opacity-7"></th>
-							</tr>
+										Total
+									</th>
+									<th class="text-secondary opacity-7"></th>
+								</tr>
 							</thead>
 							<tbody id="order-body">
 							</tbody>
@@ -73,15 +81,15 @@
 			<a href="javascript:void(0)" class="switch-trigger background-color">
 				<div class="badge-colors my-2 text-start">
 					<span class="badge filter bg-gradient-primary active" data-color="primary"
-						  onclick="sidebarColor(this)"></span>
+						onclick="sidebarColor(this)"></span>
 					<span class="badge filter bg-gradient-dark" data-color="dark" onclick="sidebarColor(this)"></span>
 					<span class="badge filter bg-gradient-info" data-color="info" onclick="sidebarColor(this)"></span>
 					<span class="badge filter bg-gradient-success" data-color="success"
-						  onclick="sidebarColor(this)"></span>
+						onclick="sidebarColor(this)"></span>
 					<span class="badge filter bg-gradient-warning" data-color="warning"
-						  onclick="sidebarColor(this)"></span>
+						onclick="sidebarColor(this)"></span>
 					<span class="badge filter bg-gradient-danger" data-color="danger"
-						  onclick="sidebarColor(this)"></span>
+						onclick="sidebarColor(this)"></span>
 				</div>
 			</a>
 			<!-- Sidenav Type -->
@@ -91,10 +99,10 @@
 			</div>
 			<div class="d-flex">
 				<button class="btn bg-gradient-primary w-100 px-3 mb-2 active" data-class="bg-transparent"
-						onclick="sidebarType(this)">Transparent
+					onclick="sidebarType(this)">Transparent
 				</button>
 				<button class="btn bg-gradient-primary w-100 px-3 mb-2 ms-2" data-class="bg-white"
-						onclick="sidebarType(this)">White
+					onclick="sidebarType(this)">White
 				</button>
 			</div>
 			<p class="text-sm d-xl-none d-block mt-2">You can change the sidenav type just on desktop view.</p>
@@ -104,7 +112,7 @@
 			</div>
 			<div class="form-check form-switch ps-0">
 				<input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed"
-					   onclick="navbarFixed(this)">
+					onclick="navbarFixed(this)">
 			</div>
 		</div>
 	</div>

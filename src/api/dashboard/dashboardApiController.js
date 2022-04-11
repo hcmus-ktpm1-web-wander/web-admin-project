@@ -74,7 +74,6 @@ module.exports.getDashboard = async (req, res) => {
             chart_lines_data["Shoes"].push(category["Shoes"]);
         }
 
-
         orders.forEach(order => {
             // total money 
             total += order.total;
@@ -89,14 +88,18 @@ module.exports.getDashboard = async (req, res) => {
             if (order.create_date.includes(this_month)) {
                 // top user
                 if (top_user[order.customer_id] === undefined) {
-                    let user = users.find(element => element._id === order.customer_id);
+                    let user = users.find(element => element._id == order.customer_id);
+                    console.log("user_id:", order.customer_id);
+                    console.log("user: ", user);
 
-                    top_user[order.customer_id] = {
-                        fullname: user.fullname,
-                        username: user.username,
-                        avatar_url: user.avatar_url,
-                        total: Math.round(order.total * 100) / 100,
-                        order: 1
+                    if (user !== undefined) {
+                        top_user[order.customer_id] = {
+                            fullname: user.fullname,
+                            username: user.username,
+                            avatar_url: user.avatar_url,
+                            total: Math.round(order.total * 100) / 100,
+                            order: 1
+                        }
                     }
                 } else {
                     top_user[order.customer_id].total += order.total;
@@ -107,13 +110,17 @@ module.exports.getDashboard = async (req, res) => {
                 month_order.push({
                     order_id: order._id,
                     total: order.total,
-                    create_date: order.create_date
+                    create_date: order.create_date,
+                    promo: order.promo
                 })
             }
         });
 
         total = Math.round(total * 100) / 100;
         today_total = Math.round(today_total * 100) / 100;
+
+        console.log("total:", total);
+        console.log("today_total: ", today_total);
 
         // today's new client
         let today_new_client = 0;
@@ -138,20 +145,10 @@ module.exports.getDashboard = async (req, res) => {
             }
         }
 
-        // console.log("total user", total_user);
-        // console.log("total:", total);
-        // console.log("total product:", total_product);
-        // console.log("today_total: ", today_total);
-        // console.log("today_order: ", today_order);
-        // console.log("top_user: ", top_user);
-        // console.log("month_product: ", month_order);
-        // console.log("today_new_client: ", today_new_client);
-        // console.log("chart bars: ", chart_label, chart_bars_data);
-        // console.log("chart lines: ", chart_label, chart_lines_data);
-
         res.send({
             total_user, total, total_product, today_total, today_order, top_three_user, month_order, today_new_client, chart_label, chart_bars_data, chart_lines_data
         });
+
     } catch (err) {
         res.status(500).json({ message: err.message });
     }

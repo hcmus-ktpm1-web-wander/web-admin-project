@@ -2,10 +2,11 @@ function paging(page) {
     fetch('/api/order?page=' + page, {
         method: "GET"
     }).then(r => r.json()).then(data => {
+        console.log("data:", data);
+
         $('#order-body').html('');
         data.result.data.forEach(function (item, index) {
             const number = (index + 1) + (page - 1) * 5;
-            console.log(number);
             let str = `
             <tr>
                 <td>
@@ -44,11 +45,22 @@ function paging(page) {
                 `;
             }
 
-            str +=
-                `<td class="align-middle text-center">
+            if (item.promo !== undefined) {
+                let discount = parseInt(item.promo.replace("%", ""));
+                let tt = Math.round((item.total - discount * item.total / 100) * 100) / 100;
+
+                str +=
+                    `<td class="align-middle text-center">
+                    <span>${tt}$</span>
+                </td>`
+            } else {
+                str +=
+                    `<td class="align-middle text-center">
                     <span>${item.total}$</span>
-                </td>
-                <td class="align-middle text-center text-sm">
+                </td>`
+            }
+            str +=
+                `<td class="align-middle text-center text-sm">
                     <button class="button-add btn-view badge badge-sm bg-gradient-secondary"
                         data-bs-toggle="modal" data-bs-target='#order${number}'>View
                     </button>
@@ -128,18 +140,42 @@ function paging(page) {
                 </div>
                 <hr class="my-2">`
             });
-
-            str +=
-                `</div>
+            if (item.promo !== undefined) {
+                let discount = parseInt(item.promo.replace("%", ""));
+                let sale = Math.round(discount * item.total) / 100;
+                let tt = Math.round((item.total - sale) * 100) / 100;
+                str +=
+                    `</div>
                     <div class="row">
                         <h6 class="col">Total:</h6>
                         <div class="col-3">
-                            <h6 class="text-secondary font-weight-bold">
+                            <h6 class="text-secondary font-weight-bold text-end pe-3">
+                                ${item.total}$</h6>
+                            <h6 class="text-secondary font-weight-bold text-end pe-3">
+                                - ${sale}$
+                            </h6>
+                            <hr>
+                            <h6 class="text-primary font-weight-bold text-end pe-3">
+                                ${tt}$
+                            </h6>
+                        </div>
+                    </div>
+                </div>`
+            }
+            else {
+                str +=
+                    `</div>
+                    <div class="row">
+                        <h6 class="col">Total:</h6>
+                        <div class="col-3">
+                            <h6 class="text-primary font-weight-bold text-end pe-3">
                                 ${item.total}$</h6>
                         </div>
                     </div>
-                </div>
-                </div>
+                </div>`
+            }
+            str +=
+                `</div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
                             data-bs-dismiss="modal">Close
@@ -181,6 +217,9 @@ function paging(page) {
                     <span aria-hidden="true">&raquo;</span>
                 </button>
             </li>`);
+
+        $('#wait-screen').css("background-color", "white");
+        $('#wait-screen').css("z-index", "-1");
     });
 }
 

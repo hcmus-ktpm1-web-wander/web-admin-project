@@ -10,7 +10,8 @@ const order = new Schema({
     products: [{
         product_id: String,
         quantity: Number
-    }]
+    }],
+    promo: String
 
 });
 

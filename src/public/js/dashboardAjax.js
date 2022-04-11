@@ -44,6 +44,12 @@ function getDashboard() {
         //this month order 
         try {
             for (let i = 0; i < 5; i++) {
+                if (data.month_order[i].promo !== undefined) {
+                    let discount = parseInt(data.month_order[i].promo.replace("%", ""));
+
+                    data.month_order[i].total = Math.round((data.month_order[i].total - (data.month_order[i].total * discount / 100)) * 100) / 100;
+                }
+
                 let html = `
                 <div class="timeline-block mb-3">
                     <span class="timeline-step">
@@ -66,6 +72,12 @@ function getDashboard() {
 
         //all this month order 
         for (let i = 0; i < data.month_order.length; i++) {
+            if (data.month_order[i].promo !== undefined) {
+                let discount = parseInt(data.month_order[i].promo.replace("%", ""));
+
+                data.month_order[i].total = Math.round((data.month_order[i].total - (data.month_order[i].total * discount / 100)) * 100) / 100;
+            }
+
             let html = `
                 <div class="timeline-block mb-3">
                     <span class="timeline-step">
@@ -82,6 +94,9 @@ function getDashboard() {
 
             $("#all-month-order").append(html);
         }
+
+        $('#wait-screen').css("background-color", "white");
+        $('#wait-screen').css("z-index", "-1");
 
         // draw line
         drawCharBars(data.chart_label, data.chart_bars_data);
