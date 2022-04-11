@@ -4,7 +4,7 @@ function paging(page) {
     }).then(r => r.json()).then(data => {
         $('#order-body').html('');
         data.result.data.forEach(function (item, index) {
-            const number = (index + 1) + (page-1) * 5;
+            const number = (index + 1) + (page - 1) * 5;
             console.log(number);
             let str = `
             <tr>
@@ -37,7 +37,7 @@ function paging(page) {
                 str += `<td class="align-middle text-center">
                        <span class="badge badge-sm bg-gradient-success w-70" style="border-width: 0;">${item.status}</span>
                     </td> `;
-            } else if (item.status === 'Canceled') {
+            } else if (item.status === 'Cancel') {
                 str += `<td class="align-middle text-center">
                         <span class="badge badge-sm bg-gradient-danger w-70" style="border-width: 0;">${item.status}</span>
                     </td>
