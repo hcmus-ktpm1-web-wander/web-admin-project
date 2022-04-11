@@ -12,7 +12,15 @@ const user = new Schema({
     avatar_url: String,
     address: String,
     phone: String,
-    intro: String
+    intro: String,
+    confirm: Boolean,
+    total: Number,
+    cart:[{
+        productID: String,
+        quantity: Number,
+        total: String
+    }]
+
 }, {
     versionKey: false // You should be aware of the outcome after set to false
 });

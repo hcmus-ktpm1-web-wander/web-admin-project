@@ -90,6 +90,7 @@ module.exports.addUser = async (body, file) => {
         body['phone'] = body.phone.replace(/\D/g, '');
         body['intro'] = "";
         body['username'] = body.username;
+        body['confirm'] = true;
 
         await bcrypt.hash(body.passwd, 4).then(async (hash) => {
             body['password'] = hash;
