@@ -14,7 +14,7 @@ exports.renderAdminManage = async (req, res) => {
     try {
         const admins = await service.getInfo('Admin');
         const page = parseInt(req.query.page) || 1;
-        const result = utils.paging(admins, page, 5);
+        const result = utils.paging(admins, page, 8);
         if (req.session.errors !== undefined) {
             const errors = req.session.errors;
             req.session.errors = undefined;
@@ -40,7 +40,7 @@ exports.renderUserManage = async (req, res) => {
     try {
         const users = await service.getInfo('User');
         const page = parseInt(req.query.page) || 1;
-        const result = utils.paging(users, page, 5);
+        const result = utils.paging(users, page, 8);
 
         if (req.session.errors !== undefined) {
             const errors = req.session.errors;

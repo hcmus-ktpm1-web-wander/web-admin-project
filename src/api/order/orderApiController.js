@@ -5,7 +5,7 @@ module.exports.getOrders = async (req, res) => {
     try {
         const product = await orderService.getOrders();
         const page = parseInt(req.query.page || 1);
-        const result = pagination.paging(product, page, 10);
+        const result = pagination.paging(product, page, 8);
         console.log(result);
         res.send({ result });
     } catch (error) {

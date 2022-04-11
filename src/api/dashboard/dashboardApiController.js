@@ -31,6 +31,7 @@ module.exports.getDashboard = async (req, res) => {
         let today_total = 0;
         let today_order = 0;
         let top_user = {};
+        let month_total = 0;
         let month_order = [];
         let chart_label = [];
         let chart_bars_data = [];
@@ -113,11 +114,14 @@ module.exports.getDashboard = async (req, res) => {
                     create_date: order.create_date,
                     promo: order.promo
                 })
+
+                month_total += order.total;
             }
         });
 
         total = Math.round(total * 100) / 100;
         today_total = Math.round(today_total * 100) / 100;
+        month_total = Math.round(month_total * 100) / 100;
 
         console.log("total:", total);
         console.log("today_total: ", today_total);
@@ -146,7 +150,7 @@ module.exports.getDashboard = async (req, res) => {
         }
 
         res.send({
-            total_user, total, total_product, today_total, today_order, top_three_user, month_order, today_new_client, chart_label, chart_bars_data, chart_lines_data
+            total_user, total, total_product, today_total, today_order, top_three_user, month_order, month_total, today_new_client, chart_label, chart_bars_data, chart_lines_data
         });
 
     } catch (err) {

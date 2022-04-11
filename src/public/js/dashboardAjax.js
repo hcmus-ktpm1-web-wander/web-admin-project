@@ -13,6 +13,7 @@ function getDashboard() {
         $("#total-user").text(data.total_user);
         $("#total-sales").text('$' + data.total);
         $("#total-product").text(data.total_product);
+        $("#month-total").text('$' + data.month_total);
 
         // top 3 user
         for (let i = 0; i < 3; i++) {
@@ -43,7 +44,7 @@ function getDashboard() {
 
         //this month order 
         try {
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < 4; i++) {
                 if (data.month_order[i].promo !== undefined) {
                     let discount = parseInt(data.month_order[i].promo.replace("%", ""));
 
