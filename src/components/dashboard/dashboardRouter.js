@@ -6,11 +6,4 @@ const dashboardController = require("./dashboardController");
 //render dashboard
 router.get("/", dashboardController.renderDashboard);
 
-
-/*************************** POST methods ***************************/
-
-/*************************** PUT methods ***************************/
-
-/*************************** DELETE methods ***************************/
-
 module.exports = router;

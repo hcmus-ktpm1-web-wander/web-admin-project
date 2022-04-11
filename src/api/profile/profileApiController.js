@@ -3,7 +3,6 @@ const adminService = require("../../components/user/userService");
 const bcrypt = require("bcrypt");
 const {validationResult} = require('express-validator');
 const service = require("../../components/profile/profileService");
-const url = require("url");
 
 /**
  *  get profile

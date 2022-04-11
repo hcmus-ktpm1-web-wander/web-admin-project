@@ -1,3 +1,5 @@
+require('./helper/helper');
+
 const createError = require('http-errors');
 const express = require('express');
 
@@ -8,7 +10,6 @@ const db = require("./config/database.config")
 const methodOverride = require('method-override');
 const session = require("express-session");
 const cors = require("cors");
-const hbs = require("hbs");
 
 const dashboardRouter = require('./components/dashboard/dashboardRouter')
 const orderRouter = require('./components/order/orderRouter')
@@ -45,15 +46,8 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
 }));
-app.use(passport.authenticate('session'));
 
-hbs.registerHelper('ifEq', function (a, b, opts) {
-    if (a === b) {
-        return opts.fn(this);
-    } else {
-        return opts.inverse(this);
-    }
-});
+app.use(passport.authenticate('session'));
 
 // Authentication middleware
 app.use('/', authRouter);
