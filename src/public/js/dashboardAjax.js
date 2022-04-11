@@ -1,22 +1,33 @@
-window.onload = getDashboard();
+window.onload = getDashboard("Today");
 
-function getDashboard() {
-    const url = '/api/dashboard';
+function getDashboard(period) {
+    const url = '/api/dashboard?period=' + period;
     fetch(url, {
         method: "GET"
     }).then(r => r.json()).then(data => {
         console.log('Ajax getDashboard: ', data);
 
-        $("#today-total").text('$' + data.today_total);
-        $("#today-order").text(data.today_order);
-        $("#today-new-client").text(data.today_new_client);
+        $("#period-money-title").text(period + "'s Money");
+        $("#period-order-title").text(period + "'s Orders")
+        $("#period-new-client-title").text(period + "'s New Client");
+        $("#top-three-user-title").text("diamond user " + period);
+        $("#period-order-overview-title").text(period + "'s orders overview");
+        $("#period-total-title").text(period + "'s total:")
+
+        $("#period-total").text('$' + data.period_total);
+        $("#period-total-order").text(data.period_total_order);
+        $("#period-new-client").text(data.period_new_client);
         $("#total-user").text(data.total_user);
         $("#total-sales").text('$' + data.total);
         $("#total-product").text(data.total_product);
-        $("#month-total").text('$' + data.month_total);
+        $("#period-total").text('$' + data.period_total);
+
+        $("#top-three-user").html("");
+        $("#month-order").html("");
+        $("#all-period-order").html("");
 
         // top 3 user
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 3 && i < data.top_three_user.length; i++) {
             let html = `
                 <tr>
                     <td>
@@ -42,13 +53,15 @@ function getDashboard() {
             $("#top-three-user").append(html);
         }
 
-        //this month order 
+        //this period order overview
         try {
-            for (let i = 0; i < 4; i++) {
-                if (data.month_order[i].promo !== undefined) {
-                    let discount = parseInt(data.month_order[i].promo.replace("%", ""));
 
-                    data.month_order[i].total = Math.round((data.month_order[i].total - (data.month_order[i].total * discount / 100)) * 100) / 100;
+
+            for (let i = 0; i < 4; i++) {
+                if (data.period_order[i].promo !== undefined) {
+                    let discount = parseInt(data.period_order[i].promo.replace("%", ""));
+
+                    data.period_order[i].total = Math.round((data.period_order[i].total - (data.period_order[i].total * discount / 100)) * 100) / 100;
                 }
 
                 let html = `
@@ -57,10 +70,10 @@ function getDashboard() {
                         <i class="ni ni-money-coins text-dark text-gradient"></i>
                     </span>
                     <div class="timeline-content">
-                        <h6 class="text-dark text-sm font-weight-bold mb-0">New order #${data.month_order[i].order_id}</h6>
+                        <h6 class="text-dark text-sm font-weight-bold mb-0">New order #${data.period_order[i].order_id}</h6>
                         <div class="d-flex font-weight-bold text-xs mt-1 mb-0">
-                            <p class="text-secondary">${data.month_order[i].create_date}</p>
-                            <p class="ms-3" style="font-weight: bold"> Total: ${data.month_order[i].total}</p>
+                            <p class="text-secondary">${data.period_order[i].create_date}</p>
+                            <p class="ms-3" style="font-weight: bold"> Total: $${data.period_order[i].total}</p>
                         </div>
                     </div>
                 </div>`
@@ -71,12 +84,12 @@ function getDashboard() {
             console.log("error:", error);
         }
 
-        //all this month order 
-        for (let i = 0; i < data.month_order.length; i++) {
-            if (data.month_order[i].promo !== undefined) {
-                let discount = parseInt(data.month_order[i].promo.replace("%", ""));
+        //all this period order 
+        for (let i = 0; i < data.period_order.length; i++) {
+            if (data.period_order[i].promo !== undefined) {
+                let discount = parseInt(data.period_order[i].promo.replace("%", ""));
 
-                data.month_order[i].total = Math.round((data.month_order[i].total - (data.month_order[i].total * discount / 100)) * 100) / 100;
+                data.period_order[i].total = Math.round((data.period_order[i].total - (data.period_order[i].total * discount / 100)) * 100) / 100;
             }
 
             let html = `
@@ -85,31 +98,41 @@ function getDashboard() {
                         <i class="ni ni-money-coins text-dark text-gradient"></i>
                     </span>
                     <div class="timeline-content">
-                        <h6 class="text-dark text-sm font-weight-bold mb-0">New order #${data.month_order[i].order_id}</h6>
+                        <h6 class="text-dark text-sm font-weight-bold mb-0">New order #${data.period_order[i].order_id}</h6>
                         <div class="d-flex font-weight-bold text-xs mt-1 mb-0">
-                            <p class="text-secondary">${data.month_order[i].create_date}</p>
-                            <p class="ms-3" style="font-weight: bold"> Total: ${data.month_order[i].total}</p>
+                            <p class="text-secondary">${data.period_order[i].create_date}</p>
+                            <p class="ms-3" style="font-weight: bold"> Total: $${data.period_order[i].total}</p>
                         </div>
                     </div>
                 </div>`
 
-            $("#all-month-order").append(html);
+            $("#all-period-order").append(html);
         }
 
-        $('#wait-screen').css("background-color", "white");
-        $('#wait-screen').css("z-index", "-1");
+        var time;
+        const now = (new Date()).toString().split(" ");
+        if (period == "Today") {
+            time = now[2] + ' ' + now[1] + ',' + now[3];
+        } else if (period == "Week") {
+            time = "this Week";
+        } else if (period == "Month") {
+            time = now[1] + ',' + now[3];
+        } else if (period == "Year") {
+            time = now[3];
+        }
 
+        console.log("time:", time);
         // draw line
-        drawCharBars(data.chart_label, data.chart_bars_data);
+        drawCharBars(data.chart_label, data.chart_bars_data, time);
         drawCharLine(data.chart_label, data.chart_lines_data)
     });
 }
 
 
-function drawCharBars(label, data) {
+function drawCharBars(label, data, period) {
+    $("#chart-bars-container").html(`<canvas id="chart-bars" class="chart-canvas" height="170"></canvas>`)
+
     var ctx = document.getElementById("chart-bars").getContext("2d");
-    const now = (new Date()).toString().split(" ");
-    const year = now[3];
 
     new Chart(ctx, {
         type: "bar",
@@ -132,7 +155,7 @@ function drawCharBars(label, data) {
             plugins: {
                 title: {
                     display: true,
-                    text: 'Sales statistics in' + year,
+                    text: 'Sales statistics in ' + period,
                     color: "#fff"
                 },
                 legend: {
@@ -180,6 +203,7 @@ function drawCharBars(label, data) {
 }
 
 function drawCharLine(label, data) {
+    $("#chart-line-container").html(`<canvas id="chart-line" class="chart-canvas" height="300"></canvas>`);
     var ctx2 = document.getElementById("chart-line").getContext("2d");
 
     var gradientStroke1 = ctx2.createLinearGradient(0, 230, 0, 50);
