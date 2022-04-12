@@ -16,7 +16,7 @@ module.exports.getDashboard = async (req, res) => {
         const orders = await orderService.getOrders();
         const products = await productService.getProducts();
         const users = (await userService.getInfo("User")).concat(await userService.getInfo("Admin"));
-        let period = req.query.period;
+        var period = req.query.period;
 
         // total user
         const total_user = users.length;
@@ -38,21 +38,21 @@ module.exports.getDashboard = async (req, res) => {
 
         const pre = period;
 
-        if (period === "Today") {
+        if (period == "Today") {
             period = now[2] + ' ' + now[1] + ',' + now[3];
             chart_label.push(now[2] + ' ' + now[1] + ',' + now[3]);
-        } else if (period === "Week") {
+        } else if (period == "Week") {
             period = this.getWeek(new Date());
             chart_label.push("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
 
-        } else if (period === "Month") {
+        } else if (period == "Month") {
             period = now[1] + ',' + now[3];
             const date = new Date();
             const dayOfMonth = this.daysInMonth(date.getMonth() + 1, date.getFullYear());
             for (let i = 1; i <= dayOfMonth; i++)
                 chart_label.push(i);
 
-        } else if (period === "Year") {
+        } else if (period == "Year") {
             period = now[3];
             chart_label.push("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
         }
@@ -67,8 +67,8 @@ module.exports.getDashboard = async (req, res) => {
 
         // period's new client
         users.forEach(user => {
-            if ((pre === "Week" && this.isDateInWeek(user.employed)) ||
-                (pre !== "Week" && user.employed.includes(period))) {
+            if ((pre == "Week" && this.isDateInWeek(user.employed)) ||
+                (pre != "Week" && user.employed.includes(period))) {
                 period_new_client++;
             }
         })
@@ -79,15 +79,15 @@ module.exports.getDashboard = async (req, res) => {
             total += order.total;
 
             console.log("user -:", this.getWeek(present), ' com ', this.isDateInWeek(order.create_date), order.create_date);
-            if ((pre === "Week" && this.isDateInWeek(order.create_date)) ||
-                (pre !== "Week" && order.create_date.includes(period))) {
+            if ((pre == "Week" && this.isDateInWeek(order.create_date)) ||
+                (pre != "Week" && order.create_date.includes(period))) {
                 // total + order
                 period_total += order.total;
                 period_total_order += 1;
 
                 // top user
                 if (top_user[order.customer_id] === undefined) {
-                    let user = users.find(element => element._id === order.customer_id);
+                    let user = users.find(element => element._id == order.customer_id);
 
                     if (user !== undefined) {
                         top_user[order.customer_id] = {
@@ -99,7 +99,7 @@ module.exports.getDashboard = async (req, res) => {
                         }
                     }
                 } else {
-                    top_user[order.customer_id].total += order.total;
+                    top_user[order.customer_id].total = Math.round((top_user[order.customer_id].total + order.total) * 100) / 100;
                     top_user[order.customer_id].order += 1;
                 }
 
@@ -141,12 +141,12 @@ module.exports.getDashboard = async (req, res) => {
             const firstday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 1));
             const lastday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 7));
 
-            for (let i = 1; ; i++) {
+            for (i = 1; ; i++) {
                 const d = new Date(curr.setDate(curr.getDate() - curr.getDay() + i));
                 const dd = d.toString().split(" ");
-                let this_date = dd[2] + ' ' + dd[1] + ',' + dd[3];
+                var this_date = dd[2] + ' ' + dd[1] + ',' + dd[3];
 
-                if (i === 1) {
+                if (i == 1) {
                     monday = firstday.toString().split(" ");
                     this_date = monday[2] + ' ' + monday[1] + ',' + monday[3];
                 }
@@ -179,7 +179,7 @@ module.exports.getDashboard = async (req, res) => {
                 chart_lines_data["Shoes"].push(category["Shoes"]);
 
 
-                if (d.toString().split(" ")[2] === lastday.toString().split(" ")[2])
+                if (d.toString().split(" ")[2] == lastday.toString().split(" ")[2])
                     break;
             }
         } else if (pre === "Month") { // done
@@ -280,16 +280,18 @@ module.exports.getDashboard = async (req, res) => {
 }
 
 module.exports.getWeek = (currentdate) => {
-    let oneJan = new Date(currentdate.getFullYear(), 0, 1);
-    let numberOfDays = Math.floor((currentdate - oneJan) / (24 * 60 * 60 * 1000));
-    return Math.ceil((currentdate.getDay() + 1 + numberOfDays) / 7);
+    var oneJan = new Date(currentdate.getFullYear(), 0, 1);
+    var numberOfDays = Math.floor((currentdate - oneJan) / (24 * 60 * 60 * 1000));
+    var period = Math.ceil((currentdate.getDay() + 1 + numberOfDays) / 7);
+
+    return period;
 }
 
 module.exports.isDateInWeek = (date) => {
     //https://www.timeanddate.com/date/weeknumber.html
-    let curr = new Date;
-    let firstday = new Date(curr.setDate(curr.getDate() - curr.getDay()));
-    let lastday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 6));
+    curr = new Date;
+    var firstday = new Date(curr.setDate(curr.getDate() - curr.getDay()));
+    var lastday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 6));
 
     let d = date.split(" ");
 
@@ -299,7 +301,11 @@ module.exports.isDateInWeek = (date) => {
 
     const date_ = new Date(month + " " + day + ", " + year);
 
-    return date_ >= firstday && date_ <= lastday;
+    if (date_ >= firstday && date_ <= lastday) {
+        return true;
+    }
+    else
+        return false
 }
 
 module.exports.daysInMonth = (month, year) => {

@@ -11,6 +11,7 @@ const bcrypt = require('bcrypt');
  */
 module.exports.getInfo = async (role) => {
     try {
+        console.log("getInfo", role);
         return await userModel.find({ role }).lean();
     } catch (err) {
         throw err;

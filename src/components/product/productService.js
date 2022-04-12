@@ -8,6 +8,7 @@ const cloudinary = require('../../config/cloudinary.config');
  */
 module.exports.getProducts = async (id = null) => {
     try {
+        console.log("getProduct");
         if (id === null) {
             const products = await productModel.find().lean();
             for (let i = 0; i < products.length; i++) {
@@ -85,7 +86,7 @@ module.exports.changeProductInfo = async (id, body, files, existFiles) => {
             listImg.push(await cloudinary.upload(files[i].path, 'product'));
         }
 
-        await productModel.findByIdAndUpdate({_id: id}, {
+        await productModel.findByIdAndUpdate({ _id: id }, {
             $set: {
                 name: body.name,
                 price: body.price,
@@ -111,7 +112,7 @@ module.exports.changeProductInfo = async (id, body, files, existFiles) => {
  */
 module.exports.deleteProduct = async (id) => {
     try {
-        await productModel.find({_id: id}).remove();
+        await productModel.find({ _id: id }).remove();
     } catch (err) {
         throw err;
     }
