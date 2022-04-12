@@ -93,11 +93,11 @@ module.exports.getDashboard = async (req, res) => {
                 period_total_order += 1;
 
                 // top user
-                if (top_user[order.customer_id] === undefined) {
-                    let user = users.find(element => element._id == order.customer_id);
+                if (top_user[order.customer._id] === undefined) {
+                    let user = users.find(element => element._id == order.customer._id);
 
                     if (user !== undefined) {
-                        top_user[order.customer_id] = {
+                        top_user[order.customer._id] = {
                             fullname: user.fullname,
                             username: user.username,
                             avatar_url: user.avatar_url,
@@ -106,8 +106,8 @@ module.exports.getDashboard = async (req, res) => {
                         }
                     }
                 } else {
-                    top_user[order.customer_id].total = Math.round((top_user[order.customer_id].total + order.total) * 100) / 100;
-                    top_user[order.customer_id].order += 1;
+                    top_user[order.customer._id].total = Math.round((top_user[order.customer._id].total + order.total) * 100) / 100;
+                    top_user[order.customer._id].order += 1;
                 }
 
                 // top product

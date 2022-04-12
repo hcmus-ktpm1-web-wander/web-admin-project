@@ -77,9 +77,15 @@ function paging(page) {
 
                             </div>
                             <div class="modal-body">
-                                <h6 class="mb-2"><b>ID: ${item._id}</b></h6>
-                                <div class="mb-1"><b>Customer name:</b> ${item.customer_name}</div>
-                                <div class="mb-1"><b>Customer ID:</b> ${item.customer_id}</div>
+                                <h6 class="mb-2"><b>ID: ${item._id}</b></h6>`
+
+            if (item.customer._id !== undefined)
+                str += `<div class="mb-1"><b>Customer ID:</b> ${item.customer._id}</div>`
+
+            str += `<div class="mb-1"><b>Customer name:</b> ${item.customer.fullname}</div>
+                                <div class="mb-1"><b>Customer email:</b> ${item.customer.email}</div>
+                                <div class="mb-1"><b>Customer phone:</b> ${item.customer.phone}</div>
+                                <div class="mb-1"><b>Customer address:</b> ${item.customer.address}</div>
                                 <div class="mb-1"><b>Create at:</b> ${item.create_date}</div> `;
 
             if (item.status === 'Pending') {

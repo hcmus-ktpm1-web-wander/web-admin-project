@@ -26,7 +26,7 @@ module.exports.getInfo = async (role) => {
 module.exports.deleteUser = async (id) => {
     try {
         await userModel.find({ _id: id }).remove();
-        await orderModel.find({ customer_id: id }).remove();
+        await orderModel.find({ 'customer._id': id }).remove();
     } catch (err) {
         throw err;
     }

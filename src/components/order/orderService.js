@@ -16,7 +16,7 @@ module.exports.getOrders = async () => {
 
         for (let i = 0; i < orders.length; i++) {
             // get customer name
-            const customer = customers.find(customer => customer._id == orders[i].customer_id);
+            const customer = customers.find(customer => customer._id == orders[i].customer._id);
             orders[i].customer_name = customer.username;
 
             let total = 0;
