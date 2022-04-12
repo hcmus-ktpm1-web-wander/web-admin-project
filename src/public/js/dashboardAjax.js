@@ -1,6 +1,8 @@
-window.onload = getDashboard("Today");
+var g_period = "Week";
+window.onload = getDashboard(g_period);
 
 function getDashboard(period) {
+    g_period = period;
     const url = '/api/dashboard?period=' + period;
     fetch(url, {
         method: "GET"
@@ -19,6 +21,8 @@ function getDashboard(period) {
         $("#total-sales").text('$' + data.total);
         $("#total-product").text(data.total_product);
         $("#period-total").text('$' + data.period_total);
+        $("#top-product-title").text("Top 5 products this " + period);
+        $("#top-category-title").text("Top 5 Bags's product this " + period);
 
         $("#top-three-user").html("");
         $("#month-order").html("");
@@ -52,17 +56,14 @@ function getDashboard(period) {
         }
 
         //this period order overview
-        try {
+        for (let i = 0; i < 4 && i < data.period_order.length; i++) {
+            if (data.period_order[i].promo !== undefined) {
+                let discount = parseInt(data.period_order[i].promo.replace("%", ""));
 
+                data.period_order[i].total = Math.round((data.period_order[i].total - (data.period_order[i].total * discount / 100)) * 100) / 100;
+            }
 
-            for (let i = 0; i < 4; i++) {
-                if (data.period_order[i].promo !== undefined) {
-                    let discount = parseInt(data.period_order[i].promo.replace("%", ""));
-
-                    data.period_order[i].total = Math.round((data.period_order[i].total - (data.period_order[i].total * discount / 100)) * 100) / 100;
-                }
-
-                let html = `
+            let html = `
                 <div class="timeline-block mb-3">
                     <span class="timeline-step">
                         <i class="ni ni-money-coins text-dark text-gradient"></i>
@@ -76,10 +77,7 @@ function getDashboard(period) {
                     </div>
                 </div>`
 
-                $("#month-order").append(html);
-            }
-        } catch (error) {
-            console.log("error:", error);
+            $("#month-order").append(html);
         }
 
         //all this period order 
@@ -107,25 +105,129 @@ function getDashboard(period) {
             $("#all-period-order").append(html);
         }
 
+        // top 5 product this period 
+        $("#top-product-body").html("");
+        for (let i = 0; i < 5 && i < data.top_product.length; i++) {
+            console.log("i:", i);
+            var html = `
+            <tr>
+                <td class="ps-4">${i + 1}</td>
+                <td>
+                    <div class="d-flex py-1">
+                        <div>
+                            <a href="/product/${data.top_product[i][0]}">
+                                <img src="${data.top_product[i][1].thumb}"
+                                    class="avatar avatar-sm me-3" alt="user1">
+                            </a>
+                        </div>
+                        <div class="d-flex flex-column justify-content-center">
+                            <a href="/product/${data.top_product[i][0]}" class="mb-0 text-sm font-weight-bolder">
+                                ${data.top_product[i][1].name}
+                            </a>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    ${data.top_product[i][1].quantity}
+                </td>
+            </tr>`
+
+            $("#top-product-body").append(html);
+        }
+
+        // top 5 product of this category 
+        $("#top-product-cate-body").html("");
+        console.log("Bag:", data.top_product_category["Bags"]);
+        for (let i = 0; i < 5 && i < data.top_product_category["Bags"].length; i++) {
+            console.log("i:", i);
+            var html = `
+            <tr>
+                <td class="ps-4">${i + 1}</td>
+                <td>
+                    <div class="d-flex py-1">
+                        <div>
+                            <a href="/product/${data.top_product_category["Bags"][i][0]}">
+                                <img src="${data.top_product_category["Bags"][i][1].thumb}"
+                                    class="avatar avatar-sm me-3" alt="user1">
+                            </a>
+                        </div>
+                        <div class="d-flex flex-column justify-content-center">
+                            <a href="/product/${data.top_product_category["Bags"][i][0]}" class="mb-0 text-sm font-weight-bolder">
+                                ${data.top_product_category["Bags"][i][1].name}
+                            </a>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    ${data.top_product_category["Bags"][i][1].quantity}
+                </td>
+            </tr>`
+
+            $("#top-product-cate-body").append(html);
+        }
+
         let time;
         const now = (new Date()).toString().split(" ");
-        if (period === "Today") {
-            time = now[2] + ' ' + now[1] + ',' + now[3];
-        } else if (period === "Week") {
-            time = "this Week";
-        } else if (period === "Month") {
-            time = now[1] + ',' + now[3];
-        } else if (period === "Year") {
-            time = now[3];
+        {
+            if (period === "Today") {
+                time = now[2] + ' ' + now[1] + ',' + now[3];
+            } else if (period === "Week") {
+                time = "this Week";
+            } else if (period === "Month") {
+                time = now[1] + ',' + now[3];
+            } else if (period === "Year") {
+                time = now[3];
+            }
         }
 
         console.log("time:", time);
+
         // draw line
         drawCharBars(data.chart_label, data.chart_bars_data, time);
         drawCharLine(data.chart_label, data.chart_lines_data)
     });
 }
 
+function getTopCategory(category) {
+    const url = '/api/dashboard?period=' + g_period;
+    fetch(url, {
+        method: "GET"
+    }).then(r => r.json()).then(data => {
+        console.log("---------");
+        console.log('Ajax get top category: ', data);
+
+        $("#top-product-cate-body").html("");
+        $("#top-category-title").text("Top 5 " + category + "'s product this " + g_period);
+
+        data.top_product_category[category].forEach((product, index) => {
+            var html = `
+            <tr>
+                <td class="ps-4">${index + 1}</td>
+                <td>
+                    <div class="d-flex py-1">
+                        <div>
+                            <a href="/product/${product[0]}">
+                                <img src="${product[1].thumb}"
+                                    class="avatar avatar-sm me-3" alt="user1">
+                            </a>
+                        </div>
+                        <div class="d-flex flex-column justify-content-center">
+                            <a href="/product/${product[0]}" class="mb-0 text-sm font-weight-bolder">
+                                ${product[1].name}
+                            </a>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    ${product[1].quantity}
+                </td>
+            </tr>`
+
+            $("#top-product-cate-body").append(html);
+        });
+
+    });
+}
 
 function drawCharBars(label, data, period) {
     $("#chart-bars-container").html(`<canvas id="chart-bars" class="chart-canvas" height="170"></canvas>`)

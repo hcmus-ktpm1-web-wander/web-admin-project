@@ -63,6 +63,13 @@ module.exports.getDashboard = async (req, res) => {
         let period_total_order = 0;
         let period_order = [];
         let top_user = {};
+        let top_product = {};
+        let top_product_category = {
+            "Bags": {},
+            "Clothing": {},
+            "Accessories": {},
+            "Shoes": {}
+        };
         let period_new_client = 0;
 
         // period's new client
@@ -103,159 +110,192 @@ module.exports.getDashboard = async (req, res) => {
                     top_user[order.customer_id].order += 1;
                 }
 
-                // this period order
-                period_order.push({
-                    order_id: order._id,
-                    total: order.total,
-                    create_date: order.create_date,
-                    promo: order.promo
-                })
+                // top product
+                for (let i = 0; i < order.products.length; i++) {
+                    // top product
+                    let product = products.find(element => element._id == order.products[i].product_id);
+                    if (product !== undefined) {
+                        if (top_product[product._id] === undefined) {
+                            top_product[product._id] = {
+                                name: product.name,
+                                thumb: product.thumb,
+                                quantity: order.products[i].quantity,
+                            }
+                        } else {
+                            top_product[product._id].quantity += order.products[i].quantity;
+                        }
+                    }
+
+                    // top product category
+                    if (top_product_category[product.category][product._id] === undefined) {
+                        top_product_category[product.category][product._id] = {
+                            name: product.name,
+                            thumb: product.thumb,
+                            quantity: order.products[i].quantity,
+                        }
+                    } else {
+                        top_product_category[product.category][product._id].quantity += order.products[i].quantity;
+                    }
+
+                    // this period order
+                    period_order.push({
+                        order_id: order._id,
+                        total: order.total,
+                        create_date: order.create_date,
+                        promo: order.promo
+                    })
+                }
             }
         });
 
+        console.log("top product: ", top_product);
+        console.log("top product category: ", top_product_category);
         // chart
-        if (pre === "Today") { //done
-            let category = {
-                "Bags": 0,
-                "Clothing": 0,
-                "Accessories": 0,
-                "Shoes": 0
-            };
+        {
+            if (pre === "Today") { //done
+                let category = {
+                    "Bags": 0,
+                    "Clothing": 0,
+                    "Accessories": 0,
+                    "Shoes": 0
+                };
 
-            orders.forEach(order => {
-                if (order.create_date.includes(period)) {
-                    // chart lines
-                    for (let j = 0; j < order.products.length; j++) {
-                        category[order.products[j].detail.category] += order.products[j].quantity;
+                orders.forEach(order => {
+                    if (order.create_date.includes(period)) {
+                        // chart lines
+                        for (let j = 0; j < order.products.length; j++) {
+                            category[order.products[j].detail.category] += order.products[j].quantity;
+                        }
                     }
+                });
+
+                chart_bars_data.push(Math.round(period_total * 100) / 100);
+                chart_lines_data["Bags"].push(category["Bags"]);
+                chart_lines_data["Clothing"].push(category["Clothing"]);
+                chart_lines_data["Accessories"].push(category["Accessories"]);
+                chart_lines_data["Shoes"].push(category["Shoes"]);
+            } else if (pre === "Week") { //done
+                curr = new Date;
+                const firstday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 1));
+                const lastday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 7));
+
+                for (i = 1; ; i++) {
+                    const d = new Date(curr.setDate(curr.getDate() - curr.getDay() + i));
+                    const dd = d.toString().split(" ");
+                    var this_date = dd[2] + ' ' + dd[1] + ',' + dd[3];
+
+                    if (i == 1) {
+                        monday = firstday.toString().split(" ");
+                        this_date = monday[2] + ' ' + monday[1] + ',' + monday[3];
+                    }
+
+                    let tt = 0;
+
+                    let category = {
+                        "Bags": 0,
+                        "Clothing": 0,
+                        "Accessories": 0,
+                        "Shoes": 0
+                    };
+
+                    orders.forEach(order => {
+                        if (this.isDateInWeek(order.create_date) && order.create_date.includes(this_date)) {
+                            // chart bars
+                            tt += order.total;
+
+                            // chart lines
+                            for (let j = 0; j < order.products.length; j++) {
+                                category[order.products[j].detail.category] += order.products[j].quantity;
+                            }
+                        }
+                    });
+
+                    chart_bars_data.push(tt);
+                    chart_lines_data["Bags"].push(category["Bags"]);
+                    chart_lines_data["Clothing"].push(category["Clothing"]);
+                    chart_lines_data["Accessories"].push(category["Accessories"]);
+                    chart_lines_data["Shoes"].push(category["Shoes"]);
+
+
+                    if (d.toString().split(" ")[2] == lastday.toString().split(" ")[2])
+                        break;
                 }
-            });
+            } else if (pre === "Month") { // done
+                const date = new Date();
+                const dayOfMonth = this.daysInMonth(date.getMonth() + 1, date.getFullYear());
 
-            chart_bars_data.push(Math.round(period_total * 100) / 100);
-            chart_lines_data["Bags"].push(category["Bags"]);
-            chart_lines_data["Clothing"].push(category["Clothing"]);
-            chart_lines_data["Accessories"].push(category["Accessories"]);
-            chart_lines_data["Shoes"].push(category["Shoes"]);
-        } else if (pre === "Week") { //done
-            curr = new Date;
-            const firstday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 1));
-            const lastday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 7));
+                for (i = 1; i <= dayOfMonth; i++) {
+                    const d = new Date(date.getFullYear(), date.getMonth(), i).toString().split(" ");
+                    const this_date = d[2] + ' ' + d[1] + ',' + d[3];
+                    let tt = 0;
 
-            for (i = 1; ; i++) {
-                const d = new Date(curr.setDate(curr.getDate() - curr.getDay() + i));
-                const dd = d.toString().split(" ");
-                var this_date = dd[2] + ' ' + dd[1] + ',' + dd[3];
+                    let category = {
+                        "Bags": 0,
+                        "Clothing": 0,
+                        "Accessories": 0,
+                        "Shoes": 0
+                    };
 
-                if (i == 1) {
-                    monday = firstday.toString().split(" ");
-                    this_date = monday[2] + ' ' + monday[1] + ',' + monday[3];
+                    orders.forEach(order => {
+                        if (order.create_date.includes(this_date)) {
+                            // chart bars
+                            tt += order.total;
+
+                            // chart lines
+                            for (let j = 0; j < order.products.length; j++) {
+                                category[order.products[j].detail.category] += order.products[j].quantity;
+                            }
+                        }
+                    });
+
+                    chart_bars_data.push(tt);
+                    chart_lines_data["Bags"].push(category["Bags"]);
+                    chart_lines_data["Clothing"].push(category["Clothing"]);
+                    chart_lines_data["Accessories"].push(category["Accessories"]);
+                    chart_lines_data["Shoes"].push(category["Shoes"]);
                 }
+            } else if (pre === "Year") { // done
+                const date = new Date();
+                for (i = 0; i < 12; i++) {
+                    const d = new Date(date.getFullYear(), i, 1).toString().split(" ");
+                    const this_date = d[1] + ',' + d[3];
+                    console.log("this_date: ", this_date);
+                    let tt = 0;
 
-                let tt = 0;
+                    let category = {
+                        "Bags": 0,
+                        "Clothing": 0,
+                        "Accessories": 0,
+                        "Shoes": 0
+                    };
 
-                let category = {
-                    "Bags": 0,
-                    "Clothing": 0,
-                    "Accessories": 0,
-                    "Shoes": 0
-                };
+                    orders.forEach(order => {
+                        if (order.create_date.includes(this_date)) {
+                            // chart bars
+                            tt += order.total;
 
-                orders.forEach(order => {
-                    if (this.isDateInWeek(order.create_date) && order.create_date.includes(this_date)) {
-                        // chart bars
-                        tt += order.total;
-
-                        // chart lines
-                        for (let j = 0; j < order.products.length; j++) {
-                            category[order.products[j].detail.category] += order.products[j].quantity;
+                            // chart lines
+                            for (let j = 0; j < order.products.length; j++) {
+                                category[order.products[j].detail.category] += order.products[j].quantity;
+                            }
                         }
-                    }
-                });
+                    });
 
-                chart_bars_data.push(tt);
-                chart_lines_data["Bags"].push(category["Bags"]);
-                chart_lines_data["Clothing"].push(category["Clothing"]);
-                chart_lines_data["Accessories"].push(category["Accessories"]);
-                chart_lines_data["Shoes"].push(category["Shoes"]);
-
-
-                if (d.toString().split(" ")[2] == lastday.toString().split(" ")[2])
-                    break;
-            }
-        } else if (pre === "Month") { // done
-            const date = new Date();
-            const dayOfMonth = this.daysInMonth(date.getMonth() + 1, date.getFullYear());
-
-            for (i = 1; i <= dayOfMonth; i++) {
-                const d = new Date(date.getFullYear(), date.getMonth(), i).toString().split(" ");
-                const this_date = d[2] + ' ' + d[1] + ',' + d[3];
-                let tt = 0;
-
-                let category = {
-                    "Bags": 0,
-                    "Clothing": 0,
-                    "Accessories": 0,
-                    "Shoes": 0
-                };
-
-                orders.forEach(order => {
-                    if (order.create_date.includes(this_date)) {
-                        // chart bars
-                        tt += order.total;
-
-                        // chart lines
-                        for (let j = 0; j < order.products.length; j++) {
-                            category[order.products[j].detail.category] += order.products[j].quantity;
-                        }
-                    }
-                });
-
-                chart_bars_data.push(tt);
-                chart_lines_data["Bags"].push(category["Bags"]);
-                chart_lines_data["Clothing"].push(category["Clothing"]);
-                chart_lines_data["Accessories"].push(category["Accessories"]);
-                chart_lines_data["Shoes"].push(category["Shoes"]);
-            }
-        } else if (pre === "Year") { // done
-            const date = new Date();
-            for (i = 0; i < 12; i++) {
-                const d = new Date(date.getFullYear(), i, 1).toString().split(" ");
-                const this_date = d[1] + ',' + d[3];
-                console.log("this_date: ", this_date);
-                let tt = 0;
-
-                let category = {
-                    "Bags": 0,
-                    "Clothing": 0,
-                    "Accessories": 0,
-                    "Shoes": 0
-                };
-
-                orders.forEach(order => {
-                    if (order.create_date.includes(this_date)) {
-                        // chart bars
-                        tt += order.total;
-
-                        // chart lines
-                        for (let j = 0; j < order.products.length; j++) {
-                            category[order.products[j].detail.category] += order.products[j].quantity;
-                        }
-                    }
-                });
-
-                chart_bars_data.push(tt);
-                chart_lines_data["Bags"].push(category["Bags"]);
-                chart_lines_data["Clothing"].push(category["Clothing"]);
-                chart_lines_data["Accessories"].push(category["Accessories"]);
-                chart_lines_data["Shoes"].push(category["Shoes"]);
+                    chart_bars_data.push(tt);
+                    chart_lines_data["Bags"].push(category["Bags"]);
+                    chart_lines_data["Clothing"].push(category["Clothing"]);
+                    chart_lines_data["Accessories"].push(category["Accessories"]);
+                    chart_lines_data["Shoes"].push(category["Shoes"]);
+                }
             }
         }
 
         total = Math.round(total * 100) / 100;
         period_total = Math.round(period_total * 100) / 100;
 
+        // top 3 user
         // Create items array
-        const top_three_user = Object.keys(top_user).map(function (key) {
+        var top_three_user = Object.keys(top_user).map(function (key) {
             return [key, top_user[key]];
         });
 
@@ -270,8 +310,18 @@ module.exports.getDashboard = async (req, res) => {
             }
         }
 
+        // top 5 product
+        top_product = this.sortTopProduct(top_product);
+        top_product_category["Bags"] = this.sortTopProduct(top_product_category["Bags"]);
+        top_product_category["Clothing"] = this.sortTopProduct(top_product_category["Clothing"]);
+        top_product_category["Accessories"] = this.sortTopProduct(top_product_category["Accessories"]);
+        top_product_category["Shoes"] = this.sortTopProduct(top_product_category["Shoes"]);
+
+        console.log("---------");
+        console.log("top product category: ", top_product_category);
+
         res.send({
-            total_user, total, total_product, period_total, period_total_order, period_order, top_three_user, period_new_client, period, chart_bars_data, chart_lines_data, chart_label
+            total_user, total, total_product, period_total, period_total_order, period_order, top_three_user, period_new_client, period, chart_bars_data, chart_lines_data, chart_label, top_product, top_product_category
         });
 
     } catch (err) {
@@ -285,6 +335,26 @@ module.exports.getWeek = (currentdate) => {
     var period = Math.ceil((currentdate.getDay() + 1 + numberOfDays) / 7);
 
     return period;
+}
+
+module.exports.sortTopProduct = (items) => {
+    // Create items array
+    var top_item = Object.keys(items).map(function (key) {
+        return [key, items[key]];
+    });
+
+    // Sort the array based on the second element
+    for (let i = 0; i < top_item.length - 1; i++) {
+        for (let j = i + 1; j < top_item.length; j++) {
+            if (top_item[i][1].quantity < top_item[j][1].quantity) {
+                let temp = top_item[i];
+                top_item[i] = top_item[j];
+                top_item[j] = temp;
+            }
+        }
+    }
+
+    return top_item;
 }
 
 module.exports.isDateInWeek = (date) => {
