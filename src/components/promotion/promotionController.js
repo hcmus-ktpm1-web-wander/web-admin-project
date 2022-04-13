@@ -31,15 +31,14 @@ exports.addPromotion = async (req,res) => {
         const start_date = req.body.start_date
         const end_date = req.body.end_date
 
-        const isExist = promotionService.getPromotionByCode(code)
-        if (isExist.length==0)
+        const isExist = await promotionService.getPromotionByCode(code)
+        if (isExist.length == 0)
         {
             await promotionService.createPromotion(code,level,slot,start_date,end_date)
-            res.redirect('promotion/views/promotion_manage',{ active: { PromotionManage: true }, page: "Promotion manage", checkErrors: true, success:true})
+            res.redirect('/manage/promotion')
         }
         else
         {
-            req.session.msg=true
             req.session.errors = 'Code already exists'
             res.redirect('/manage/promotion')
         }
@@ -47,5 +46,34 @@ exports.addPromotion = async (req,res) => {
     }catch (e)
     {
         res.status(500).json({ message: e.message });
+    }
+}
+
+exports.deletePromotion = async (req, res) => {
+    try {
+        await promotionService.deletePromotion(req.body.code);
+        res.redirect('back');
+    } catch (e) {
+        res.status(500).json({ message: e.message });
+    }
+};
+
+exports.editPromotion = async (req,res) => {
+    try
+    {
+        const current_code = req.body.current_code
+        const code = req.body.code
+        const level = req.body.level
+        const slot = req.body.slot
+        const start_date = req.body.start_date
+        const end_date = req.body.end_date
+
+        await promotionService.editPromotion(current_code,code,level,slot,start_date,end_date)
+
+        res.redirect('/manage/promotion')
+
+    }catch (e)
+    {
+        throw e
     }
 }

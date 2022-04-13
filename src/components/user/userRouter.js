@@ -40,6 +40,10 @@ router.post("/add-user", upload.single('avatar_url'),
 
 router.post('/promotion/add', promotion_manageController.addPromotion)
 
+router.post("/promotion/edit", promotion_manageController.editPromotion);
+
+router.post("/promotion/delete", promotion_manageController.deletePromotion);
+
 /*************************** PUT methods ***************************/
 // change user role
 router.put("/edit/:userID", user_manageController.editUser);
@@ -47,5 +51,7 @@ router.put("/edit/:userID", user_manageController.editUser);
 /*************************** DELETE methods ***************************/
 // delete user
 router.delete("/edit/:userID", user_manageController.deleteUser);
+
+
 
 module.exports = router;

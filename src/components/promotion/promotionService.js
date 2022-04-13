@@ -23,3 +23,22 @@ exports.getPromotionByCode = async (code) => {
         throw err;
     }
 }
+
+exports.deletePromotion = async (code) => {
+    try {
+        await promotionModel.find({ code: code }).remove();
+    } catch (err) {
+        throw err;
+    }
+}
+
+exports.editPromotion = async (current_code, new_code,level,slot,start_date,end_date) => {
+    try
+    {
+        return await promotionModel.updateOne({ code: current_code },
+                                            { $set: { code: new_code, level:level, slot:slot, start_date:start_date, end_date:end_date } });
+    }catch (e)
+    {
+        throw  e
+    }
+}
