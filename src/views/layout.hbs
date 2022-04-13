@@ -199,6 +199,17 @@
 					</a>
 				</li>
 
+                {{!-- view promotions list--}}
+                <li class="nav-item">
+                    <a class="nav-link {{#if active.PromotionManage}}active{{/if}}" href="/manage/promotion">
+                        <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24" width="12" height="12" fill="#3a416f">
+                                <path d="M21,15V3a3,3,0,0,0-3-3H14V1a2,2,0,0,1-4,0V0H6A3,3,0,0,0,3,3V15H7v2H3v7h7V23a2,2,0,0,1,4,0v1h7V17H17V15Zm-7,2H10V15h4Z"/>
+                            </svg>
+                        </div>
+                        <span class="nav-link-text ms-1">Promotions list</span>
+                    </a>
+                </li>
 
 				<li class="nav-item mt-3">
 					<h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
@@ -384,5 +395,7 @@
 <script async src="https://buttons.github.io/buttons.js"></script>
 <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="/js/soft-ui-dashboard.min.js?v=1.0.3"></script>
+
+<script src="/js/promotionAjax.js"></script>
 
 </html>

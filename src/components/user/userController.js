@@ -56,6 +56,7 @@ exports.renderUserManage = async (req, res) => {
     }
 };
 
+
 /************************************* POST methods *************************************/
 /**
  *  add user

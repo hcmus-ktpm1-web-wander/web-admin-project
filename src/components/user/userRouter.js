@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const user_manageController = require("./userController");
+const promotion_manageController = require('../promotion/promotionController')
 const upload = require("../../config/multer.config");
 const { body } = require("express-validator");
 
@@ -8,6 +9,8 @@ const { body } = require("express-validator");
 router.get("/admin", user_manageController.renderAdminManage);
 // render user
 router.get("/user", user_manageController.renderUserManage);
+// render promotion
+router.get("/promotion", promotion_manageController.renderPromotionManage);
 
 /*************************** POST methods ***************************/
 // upload image and insert user
@@ -35,6 +38,7 @@ router.post("/add-user", upload.single('avatar_url'),
     body('phone').isMobilePhone('vi-VN').withMessage("Phone number must be a valid phone number")
     , user_manageController.addUser);
 
+router.post('/promotion/add', promotion_manageController.addPromotion)
 
 /*************************** PUT methods ***************************/
 // change user role

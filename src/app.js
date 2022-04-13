@@ -67,6 +67,7 @@ app.use('/order', orderRouter);
 app.use('/profile', profileRouter);
 app.use('/manage', user_manageRouter);
 app.use('/product', productRouter);
+app.use('/promotion', user_manageRouter);
 app.use('/api', apiRouter);
 
 // catch 404 and forward to error handler
