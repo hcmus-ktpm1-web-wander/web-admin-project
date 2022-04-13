@@ -10,18 +10,17 @@ const utils = require("../../public/js/paging");
 exports.renderPromotionManage = async (req, res) => {
     try {
         if (req.session.errors !== undefined) {
-            const errors = req.session.errors;
-            req.session.errors = undefined;
-            res.render("promotion/views/promotion_manage", { active: { PromotionManage: true }, page: "Promotion manage", errors, checkErrors: true });
-        }
-        else {
+            const error_msg = req.session.errors;
             req.session.errors = undefined
-            res.render("promotion/views/promotion_manage", { active: { PromotionManage: true }, page: "Promotion manage"});
+            res.render("promotion/views/promotion_manage", { active: { PromotionManage: true }, page: "Promotion manage", error_msg: error_msg });
         }
+        else
+            res.render("promotion/views/promotion_manage", { active: { PromotionManage: true }, page: "Promotion manage"});
     } catch (e) {
         res.status(500).json({ message: e.message });
     }
 };
+
 
 exports.addPromotion = async (req,res) => {
     try
@@ -32,7 +31,18 @@ exports.addPromotion = async (req,res) => {
         const start_date = req.body.start_date
         const end_date = req.body.end_date
 
-
+        const isExist = promotionService.getPromotionByCode(code)
+        if (isExist.length==0)
+        {
+            await promotionService.createPromotion(code,level,slot,start_date,end_date)
+            res.redirect('promotion/views/promotion_manage',{ active: { PromotionManage: true }, page: "Promotion manage", checkErrors: true, success:true})
+        }
+        else
+        {
+            req.session.msg=true
+            req.session.errors = 'Code already exists'
+            res.redirect('/manage/promotion')
+        }
 
     }catch (e)
     {

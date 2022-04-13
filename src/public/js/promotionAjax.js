@@ -91,6 +91,66 @@ function loadPromotion(page) {
 window.onload = function ()
 {
     loadPromotion(1)
-
+    inputInit()
 }
 
+function isValidInput(input,field)
+{
+    const regex = /[0-9]/g;
+    const valid=input.match(regex)
+
+    switch (field)
+    {
+        case 'code':
+            if (input == "")
+                return 'Code is required'
+            break;
+
+        case 'level':
+            if (input == "")
+                return 'Level is required'
+            if(!valid ||input.match(regex).length < input.length)
+                return 'Please enter only digits'
+            break;
+
+        case 'slot':
+            if (input == "")
+                return 'Slot is required'
+            if(!valid ||input.match(regex).length < input.length)
+                return 'Please enter only digits'
+            break;
+
+        case 'start_date':
+            if (!input)
+                return 'Start date is required'
+            break;
+
+        case 'end_date':
+            if (!input)
+                return 'End date is required'
+            break;
+    }
+    return ''
+}
+
+function inputInit()
+{
+    const inputs = $(`div[class=modal-body] input`)
+    inputs.each(function ()
+    {
+        const name = $(this).attr("name")
+
+        $(this).on("input", function (){
+            const input = $(this).val()
+            const error_msg = isValidInput(input,name)
+            $(`.${name}`).text(error_msg)
+        })
+
+        $(this).blur(function (){
+            const input = $(this).val()
+            const error_msg = isValidInput(input,name)
+            $(`.${name}`).text(error_msg)
+        })
+    })
+
+}
