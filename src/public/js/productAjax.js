@@ -1,7 +1,10 @@
-function getProductsByFilter(page) {
+function getProductsByFilter(page, category=null, brand=null, min_price=null, max_price=null) {
     const sort_type = $('#sort-dropdown').find(":selected").val();
-
-    fetch(`/api/product?sort=${sort_type}&page=${page}`, {
+    if (!category || category.length == 0)
+        category=null
+    if (!brand || brand.length == 0)
+        brand=null
+    fetch(`/api/product?sort=${sort_type}&page=${page}&category=${JSON.stringify(category)}&brand=${JSON.stringify(brand)}&min=${min_price}min_price&max=$${max_price}`, {
         method: "GET"
 
     }).then(r => r.json()).then(data => {
@@ -49,11 +52,86 @@ function getProductsByFilter(page) {
 }
 
 
+function checkAll()
+{
+    let category_filter = []
+    let brand_filter = []
+    let min_price = 0;
+    let max_price = 0;
+
+    const size_check_boxes = $('.categories input[type=checkbox]')
+    size_check_boxes.each(function (){
+        const id = $(this).attr('id')
+        if($(this).is(':checked'))
+            category_filter.push(id)
+    })
+
+    const brand_size_checkboxes = $('.brand input[type=checkbox]')
+    brand_size_checkboxes.each(function (){
+        const id = $(this).attr('id')
+        if($(this).is(':checked'))
+            brand_filter.push(id)
+    })
+
+    const price_inputs = $('.price input[type=number]')
+    price_inputs.each(function (){
+        const name = $(this).attr('name')
+        if (name=='min-price')
+            min_price=$(this).val()
+        else
+            max_price=$(this).val()
+    })
+
+    return {category: category_filter, brand: brand_filter, min_price: min_price, max_price: max_price}
+}
+
+function Init()
+{
+
+    const filter_form = $('#collapseOne')
+    const expand_btn = $('a')
+    expand_btn.on('click', function (){
+        if (filter_form.attr('class') == 'collapse')
+        {
+            filter_form.attr('class','collapsing')
+            setTimeout(function (){
+                filter_form.attr('class','collapse show')
+            },60)
+        }
+        else
+        {
+            filter_form.attr('class','collapsing')
+            setTimeout(function (){
+                filter_form.attr('class','collapse')
+            },60)
+        }
+
+    })
+
+    const checkboxes = $('input[type=checkbox]')
+    checkboxes.each(function (){
+        $(this).on("input", function (){
+            const result=checkAll()
+            getProductsByFilter(1,result.category,result.brand)
+
+        })
+    })
+
+    const price_inputs = $('.price input[type=number]')
+    price_inputs.each(function (){
+
+        $(this).on("input", function (){
+            const result=checkAll()
+            getProductsByFilter(1,result.category,result.brand)
+        })
+    })
 
 
+}
 
 
 window.onload = function () {
     getProductsByFilter(1)
+    Init()
 }
 

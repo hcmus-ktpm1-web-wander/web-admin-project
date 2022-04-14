@@ -4,8 +4,12 @@ const pagination = require('../../public/js/paging');
 module.exports.getProducts = async (req,res)=>{
     try {
         const page =  parseInt(req.query.page || 1);
+        const category = JSON.parse(req.query.category) || undefined;
+        const brand = JSON.parse(req.query.brand) || undefined;
+        const min_price = req.query.min || 0;
+        const max_price = req.query.max || 99999999;
 
-        const product = await productService.getProducts(req.query.sort);
+        const product = await productService.getProducts(req.query.sort,category,brand,min_price,max_price);
         const result = pagination.paging(product,page,6);
         res.send({result});
     } catch (error) {
