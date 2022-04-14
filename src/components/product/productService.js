@@ -6,16 +6,53 @@ const cloudinary = require('../../config/cloudinary.config');
  * @param id {string||null}
  * @returns {Promise<productModel>}
  */
-module.exports.getProducts = async (sort_type, id = null) => {
+module.exports.getProducts = async (sort_type, category, brand, min, max, id=null) => {
     try {
         if (id === null) {
             let products=null;
             if (sort_type == 'lh')
-                products = await productModel.find().sort({price: 1}).lean();
+            {
+                if(brand != undefined && category != undefined)
+                    products = await productModel.find({
+                        category : { "$in": category },
+                        brand : { "$in": brand }
+                    }).sort({price: 1}).lean();
+                else if (brand != undefined)
+                    products = await productModel.find({brand: {$in: brand}}).sort({price: 1}).lean();
+                else if (category != undefined)
+                    products = await productModel.find({category: {$in: category}}).sort({price: 1}).lean();
+                else
+                    products = await productModel.find().sort({price: 1}).lean();
+            }
             else if (sort_type == 'hl')
-                products = await productModel.find().sort({price: -1}).lean();
+            {
+                if(brand != undefined && category != undefined)
+                    products = await productModel.find({
+                        category : { "$in": category },
+                        brand : { "$in": brand }
+                    }).sort({price: 1}).lean();
+                else if (brand != undefined)
+                    products = await productModel.find({brand: {$in: brand}}).sort({price: -1}).lean();
+                else if (category != undefined)
+                    products = await productModel.find({category: {$in: category}}).sort({price: -1}).lean();
+                else
+                    products = await productModel.find().sort({price: -1}).lean();
+            }
             else
-                products = await productModel.find().lean();
+            {
+                if(brand != undefined && category != undefined)
+                    products = await productModel.find({
+                        category : { "$in": category },
+                        brand : { "$in": brand }
+                    }).lean();
+                else if (brand != undefined)
+                    products = await productModel.find({brand: {$in: brand}}).lean();
+                else if (category != undefined)
+                    products = await productModel.find({category: {$in: category}}).lean();
+                else
+                    products = await productModel.find().lean();
+            }
+
 
             for (let i = 0; i < products.length; i++) {
                 products[i].thumbnail = products[i].img[0];

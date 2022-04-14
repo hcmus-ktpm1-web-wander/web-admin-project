@@ -2,15 +2,98 @@
     <div class="container-fluid py-4" id="content">
         <div class="shop__product__option col-11" id="stat-end">
             <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="shop__product__option__left">
-                        <p>Showing 0 results</p>
+                <div class="col-lg-11 col-md-11 col-sm-11">
+                    <div class="shop__sidebar__accordion">
+                        <div class="accordion" id="accordionExample">
+                            <div class="card">
+                                <div class="card-heading">
+                                    <a data-toggle="collapse" data-target="#collapseOne">Filter</a>
+                                </div>
+                                <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <div class="shop__sidebar">
+                                            <div class="row nice-scroll">
+                                                <div class="categories col-3">
+                                                    <h6>Categories</h6>
+                                                    <input type="checkbox" class="filter-item" id="Bags"/>
+                                                    <label class="label-filter-item" for="Bags">Bags</label>
+
+                                                    <input type="checkbox" class="filter-item" id="Clothing"/>
+                                                    <label class="label-filter-item" for="Clothing">Clothing</label>
+
+                                                    <input type="checkbox" class="filter-item" id="Accessories"/>
+                                                    <label class="label-filter-item" for="Accessories">Accessories</label>
+
+<!--                                                    <input type="checkbox" class="filter-item" id="XL"/>
+                                                    <label class="label-filter-item" for="XL">XL</label>
+
+                                                    <input type="checkbox" class="filter-item" id="2XL"/>
+                                                    <label class="label-filter-item" for="2XL">2XL</label>
+
+                                                    <input type="checkbox" class="filter-item" id="3XL"/>
+                                                    <label class="label-filter-item" for="3XL">3XL</label>-->
+                                                </div>
+                                                <div class="filter-divider"></div>
+
+                                                <div class="brand col-3">
+                                                    <h6>Brand</h6>
+                                                    <input type="checkbox" class="filter-item" id="501 Modern Icons"/>
+                                                    <label class="label-filter-item" for="501 Modern Icons">501 Modern Icons</label>
+
+                                                    <input type="checkbox" class="filter-item" id="Levi’s Fresh"/>
+                                                    <label class="label-filter-item" for="Levi’s Fresh">Levi’s Fresh</label>
+
+                                                    <input type="checkbox" class="filter-item" id="The Simpsons"/>
+                                                    <label class="label-filter-item" for="The Simpsons">The Simpsons</label>
+
+                                                    <input type="checkbox" class="filter-item" id="Levi’s cool"/>
+                                                    <label class="label-filter-item" for="Levi’s cool">Levi’s cool</label>
+                                                </div>
+                                                <div class="filter-divider"></div>
+
+                                                <div class="price col-3">
+                                                    <h6>Price</h6>
+                                                    <div style="text-align: center">
+                                                        <input type="number" class="price-input" name="min-price">
+                                                        -
+                                                        <input type="number" class="price-input" name="max-price">
+                                                    </div>
+
+                                                </div>
+                                                <div class="filter-divider"></div>
+
+                                                <div class="color col-auto">
+                                                    <h6 >Color</h6>
+                                                    <label class="c-1" for="sp-1">
+                                                        <input type="radio" id="sp-1">
+                                                    </label>
+                                                    <label class="c-2" for="sp-2">
+                                                        <input type="radio" id="sp-2">
+                                                    </label>
+                                                    <label class="c-3" for="sp-3">
+                                                        <input type="radio" id="sp-3">
+                                                    </label>
+                                                    <label class="c-4" for="sp-4">
+                                                        <input type="radio" id="sp-4">
+                                                    </label>
+                                                    <label class="c-5" for="sp-5">
+                                                        <input type="radio" id="sp-5">
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="col-lg-1 col-md-1 col-sm-1">
                     <div class="shop__product__option__right">
                         <p>Sort by:</p>
-                        <select id ="sort-dropdown" onchange="getProductsBySort(1)">
+                        <select id ="sort-dropdown" onchange="getProductsByFilter(1)">
                             <option value="rd">Random</option>
                             <option value="lh">Low to High</option>
                             <option value="hl">High to Low</option>
@@ -303,5 +386,6 @@
         }
     }
 </script>
+
 
 <script src="/js/productAjax.js"></script>

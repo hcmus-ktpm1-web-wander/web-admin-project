@@ -1,10 +1,11 @@
-function getProductsBySort(page) {
+function getProductsByFilter(page) {
     const sort_type = $('#sort-dropdown').find(":selected").val();
+
     fetch(`/api/product?sort=${sort_type}&page=${page}`, {
         method: "GET"
+
     }).then(r => r.json()).then(data => {
         $('#list-product-render').html('');
-
         data.result.data.forEach(function (item, index) {
             $('#list-product-render').append(`
            <div class="card mx-2 my-2" style="width: 18rem;">
@@ -48,6 +49,11 @@ function getProductsBySort(page) {
 }
 
 
+
+
+
+
 window.onload = function () {
-    getProductsBySort(1)
+    getProductsByFilter(1)
 }
+

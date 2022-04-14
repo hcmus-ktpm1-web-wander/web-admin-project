@@ -4,6 +4,7 @@ const pagination = require('../../public/js/paging');
 module.exports.getProducts = async (req,res)=>{
     try {
         const page =  parseInt(req.query.page || 1);
+
         const product = await productService.getProducts(req.query.sort);
         const result = pagination.paging(product,page,6);
         res.send({result});
