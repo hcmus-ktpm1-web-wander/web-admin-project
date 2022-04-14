@@ -6,11 +6,17 @@ const cloudinary = require('../../config/cloudinary.config');
  * @param id {string||null}
  * @returns {Promise<productModel>}
  */
-module.exports.getProducts = async (id = null) => {
+module.exports.getProducts = async (sort_type, id = null) => {
     try {
-        console.log("getProduct");
         if (id === null) {
-            const products = await productModel.find().lean();
+            let products=null;
+            if (sort_type == 'lh')
+                products = await productModel.find().sort({price: 1}).lean();
+            else if (sort_type == 'hl')
+                products = await productModel.find().sort({price: -1}).lean();
+            else
+                products = await productModel.find().lean();
+
             for (let i = 0; i < products.length; i++) {
                 products[i].thumbnail = products[i].img[0];
             }
@@ -26,6 +32,8 @@ module.exports.getProducts = async (id = null) => {
         throw err;
     }
 }
+
+
 
 /**
  * add new product
