@@ -131,7 +131,7 @@ function Init()
 
 
 window.onload = function () {
-    getProductsByFilter(1)
+    getProductsByFilter(1,['Bags','Clothing'])
     Init()
 }
 
