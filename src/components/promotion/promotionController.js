@@ -12,7 +12,7 @@ exports.renderPromotionManage = async (req, res) => {
         if (req.session.errors !== undefined) {
             const error_msg = req.session.errors;
             req.session.errors = undefined
-            res.render("promotion/views/promotion_manage", { active: { PromotionManage: true }, page: "Promotion manage", error_msg: error_msg });
+            res.render("promotion/views/promotion_manage", { active: { PromotionManage: true }, page: "Promotion manage", result, error_msg: error_msg });
         }
         else
             res.render("promotion/views/promotion_manage", { active: { PromotionManage: true }, page: "Promotion manage"});

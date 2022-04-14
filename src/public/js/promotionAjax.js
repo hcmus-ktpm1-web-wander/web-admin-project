@@ -135,7 +135,7 @@ function loadPromotion(page) {
             )
         })
 
-        $('promotion-pagination').html(
+        $('#promotion-pagination').html(
             `<li class="page-item" style="${data.disablePrev} ">
                 <button class="page-link" onClick="loadPromotion('${data.prev}')" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
@@ -222,5 +222,19 @@ function inputInit() {
             $(`.${name}`).text(error_msg)
         })
     })
-
+    const submit = $(`.modal-footer button[type=submit]`)
+    submit.on('click', function (){
+        inputs.each(function (){
+            const name = $(this).attr("name")
+            const input = $(this).val()
+            const error_msg = isValidInput(input, name)
+            if (error_msg != '')
+            {
+                event.preventDefault()
+                $('#modal-error').text('Failed, please check your inputs')
+            }
+            else
+                submit.submit()
+        })
+    })
 }
