@@ -1,5 +1,4 @@
 function paging(page) {
-
     fetch('/api/product?page=' + page, {
         method: "GET"
     }).then(r => r.json()).then(data => {

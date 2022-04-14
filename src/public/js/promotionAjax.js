@@ -235,6 +235,7 @@ function inputInit() {
             }
             else
                 submit.submit()
+
         })
     })
 }

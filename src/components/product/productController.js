@@ -10,10 +10,7 @@ const utils = require("../../public/js/paging");
  */
 exports.renderProductManage = async (req, res) => {
     try {
-        const products = await productService.getProducts();
-        const page = parseInt(req.query.page) || 1;
-        const result = utils.paging(products, page, 6);
-        res.render("product/views/product", { active: { ProductManage: true }, page: "Product manage", result });
+        res.render("product/views/product", { active: { ProductManage: true }, page: "Product manage" });
     } catch (e) {
         res.status(500).json({ message: e.message });
     }
