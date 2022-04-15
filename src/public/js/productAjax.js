@@ -1,10 +1,16 @@
-function getProductsByFilter(page, category=null, brand=null, min_price=null, max_price=null) {
+function getProductsByFilter(page, category=null, brand=null, min_price = '0', max_price= '999999') {
     const sort_type = $('#sort-dropdown').find(":selected").val();
+    if (min_price == '')
+        min_price = '0'
+    if (max_price == '')
+        max_price = '0'
+
+    console.log(min_price,max_price)
     if (!category || category.length == 0)
         category=null
     if (!brand || brand.length == 0)
         brand=null
-    fetch(`/api/product?sort=${sort_type}&page=${page}&category=${JSON.stringify(category)}&brand=${JSON.stringify(brand)}&min=${min_price}min_price&max=$${max_price}`, {
+    fetch(`/api/product?sort=${sort_type}&page=${page}&category=${JSON.stringify(category)}&brand=${JSON.stringify(brand)}&min=${min_price}&max=${max_price}`, {
         method: "GET"
 
     }).then(r => r.json()).then(data => {
@@ -73,6 +79,16 @@ function checkAll()
             brand_filter.push(id)
     })
 
+    const price_inputs = $('.price input[type=number]')
+    price_inputs.each(function (){
+        const name = $(this).attr('name')
+        const value = $(this).val()
+        if(name == 'min-price')
+            min_price = value
+        else
+            max_price = value
+    })
+
     return {category: category_filter, brand: brand_filter, min_price: min_price, max_price: max_price}
 }
 
@@ -87,14 +103,14 @@ function Init()
             filter_form.attr('class','collapsing')
             setTimeout(function (){
                 filter_form.attr('class','collapse show')
-            },60)
+            },50)
         }
         else
         {
             filter_form.attr('class','collapsing')
             setTimeout(function (){
                 filter_form.attr('class','collapse')
-            },60)
+            },50)
         }
 
     })
@@ -103,7 +119,7 @@ function Init()
     checkboxes.each(function (){
         $(this).on("input", function (){
             const result=checkAll()
-            getProductsByFilter(1,result.category,result.brand)
+            getProductsByFilter(1,result.category,result.brand,result.min_price,result.max_price)
 
         })
     })
@@ -113,20 +129,20 @@ function Init()
 
         $(this).on("input", function (){
             const result=checkAll()
-            getProductsByFilter(1,result.category,result.brand)
+            getProductsByFilter(1,result.category,result.brand,result.min_price,result.max_price)
         })
     })
 
     const select = $('#sort-dropdown')
     select.on("input", function (){
         const result=checkAll()
-        getProductsByFilter(1,result.category,result.brand)
+        getProductsByFilter(1,result.category,result.brand,result.min_price,result.max_price)
     })
 }
 
 
 window.onload = function () {
-    getProductsByFilter(1,['Bags','Clothing'])
+    getProductsByFilter(1)
     Init()
 }
 

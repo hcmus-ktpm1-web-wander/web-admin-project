@@ -14,7 +14,7 @@ module.exports.getDashboard = async (req, res) => {
         console.log('-- dashbord api - getDashboard');
         // fetch database
         const orders = await orderService.getOrders();
-        const products = await productService.getProducts();
+        /*const products = await productService.getProducts();*/
         const users = (await userService.getInfo("User")).concat(await userService.getInfo("Admin"));
         var period = req.query.period;
 

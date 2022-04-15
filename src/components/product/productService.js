@@ -6,37 +6,41 @@ const cloudinary = require('../../config/cloudinary.config');
  * @param id {string||null}
  * @returns {Promise<productModel>}
  */
-module.exports.getProducts = async (sort_type, category, brand, min, max, id=null) => {
+module.exports.getProducts = async (sort, category, brand, min, max, id=null) => {
     try {
         if (id === null) {
             let products=null;
-            if (sort_type == 'lh')
-            {
-                if(category.length == 0 && brand.length == 0)
-                    products = await productModel.find( {} ).sort({price: 1}).lean()
-                else
-                    products = await productModel.find( { $or: [ { category : { "$in": category } }, { brand : { "$in": brand } } ] } ).sort({price: 1}).lean()
-            }
 
-            else if (sort_type == 'hl')
+            if (sort != 0)
             {
-                if(category.length == 0 && brand.length == 0)
-                    products = await productModel.find( {} ).sort({price: -1}).lean()
+                if(!category && !brand)
+                    products = await productModel.find( { $and: [{price: {$gte: min }}, {price: {$lte: max }} ] } ).sort({price: sort}).lean()
+
+                else if (category && brand)
+                    products = await productModel.find( { $and: [ { category : { "$in": category } }, { brand : { "$in": brand } }, {price: {$gte: min }}, {price: {$lte: max }} ] } ).sort({price: sort}).lean()
+                else if (category && !brand)
+                    products = await productModel.find({$and: [{ category : { "$in": category }}, {price: {$gte: min }}, {price: {$lte: max }} ]} ).sort({price: sort}).lean()
                 else
-                    products = await productModel.find( { $or: [ { category : { "$in": category } }, { brand : { "$in": brand } } ] } ).sort({price: -1}).lean()
+                    products = await productModel.find({$and: [{ brand : { "$in": brand }}, {price: {$gte: min }}, {price: {$lte: max }} ]} ).sort({price: sort}).lean()
+
             }
             else
             {
-                if(category.length == 0 && brand.length == 0)
-                    products = await productModel.find( {} ).lean()
+                if(!category && !brand)
+                    products = await productModel.find( { $and: [{price: {$gte: min }}, {price: {$lte: max }} ] } ).lean()
+                else if (category && brand)
+                    products = await productModel.find( { $and: [ { category : { "$in": category } }, { brand : { "$in": brand } }, {price: {$gte: min }}, {price: {$lte: max }} ] } ).lean()
+                else if (category && !brand)
+                    products = await productModel.find({$and: [{ category : { "$in": category }}, {price: {$gte: min }}, {price: {$lte: max }} ]} ).lean()
                 else
-                products = await productModel.find( { $or: [ { category : { "$in": category } }, { brand : { "$in": brand } } ] } ).lean()
-
+                    products = await productModel.find({$and: [{ brand : { "$in": brand }}, {price: {$gte: min }}, {price: {$lte: max }} ]} ).lean()
             }
 
             for (let i = 0; i < products.length; i++) {
                 products[i].thumbnail = products[i].img[0];
             }
+            console.log(typeof products)
+
             return products;
         } else {
             const product = await productModel.findById(id).lean();
