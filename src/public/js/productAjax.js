@@ -73,15 +73,6 @@ function checkAll()
             brand_filter.push(id)
     })
 
-    const price_inputs = $('.price input[type=number]')
-    price_inputs.each(function (){
-        const name = $(this).attr('name')
-        if (name=='min-price')
-            min_price=$(this).val()
-        else
-            max_price=$(this).val()
-    })
-
     return {category: category_filter, brand: brand_filter, min_price: min_price, max_price: max_price}
 }
 
@@ -126,7 +117,11 @@ function Init()
         })
     })
 
-
+    const select = $('#sort-dropdown')
+    select.on("input", function (){
+        const result=checkAll()
+        getProductsByFilter(1,result.category,result.brand)
+    })
 }
 
 

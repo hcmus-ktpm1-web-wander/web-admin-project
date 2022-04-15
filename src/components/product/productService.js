@@ -11,11 +11,28 @@ module.exports.getProducts = async (sort_type, category, brand, min, max, id=nul
         if (id === null) {
             let products=null;
             if (sort_type == 'lh')
-                products = await productModel.find( { $or: [ { category : { "$in": category } }, { brand : { "$in": brand } } ] } ).sort({price: 1}).lean()
+            {
+                if(category.length == 0 && brand.length == 0)
+                    products = await productModel.find( {} ).sort({price: 1}).lean()
+                else
+                    products = await productModel.find( { $or: [ { category : { "$in": category } }, { brand : { "$in": brand } } ] } ).sort({price: 1}).lean()
+            }
+
             else if (sort_type == 'hl')
-                products = await productModel.find( { $or: [ { category : { "$in": category } }, { brand : { "$in": brand } } ] } ).sort({price: -1}).lean()
+            {
+                if(category.length == 0 && brand.length == 0)
+                    products = await productModel.find( {} ).sort({price: -1}).lean()
+                else
+                    products = await productModel.find( { $or: [ { category : { "$in": category } }, { brand : { "$in": brand } } ] } ).sort({price: -1}).lean()
+            }
             else
+            {
+                if(category.length == 0 && brand.length == 0)
+                    products = await productModel.find( {} ).lean()
+                else
                 products = await productModel.find( { $or: [ { category : { "$in": category } }, { brand : { "$in": brand } } ] } ).lean()
+
+            }
 
             for (let i = 0; i < products.length; i++) {
                 products[i].thumbnail = products[i].img[0];
