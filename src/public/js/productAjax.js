@@ -3,9 +3,8 @@ function getProductsByFilter(page, category=null, brand=null, min_price = '0', m
     if (min_price == '')
         min_price = '0'
     if (max_price == '')
-        max_price = '0'
+        max_price = '999999'
 
-    console.log(min_price,max_price)
     if (!category || category.length == 0)
         category=null
     if (!brand || brand.length == 0)
@@ -126,6 +125,11 @@ function Init()
 
     const price_inputs = $('.price input[type=number]')
     price_inputs.each(function (){
+        const name = $(this).attr('name')
+        if (name == 'min-price')
+            $(this).attr('value','0')
+        else
+            $(this).attr('value','999999')
 
         $(this).on("input", function (){
             const result=checkAll()
