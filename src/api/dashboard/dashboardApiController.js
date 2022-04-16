@@ -94,6 +94,7 @@ module.exports.getDashboard = async (req, res) => {
                 period_total_order += 1;
 
                 // top user
+                // only find top user has account
                 if (top_user[order.customer._id] === undefined) {
                     let user = users.find(element => element._id == order.customer._id);
 
@@ -149,8 +150,6 @@ module.exports.getDashboard = async (req, res) => {
             }
         });
 
-        console.log("top product: ", top_product);
-        console.log("top product category: ", top_product_category);
         // chart
         {
             if (pre === "Today") { //done
@@ -299,6 +298,8 @@ module.exports.getDashboard = async (req, res) => {
         var top_three_user = Object.keys(top_user).map(function (key) {
             return [key, top_user[key]];
         });
+
+        console.log("top 3 user:", top_three_user);
 
         // Sort the array based on the second element
         for (let i = 0; i < top_three_user.length - 1; i++) {
