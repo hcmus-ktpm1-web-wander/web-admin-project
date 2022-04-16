@@ -5,14 +5,19 @@ function getProductsByFilter(page, category=null, brand=null, min_price = '0', m
     if (max_price == '')
         max_price = '999999'
 
-    if (!category || category.length == 0)
+
+    if (category == null || category.length == 0)
         category=null
-    if (!brand || brand.length == 0)
+    if (brand == null || brand.length == 0)
         brand=null
+
     fetch(`/api/product?sort=${sort_type}&page=${page}&category=${JSON.stringify(category)}&brand=${JSON.stringify(brand)}&min=${min_price}&max=${max_price}`, {
         method: "GET"
-
     }).then(r => r.json()).then(data => {
+
+        category = JSON.stringify(category)
+        brand = JSON.stringify(brand)
+
         $('#list-product-render').html('');
         data.result.data.forEach(function (item, index) {
             $('#list-product-render').append(`
@@ -27,33 +32,39 @@ function getProductsByFilter(page, category=null, brand=null, min_price = '0', m
 						</div>
 					</div>`);
         });
-
+        /*onClick="getProductsByFilter(${data.result.prev},${category}, ${brand}, ${min_price}, ${max_price})"*/
         $('#product-pagination').html(
             `<li class="page-item" style="${data.result.disablePrev} ">
-                <button class="page-link" onClick="getProductsBySort('${data.result.prev}')" aria-label="Previous">
+                <button class="page-link" onClick='getProductsByFilter(${data.result.prev},${category},${brand},${min_price}, ${max_price})' aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </button>
             </li>
-    
+
             <li class="page-item ${data.result.hiddenPrev}"
                 style="${data.result.disablePrev} ${data.result.numberPrev}">
-                <button class="page-link"  onClick="getProductsBySort('${data.result.prev}')"> ${data.result.prev} </button>
+                <button class="page-link"  onClick='getProductsByFilter(${data.result.prev},${category},${brand},${min_price}, ${max_price})'> ${data.result.prev} </button>
             </li>
-    
+            
             <li class="page-item active">
-                <button class="page-link" onClick="getProductsBySort('${data.result.page}')"> ${data.result.page} </button>
+                <button class="page-link" onClick='getProductsByFilter(${data.result.page},${category},${brand},${min_price}, ${max_price})'> ${data.result.page} </button>
             </li>
             <li class="page-item ${data.result.hiddenNext}"
                 style="${data.result.disableNext} ${data.result.numberNext}">
-                <button class="page-link" onClick="getProductsBySort('${data.result.next}')"> ${data.result.next} </button>
+                <button class="page-link" onClick='getProductsByFilter(${data.result.next},${category},${brand},${min_price}, ${max_price})'> ${data.result.next} </button>
             </li>
             
             <li class="page-item" style="${data.result.disableNext}">
-                <button class="page-link" onClick="getProductsBySort('${data.result.next}')" aria-label="Next">
+                <button class="page-link" onClick='getProductsByFilter(${data.result.next},${category},${brand},${min_price}, ${max_price})' aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </button>
             </li>`);
     });
+}
+
+function test(field)
+{
+    console.log(field)
+
 }
 
 
@@ -146,6 +157,7 @@ function Init()
 
 
 window.onload = function () {
+    const category = ['Bags','Accessories']
     getProductsByFilter(1)
     Init()
 }
