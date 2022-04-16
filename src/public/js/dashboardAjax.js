@@ -1,4 +1,4 @@
-var g_period = "Week";
+var g_period = "Today";
 window.onload = getDashboard(g_period);
 
 function getDashboard(period) {

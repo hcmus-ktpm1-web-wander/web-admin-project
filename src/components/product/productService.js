@@ -1,28 +1,69 @@
 const productModel = require('./productModel');
 const cloudinary = require('../../config/cloudinary.config');
 
+
 /**
  * Get all the products
  * @param id {string||null}
  * @returns {Promise<productModel>}
  */
-module.exports.getProducts = async (sort_type, category, brand, min, max, id) => {
+module.exports.getAllProducts = async () => {
     try {
-        console.log('---- get products ----');
-        console.log("log:", sort_type, category, brand, min, max, id);
+        const product = await productModel.findById().lean();
+        return product;
+    }
+    catch (err) {
+        throw err;
+    }
+}
 
-        if (id === undefined) {
+
+/**
+ * Get user the products
+ * @param id {string||null}
+ * @returns {Promise<productModel>}
+ */
+module.exports.getProducts = async (sort, category, brand, min, max, id = null) => {
+    try {
+        console.log("--- get products ---");
+        console.log("id:", id);
+        if (id === null) {
             let products = null;
-            if (sort_type == 'lh')
-                products = await productModel.find({ $or: [{ category: { "$in": category } }, { brand: { "$in": brand } }] }).sort({ price: 1 }).lean()
-            else if (sort_type == 'hl')
-                products = await productModel.find({ $or: [{ category: { "$in": category } }, { brand: { "$in": brand } }] }).sort({ price: -1 }).lean()
-            else
-                products = await productModel.find({ $or: [{ category: { "$in": category } }, { brand: { "$in": brand } }] }).lean()
+            if (sort === undefined) {
+                // case get dashboard
+                products = await productModel.find().lean();
+                for (let i = 0; i < products.length; i++) {
+                    products[i].thumbnail = products[i].img[0];
+                }
+
+                return products;
+            } else if (sort != 0) {
+                if (!category && !brand)
+                    products = await productModel.find({ $and: [{ price: { $gte: min } }, { price: { $lte: max } }] }).sort({ price: sort }).lean()
+
+                else if (category && brand)
+                    products = await productModel.find({ $and: [{ category: { "$in": category } }, { brand: { "$in": brand } }, { price: { $gte: min } }, { price: { $lte: max } }] }).sort({ price: sort }).lean()
+                else if (category && !brand)
+                    products = await productModel.find({ $and: [{ category: { "$in": category } }, { price: { $gte: min } }, { price: { $lte: max } }] }).sort({ price: sort }).lean()
+                else
+                    products = await productModel.find({ $and: [{ brand: { "$in": brand } }, { price: { $gte: min } }, { price: { $lte: max } }] }).sort({ price: sort }).lean()
+            }
+            else {
+                if (!category && !brand)
+                    products = await productModel.find({ $and: [{ price: { $gte: min } }, { price: { $lte: max } }] }).lean()
+                else if (category && brand)
+                    products = await productModel.find({ $and: [{ category: { "$in": category } }, { brand: { "$in": brand } }, { price: { $gte: min } }, { price: { $lte: max } }] }).lean()
+                else if (category && !brand)
+                    products = await productModel.find({ $and: [{ category: { "$in": category } }, { price: { $gte: min } }, { price: { $lte: max } }] }).lean()
+                else
+                    products = await productModel.find({ $and: [{ brand: { "$in": brand } }, { price: { $gte: min } }, { price: { $lte: max } }] }).lean()
+            }
 
             for (let i = 0; i < products.length; i++) {
                 products[i].thumbnail = products[i].img[0];
             }
+            console.log(typeof products)
+
             return products;
         } else {
             console.log("get product: id:", id);

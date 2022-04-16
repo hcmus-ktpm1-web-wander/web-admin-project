@@ -14,15 +14,10 @@ module.exports.getDashboard = async (req, res) => {
         console.log('-- dashboard api - getDashboard');
         // fetch database
         const orders = await orderService.getOrders();
-        console.log("order:", orders);
-        const products = await productService.getProducts(id = req.user._id);
-        console.log("product:", products);
+        const products = await productService.getProducts(undefined, undefined, undefined, undefined, undefined, null);
         const users = (await userService.getInfo("User")).concat(await userService.getInfo("Admin"));
-        // console.log("user:", users);
 
         var period = req.query.period;
-
-
 
         // total user
         const total_user = users.length;
