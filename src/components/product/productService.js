@@ -165,7 +165,14 @@ module.exports.changeProductInfo = async (id, body, files, existFiles) => {
  */
 module.exports.deleteProduct = async (id) => {
     try {
+        // delete product
         await productModel.find({ _id: id }).remove();
+
+        // delete order has this product
+
+        // delete comment has this product
+
+        // delete user's cart has this product
     } catch (err) {
         throw err;
     }

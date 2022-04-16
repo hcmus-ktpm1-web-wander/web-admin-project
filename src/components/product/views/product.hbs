@@ -1,390 +1,265 @@
-<style>
-    .label-filter-item {
-        font-size: 12px !important;
-        font-weight: normal;
-        border: 0px !important;
-    }
-
-    .label-filter-item:hover {
-        cursor: pointer;
-        background-color: lightgray !important;
-        border: 0px !important;
-    }
-
-    input:checked+label {
-        background-color: rgb(230, 230, 230) !important;
-        border: 0px !important;
-    }
-
-    .card-tille-filter {
-        background-color: rgb(238, 238, 238);
-    }
-</style>
-
 <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg ">
     <div class="container-fluid py-4" id="content">
-        <div class="shop__product__option col-11" id="stat-end">
-            <div class="shop__sidebar__accordion" style="background-color: transparent !important;">
-                <div class="accordion" id="accordionExample">
-                    <div class="card" style="border-radius: 15px;">
-                        <div class="card-body pt-0">
-                            <div class="card-title card-tille-filter d-flex justify-content-between p-3">
-                                <a data-toggle="collapse" data-target="#collapseOne">
-                                    <h4><b>Filter</b></h4>
-                                </a>
 
-                                <div class="d-flex align-items-center">
-                                    <p class="me-2">Sort</p>
-                                    <select class="form-select" aria-label="Default select example" id="sort-dropdown"
-                                        style="border: 1px solid gray !important; border-radius: 10px">
-                                        <option value="0">Random</option>
-                                        <option value="1">Low to High</option>
-                                        <option value="-1">High to Low</option>
-                                    </select>
-                                </div>
+
+    </div>
+
+    <button type="submit" class="btn btn-primary align-bottom mx-2" data-bs-toggle="collapse"
+        data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
+        style="width: 200px; height: 50px;" onmousedown="">
+        Add product
+    </button>
+
+    <form action="/product/add-product" method="post" enctype="multipart/form-data">
+        <div class="collapse w-100" id="collapseExample">
+            <div class="card pb-3 mb-4">
+                <div class="card-body ">
+                    <div class="row ">
+                        <div class="mb-3 col-sm-12 col-md-4">
+                            <div id="add-img">
+
                             </div>
-                            <div class="shop__sidebar collapse show p-0" id="collapseOne"
-                                data-parent="#accordionExample">
-                                <div class="row nice-scroll">
-                                    <div class="categories col-12 col-md-6 col-lg-3"
-                                        style="border-right: 1px solid gray;">
-                                        <h6 class=" text-start ps-3"><b>Categories</b></h6>
-                                        <input type="checkbox" class="filter-item" id="Bags" />
-                                        <label class="label-filter-item" for="Bags">Bags</label>
+                            <a class="d-flex align-items-center" style="z-index: 2;" onmousedown="addImg()">
+                                <i class="fa fa-plus-square-o" aria-hidden="true" style="font-size: 35px;"></i>
+                            </a>
 
-                                        <input type="checkbox" class="filter-item" id="Clothing" />
-                                        <label class="label-filter-item" for="Clothing">Clothing</label>
+                            <script>
+                                var number_add = 0;
+                                const add_img = document.getElementById('add-img');
 
-                                        <input type="checkbox" class="filter-item" id="Accessories" />
-                                        <label class="label-filter-item" for="Accessories">Accessories</label>
+                                function addImg() {
+                                    console.log("add img");
+                                    var add_img_div = "<div id='product-img-" + number_add + "-wrap' class='row mb-2'> <div class='col-3'> <img src='/img/default-avtar.jpg' class='in-avatar rounded float-start'id='product-img-" + number_add + "-show' alt='avatar'> </div> <div class='col-12 col-md-9'> <b>Image " + number_add + ":</b>  <a id='product-img-" + number_add + "-minus'  onmousedown=\"removeImg('product-img-" + number_add + "')\"> <i class='fa fa-minus-circle' aria-hidden='true'></i>  </a> <input type='file' class='form-control' id=\"product-img-" + number_add + "-input\" name='img' accept='.jpg,.jpeg,.png' onchange='document.getElementById(\"product-img-" + number_add + "-show\").src = window.URL.createObjectURL(this.files[0])'>  </div>  </div >";
+                                    add_img.innerHTML += add_img_div;
+
+                                    for (let i = 0; i <= number_add; i++) {
+                                        const img = document.getElementById('product-img-' + i + '-show');
+                                        img.src = "/img/default-avtar.jpg";
+                                    }
+
+                                    number_add += 1;
+                                    console.log("num:", number_add);
+                                }
+
+                                function removeImg(id) {
+                                    console.log("remove", id)
+                                    document.getElementById(id + '-wrap').remove();
+                                    document.getElementById(id + '-show').remove();
+                                    document.getElementById(id + '-minus').remove();
+                                    document.getElementById(id + '-input').remove();
+                                }
+                            </script>
+                        </div>
+
+                        <div class="col">
+                            <div class="mx-md-5">
+                                <h3 class="card-title">
+                                    <input type="text" class="form-control mb-2 p-2" value="{{name}}" name="name"
+                                        style="font-size: 28px; font-weight:bold;">
+                                </h3>
+                                <div class="mb-4 d-flex">
+                                    <h3>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control"
+                                                aria-label="Dollar amount (with dot and two decimal places)"
+                                                value="{{price}}" name="price"
+                                                style="font-size: 28px; font-weight:bold; width:150px;">
+                                            <span class="input-group-text"
+                                                style="font-size: 28px; font-weight:bold;">$</span>
+                                        </div>
+                                    </h3>
+
+                                    <span class="badge bg-info d-flex align-items-center ms-2" style="height: 30px;">
+                                        Best saler
+                                    </span>
+
+                                </div>
+
+                                <div class="mb-2 text-sm">
+                                    <b>Category: </b>
+                                    <span class="red-start">*</span>
+                                </div>
+                                <div class="px-3">
+                                    <div class="row">
+                                        <div class="form-check col-6">
+                                            <input class="form-check-input" type="radio" name="category" id="category"
+                                                value="bag">
+                                            <label class="form-check-label" for="flexRadioDefault1">
+                                                Bag
+                                            </label>
+                                        </div>
+                                        <div class="form-check col-6">
+                                            <input class="form-check-input" type="radio" name="category" id="category"
+                                                value="clothing">
+                                            <label class="form-check-label" for="flexRadioDefault1">
+                                                Clothing
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-check col-6">
+                                            <input class="form-check-input" type="radio" name="category" id="category"
+                                                value="shoes">
+                                            <label class="form-check-label" for="flexRadioDefault1">
+                                                Shoes
+                                            </label>
+                                        </div>
+                                        <div class="form-check col-6">
+                                            <input class="form-check-input" type="radio" name="category" id="category"
+                                                value="accessories">
+                                            <label class="form-check-label" for="flexRadioDefault1">
+                                                Accessories
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-2 d-flex align-items-center text-sm">
+                                    <b>Brand: </b>
+                                    <input type="text" class="form-control form-control-sm ms-2" name="brand"
+                                        value="{{brand}}">
+                                </div>
+
+                                <div class="mb-2 text-sm d-flex">
+                                    <b class="me-3">Size: </b>
+                                    <div class="form-check me-2">
+                                        <input class="form-check-input" type="checkbox" name="size" value="XS"
+                                            id="flexCheckDefault">
+                                        <span style="margin-left: -5px;">XS</span>
+                                    </div>
+                                    <div class="form-check me-2">
+                                        <input class="form-check-input" type="checkbox" name="size" value="S"
+                                            id="flexCheckDefault">
+                                        <span style="margin-left: -5px;">S</span>
+                                    </div>
+                                    <div class="form-check me-2">
+                                        <input class="form-check-input" type="checkbox" name="size" value="M"
+                                            id="flexCheckDefault">
+                                        <span style="margin-left: -5px;">M</span>
+                                    </div>
+                                    <div class="form-check me-2">
+                                        <input class="form-check-input" type="checkbox" name="size" value="L"
+                                            id="flexCheckDefault">
+                                        <span style="margin-left: -5px;">L</span>
+                                    </div>
+                                    <div class="form-check me-2">
+                                        <input class="form-check-input" type="checkbox" name="size" value="XL"
+                                            id="flexCheckDefault">
+                                        <span style="margin-left: -5px;">XL</span>
+                                    </div>
+                                    <div class="form-check me-2">
+                                        <input class="form-check-input" type="checkbox" name="size" value="2XL"
+                                            id="flexCheckDefault">
+                                        <span style="margin-left: -5px;">2XL</span>
+                                    </div>
+                                    <div class="form-check me-2">
+                                        <input class="form-check-input" type="checkbox" name="size" value="3XL"
+                                            id="flexCheckDefault">
+                                        <span style="margin-left: -5px;">3XL</span>
+                                    </div>
+                                    <div class="form-check me-2">
+                                        <input class="form-check-input" type="checkbox" name="size" value="4XL"
+                                            id="flexCheckDefault">
+                                        <span style="margin-left: -5px;">4XL</span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-2 d-flex align-items-center text-sm">
+                                    <b>SKU: </b>
+                                    <input type="text" class="form-control form-control-sm ms-2" value="{{SKU}}"
+                                        name="SKU">
+                                </div>
+                                <div class="mb-2">
+                                    <div class="d-flex mb-2">
+                                        <b class="text-sm">Color:&nbsp;</b>
+
+                                        <a class="d-flex align-items-center" style="z-index: 2;"
+                                            onmousedown="addColor()">
+                                            <i class="fa fa-plus-square-o" aria-hidden="true"
+                                                style="font-size: 20px;"></i>
+                                        </a>
 
                                     </div>
-                                    {{!-- <div class="filter-divider"></div> --}}
 
-                                    <div class="brand col-12 col-md-6 col-lg-3" style="border-right: 1px solid gray;">
-                                        <h6 class="text-start ps-3">
-                                            <b>Brands</b>
-                                        </h6>
-                                        <input type="checkbox" class="filter-item" id="501 Modern Icons" />
-                                        <label class="label-filter-item" for="501 Modern Icons">501 Modern
-                                            Icons</label>
+                                    <div class="mb-2">
+                                        <div class="mb-2 d-flex flex-wrap" id="add-color">
+                                            {{#color}}
+                                            <div id="color-{{@index}}-wrap" class="position-relative mx-1 mb-2">
+                                                <input type="color" class="form-control-color" name="color"
+                                                    id="color-{{@index}}" value="{{this}}">
 
-                                        <input type="checkbox" class="filter-item" id="Levi’s Fresh" />
-                                        <label class="label-filter-item" for="Levi’s Fresh">Levi’s
-                                            Fresh</label>
-
-                                        <input type="checkbox" class="filter-item" id="The Simpsons" />
-                                        <label class="label-filter-item" for="The Simpsons">The
-                                            Simpsons</label>
-
-                                        <input type="checkbox" class="filter-item" id="Levi’s cool" />
-                                        <label class="label-filter-item" for="Levi’s cool">Levi’s
-                                            cool</label>
-
-                                    </div>
-
-                                    <div class="price col-12 col-md-6 col-lg-3 " style="border-right: 1px solid gray;">
-                                        <h6 class=" text-start ps-3">
-                                            <b>
-                                                Price
-                                            </b>
-                                        </h6>
-                                        <div style="text-align: center">
-                                            <input type="number" class="price-input" name="min-price">
-                                            -
-                                            <input type="number" class="price-input" name="max-price">
+                                                <a id="color-{{@index}}-minus"
+                                                    onmousedown="removeColor('color-{{@index}}')">
+                                                    <i class="fa fa-minus-circle position-absolute"
+                                                        style=" z-index: 1; right:-5px; top:-4px;"
+                                                        aria-hidden="true"></i>
+                                                </a>
+                                            </div>
+                                            {{/color}}
                                         </div>
 
-                                        <div class="filter-divider"></div>
                                     </div>
+                                    <script>
+                                        var numberadd = {{ color.length }} || 0;
+                                        var div_add_color = document.getElementById('add-color');
+                                        const add_div = "<div id='color-" + numberadd + "-wrap' class='position-relative mx-1 mb-2'> <input type='color' class='form-control-color' name='color' id=\"color-" + numberadd + "\"> <a id=\"color-" + numberadd + "-minus\"  onmousedown='removeColor(\"color-" + numberadd + "\")'> <i class='fa fa-minus-circle position-absolute' style=' z-index: 1; right:-5px; top:-4px;' aria-hidden='true'> </i > </a > </div >";
 
-                                    <div class="color col">
-                                        <h6 class="text-start ps-3">
-                                            <b>Color</b>
-                                        </h6>
-                                        <label class="c-1" for="sp-1">
-                                            <input type="radio" id="sp-1">
-                                        </label>
-                                        <label class="c-2" for="sp-2">
-                                            <input type="radio" id="sp-2">
-                                        </label>
-                                        <label class="c-3" for="sp-3">
-                                            <input type="radio" id="sp-3">
-                                        </label>
-                                        <label class="c-4" for="sp-4">
-                                            <input type="radio" id="sp-4">
-                                        </label>
-                                        <label class="c-5" for="sp-5">
-                                            <input type="radio" id="sp-5">
-                                        </label>
-                                    </div>
-                                </div>
+                                        function addColor() {
+                                            const _id = 'color-' + numberadd;
+                                            const _id_minus = _id + '-minus';
+                                            console.log("add color");
 
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                                            div_add_color.innerHTML += add_div;
 
-        </div>
-        <button type="submit" class="btn btn-primary align-bottom mx-2" data-bs-toggle="collapse"
-            data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
-            style="width: 200px; height: 50px;" onmousedown="">
-            Add product
-        </button>
-
-        <form action="/product/add-product" method="post" enctype="multipart/form-data">
-            <div class="collapse w-100" id="collapseExample">
-                <div class="card pb-3 mb-4">
-                    <div class="card-body ">
-                        <div class="row ">
-                            <div class="mb-3 col-sm-12 col-md-4">
-                                <div id="add-img">
-
-                                </div>
-                                <a class="d-flex align-items-center" style="z-index: 2;" onmousedown="addImg()">
-                                    <i class="fa fa-plus-square-o" aria-hidden="true" style="font-size: 35px;"></i>
-                                </a>
-
-                                <script>
-                                    var number_add = 0;
-                                    const add_img = document.getElementById('add-img');
-
-                                    function addImg() {
-                                        console.log("add img");
-                                        var add_img_div = "<div id='product-img-" + number_add + "-wrap' class='row mb-2'> <div class='col-3'> <img src='/img/default-avtar.jpg' class='in-avatar rounded float-start'id='product-img-" + number_add + "-show' alt='avatar'> </div> <div class='col-12 col-md-9'> <b>Image " + number_add + ":</b>  <a id='product-img-" + number_add + "-minus'  onmousedown=\"removeImg('product-img-" + number_add + "')\"> <i class='fa fa-minus-circle' aria-hidden='true'></i>  </a> <input type='file' class='form-control' id=\"product-img-" + number_add + "-input\" name='img' accept='.jpg,.jpeg,.png' onchange='document.getElementById(\"product-img-" + number_add + "-show\").src = window.URL.createObjectURL(this.files[0])'>  </div>  </div >";
-                                        add_img.innerHTML += add_img_div;
-
-                                        for (let i = 0; i <= number_add; i++) {
-                                            const img = document.getElementById('product-img-' + i + '-show');
-                                            img.src = "/img/default-avtar.jpg";
+                                            numberadd++;
                                         }
 
-                                        number_add += 1;
-                                        console.log("num:", number_add);
-                                    }
-
-                                    function removeImg(id) {
-                                        console.log("remove", id)
-                                        document.getElementById(id + '-wrap').remove();
-                                        document.getElementById(id + '-show').remove();
-                                        document.getElementById(id + '-minus').remove();
-                                        document.getElementById(id + '-input').remove();
-                                    }
-                                </script>
-                            </div>
-
-                            <div class="col">
-                                <div class="mx-md-5">
-                                    <h3 class="card-title">
-                                        <input type="text" class="form-control mb-2 p-2" value="{{name}}" name="name"
-                                            style="font-size: 28px; font-weight:bold;">
-                                    </h3>
-                                    <div class="mb-4 d-flex">
-                                        <h3>
-                                            <div class="input-group">
-                                                <input type="text" class="form-control"
-                                                    aria-label="Dollar amount (with dot and two decimal places)"
-                                                    value="{{price}}" name="price"
-                                                    style="font-size: 28px; font-weight:bold; width:150px;">
-                                                <span class="input-group-text"
-                                                    style="font-size: 28px; font-weight:bold;">$</span>
-                                            </div>
-                                        </h3>
-
-                                        <span class="badge bg-info d-flex align-items-center ms-2"
-                                            style="height: 30px;">
-                                            Best saler
-                                        </span>
-
-                                    </div>
-
-                                    <div class="mb-2 text-sm">
-                                        <b>Category: </b>
-                                        <span class="red-start">*</span>
-                                    </div>
-                                    <div class="px-3">
-                                        <div class="row">
-                                            <div class="form-check col-6">
-                                                <input class="form-check-input" type="radio" name="category"
-                                                    id="category" value="bag">
-                                                <label class="form-check-label" for="flexRadioDefault1">
-                                                    Bag
-                                                </label>
-                                            </div>
-                                            <div class="form-check col-6">
-                                                <input class="form-check-input" type="radio" name="category"
-                                                    id="category" value="clothing">
-                                                <label class="form-check-label" for="flexRadioDefault1">
-                                                    Clothing
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="form-check col-6">
-                                                <input class="form-check-input" type="radio" name="category"
-                                                    id="category" value="shoes">
-                                                <label class="form-check-label" for="flexRadioDefault1">
-                                                    Shoes
-                                                </label>
-                                            </div>
-                                            <div class="form-check col-6">
-                                                <input class="form-check-input" type="radio" name="category"
-                                                    id="category" value="accessories">
-                                                <label class="form-check-label" for="flexRadioDefault1">
-                                                    Accessories
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="mb-2 d-flex align-items-center text-sm">
-                                        <b>Brand: </b>
-                                        <input type="text" class="form-control form-control-sm ms-2" name="brand"
-                                            value="{{brand}}">
-                                    </div>
-
-                                    <div class="mb-2 text-sm d-flex">
-                                        <b class="me-3">Size: </b>
-                                        <div class="form-check me-2">
-                                            <input class="form-check-input" type="checkbox" name="size" value="XS"
-                                                id="flexCheckDefault">
-                                            <span style="margin-left: -5px;">XS</span>
-                                        </div>
-                                        <div class="form-check me-2">
-                                            <input class="form-check-input" type="checkbox" name="size" value="S"
-                                                id="flexCheckDefault">
-                                            <span style="margin-left: -5px;">S</span>
-                                        </div>
-                                        <div class="form-check me-2">
-                                            <input class="form-check-input" type="checkbox" name="size" value="M"
-                                                id="flexCheckDefault">
-                                            <span style="margin-left: -5px;">M</span>
-                                        </div>
-                                        <div class="form-check me-2">
-                                            <input class="form-check-input" type="checkbox" name="size" value="L"
-                                                id="flexCheckDefault">
-                                            <span style="margin-left: -5px;">L</span>
-                                        </div>
-                                        <div class="form-check me-2">
-                                            <input class="form-check-input" type="checkbox" name="size" value="XL"
-                                                id="flexCheckDefault">
-                                            <span style="margin-left: -5px;">XL</span>
-                                        </div>
-                                        <div class="form-check me-2">
-                                            <input class="form-check-input" type="checkbox" name="size" value="2XL"
-                                                id="flexCheckDefault">
-                                            <span style="margin-left: -5px;">2XL</span>
-                                        </div>
-                                        <div class="form-check me-2">
-                                            <input class="form-check-input" type="checkbox" name="size" value="3XL"
-                                                id="flexCheckDefault">
-                                            <span style="margin-left: -5px;">3XL</span>
-                                        </div>
-                                        <div class="form-check me-2">
-                                            <input class="form-check-input" type="checkbox" name="size" value="4XL"
-                                                id="flexCheckDefault">
-                                            <span style="margin-left: -5px;">4XL</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="mb-2 d-flex align-items-center text-sm">
-                                        <b>SKU: </b>
-                                        <input type="text" class="form-control form-control-sm ms-2" value="{{SKU}}"
-                                            name="SKU">
-                                    </div>
-                                    <div class="mb-2">
-                                        <div class="d-flex mb-2">
-                                            <b class="text-sm">Color:&nbsp;</b>
-
-                                            <a class="d-flex align-items-center" style="z-index: 2;"
-                                                onmousedown="addColor()">
-                                                <i class="fa fa-plus-square-o" aria-hidden="true"
-                                                    style="font-size: 20px;"></i>
-                                            </a>
-
-                                        </div>
-
-                                        <div class="mb-2">
-                                            <div class="mb-2 d-flex flex-wrap" id="add-color">
-                                                {{#color}}
-                                                <div id="color-{{@index}}-wrap" class="position-relative mx-1 mb-2">
-                                                    <input type="color" class="form-control-color" name="color"
-                                                        id="color-{{@index}}" value="{{this}}">
-
-                                                    <a id="color-{{@index}}-minus"
-                                                        onmousedown="removeColor('color-{{@index}}')">
-                                                        <i class="fa fa-minus-circle position-absolute"
-                                                            style=" z-index: 1; right:-5px; top:-4px;"
-                                                            aria-hidden="true"></i>
-                                                    </a>
-                                                </div>
-                                                {{/color}}
-                                            </div>
-
-                                        </div>
-                                        <script>
-                                            var numberadd = {{ color.length }} || 0;
-                                            var div_add_color = document.getElementById('add-color');
-                                            const add_div = "<div id='color-" + numberadd + "-wrap' class='position-relative mx-1 mb-2'> <input type='color' class='form-control-color' name='color' id=\"color-" + numberadd + "\"> <a id=\"color-" + numberadd + "-minus\"  onmousedown='removeColor(\"color-" + numberadd + "\")'> <i class='fa fa-minus-circle position-absolute' style=' z-index: 1; right:-5px; top:-4px;' aria-hidden='true'> </i > </a > </div >";
-
-                                            function addColor() {
-                                                const _id = 'color-' + numberadd;
-                                                const _id_minus = _id + '-minus';
-                                                console.log("add color");
-
-                                                div_add_color.innerHTML += add_div;
-
-                                                numberadd++;
-                                            }
-
-                                            function removeColor(id) {
-                                                console.log("remove", id)
-                                                document.getElementById(id).remove();
-                                                document.getElementById(id + '-minus').remove();
-                                                document.getElementById(id + '-wrap').remove();
-                                            }
-                                        </script>
-                                    </div>
-
-                                    <div class=" mb-3 text-sm">
-                                        <b>Description:</b>
-                                        <textarea class="form-control form-control-sm mb-2" name="description"
-                                            id="exampleFormControlTextarea1" rows="4"></textarea>
-                                    </div>
-                                    <div class=" mb-3 text-sm">
-                                        <b>Product detail:</b>
-                                        <textarea class="form-control form-control-sm mb-2" name="infomation"
-                                            id="exampleFormControlTextarea1" rows="4"></textarea>
-                                    </div>
-                                    <button type="button" class="btn btn-secondary align-bottom mt-4"
-                                        style="width: 120px;" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseExample" aria-expanded="false"
-                                        aria-controls="collapseExample">
-                                        Cancel
-                                    </button>
-                                    <button type="submit" class="btn btn-primary align-bottom ms-2 mt-4 bg-primary"
-                                        style="width: 150px;">
-                                        Submit
-                                    </button>
+                                        function removeColor(id) {
+                                            console.log("remove", id)
+                                            document.getElementById(id).remove();
+                                            document.getElementById(id + '-minus').remove();
+                                            document.getElementById(id + '-wrap').remove();
+                                        }
+                                    </script>
                                 </div>
+
+                                <div class=" mb-3 text-sm">
+                                    <b>Description:</b>
+                                    <textarea class="form-control form-control-sm mb-2" name="description"
+                                        id="exampleFormControlTextarea1" rows="4"></textarea>
+                                </div>
+                                <div class=" mb-3 text-sm">
+                                    <b>Product detail:</b>
+                                    <textarea class="form-control form-control-sm mb-2" name="infomation"
+                                        id="exampleFormControlTextarea1" rows="4"></textarea>
+                                </div>
+                                <button type="button" class="btn btn-secondary align-bottom mt-4" style="width: 120px;"
+                                    data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false"
+                                    aria-controls="collapseExample">
+                                    Cancel
+                                </button>
+                                <button type="submit" class="btn btn-primary align-bottom ms-2 mt-4 bg-primary"
+                                    style="width: 150px;">
+                                    Submit
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-        </form>
 
-        <div class="col-11">
-            <div class="d-flex flex-wrap justify-content-between" id="list-product-render">
-            </div>
         </div>
-        <div class="col-11">
-            <nav aria-label="Page navigation example">
-                <ul class="pagination" style="display: flex; justify-content: right;" id="product-pagination">
-                </ul>
-            </nav>
+    </form>
+
+    <div class="col-11">
+        <div class="d-flex flex-wrap justify-content-between" id="list-product-render">
         </div>
+    </div>
+    <div class="col-11">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination" style="display: flex; justify-content: right;" id="product-pagination">
+            </ul>
+        </nav>
+    </div>
     </div>
     <footer class="footer pt-3  "></footer>
 </main>

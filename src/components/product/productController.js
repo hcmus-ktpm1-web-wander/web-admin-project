@@ -10,7 +10,7 @@ const utils = require("../../public/js/paging");
  */
 exports.renderProductManage = async (req, res) => {
     try {
-        res.render("product/views/product", { active: { ProductManage: true }, page: "Product manage" });
+        res.render("product/views/product", { layout: "/product/views/product_layout", active: { ProductManage: true }, page: "Product manage" });
     } catch (e) {
         res.status(500).json({ message: e.message });
     }
@@ -25,7 +25,7 @@ exports.renderProductManage = async (req, res) => {
  */
 exports.renderProductDetailEdit = async (req, res) => {
     try {
-        const product = await productService.getProducts(req.params.productID);
+        const product = await productService.getProducts(undefined, undefined, undefined, undefined, undefined, req.params.productID);
         res.render("product/views/product_detail", { active: { ProductManage: true, editProduct: true }, page: "Product detail/edit", product });
 
     } catch (e) {
@@ -42,7 +42,8 @@ exports.renderProductDetailEdit = async (req, res) => {
  */
 exports.renderProductDetail = async (req, res) => {
     try {
-        const product = await productService.getProducts(req.params.productID);
+        const product = await productService.getProducts(undefined, undefined, undefined, undefined, undefined, req.params.productID);
+        console.log("--get product detail: ", product);
         res.render("product/views/product_detail", { active: { ProductManage: true }, page: "Product detail", product });
     } catch (e) {
         res.status(500).json({ message: e.message });
