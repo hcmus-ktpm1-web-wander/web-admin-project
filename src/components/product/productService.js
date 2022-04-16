@@ -1,16 +1,17 @@
-const productModel = require('./productModel');
+const productModel = require('./models/productModel');
+const userModel = require('../user/userModel');
+const orderModel = require('../order/orderModel');
+const reviewModel = require('./models/reviewModel');
 const cloudinary = require('../../config/cloudinary.config');
 
 
 /**
  * Get all the products
- * @param id {string||null}
  * @returns {Promise<productModel>}
  */
 module.exports.getAllProducts = async () => {
     try {
-        const product = await productModel.findById().lean();
-        return product;
+        return await productModel.findById().lean();
     }
     catch (err) {
         throw err;
@@ -20,13 +21,16 @@ module.exports.getAllProducts = async () => {
 
 /**
  * Get user the products
+ * @param sort
+ * @param category
+ * @param brand
+ * @param min
+ * @param max
  * @param id {string||null}
  * @returns {Promise<productModel>}
  */
 module.exports.getProducts = async (sort, category, brand, min, max, id = null) => {
     try {
-        console.log("--- get products ---");
-        console.log("id:", id);
         if (id === null) {
             let products = null;
             if (sort === undefined) {
@@ -37,7 +41,7 @@ module.exports.getProducts = async (sort, category, brand, min, max, id = null) 
                 }
 
                 return products;
-            } else if (sort != 0) {
+            } else if (sort !== 0) {
                 if (!category && !brand)
                     products = await productModel.find({ $and: [{ price: { $gte: min } }, { price: { $lte: max } }] }).sort({ price: sort }).lean()
 
@@ -62,13 +66,10 @@ module.exports.getProducts = async (sort, category, brand, min, max, id = null) 
             for (let i = 0; i < products.length; i++) {
                 products[i].thumbnail = products[i].img[0];
             }
-            console.log(typeof products)
 
             return products;
         } else {
-            console.log("get product: id:", id);
             const product = await productModel.findById(id).lean();
-            // remove first img
             product.thumbnail = product.img[0];
             product.img.shift();
             return product;
@@ -92,7 +93,6 @@ module.exports.addProduct = async (body, files) => {
         for (let i = 0; i < files.length; i++) {
             url.push(await cloudinary.upload(files[i].path, 'product'));
         }
-        console.log(url);
 
         // body to model
         body['img'] = url;
@@ -159,20 +159,29 @@ module.exports.changeProductInfo = async (id, body, files, existFiles) => {
 }
 
 /**
- * change product
+ * delete product, delete review, delete comment
  * @param id {String}
  * @returns {Promise<void>}
  */
 module.exports.deleteProduct = async (id) => {
     try {
         // delete product
-        await productModel.find({ _id: id }).remove();
+        await productModel.remove({ _id: id});
 
         // delete order has this product
+        await orderModel.remove({ product_id: id });
 
         // delete comment has this product
+        await reviewModel.remove({ productID: id });
 
         // delete user's cart has this product
+        await userModel.updateMany({}, {
+            $pull: {
+                cart: {
+                    product_id: id
+                }
+            }
+        });
     } catch (err) {
         throw err;
     }
