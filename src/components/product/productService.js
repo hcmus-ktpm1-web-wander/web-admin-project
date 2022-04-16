@@ -12,8 +12,7 @@ const cloudinary = require('../../config/cloudinary.config');
 module.exports.getAllProducts = async () => {
     try {
         return await productModel.findById().lean();
-    }
-    catch (err) {
+    } catch (err) {
         throw err;
     }
 }
@@ -43,24 +42,23 @@ module.exports.getProducts = async (sort, category, brand, min, max, id = null) 
                 return products;
             } else if (sort !== 0) {
                 if (!category && !brand)
-                    products = await productModel.find({ $and: [{ price: { $gte: min } }, { price: { $lte: max } }] }).sort({ price: sort }).lean()
+                    products = await productModel.find({$and: [{price: {$gte: min}}, {price: {$lte: max}}]}).sort({price: sort}).lean()
 
                 else if (category && brand)
-                    products = await productModel.find({ $and: [{ category: { "$in": category } }, { brand: { "$in": brand } }, { price: { $gte: min } }, { price: { $lte: max } }] }).sort({ price: sort }).lean()
+                    products = await productModel.find({$and: [{category: {"$in": category}}, {brand: {"$in": brand}}, {price: {$gte: min}}, {price: {$lte: max}}]}).sort({price: sort}).lean()
                 else if (category && !brand)
-                    products = await productModel.find({ $and: [{ category: { "$in": category } }, { price: { $gte: min } }, { price: { $lte: max } }] }).sort({ price: sort }).lean()
+                    products = await productModel.find({$and: [{category: {"$in": category}}, {price: {$gte: min}}, {price: {$lte: max}}]}).sort({price: sort}).lean()
                 else
-                    products = await productModel.find({ $and: [{ brand: { "$in": brand } }, { price: { $gte: min } }, { price: { $lte: max } }] }).sort({ price: sort }).lean()
-            }
-            else {
+                    products = await productModel.find({$and: [{brand: {"$in": brand}}, {price: {$gte: min}}, {price: {$lte: max}}]}).sort({price: sort}).lean()
+            } else {
                 if (!category && !brand)
-                    products = await productModel.find({ $and: [{ price: { $gte: min } }, { price: { $lte: max } }] }).lean()
+                    products = await productModel.find({$and: [{price: {$gte: min}}, {price: {$lte: max}}]}).lean()
                 else if (category && brand)
-                    products = await productModel.find({ $and: [{ category: { "$in": category } }, { brand: { "$in": brand } }, { price: { $gte: min } }, { price: { $lte: max } }] }).lean()
+                    products = await productModel.find({$and: [{category: {"$in": category}}, {brand: {"$in": brand}}, {price: {$gte: min}}, {price: {$lte: max}}]}).lean()
                 else if (category && !brand)
-                    products = await productModel.find({ $and: [{ category: { "$in": category } }, { price: { $gte: min } }, { price: { $lte: max } }] }).lean()
+                    products = await productModel.find({$and: [{category: {"$in": category}}, {price: {$gte: min}}, {price: {$lte: max}}]}).lean()
                 else
-                    products = await productModel.find({ $and: [{ brand: { "$in": brand } }, { price: { $gte: min } }, { price: { $lte: max } }] }).lean()
+                    products = await productModel.find({$and: [{brand: {"$in": brand}}, {price: {$gte: min}}, {price: {$lte: max}}]}).lean()
             }
 
             for (let i = 0; i < products.length; i++) {
@@ -78,7 +76,6 @@ module.exports.getProducts = async (sort, category, brand, min, max, id = null) 
         throw err;
     }
 }
-
 
 
 /**
@@ -139,7 +136,7 @@ module.exports.changeProductInfo = async (id, body, files, existFiles) => {
             listImg.push(await cloudinary.upload(files[i].path, 'product'));
         }
 
-        await productModel.findByIdAndUpdate({ _id: id }, {
+        await productModel.findByIdAndUpdate({_id: id}, {
             $set: {
                 name: body.name,
                 price: body.price,
@@ -166,19 +163,19 @@ module.exports.changeProductInfo = async (id, body, files, existFiles) => {
 module.exports.deleteProduct = async (id) => {
     try {
         // delete product
-        await productModel.remove({ _id: id});
+        await productModel.remove({_id: id});
 
         // delete order has this product
-        await orderModel.remove({ product_id: id });
+        await orderModel.remove({products: {product_id: id}});
 
         // delete comment has this product
-        await reviewModel.remove({ productID: id });
+        await reviewModel.remove({productID: id});
 
         // delete user's cart has this product
-        await userModel.updateMany({}, {
+        await userModel.updateMany({productID: id}, {
             $pull: {
                 cart: {
-                    product_id: id
+                    productID: id
                 }
             }
         });
