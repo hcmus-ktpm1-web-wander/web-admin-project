@@ -6,22 +6,26 @@ const cloudinary = require('../../config/cloudinary.config');
  * @param id {string||null}
  * @returns {Promise<productModel>}
  */
-module.exports.getProducts = async (sort_type, category, brand, min, max, id=null) => {
+module.exports.getProducts = async (sort_type, category, brand, min, max, id) => {
     try {
-        if (id === null) {
-            let products=null;
+        console.log('---- get products ----');
+        console.log("log:", sort_type, category, brand, min, max, id);
+
+        if (id === undefined) {
+            let products = null;
             if (sort_type == 'lh')
-                products = await productModel.find( { $or: [ { category : { "$in": category } }, { brand : { "$in": brand } } ] } ).sort({price: 1}).lean()
+                products = await productModel.find({ $or: [{ category: { "$in": category } }, { brand: { "$in": brand } }] }).sort({ price: 1 }).lean()
             else if (sort_type == 'hl')
-                products = await productModel.find( { $or: [ { category : { "$in": category } }, { brand : { "$in": brand } } ] } ).sort({price: -1}).lean()
+                products = await productModel.find({ $or: [{ category: { "$in": category } }, { brand: { "$in": brand } }] }).sort({ price: -1 }).lean()
             else
-                products = await productModel.find( { $or: [ { category : { "$in": category } }, { brand : { "$in": brand } } ] } ).lean()
+                products = await productModel.find({ $or: [{ category: { "$in": category } }, { brand: { "$in": brand } }] }).lean()
 
             for (let i = 0; i < products.length; i++) {
                 products[i].thumbnail = products[i].img[0];
             }
             return products;
         } else {
+            console.log("get product: id:", id);
             const product = await productModel.findById(id).lean();
             // remove first img
             product.thumbnail = product.img[0];
