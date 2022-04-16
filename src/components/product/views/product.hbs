@@ -1,110 +1,135 @@
+<style>
+    .label-filter-item {
+        font-size: 12px !important;
+        font-weight: normal;
+        border: 0px !important;
+    }
+
+    .label-filter-item:hover {
+        cursor: pointer;
+        background-color: lightgray !important;
+        border: 0px !important;
+    }
+
+    input:checked+label {
+        background-color: rgb(230, 230, 230) !important;
+        border: 0px !important;
+    }
+
+    .card-tille-filter {
+        background-color: rgb(238, 238, 238);
+    }
+</style>
+
 <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg ">
     <div class="container-fluid py-4" id="content">
         <div class="shop__product__option col-11" id="stat-end">
-            <div class="row">
-                <div class="col-lg-11 col-md-11 col-sm-11">
-                    <div class="shop__sidebar__accordion">
-                        <div class="accordion" id="accordionExample">
-                            <div class="card">
-                                <div class="card-heading">
-                                    <a data-toggle="collapse" data-target="#collapseOne">Filter</a>
+            <div class="shop__sidebar__accordion" style="background-color: transparent !important;">
+                <div class="accordion" id="accordionExample">
+                    <div class="card" style="border-radius: 15px;">
+                        <div class="card-body pt-0">
+                            <div class="card-title card-tille-filter d-flex justify-content-between p-3">
+                                <a data-toggle="collapse" data-target="#collapseOne">
+                                    <h4><b>Filter</b></h4>
+                                </a>
+
+                                <div class="d-flex align-items-center">
+                                    <p class="me-2">Sort</p>
+                                    <select class="form-select" aria-label="Default select example" id="sort-dropdown"
+                                        style="border: 1px solid gray !important; border-radius: 10px">
+                                        <option value="0">Random</option>
+                                        <option value="1">Low to High</option>
+                                        <option value="-1">High to Low</option>
+                                    </select>
                                 </div>
-                                <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
-                                    <div class="card-body">
-                                        <div class="shop__sidebar">
-                                            <div class="row nice-scroll">
-                                                <div class="categories col-3">
-                                                    <h6>Categories</h6>
-                                                    <input type="checkbox" class="filter-item" id="Bags"/>
-                                                    <label class="label-filter-item" for="Bags">Bags</label>
+                            </div>
+                            <div class="shop__sidebar collapse show p-0" id="collapseOne"
+                                data-parent="#accordionExample">
+                                <div class="row nice-scroll">
+                                    <div class="categories col-12 col-md-6 col-lg-3"
+                                        style="border-right: 1px solid gray;">
+                                        <h6 class=" text-start ps-3"><b>Categories</b></h6>
+                                        <input type="checkbox" class="filter-item" id="Bags" />
+                                        <label class="label-filter-item" for="Bags">Bags</label>
 
-                                                    <input type="checkbox" class="filter-item" id="Clothing"/>
-                                                    <label class="label-filter-item" for="Clothing">Clothing</label>
+                                        <input type="checkbox" class="filter-item" id="Clothing" />
+                                        <label class="label-filter-item" for="Clothing">Clothing</label>
 
-                                                    <input type="checkbox" class="filter-item" id="Accessories"/>
-                                                    <label class="label-filter-item" for="Accessories">Accessories</label>
+                                        <input type="checkbox" class="filter-item" id="Accessories" />
+                                        <label class="label-filter-item" for="Accessories">Accessories</label>
 
-<!--                                                    <input type="checkbox" class="filter-item" id="XL"/>
-                                                    <label class="label-filter-item" for="XL">XL</label>
+                                    </div>
+                                    {{!-- <div class="filter-divider"></div> --}}
 
-                                                    <input type="checkbox" class="filter-item" id="2XL"/>
-                                                    <label class="label-filter-item" for="2XL">2XL</label>
+                                    <div class="brand col-12 col-md-6 col-lg-3" style="border-right: 1px solid gray;">
+                                        <h6 class="text-start ps-3">
+                                            <b>Brands</b>
+                                        </h6>
+                                        <input type="checkbox" class="filter-item" id="501 Modern Icons" />
+                                        <label class="label-filter-item" for="501 Modern Icons">501 Modern
+                                            Icons</label>
 
-                                                    <input type="checkbox" class="filter-item" id="3XL"/>
-                                                    <label class="label-filter-item" for="3XL">3XL</label>-->
-                                                </div>
-                                                <div class="filter-divider"></div>
+                                        <input type="checkbox" class="filter-item" id="Levi’s Fresh" />
+                                        <label class="label-filter-item" for="Levi’s Fresh">Levi’s
+                                            Fresh</label>
 
-                                                <div class="brand col-3">
-                                                    <h6>Brand</h6>
-                                                    <input type="checkbox" class="filter-item" id="501 Modern Icons"/>
-                                                    <label class="label-filter-item" for="501 Modern Icons">501 Modern Icons</label>
+                                        <input type="checkbox" class="filter-item" id="The Simpsons" />
+                                        <label class="label-filter-item" for="The Simpsons">The
+                                            Simpsons</label>
 
-                                                    <input type="checkbox" class="filter-item" id="Levi’s Fresh"/>
-                                                    <label class="label-filter-item" for="Levi’s Fresh">Levi’s Fresh</label>
+                                        <input type="checkbox" class="filter-item" id="Levi’s cool" />
+                                        <label class="label-filter-item" for="Levi’s cool">Levi’s
+                                            cool</label>
 
-                                                    <input type="checkbox" class="filter-item" id="The Simpsons"/>
-                                                    <label class="label-filter-item" for="The Simpsons">The Simpsons</label>
-
-                                                    <input type="checkbox" class="filter-item" id="Levi’s cool"/>
-                                                    <label class="label-filter-item" for="Levi’s cool">Levi’s cool</label>
-                                                </div>
-                                                <div class="filter-divider"></div>
-
-                                                <div class="price col-3">
-                                                    <h6>Price</h6>
-                                                    <div style="text-align: center">
-                                                        <input type="number" class="price-input" name="min-price">
-                                                        -
-                                                        <input type="number" class="price-input" name="max-price">
-                                                    </div>
-
-                                                </div>
-                                                <div class="filter-divider"></div>
-
-                                                <div class="color col-auto">
-                                                    <h6 >Color</h6>
-                                                    <label class="c-1" for="sp-1">
-                                                        <input type="radio" id="sp-1">
-                                                    </label>
-                                                    <label class="c-2" for="sp-2">
-                                                        <input type="radio" id="sp-2">
-                                                    </label>
-                                                    <label class="c-3" for="sp-3">
-                                                        <input type="radio" id="sp-3">
-                                                    </label>
-                                                    <label class="c-4" for="sp-4">
-                                                        <input type="radio" id="sp-4">
-                                                    </label>
-                                                    <label class="c-5" for="sp-5">
-                                                        <input type="radio" id="sp-5">
-                                                    </label>
-                                                </div>
-                                            </div>
-
-                                        </div>
                                     </div>
 
+                                    <div class="price col-12 col-md-6 col-lg-3 " style="border-right: 1px solid gray;">
+                                        <h6 class=" text-start ps-3">
+                                            <b>
+                                                Price
+                                            </b>
+                                        </h6>
+                                        <div style="text-align: center">
+                                            <input type="number" class="price-input" name="min-price">
+                                            -
+                                            <input type="number" class="price-input" name="max-price">
+                                        </div>
+
+                                        <div class="filter-divider"></div>
+                                    </div>
+
+                                    <div class="color col">
+                                        <h6 class="text-start ps-3">
+                                            <b>Color</b>
+                                        </h6>
+                                        <label class="c-1" for="sp-1">
+                                            <input type="radio" id="sp-1">
+                                        </label>
+                                        <label class="c-2" for="sp-2">
+                                            <input type="radio" id="sp-2">
+                                        </label>
+                                        <label class="c-3" for="sp-3">
+                                            <input type="radio" id="sp-3">
+                                        </label>
+                                        <label class="c-4" for="sp-4">
+                                            <input type="radio" id="sp-4">
+                                        </label>
+                                        <label class="c-5" for="sp-5">
+                                            <input type="radio" id="sp-5">
+                                        </label>
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-1 col-md-1 col-sm-1">
-                    <div class="shop__product__option__right">
-                        <p>Sort by:</p>
-                        <select id ="sort-dropdown">
-                            <option value="0">Random</option>
-                            <option value="1">Low to High</option>
-                            <option value="-1">High to Low</option>
-                        </select>
-                    </div>
-                </div>
-            </div>`
+            </div>
+
         </div>
         <button type="submit" class="btn btn-primary align-bottom mx-2" data-bs-toggle="collapse"
-                data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
-                style="width: 200px; height: 50px;" onmousedown="">
+            data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
+            style="width: 200px; height: 50px;" onmousedown="">
             Add product
         </button>
 
@@ -152,25 +177,25 @@
                             <div class="col">
                                 <div class="mx-md-5">
                                     <h3 class="card-title">
-                                        <input type="text" class="form-control mb-2 p-2" value="{{name}}"
-                                               name="name" style="font-size: 28px; font-weight:bold;">
+                                        <input type="text" class="form-control mb-2 p-2" value="{{name}}" name="name"
+                                            style="font-size: 28px; font-weight:bold;">
                                     </h3>
                                     <div class="mb-4 d-flex">
                                         <h3>
                                             <div class="input-group">
                                                 <input type="text" class="form-control"
-                                                       aria-label="Dollar amount (with dot and two decimal places)"
-                                                       value="{{price}}" name="price"
-                                                       style="font-size: 28px; font-weight:bold; width:150px;">
+                                                    aria-label="Dollar amount (with dot and two decimal places)"
+                                                    value="{{price}}" name="price"
+                                                    style="font-size: 28px; font-weight:bold; width:150px;">
                                                 <span class="input-group-text"
-                                                      style="font-size: 28px; font-weight:bold;">$</span>
+                                                    style="font-size: 28px; font-weight:bold;">$</span>
                                             </div>
                                         </h3>
 
                                         <span class="badge bg-info d-flex align-items-center ms-2"
-                                              style="height: 30px;">
-												Best saler
-											</span>
+                                            style="height: 30px;">
+                                            Best saler
+                                        </span>
 
                                     </div>
 
@@ -182,14 +207,14 @@
                                         <div class="row">
                                             <div class="form-check col-6">
                                                 <input class="form-check-input" type="radio" name="category"
-                                                       id="category" value="bag">
+                                                    id="category" value="bag">
                                                 <label class="form-check-label" for="flexRadioDefault1">
                                                     Bag
                                                 </label>
                                             </div>
                                             <div class="form-check col-6">
                                                 <input class="form-check-input" type="radio" name="category"
-                                                       id="category" value="clothing">
+                                                    id="category" value="clothing">
                                                 <label class="form-check-label" for="flexRadioDefault1">
                                                     Clothing
                                                 </label>
@@ -198,14 +223,14 @@
                                         <div class="row">
                                             <div class="form-check col-6">
                                                 <input class="form-check-input" type="radio" name="category"
-                                                       id="category" value="shoes">
+                                                    id="category" value="shoes">
                                                 <label class="form-check-label" for="flexRadioDefault1">
                                                     Shoes
                                                 </label>
                                             </div>
                                             <div class="form-check col-6">
                                                 <input class="form-check-input" type="radio" name="category"
-                                                       id="category" value="accessories">
+                                                    id="category" value="accessories">
                                                 <label class="form-check-label" for="flexRadioDefault1">
                                                     Accessories
                                                 </label>
@@ -215,49 +240,49 @@
                                     <div class="mb-2 d-flex align-items-center text-sm">
                                         <b>Brand: </b>
                                         <input type="text" class="form-control form-control-sm ms-2" name="brand"
-                                               value="{{brand}}">
+                                            value="{{brand}}">
                                     </div>
 
                                     <div class="mb-2 text-sm d-flex">
                                         <b class="me-3">Size: </b>
                                         <div class="form-check me-2">
                                             <input class="form-check-input" type="checkbox" name="size" value="XS"
-                                                   id="flexCheckDefault">
+                                                id="flexCheckDefault">
                                             <span style="margin-left: -5px;">XS</span>
                                         </div>
                                         <div class="form-check me-2">
                                             <input class="form-check-input" type="checkbox" name="size" value="S"
-                                                   id="flexCheckDefault">
+                                                id="flexCheckDefault">
                                             <span style="margin-left: -5px;">S</span>
                                         </div>
                                         <div class="form-check me-2">
                                             <input class="form-check-input" type="checkbox" name="size" value="M"
-                                                   id="flexCheckDefault">
+                                                id="flexCheckDefault">
                                             <span style="margin-left: -5px;">M</span>
                                         </div>
                                         <div class="form-check me-2">
                                             <input class="form-check-input" type="checkbox" name="size" value="L"
-                                                   id="flexCheckDefault">
+                                                id="flexCheckDefault">
                                             <span style="margin-left: -5px;">L</span>
                                         </div>
                                         <div class="form-check me-2">
                                             <input class="form-check-input" type="checkbox" name="size" value="XL"
-                                                   id="flexCheckDefault">
+                                                id="flexCheckDefault">
                                             <span style="margin-left: -5px;">XL</span>
                                         </div>
                                         <div class="form-check me-2">
                                             <input class="form-check-input" type="checkbox" name="size" value="2XL"
-                                                   id="flexCheckDefault">
+                                                id="flexCheckDefault">
                                             <span style="margin-left: -5px;">2XL</span>
                                         </div>
                                         <div class="form-check me-2">
                                             <input class="form-check-input" type="checkbox" name="size" value="3XL"
-                                                   id="flexCheckDefault">
+                                                id="flexCheckDefault">
                                             <span style="margin-left: -5px;">3XL</span>
                                         </div>
                                         <div class="form-check me-2">
                                             <input class="form-check-input" type="checkbox" name="size" value="4XL"
-                                                   id="flexCheckDefault">
+                                                id="flexCheckDefault">
                                             <span style="margin-left: -5px;">4XL</span>
                                         </div>
                                     </div>
@@ -265,16 +290,16 @@
                                     <div class="mb-2 d-flex align-items-center text-sm">
                                         <b>SKU: </b>
                                         <input type="text" class="form-control form-control-sm ms-2" value="{{SKU}}"
-                                               name="SKU">
+                                            name="SKU">
                                     </div>
                                     <div class="mb-2">
                                         <div class="d-flex mb-2">
                                             <b class="text-sm">Color:&nbsp;</b>
 
                                             <a class="d-flex align-items-center" style="z-index: 2;"
-                                               onmousedown="addColor()">
+                                                onmousedown="addColor()">
                                                 <i class="fa fa-plus-square-o" aria-hidden="true"
-                                                   style="font-size: 20px;"></i>
+                                                    style="font-size: 20px;"></i>
                                             </a>
 
                                         </div>
@@ -282,17 +307,17 @@
                                         <div class="mb-2">
                                             <div class="mb-2 d-flex flex-wrap" id="add-color">
                                                 {{#color}}
-                                                    <div id="color-{{@index}}-wrap" class="position-relative mx-1 mb-2">
-                                                        <input type="color" class="form-control-color" name="color"
-                                                               id="color-{{@index}}" value="{{this}}">
+                                                <div id="color-{{@index}}-wrap" class="position-relative mx-1 mb-2">
+                                                    <input type="color" class="form-control-color" name="color"
+                                                        id="color-{{@index}}" value="{{this}}">
 
-                                                        <a id="color-{{@index}}-minus"
-                                                           onmousedown="removeColor('color-{{@index}}')">
-                                                            <i class="fa fa-minus-circle position-absolute"
-                                                               style=" z-index: 1; right:-5px; top:-4px;"
-                                                               aria-hidden="true"></i>
-                                                        </a>
-                                                    </div>
+                                                    <a id="color-{{@index}}-minus"
+                                                        onmousedown="removeColor('color-{{@index}}')">
+                                                        <i class="fa fa-minus-circle position-absolute"
+                                                            style=" z-index: 1; right:-5px; top:-4px;"
+                                                            aria-hidden="true"></i>
+                                                    </a>
+                                                </div>
                                                 {{/color}}
                                             </div>
 
@@ -324,21 +349,21 @@
                                     <div class=" mb-3 text-sm">
                                         <b>Description:</b>
                                         <textarea class="form-control form-control-sm mb-2" name="description"
-                                                  id="exampleFormControlTextarea1" rows="4"></textarea>
+                                            id="exampleFormControlTextarea1" rows="4"></textarea>
                                     </div>
                                     <div class=" mb-3 text-sm">
                                         <b>Product detail:</b>
                                         <textarea class="form-control form-control-sm mb-2" name="infomation"
-                                                  id="exampleFormControlTextarea1" rows="4"></textarea>
+                                            id="exampleFormControlTextarea1" rows="4"></textarea>
                                     </div>
                                     <button type="button" class="btn btn-secondary align-bottom mt-4"
-                                            style="width: 120px;" data-bs-toggle="collapse"
-                                            data-bs-target="#collapseExample" aria-expanded="false"
-                                            aria-controls="collapseExample">
+                                        style="width: 120px;" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseExample" aria-expanded="false"
+                                        aria-controls="collapseExample">
                                         Cancel
                                     </button>
                                     <button type="submit" class="btn btn-primary align-bottom ms-2 mt-4 bg-primary"
-                                            style="width: 150px;">
+                                        style="width: 150px;">
                                         Submit
                                     </button>
                                 </div>
@@ -365,27 +390,27 @@
 </main>
 
 {{!-- load image from <file> to <img> --}}
-<script>
-    document.getElementById('input-product-image').onchange = function (evt) {
-        const tgt = evt.target || window.event.srcElement,
+    <script>
+        document.getElementById('input-product-image').onchange = function (evt) {
+            const tgt = evt.target || window.event.srcElement,
                 files = tgt.files;
 
-        // FileReader support
-        if (FileReader && files && files.length) {
-            const fr = new FileReader();
-            fr.onload = function () {
-                document.getElementById("product-thumbnail").src = fr.result;
+            // FileReader support
+            if (FileReader && files && files.length) {
+                const fr = new FileReader();
+                fr.onload = function () {
+                    document.getElementById("product-thumbnail").src = fr.result;
+                }
+                fr.readAsDataURL(files[0]);
             }
-            fr.readAsDataURL(files[0]);
+
+            // Not supported
+            else {
+                // fallback -- perhaps submit the input to an iframe and temporarily store
+                // them on the server until the user's session ends.
+            }
         }
-
-        // Not supported
-        else {
-            // fallback -- perhaps submit the input to an iframe and temporarily store
-            // them on the server until the user's session ends.
-        }
-    }
-</script>
+    </script>
 
 
-<script src="/js/productAjax.js"></script>
+    <script src="/js/productAjax.js"></script>
