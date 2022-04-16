@@ -2,7 +2,7 @@ function paging(page) {
     fetch('/api/order?page=' + page, {
         method: "GET"
     }).then(r => r.json()).then(data => {
-        console.log("data:", data);
+        console.log("order data:", data);
 
         $('#order-body').html('');
         data.result.data.forEach(function (item, index) {

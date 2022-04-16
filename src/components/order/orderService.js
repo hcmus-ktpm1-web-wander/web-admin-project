@@ -17,7 +17,12 @@ module.exports.getOrders = async () => {
         for (let i = 0; i < orders.length; i++) {
             // get customer name
             const customer = customers.find(customer => customer._id == orders[i].customer._id);
-            orders[i].customer_name = customer.username;
+            console.log(customer);
+            if (customer) {
+                orders[i].customer_name = customer.username;
+            } else {
+                orders[i].customer_name = "__guest";
+            }
 
             let total = 0;
 
@@ -31,6 +36,8 @@ module.exports.getOrders = async () => {
 
             // calculate total
             orders[i].total = Math.round(total * 100) / 100;
+
+
         }
         return orders;
     } catch (err) {
