@@ -2,13 +2,12 @@ function paging(page) {
     fetch('/api/order?page=' + page, {
         method: "GET"
     }).then(r => r.json()).then(data => {
-        console.log("order data:", data);
 
         $('#order-body').html('');
         data.result.data.forEach(function (item, index) {
             const number = (index + 1) + (page - 1) * 8;
             let str = `
-            <tr>
+            <tr id="${item._id}">
                 <td>
                     <div class="d-flex px-2 py-1">
                         <div>
@@ -27,19 +26,19 @@ function paging(page) {
                 </td> `;
 
             if (item.status === 'Pending') {
-                str += `<td class="align-middle text-center">
+                str += `<td class="align-middle text-center status-bar">
                         <span class="badge badge-sm bg-gradient-secondary w-70" style="border-width: 0;">${item.status}</span>
                     </td> `;
             } else if (item.status === 'Processing') {
-                str += `<td class="align-middle text-center">
+                str += `<td class="align-middle text-center status-bar">
                         <span class="badge badge-sm bg-gradient-warning w-70" style="border-width: 0;">${item.status}</span>
                     </td> `;
             } else if (item.status === 'Completed') {
-                str += `<td class="align-middle text-center">
+                str += `<td class="align-middle text-center status-bar">
                        <span class="badge badge-sm bg-gradient-success w-70" style="border-width: 0;">${item.status}</span>
                     </td> `;
-            } else if (item.status === 'Cancel') {
-                str += `<td class="align-middle text-center">
+            } else if (item.status === 'Canceled') {
+                str += `<td class="align-middle text-center status-bar">
                         <span class="badge badge-sm bg-gradient-danger w-70" style="border-width: 0;">${item.status}</span>
                     </td>
                 `;
@@ -61,6 +60,34 @@ function paging(page) {
             }
             str +=
                 `<td class="align-middle text-center text-sm">
+                    <svg onclick="changeOrderStatus('${item._id}', 'Completed')" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                        <circle style="fill:#6DC180;" cx="256" cy="256" r="256"/>
+                        <path style="fill:#5CA15D;" d="M256,0v512c141.385,0,256-114.615,256-256S397.385,0,256,0z"/>
+                        <polygon style="fill:#F2F2F4;" points="219.429,367.932 108.606,257.108 147.394,218.32 219.429,290.353 355.463,154.32 
+                            394.251,193.108 "/>
+                        <polygon style="fill:#DFDFE1;" points="256,331.361 394.251,193.108 355.463,154.32 256,253.782 "/>
+                    </svg>
+                    
+                    <svg onclick="changeOrderStatus('${item._id}', 'Canceled')" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                        viewBox="0 0 506.4 506.4" style="enable-background:new 0 0 506.4 506.4;" xml:space="preserve">
+                    <circle style="fill:#DF5C4E;" cx="253.2" cy="253.2" r="249.2"/>
+                    <path style="fill:#F4EFEF;" d="M281.6,253.2l90.8-90.8c4.4-4.4,4.4-12,0-16.4l-11.2-11.2c-4.4-4.4-12-4.4-16.4,0L254,225.6
+                        l-90.8-90.8c-4.4-4.4-12-4.4-16.4,0L135.6,146c-4.4,4.4-4.4,12,0,16.4l90.8,90.8L135.6,344c-4.4,4.4-4.4,12,0,16.4l11.2,11.6
+                        c4.4,4.4,12,4.4,16.4,0l90.8-90.8l90.8,90.8c4.4,4.4,12,4.4,16.4,0l11.2-11.6c4.4-4.4,4.4-12,0-16.4L281.6,253.2z"/>
+                    <path d="M253.2,506.4C113.6,506.4,0,392.8,0,253.2S113.6,0,253.2,0s253.2,113.6,253.2,253.2S392.8,506.4,253.2,506.4z M253.2,8
+                        C118,8,8,118,8,253.2s110,245.2,245.2,245.2s245.2-110,245.2-245.2S388.4,8,253.2,8z"/>
+                    <path d="M352.8,379.6c-4,0-8-1.6-11.2-4.4l-88-88l-88,88c-2.8,2.8-6.8,4.4-11.2,4.4c-4,0-8-1.6-11.2-4.4L132,364
+                        c-2.8-2.8-4.4-6.8-4.4-11.2c0-4,1.6-8,4.4-11.2l88-88l-88-88c-2.8-2.8-4.4-6.8-4.4-11.2c0-4,1.6-8,4.4-11.2l11.2-11.2
+                        c6-6,16.4-6,22,0l88,88l88-88c2.8-2.8,6.8-4.4,11.2-4.4l0,0c4,0,8,1.6,11.2,4.4l11.2,11.2c6,6,6,16,0,22l-88,88l88,88
+                        c2.8,2.8,4.4,6.8,4.4,11.2c0,4-1.6,8-4.4,11.2l-11.2,11.2C360.8,378,357.2,379.6,352.8,379.6L352.8,379.6z M253.6,277.2
+                        c1.2,0,2,0.4,2.8,1.2l90.8,90.8c1.6,1.6,3.2,2.4,5.6,2.4l0,0c2,0,4-0.8,5.6-2.4l11.6-11.6c1.6-1.6,2.4-3.2,2.4-5.6
+                        c0-2-0.8-4-2.4-5.6l-90.8-90.8c-0.8-0.8-1.2-1.6-1.2-2.8s0.4-2,1.2-2.8l90.8-90.8c2.8-2.8,2.8-8,0-10.8l-11.2-11.2
+                        c-1.6-1.6-3.2-2.4-5.6-2.4l0,0c-2,0-4,0.8-5.6,2.4L256.8,228c-1.6,1.6-4,1.6-5.6,0l-90.8-90.8c-2.8-2.8-8-2.8-10.8,0L138,148.4
+                        c-1.6,1.6-2.4,3.2-2.4,5.6s0.8,4,2.4,5.6l90.8,90.8c1.6,1.6,1.6,4,0,5.6L138,346.8c-1.6,1.6-2.4,3.2-2.4,5.6c0,2,0.8,4,2.4,5.6
+                        l11.6,11.6c2.8,2.8,8,2.8,10.8,0l90.8-90.8C251.6,277.6,252.4,277.2,253.6,277.2z"/>
+                    </svg>
+                    
                     <button class="button-add btn-view badge badge-sm bg-gradient-secondary"
                         data-bs-toggle="modal" data-bs-target='#order${number}'>View
                     </button>
@@ -227,6 +254,32 @@ function paging(page) {
         $('#wait-screen').css("background-color", "white");
         $('#wait-screen').css("z-index", "-1");
     });
+}
+
+function changeOrderStatus(orderID, status)
+{
+
+    url = '/api/order/update'
+    $.post(url, {orderID: orderID, status: status}, function (data){
+        const order = $(`tr[id=${orderID}]`)
+
+        const status_bar = $(`tr[id=${orderID}] .status-bar`)
+        status_bar.empty()
+        let html = ``
+        if (status === 'Pending') {
+            html = `<span class="badge badge-sm bg-gradient-secondary w-70" style="border-width: 0;">${status}</span>`;
+        } else if (status === 'Processing') {
+            html = `<span class="badge badge-sm bg-gradient-warning w-70" style="border-width: 0;">${status}</span> `;
+        } else if (status === 'Completed') {
+            html = `<span class="badge badge-sm bg-gradient-success w-70" style="border-width: 0;">${status}</span> `;
+        } else if (status === 'Canceled') {
+            html = `<span class="badge badge-sm bg-gradient-danger w-70" style="border-width: 0;">${status}</span>`;
+        }
+        status_bar.html(html)
+
+    }).fail(function (data){
+
+    })
 }
 
 window.onload = function () {

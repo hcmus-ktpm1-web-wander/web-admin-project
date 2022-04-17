@@ -12,3 +12,12 @@ module.exports.getOrders = async (req, res) => {
         res.status(500).send({ message: 'Error in the request' });
     }
 }
+exports.updateOrderStatus = async (req,res) => {
+    try {
+        await orderService.updateOrderStatus(req.body.orderID, req.body.status)
+        res.send({message: "success"})
+    }
+    catch (e) {
+        res.status(500).json({message: e.message});
+    }
+}

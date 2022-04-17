@@ -44,3 +44,12 @@ module.exports.getOrders = async () => {
         throw err;
     }
 }
+
+module.exports.updateOrderStatus = async (orderID, status) => {
+    try
+    {
+        await orderModel.updateOne({_id: orderID},{status: status})
+    }catch (e) {
+        throw e
+    }
+}

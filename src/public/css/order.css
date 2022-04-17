@@ -1,0 +1,15 @@
+.checkmark {
+    border-radius: 50%;
+    stroke-width: 2;
+    stroke: green;
+    stroke-miterlimit: 10;
+    stroke-dashoffset: 0;
+
+}
+
+td svg
+{
+    width: 32px;
+    height: 32px;
+    margin-right: 8px;
+}
