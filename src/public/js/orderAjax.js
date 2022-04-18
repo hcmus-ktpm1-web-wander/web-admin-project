@@ -1,5 +1,9 @@
-function paging(page, sort = 0) {
-    fetch(`/api/order?page=${page}&sort=${sort}`, {
+function paging(page, sort = 0, status_filter = null) {
+
+    if (status_filter == null || status_filter.length == 0)
+        status_filter = null
+
+    fetch(`/api/order?page=${page}&sort=${sort}&status=${JSON.stringify(status_filter)}`, {
         method: "GET"
     }).then(r => r.json()).then(data => {
 
@@ -283,19 +287,43 @@ function changeOrderStatus(orderID, status)
     })
 }
 
-function sortOrder() {
-    const select = $('select')
-    select.on("input", function (){
-        const sort = select.val()
-        paging(1, sort)
+function checkAll() {
+    let status_filter = []
 
+    const status_check_boxes = $('.status input[type=checkbox]')
+    status_check_boxes.each(function () {
+        const id = $(this).attr('id')
+        if ($(this).is(':checked'))
+            status_filter.push(id)
     })
+
+    const select = $('select')
+    const sort = select.val()
+
+    return {status: status_filter, sort: sort}
 }
 
 
+function filterInit()
+{
+    const checkboxes = $('.status input[type=checkbox]')
+    checkboxes.each(function () {
+        $(this).on("input", function () {
+            const result = checkAll()
+            paging(1, result.sort, result.status)
+        })
+    })
+
+    const select = $('select')
+    select.on("input", function (){
+        const result = checkAll()
+        paging(1, result.sort, result.status)
+    })
+}
+
 window.onload = function () {
-    paging(1);
-    sortOrder()
+    paging(1,0);
+    filterInit()
 }
 
 

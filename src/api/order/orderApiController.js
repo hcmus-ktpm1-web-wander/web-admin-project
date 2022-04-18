@@ -4,7 +4,8 @@ const pagination = require('../../public/js/paging');
 module.exports.getOrders = async (req, res) => {
     try {
         const sort = parseInt(req.query.sort || 0)
-        const product = await orderService.getOrders(sort);
+        const status_filter = JSON.parse(req.query.status)
+        const product = await orderService.getOrders(sort,status_filter);
         const page = parseInt(req.query.page || 1);
         const result = pagination.paging(product, page, 8);
         console.log(result);

@@ -101,25 +101,6 @@ function checkAll() {
 }
 
 function Init() {
-
-    const filter_form = $('#collapseOne')
-    const expand_btn = $('a')
-    expand_btn.on('click', function () {
-        if (filter_form.attr('class') == 'collapse') {
-            filter_form.attr('class', 'collapsing')
-            setTimeout(function () {
-                filter_form.attr('class', 'collapse show')
-            }, 50)
-        }
-        else {
-            filter_form.attr('class', 'collapsing')
-            setTimeout(function () {
-                filter_form.attr('class', 'collapse')
-            }, 50)
-        }
-
-    })
-
     const checkboxes = $('input[type=checkbox]')
     checkboxes.each(function () {
         $(this).on("input", function () {

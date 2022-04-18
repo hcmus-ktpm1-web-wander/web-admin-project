@@ -6,17 +6,34 @@ const productModel = require("../product/models/productModel");
  * get all orders
  * @returns {Promise<Object>}
  */
-module.exports.getOrders = async (sort = 0) => {
+module.exports.getOrders = async (sort = 0, status = null) => {
     try {
         console.log("getOrders");
         let orders = null
         //fetch all data
         if (sort == 2) //status sort
-            orders = await orderModel.find().sort({status: 1}).lean();
+        {
+            if (status != null)
+                orders = await orderModel.find({status: {$in: status}}).sort({status: 1}).lean();
+            else
+                orders = await orderModel.find().sort({status: 1}).lean();
+        }
+
         else if(sort != 0) //created sort
-            orders = await orderModel.find().sort({create_date: sort}).lean();
+        {
+            if (status != null)
+                orders = await orderModel.find({status: {$in: status}}).sort({create_date: sort}).lean();
+            else
+                orders = await orderModel.find().sort({create_date: sort}).lean();
+        }
+
         else //non sort
-            orders = await orderModel.find().lean();
+        {
+            if (status != null)
+                orders = await orderModel.find({status: {$in: status}}).lean();
+            else
+                orders = await orderModel.find().lean();
+        }
 
         const products = await productModel.find().lean();
         const customers = await userModel.find().lean();
