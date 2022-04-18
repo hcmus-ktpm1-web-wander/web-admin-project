@@ -1,5 +1,9 @@
-function pagingAdmin(page) {
-    fetch('/api/auth/admin?page=' + page, {
+function pagingAdmin(page, filter) {
+    let url = '/api/auth/admin?filter=' + filter.value + '&page=' + page;
+    if (filter === 0) {
+        url = '/api/auth/admin?filter=' + 0 + '&page=' + page
+    }
+    fetch(url,{
         method: "GET"
     }).then(r => r.json()).then(data => {
         $('#admin-body').html('');
@@ -71,35 +75,39 @@ function pagingAdmin(page) {
         })
 
         $('#admin-pagination').html(
-            `<li class="page-item" style="${data.disablePrev} ">
-                <button class="page-link" onClick="pagingAdmin('${data.prev}')" aria-label="Previous">
+            `<li class="page-item" style="${data.disablePrev}">
+                <button class="page-link" onClick="pagingAdmin('${data.prev}','${data.filter}')" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </button>
             </li>
     
             <li class="page-item ${data.hiddenPrev}"
                 style="${data.disablePrev} ${data.numberPrev}">
-                <button class="page-link"  onClick="pagingAdmin('${data.prev}')"> ${data.prev} </button>
+                <button class="page-link"  onClick="pagingAdmin('${data.prev}','${data.filter}')"> ${data.prev} </button>
             </li>
     
             <li class="page-item active">
-                <button class="page-link" onClick="pagingAdmin('${data.page}')"> ${data.page} </button>
+                <button class="page-link" onClick="pagingAdmin('${data.page}','${data.filter}')"> ${data.page} </button>
             </li>
             <li class="page-item ${data.hiddenNext}"
                 style="${data.disableNext} ${data.numberNext}">
-                <button class="page-link" onClick="pagingAdmin('${data.next}')"> ${data.next} </button>
+                <button class="page-link" onClick="pagingAdmin('${data.next}','${data.filter}')"> ${data.next} </button>
             </li>
             
             <li class="page-item" style="${data.disableNext}">
-                <button class="page-link" onClick="pagingAdmin('${data.next}')" aria-label="Next">
+                <button class="page-link" onClick="pagingAdmin('${data.next}','${data.filter}')" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </button>
             </li>`);
     })
 }
 
-function pagingUser(page) {
-    fetch('/api/auth/user?page=' + page, {
+function pagingUser(page, Filter) {
+    let url = '/api/auth/user?filter=' + Filter.value + '&page=' + page;
+    if (Filter === 0) {
+        url = '/api/auth/user?filter=' + 0 + '&page=' + page
+    }
+    fetch(url, {
         method: "GET"
     }).then(r => r.json()).then(data => {
         $('#user-body').html('');
@@ -196,7 +204,7 @@ function pagingUser(page) {
             )
         })
 
-        if(data.checkErrors) {
+        if (data.checkErrors) {
             let str =
                 `<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
                     <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
@@ -211,20 +219,20 @@ function pagingUser(page) {
                     <use xlink:href="#exclamation-triangle-fill"/>
                 </svg>`
 
-            if(data.errors.username) {
+            if (data.errors.username) {
                 str +=
                     `<div class="mx-4">
                         <b>Username:</b>
                         <span> ${data.errors.username}</span>
                     </div>`;
 
-            }else if(data.errors.password) {
+            } else if (data.errors.password) {
                 str +=
                     `<div class="mx-4">
                         <b>Password:</b>
                         <span> ${data.errors.password}</span>
                     </div>`
-            }else if(data.errors.confirm_password) {
+            } else if (data.errors.confirm_password) {
                 str +=
                     `<div class="mx-4">
                         <b>Confirm password:</b>
@@ -234,28 +242,29 @@ function pagingUser(page) {
             str += `</div>`;
             $('#errors').html(str);
         }
+
         $('#user-pagination').html(
-            `<li class="page-item" style="${data.disablePrev} ">
-                <button class="page-link" onClick="pagingUser('${data.prev}')" aria-label="Previous">
+            `<li class="page-item" style="${data.disablePrev}">
+                <button class="page-link" onClick="pagingUser('${data.prev}','${data.filter}')" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </button>
             </li>
     
             <li class="page-item ${data.hiddenPrev}"
                 style="${data.disablePrev} ${data.numberPrev}">
-                <button class="page-link"  onClick="pagingUser('${data.prev}')"> ${data.prev} </button>
+                <button class="page-link"  onClick="pagingUser('${data.prev}','${data.filter}')"> ${data.prev} </button>
             </li>
     
             <li class="page-item active">
-                <button class="page-link" onClick="pagingUser('${data.page}')"> ${data.page} </button>
+                <button class="page-link" onClick="pagingUser('${data.page}','${data.filter}')"> ${data.page} </button>
             </li>
             <li class="page-item ${data.hiddenNext}"
                 style="${data.disableNext} ${data.numberNext}">
-                <button class="page-link" onClick="pagingUser('${data.next}')"> ${data.next} </button>
+                <button class="page-link" onClick="pagingUser('${data.next}','${data.filter}')"> ${data.next} </button>
             </li>
             
             <li class="page-item" style="${data.disableNext}">
-                <button class="page-link" onClick="pagingUser('${data.next}')" aria-label="Next">
+                <button class="page-link" onClick="pagingUser('${data.next}','${data.filter}')" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </button>
             </li>`);
@@ -263,6 +272,6 @@ function pagingUser(page) {
 }
 
 window.onload = function () {
-    pagingUser(1);
-    pagingAdmin(1);
+    pagingUser(1, 0);
+    pagingAdmin(1, 0);
 }
