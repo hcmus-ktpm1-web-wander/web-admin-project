@@ -4,10 +4,12 @@ const pagination = require('../../public/js/paging');
 module.exports.getOrders = async (req, res) => {
     try {
         const sort = parseInt(req.query.sort || 0)
-        const product = await orderService.getOrders(sort);
+        const status_filter = JSON.parse(req.query.status)
+
+        const product = await orderService.getOrders(sort,status_filter, req.query.start, req.query.end ,req.query.username);
         const page = parseInt(req.query.page || 1);
         const result = pagination.paging(product, page, 8);
-        console.log(result);
+/*        console.log(result);*/
         res.send({ result });
     } catch (error) {
         res.status(500).send({ message: 'Error in the request' });

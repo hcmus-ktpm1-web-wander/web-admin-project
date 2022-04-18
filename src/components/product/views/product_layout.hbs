@@ -396,24 +396,6 @@
                 </div>
             </div>
         </nav>
-        <style>
-            .filter-item {
-                display: none;
-            }
-
-            input[type="checkbox"]:checked+label {
-                background-color: #17C1E8 !important;
-                border: 0px !important;
-            }
-
-            .price-input {
-                border-radius: 8px;
-                border-width: 0px;
-                width: 100px;
-                padding: 10px;
-                box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-            }
-        </style>
         <div>
             <div class=" collapse p-0" class="collapse" id="collapseFilter">
                 <div class="row">
@@ -460,7 +442,7 @@
                                     Price
                                 </b>
                             </h6>
-                            <div>
+                            <div class="filter-input-container">
                                 <input type="number" class="price-input" name="min-price">
                                 &nbsp; to &nbsp;
                                 <input type="number" class="price-input" name="max-price">

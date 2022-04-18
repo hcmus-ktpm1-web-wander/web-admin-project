@@ -1,5 +1,9 @@
-function paging(page, sort = 0) {
-    fetch(`/api/order?page=${page}&sort=${sort}`, {
+function paging(page, sort = 0, status_filter = null, start_date = null, end_date = null, user_name = null) {
+
+    if (status_filter != null && status_filter.length == 0)
+        status_filter = null
+
+    fetch(`/api/order?page=${page}&sort=${sort}&status=${JSON.stringify(status_filter)}&start=${start_date}&end=${end_date}&username=${user_name}`, {
         method: "GET"
     }).then(r => r.json()).then(data => {
 
@@ -18,7 +22,7 @@ function paging(page, sort = 0) {
                 </td>
                 <td>
                     <div class="d-flex flex-column justify-content-center">
-                        <h6 class="mb-0 text-sm">${item.customer_name}</h6>
+                        <h6 class="mb-0 text-sm">${item.username}</h6>
                     </div>
                 </td>
                 <td class="align-middle text-center">
@@ -283,19 +287,85 @@ function changeOrderStatus(orderID, status)
     })
 }
 
-function sortOrder() {
-    const select = $('select')
-    select.on("input", function (){
-        const sort = select.val()
-        paging(1, sort)
+function checkAll() {
+    let status_filter = []
+    let start_date = null
+    let end_date = null
+    let user_name = null
+
+    //checkboxes check
+    const status_check_boxes = $('.status input[type=checkbox]')
+    status_check_boxes.each(function () {
+        const id = $(this).attr('id')
+        if ($(this).is(':checked'))
+            status_filter.push(id)
+    })
+
+    //input date check
+    const date_range_inputs = $('.date-input')
+    date_range_inputs.each(function () {
+        const name = $(this).attr('name')
+        const value = $(this).val()
+        if (name == 'start-date')
+            start_date = value
+        else if (name == 'end-date')
+            end_date = value
 
     })
+
+    //input username check
+    const user_name_input = $('.user-name-input')
+    const value = user_name_input.val()
+    user_name = value
+
+    //dropdown check
+    const select = $('select')
+    const sort = select.val()
+
+    return {status: status_filter,start_date: start_date, end_date: end_date, sort: sort, user_name: user_name}
 }
 
 
+function filterInit()
+{
+    //status checkbox init
+    const checkboxes = $('.status input[type=checkbox]')
+    checkboxes.each(function () {
+        $(this).on("input", function () {
+            const result = checkAll()
+            paging(1, result.sort, result.status, result.start_date, result.end_date, result.user_name)
+        })
+    })
+
+    //date range input init
+    const date_range_inputs = $('.date-input')
+    date_range_inputs.each(function () {
+        $(this).attr('value', null)
+        $(this).on("input", function () {
+            const result = checkAll()
+            paging(1, result.sort, result.status, result.start_date, result.end_date, result.user_name)
+        })
+    })
+
+    //username input init
+    const user_name_input = $('.user-name-input')
+    user_name_input.attr('value', null)
+    user_name_input.on("input", function () {
+        const result = checkAll()
+        paging(1, result.sort, result.status, result.start_date, result.end_date, result.user_name)
+    })
+
+
+    const select = $('select')
+    select.on("input", function (){
+        const result = checkAll()
+        paging(1, result.sort, result.status, result.start_date, result.end_date, result.user_name)
+    })
+}
+
 window.onload = function () {
     paging(1);
-    sortOrder()
+    filterInit()
 }
 
 
