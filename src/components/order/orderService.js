@@ -28,60 +28,52 @@ module.exports.getOrders = async (sort = 0, status = null, start = null, end = n
         //fetch all data
         if (sort == 2) //status sort
         {
-            if (user_name) {
+            if (user_name)
+            {
                 if (status != null)
                     orders = await orderModel.find({$and: [{status: {"$in": status}}, {timestamp: {$gte: start}}, {timestamp: {$lte: end}}, {username: {$in: user_name}}]}).sort({status: 1}).lean();
                 else
-<<<<<<< HEAD
                     orders = await orderModel.find({$and: [{timestamp: {$gte: start}}, {timestamp: {$lte: end}}, {username: {$in: user_name}}]}).sort({status: 1}).lean();
             }
             else
             {
-=======
-                    orders = await orderModel.find({$and: [{create_date: {$gte: start}}, {create_date: {$lte: end}}, {username: {$in: user_name}}]}).sort({status: 1}).lean();
-            } else {
->>>>>>> 8f674ccb4760486967904a2c205e9fac9c4acf86
                 if (status != null)
                     orders = await orderModel.find({$and: [{status: {"$in": status}}, {timestamp: {$gte: start}}, {timestamp: {$lte: end}}]}).sort({status: 1}).lean();
                 else
                     orders = await orderModel.find({$and: [{timestamp: {$gte: start}}, {timestamp: {$lte: end}}]}).sort({status: 1}).lean();
             }
 
-        } else if (sort != 0) //created sort
+        }
+
+        else if(sort != 0) //created sort
         {
-            if (user_name) {
+            if (user_name)
+            {
                 if (status != null)
                     orders = await orderModel.find({$and: [{status: {"$in": status}}, {timestamp: {$gte: start}}, {timestamp: {$lte: end}}, {username: {$in: user_name}}]}).sort({timestamp: sort}).lean();
                 else
-<<<<<<< HEAD
                     orders = await orderModel.find({$and: [{timestamp: {$gte: start}}, {timestamp: {$lte: end}}, {username: {$in: user_name}}]}).sort({timestamp: sort}).lean();
             }
             else {
-=======
-                    orders = await orderModel.find({$and: [{create_date: {$gte: start}}, {create_date: {$lte: end}}, {username: {$in: user_name}}]}).sort({create_date: sort}).lean();
-            } else {
->>>>>>> 8f674ccb4760486967904a2c205e9fac9c4acf86
                 if (status != null)
                     orders = await orderModel.find({$and: [{status: {"$in": status}}, {timestamp: {$gte: start}}, {timestamp: {$lte: end}}]}).sort({timestamp: sort}).lean();
                 else
                     orders = await orderModel.find({$and: [{timestamp: {$gte: start}}, {timestamp: {$lte: end}}]}).sort({timestamp: sort}).lean();
             }
 
-        } else //non sort
+        }
+
+        else //non sort
         {
-            if (user_name) {
+            if (user_name)
+            {
                 if (status != null)
                     orders = await orderModel.find({$and: [{status: {"$in": status}}, {timestamp: {$gte: start}}, {timestamp: {$lte: end}}, {username: {$in: user_name}}]}).lean();
                 else
-<<<<<<< HEAD
                     orders = await orderModel.find({$and: [{timestamp: {$gte: start}}, {timestamp: {$lte: end}}, {username: {$in: user_name}}]}).lean();
             }
             else
             {
-=======
-                    orders = await orderModel.find({$and: [{create_date: {$gte: start}}, {create_date: {$lte: end}}, {username: {$in: user_name}}]}).lean();
-            } else {
->>>>>>> 8f674ccb4760486967904a2c205e9fac9c4acf86
                 if (status != null)
                     orders = await orderModel.find({$and: [{status: {"$in": status}}, {timestamp: {$gte: start}}, {timestamp: {$lte: end}}]}).lean();
                 else
@@ -113,26 +105,21 @@ module.exports.getOrders = async (sort = 0, status = null, start = null, end = n
 }
 
 module.exports.updateOrderStatus = async (orderID, status) => {
-    try {
-        await orderModel.updateOne({_id: orderID}, {status: status})
-    } catch (e) {
+    try
+    {
+        await orderModel.updateOne({_id: orderID},{status: status})
+    }catch (e) {
         throw e
     }
 }
 
 module.exports.sortByCreatedAt = async (sort) => {
-<<<<<<< HEAD
     try
     {
         await orderModel.find({}).sort({timestamp: sort}).lean()
     }
     catch (e)
     {
-=======
-    try {
-        await orderModel.find({}).sort({create_date: sort}).lean()
-    } catch (e) {
->>>>>>> 8f674ccb4760486967904a2c205e9fac9c4acf86
         throw e
     }
 }

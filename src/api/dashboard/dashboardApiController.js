@@ -17,7 +17,7 @@ module.exports.getDashboard = async (req, res) => {
         const products = await productService.getProducts(undefined, undefined, undefined, undefined, undefined, null);
         const users = (await userService.getInfo("User")).concat(await userService.getInfo("Admin"));
 
-        var period = req.query.period;
+        let period = req.query.period;
 
         // total user
         const total_user = users.length;
