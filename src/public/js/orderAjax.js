@@ -3,7 +3,6 @@ function paging(page, sort = 0, status_filter = null, start_date = null, end_dat
     if (status_filter != null && status_filter.length == 0)
         status_filter = null
 
-
     fetch(`/api/order?page=${page}&sort=${sort}&status=${JSON.stringify(status_filter)}&start=${start_date}&end=${end_date}&username=${user_name}`, {
         method: "GET"
     }).then(r => r.json()).then(data => {
@@ -23,7 +22,7 @@ function paging(page, sort = 0, status_filter = null, start_date = null, end_dat
                 </td>
                 <td>
                     <div class="d-flex flex-column justify-content-center">
-                        <h6 class="mb-0 text-sm">${item.customer.username}</h6>
+                        <h6 class="mb-0 text-sm">${item.username}</h6>
                     </div>
                 </td>
                 <td class="align-middle text-center">
@@ -309,7 +308,7 @@ function checkAll() {
         const value = $(this).val()
         if (name == 'start-date')
             start_date = value
-        else
+        else if (name == 'end-date')
             end_date = value
 
     })
