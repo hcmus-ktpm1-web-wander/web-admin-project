@@ -8,11 +8,13 @@ const pagination = require("../../public/js/paging");
  * @param res
  * @returns {Promise<void>}
  */
-module.exports.getInfOfAdmin = async (req, res) => {
+module.exports.getInfOfAdminByFilter = async (req, res) => {
     try {
-        const admin = await userService.getInfo('Admin');
-        const page =  parseInt(req.query.page || 1);
-        const result = pagination.paging(admin,page,8);
+        const user = await userService.getInfoByFilter('Admin',req.query.filter);
+        const page = parseInt(req.query.page) || 1;
+        const result = pagination.paging(user, page, 8);
+        console.log(result);
+        result.filter = req.query.filter;
         res.send(result);
     } catch (e) {
         res.status(500).json({message: e.message});
@@ -20,17 +22,18 @@ module.exports.getInfOfAdmin = async (req, res) => {
 };
 
 /**
- *  get all information of user
+ *  get information of user by filter
  *
  * @param req
  * @param res
  * @returns {Promise<void>}
  */
-module.exports.getInfOfUser = async (req, res) => {
+module.exports.getInfOfUserByFilter = async (req, res) => {
     try {
-        const user = await userService.getInfo('User');
-        const page =  parseInt(req.query.page || 1);
-        const result = pagination.paging(user,page,8);
+        const user = await userService.getInfoByFilter('User',req.query.filter);
+        const page = parseInt(req.query.page) || 1;
+        const result = pagination.paging(user, page, 8);
+        result.filter = req.query.filter;
         res.send(result);
     } catch (e) {
         res.status(500).json({message: e.message});

@@ -1,6 +1,3 @@
-const orderService = require('./orderService');
-const utils = require("../../public/js/paging");
-
 /**
  * render the order page
  * @param req

@@ -18,11 +18,11 @@ exports.renderAdminManage = async (req, res) => {
         if (req.session.errors !== undefined) {
             const errors = req.session.errors;
             req.session.errors = undefined;
-            res.render("user/views/admin_manage", { active: { AdminManage: true }, page: "Admin manage", result, errors, checkErrors: true });
+            res.render("user/views/admin_manage", { layout: "/user/views/admin_layout",active: { AdminManage: true }, page: "Admin manage", result, errors, checkErrors: true });
         }
         else {
             req.session.errors = undefined
-            res.render("user/views/admin_manage", { active: { AdminManage: true }, page: "Admin manage", result });
+            res.render("user/views/admin_manage", { layout: "/user/views/admin_layout",active: { AdminManage: true }, page: "Admin manage", result });
         }
     } catch (e) {
         res.status(500).json({ message: e.message });
@@ -45,11 +45,11 @@ exports.renderUserManage = async (req, res) => {
         if (req.session.errors !== undefined) {
             const errors = req.session.errors;
             req.session.errors = undefined;
-            res.render("user/views/user_manage", { active: { UserManage: true }, page: "User manage", result, errors, checkErrors: true });
+            res.render("user/views/user_manage", { layout: "/user/views/user_layout", active: { UserManage: true }, page: "User manage", result, errors, checkErrors: true });
         }
         else {
             req.session.errors = undefined
-            res.render("user/views/user_manage", { active: { UserManage: true }, page: "User manage", result });
+            res.render("user/views/user_manage", { layout: "/user/views/user_layout", active: { UserManage: true }, page: "User manage", result });
         }
     } catch (e) {
         res.status(500).json({ message: e.message });
@@ -108,7 +108,7 @@ exports.addUser = async (req, res) => {
  */
 exports.editUser = async (req, res) => {
     try {
-        await service.changeRole(req.params.userID, req.body);
+        await service.changeRole(req.params.userID, req.body.to_role);
         res.redirect('back');
     } catch (e) {
         res.status(500).json({ message: e.message });

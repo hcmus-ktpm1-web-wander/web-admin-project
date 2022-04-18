@@ -11,12 +11,40 @@ const bcrypt = require('bcrypt');
  */
 module.exports.getInfo = async (role) => {
     try {
-        console.log("getInfo", role);
-        return await userModel.find({ role }).lean();
+        return await userModel.find({role}).lean();
     } catch (err) {
         throw err;
     }
 }
+
+/**
+ * Get all admin or user
+ * @param role {string:{Admin, User}}
+ * @param filter {string}
+ * @returns {Promise<[Admin-User: model]>}
+ */
+module.exports.getInfoByFilter = async (role, filter) => {
+    try {
+        if (filter === '0') {
+            return await userModel.find({role}).lean();
+        } else if (filter === '1') {
+            return await userModel.find({role}).sort({fullname: 1}).lean();
+        } else if (filter === '-1') {
+            return await userModel.find({role}).sort({fullname: -1}).lean();
+        } else if (filter === '2') {
+            return await userModel.find({role}).sort({email: -1}).lean();
+        } else if (filter === '-2') {
+            return await userModel.find({role}).sort({email: 1}).lean();
+        } else if (filter === '3') {
+            return await userModel.find({role}).sort({employed: -1}).lean();
+        } else if (filter === '-3') {
+            return await userModel.find({role}).sort({employed: 1}).lean();
+        }
+    } catch (err) {
+        throw err;
+    }
+}
+
 
 /**
  * delete admin or user
@@ -25,8 +53,8 @@ module.exports.getInfo = async (role) => {
  */
 module.exports.deleteUser = async (id) => {
     try {
-        await userModel.find({ _id: id }).remove();
-        await orderModel.find({ 'customer._id': id }).remove();
+        await userModel.find({_id: id}).remove();
+        await orderModel.find({'customer._id': id}).remove();
     } catch (err) {
         throw err;
     }
@@ -39,7 +67,7 @@ module.exports.deleteUser = async (id) => {
  */
 module.exports.checkUsername = async (username) => {
     try {
-        return await userModel.findOne({ username }).lean();
+        return await userModel.findOne({username}).lean();
     } catch (err) {
         throw err;
     }
@@ -48,12 +76,12 @@ module.exports.checkUsername = async (username) => {
 /**
  * change role of admin or user
  * @param id {string: String}
- * @param body {string: String}
+ * @param to_role {string: String}
  * @returns {Promise<void>}
  */
-module.exports.changeRole = async (id, body) => {
+module.exports.changeRole = async (id, to_role) => {
     try {
-        await userModel.findByIdAndUpdate({ _id: id }, { $set: { role: body.to_role } });
+        await userModel.findByIdAndUpdate({_id: id}, {$set: {role: to_role}});
     } catch (err) {
         throw err;
     }
