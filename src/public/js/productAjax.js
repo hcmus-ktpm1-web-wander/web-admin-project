@@ -1,6 +1,6 @@
 function getProductsByFilter(page, category = null, brand = null, min_price = '0', max_price = '999999') {
     const sort_type = $('#sort-dropdown').find(":selected").val();
-    if (min_price == '')
+    if (min_price === '')
         min_price = '0'
     if (max_price == '')
         max_price = '999999'
