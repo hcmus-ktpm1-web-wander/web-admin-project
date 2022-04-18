@@ -5,7 +5,13 @@ module.exports.getOrders = async (req, res) => {
     try {
         const sort = parseInt(req.query.sort || 0)
         const status_filter = JSON.parse(req.query.status)
-        const product = await orderService.getOrders(sort,status_filter);
+
+        const start = JSON.parse(req.query.start)
+        const end = JSON.parse(req.query.end)
+
+        const user_name = JSON.parse(req.query.username)
+
+        const product = await orderService.getOrders(sort,status_filter, start, end ,user_name);
         const page = parseInt(req.query.page || 1);
         const result = pagination.paging(product, page, 8);
         console.log(result);

@@ -9,10 +9,7 @@ const utils = require("../../public/js/paging");
  */
 exports.renderOrder = async (req, res) => {
     try {
-        const orders = await orderService.getOrders();
-        const page = parseInt(req.query.page) || 1;
-        const result = utils.paging(orders, page, 8);
-        res.render("order/views/order", {active: {Order: true}, page: "Order", result});
+        res.render("order/views/order", {active: {Order: true}, page: "Order"});
     } catch (e) {
         res.status(500).json({message: e.message});
     }
