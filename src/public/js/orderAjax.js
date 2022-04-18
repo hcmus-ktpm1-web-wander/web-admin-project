@@ -1,5 +1,5 @@
-function paging(page) {
-    fetch('/api/order?page=' + page, {
+function paging(page, sort = 0) {
+    fetch(`/api/order?page=${page}&sort=${sort}`, {
         method: "GET"
     }).then(r => r.json()).then(data => {
 
@@ -278,10 +278,24 @@ function changeOrderStatus(orderID, status)
         status_bar.html(html)
 
     }).fail(function (data){
+        if (data.status === 500)
+            alert("Failed")
+    })
+}
+
+function sortOrder() {
+    const select = $('select')
+    select.on("input", function (){
+        const sort = select.val()
+        paging(1, sort)
 
     })
 }
 
+
 window.onload = function () {
     paging(1);
+    sortOrder()
 }
+
+
