@@ -216,7 +216,6 @@ module.exports.getDashboard = async (req, res) => {
                     chart_lines_data["Accessories"].push(category["Accessories"]);
                     chart_lines_data["Shoes"].push(category["Shoes"]);
 
-
                     if (d.toString().split(" ")[2] == lastday.toString().split(" ")[2])
                         break;
                 }

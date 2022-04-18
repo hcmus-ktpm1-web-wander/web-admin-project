@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 
 const order = new Schema({
     username: String,
-    create_date: Date,
+    timestamp: Date,
+    create_date: String,
     products: [{
         product_id: String,
         quantity: Number

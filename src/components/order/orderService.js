@@ -11,11 +11,11 @@ module.exports.getOrders = async (sort = 0, status = null, start = null, end = n
         console.log(start, end, user_name)
         console.log(typeof start, typeof end, typeof user_name)
 
-        if (start == '' || start == 'null')
+        if (start == '' || start == 'null' || start == null)
             start = "1970-01-01"
-        if (end == '' || end == 'null')
+        if (end == '' || end == 'null' || end == null)
             end = "2099-01-01"
-        if (user_name == '' || user_name == 'null')
+        if (user_name == '' || user_name == 'null' || user_name == null)
             user_name = null
 
         let date_split = start.split('-')
@@ -31,16 +31,16 @@ module.exports.getOrders = async (sort = 0, status = null, start = null, end = n
             if (user_name)
             {
                 if (status != null)
-                    orders = await orderModel.find({$and: [{status: {"$in": status}}, {create_date: {$gte: start}}, {create_date: {$lte: end}}, {username: {$in: user_name}}]}).sort({status: 1}).lean();
+                    orders = await orderModel.find({$and: [{status: {"$in": status}}, {timestamp: {$gte: start}}, {timestamp: {$lte: end}}, {username: {$in: user_name}}]}).sort({status: 1}).lean();
                 else
-                    orders = await orderModel.find({$and: [{create_date: {$gte: start}}, {create_date: {$lte: end}}, {username: {$in: user_name}}]}).sort({status: 1}).lean();
+                    orders = await orderModel.find({$and: [{timestamp: {$gte: start}}, {timestamp: {$lte: end}}, {username: {$in: user_name}}]}).sort({status: 1}).lean();
             }
             else
             {
                 if (status != null)
-                    orders = await orderModel.find({$and: [{status: {"$in": status}}, {create_date: {$gte: start}}, {create_date: {$lte: end}}]}).sort({status: 1}).lean();
+                    orders = await orderModel.find({$and: [{status: {"$in": status}}, {timestamp: {$gte: start}}, {timestamp: {$lte: end}}]}).sort({status: 1}).lean();
                 else
-                    orders = await orderModel.find({$and: [{create_date: {$gte: start}}, {create_date: {$lte: end}}]}).sort({status: 1}).lean();
+                    orders = await orderModel.find({$and: [{timestamp: {$gte: start}}, {timestamp: {$lte: end}}]}).sort({status: 1}).lean();
             }
 
         }
@@ -50,15 +50,15 @@ module.exports.getOrders = async (sort = 0, status = null, start = null, end = n
             if (user_name)
             {
                 if (status != null)
-                    orders = await orderModel.find({$and: [{status: {"$in": status}}, {create_date: {$gte: start}}, {create_date: {$lte: end}}, {username: {$in: user_name}}]}).sort({create_date: sort}).lean();
+                    orders = await orderModel.find({$and: [{status: {"$in": status}}, {timestamp: {$gte: start}}, {timestamp: {$lte: end}}, {username: {$in: user_name}}]}).sort({timestamp: sort}).lean();
                 else
-                    orders = await orderModel.find({$and: [{create_date: {$gte: start}}, {create_date: {$lte: end}}, {username: {$in: user_name}}]}).sort({create_date: sort}).lean();
+                    orders = await orderModel.find({$and: [{timestamp: {$gte: start}}, {timestamp: {$lte: end}}, {username: {$in: user_name}}]}).sort({timestamp: sort}).lean();
             }
             else {
                 if (status != null)
-                    orders = await orderModel.find({$and: [{status: {"$in": status}}, {create_date: {$gte: start}}, {create_date: {$lte: end}}]}).sort({create_date: sort}).lean();
+                    orders = await orderModel.find({$and: [{status: {"$in": status}}, {timestamp: {$gte: start}}, {timestamp: {$lte: end}}]}).sort({timestamp: sort}).lean();
                 else
-                    orders = await orderModel.find({$and: [{create_date: {$gte: start}}, {create_date: {$lte: end}}]}).sort({create_date: sort}).lean();
+                    orders = await orderModel.find({$and: [{timestamp: {$gte: start}}, {timestamp: {$lte: end}}]}).sort({timestamp: sort}).lean();
             }
 
         }
@@ -68,16 +68,16 @@ module.exports.getOrders = async (sort = 0, status = null, start = null, end = n
             if (user_name)
             {
                 if (status != null)
-                    orders = await orderModel.find({$and: [{status: {"$in": status}}, {create_date: {$gte: start}}, {create_date: {$lte: end}}, {username: {$in: user_name}}]}).lean();
+                    orders = await orderModel.find({$and: [{status: {"$in": status}}, {timestamp: {$gte: start}}, {timestamp: {$lte: end}}, {username: {$in: user_name}}]}).lean();
                 else
-                    orders = await orderModel.find({$and: [{create_date: {$gte: start}}, {create_date: {$lte: end}}, {username: {$in: user_name}}]}).lean();
+                    orders = await orderModel.find({$and: [{timestamp: {$gte: start}}, {timestamp: {$lte: end}}, {username: {$in: user_name}}]}).lean();
             }
             else
             {
                 if (status != null)
-                    orders = await orderModel.find({$and: [{status: {"$in": status}}, {create_date: {$gte: start}}, {create_date: {$lte: end}}]}).lean();
+                    orders = await orderModel.find({$and: [{status: {"$in": status}}, {timestamp: {$gte: start}}, {timestamp: {$lte: end}}]}).lean();
                 else
-                    orders = await orderModel.find({$and: [{create_date: {$gte: start}}, {create_date: {$lte: end}}]}).lean();
+                    orders = await orderModel.find({$and: [{timestamp: {$gte: start}}, {timestamp: {$lte: end}}]}).lean();
             }
         }
 
@@ -116,7 +116,7 @@ module.exports.updateOrderStatus = async (orderID, status) => {
 module.exports.sortByCreatedAt = async (sort) => {
     try
     {
-        await orderModel.find({}).sort({create_date: sort}).lean()
+        await orderModel.find({}).sort({timestamp: sort}).lean()
     }
     catch (e)
     {
