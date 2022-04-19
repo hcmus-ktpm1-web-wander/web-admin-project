@@ -11,7 +11,7 @@ function paging(page, sort = 0, status_filter = null, start_date = null, end_dat
         data.result.data.forEach(function (item, index) {
             const number = (index + 1) + (page - 1) * 8;
             let str = `
-            <tr id="${item._id}">
+            <tr id="${item._id}" data-bs-toggle="modal" data-bs-target='#order${number}'>
                 <td>
                     <div class="d-flex px-2 py-1">
                         <div>
@@ -29,11 +29,12 @@ function paging(page, sort = 0, status_filter = null, start_date = null, end_dat
                     <span class="text-secondary text-xs font-weight-bold">${item.create_date}</span>
                 </td> `;
 
-            if (item.status === 'Pending') {
+            if (item.status === 'Delivering') {
                 str += `<td class="align-middle text-center status-bar">
-                        <span class="badge badge-sm bg-gradient-secondary w-70" style="border-width: 0;">${item.status}</span>
+                       <span class="badge badge-sm bg-gradient-secondary w-70" style="border-width: 0;">${item.status}</span>
                     </td> `;
-            } else if (item.status === 'Processing') {
+            }
+            else if (item.status === 'Processing') {
                 str += `<td class="align-middle text-center status-bar">
                         <span class="badge badge-sm bg-gradient-warning w-70" style="border-width: 0;">${item.status}</span>
                     </td> `;
@@ -73,6 +74,26 @@ function paging(page, sort = 0, status_filter = null, start_date = null, end_dat
                         <polygon style="fill:#DFDFE1;" points="256,331.361 394.251,193.108 355.463,154.32 256,253.782 "/>
                     </svg>
                     
+                    <svg onclick="openDeliveryModal('${item._id}')" data-bs-toggle="modal" data-bs-target='#delivery-modal' version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                            viewBox="0 0 511.985 511.985" style="enable-background:new 0 0 511.985 511.985;" xml:space="preserve">
+                       <polygon style="fill:#F6BB42;" points="405.331,10.66 106.66,10.66 0,117.329 0,192.656 511.984,207.217 511.984,117.329 "/>
+                       <polygon style="fill:#FFCE54;" points="394.643,501.325 0,501.325 0,117.329 511.984,117.329 511.984,383.985 "/>
+                       <polygon style="fill:#E6E9ED;" points="298.647,10.66 213.329,10.66 191.994,138.657 319.99,138.657 "/>
+                       <polygon style="fill:#F5F7FA;" points="319.99,213.326 298.647,223.983 277.335,213.326 255.992,223.983 234.657,213.326 
+                           213.329,223.983 191.994,213.326 191.994,117.329 319.99,117.329 "/>
+                       <g>
+                           <path style="fill:#434A54;" d="M159.995,394.641H53.334c-5.891,0-10.672,4.781-10.672,10.688c0,5.875,4.781,10.656,10.672,10.656
+                               h106.661c5.891,0,10.663-4.781,10.663-10.656C170.658,399.423,165.886,394.641,159.995,394.641z"/>
+                           <path style="fill:#434A54;" d="M106.66,437.327H53.334c-5.891,0-10.672,4.75-10.672,10.656c0,5.875,4.781,10.656,10.672,10.656
+                               h53.326c5.891,0,10.672-4.781,10.672-10.656C117.332,442.077,112.551,437.327,106.66,437.327z"/>
+                       </g>
+                       <path style="fill:#ED5564;" d="M277.335,383.985c0-64.811,52.529-117.332,117.309-117.332c64.811,0,117.341,52.521,117.341,117.332
+                           s-52.53,117.34-117.341,117.34C329.864,501.325,277.335,448.796,277.335,383.985z"/>
+                       <path style="fill:#434A54;" d="M447.455,421.704L447.455,421.704l-42.124-42.125v-59.592c0-5.906-4.781-10.656-10.688-10.656
+                           c-5.875,0-10.655,4.75-10.655,10.656v63.998c0,2.938,1.188,5.625,3.125,7.531l0,0l45.249,45.248l0,0
+                           c4.172,4.188,10.921,4.188,15.093,0C451.611,432.608,451.611,425.86,447.455,421.704z"/>
+                   </svg>
+               
                     <svg onclick="changeOrderStatus('${item._id}', 'Canceled')" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                         viewBox="0 0 506.4 506.4" style="enable-background:new 0 0 506.4 506.4;" xml:space="preserve">
                     <circle style="fill:#DF5C4E;" cx="253.2" cy="253.2" r="249.2"/>
@@ -91,10 +112,6 @@ function paging(page, sort = 0, status_filter = null, start_date = null, end_dat
                         c-1.6,1.6-2.4,3.2-2.4,5.6s0.8,4,2.4,5.6l90.8,90.8c1.6,1.6,1.6,4,0,5.6L138,346.8c-1.6,1.6-2.4,3.2-2.4,5.6c0,2,0.8,4,2.4,5.6
                         l11.6,11.6c2.8,2.8,8,2.8,10.8,0l90.8-90.8C251.6,277.6,252.4,277.2,253.6,277.2z"/>
                     </svg>
-                    
-                    <button class="button-add btn-view badge badge-sm bg-gradient-secondary"
-                        data-bs-toggle="modal" data-bs-target='#order${number}'>View
-                    </button>
                 </td>
                 <td>
                 <div class="modal fade" id='order${number}' tabIndex="-1"
@@ -119,10 +136,12 @@ function paging(page, sort = 0, status_filter = null, start_date = null, end_dat
                                 <div class="mb-1"><b>Customer address:</b> ${item.customer.address}</div>
                                 <div class="mb-1"><b>Create at:</b> ${item.create_date}</div> `;
 
-            if (item.status === 'Pending') {
+            if (item.status === 'Delivering') {
                 str += `<div class="mb-3"><b>Status:</b>
-                        <<span class="badge badge-sm bg-gradient-secondary">${item.status}</span>
+                        <span class="badge badge-sm bg-gradient-secondary">${item.status}</span>
                     </div> `;
+                str += `<div className="mb-1"><b>Time: </b>${item.start_delivery.split("T")[0]} - ${item.end_delivery.split("T")[0]}</div> `;
+
             } else if (item.status === 'Processing') {
                 str += `<div class="mb-3"><b>Status:</b>
                         <span class="badge badge-sm bg-gradient-warning">${item.status}</span>
@@ -224,10 +243,41 @@ function paging(page, sort = 0, status_filter = null, start_date = null, end_dat
        </td>
     </tr>`;
 
-
             $('#order-body').append(str);
         });
 
+        $('#order-body').append(`
+            <td>
+                <form id = "delivery-form" method="post" action="/api/order/update">
+                    <div class="modal fade" id='delivery-modal' tabIndex="-1"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" >Choose delivery time</h5>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="input-group input-group-sm mb-2">
+                            <input type="date" name="start_date" class="form-control" style="padding-right: 5px" oninput="deliveryCheck()" onblur="deliveryCheck()">
+                            <input type="date" name="end_date" class="form-control" style="padding-left: 5px" oninput="deliveryCheck()" onblur="deliveryCheck()">
+                        </div>
+                        <h6 class="delivery error"></h6>
+
+                        <div class="modal-footer">
+                                <h6 class="general-error"></h6>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel
+                            </button>
+                            <input type="hidden" name="order_id">
+                            <button type="submit" class="btn btn-primary">Confirm
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                        </div>
+                    </div>
+                </form>
+            </td>`);
 
         $('#order-pagination').html(
             `<li class="page-item" style="${data.result.disablePrev} ">
@@ -260,17 +310,15 @@ function paging(page, sort = 0, status_filter = null, start_date = null, end_dat
     });
 }
 
-function changeOrderStatus(orderID, status)
-{
-
-    url = '/api/order/update'
-    $.post(url, {orderID: orderID, status: status}, function (data){
+function changeOrderStatus(orderID, status, start_date = null, end_date = null) {
+    const url = '/api/order/update'
+    $.post(url, { orderID: orderID, status: status, start_date: start_date, end_date: end_date }, function (data) {
         const order = $(`tr[id=${orderID}]`)
 
         const status_bar = $(`tr[id=${orderID}] .status-bar`)
         status_bar.empty()
         let html = ``
-        if (status === 'Pending') {
+        if (status === 'Delivering') {
             html = `<span class="badge badge-sm bg-gradient-secondary w-70" style="border-width: 0;">${status}</span>`;
         } else if (status === 'Processing') {
             html = `<span class="badge badge-sm bg-gradient-warning w-70" style="border-width: 0;">${status}</span> `;
@@ -281,7 +329,7 @@ function changeOrderStatus(orderID, status)
         }
         status_bar.html(html)
 
-    }).fail(function (data){
+    }).fail(function (data) {
         if (data.status === 500)
             alert("Failed")
     })
@@ -322,12 +370,10 @@ function checkAll() {
     const select = $('select')
     const sort = select.val()
 
-    return {status: status_filter,start_date: start_date, end_date: end_date, sort: sort, user_name: user_name}
+    return { status: status_filter, start_date: start_date, end_date: end_date, sort: sort, user_name: user_name }
 }
 
-
-function filterInit()
-{
+function filterInit() {
     //status checkbox init
     const checkboxes = $('.status input[type=checkbox]')
     checkboxes.each(function () {
@@ -357,10 +403,63 @@ function filterInit()
 
 
     const select = $('select')
-    select.on("input", function (){
+    select.on("input", function () {
         const result = checkAll()
         paging(1, result.sort, result.status, result.start_date, result.end_date, result.user_name)
     })
+}
+
+function deliveryCheck()
+{
+    const start_date = $(`#delivery-form input[name=start_date]`)
+    const end_date = $(`#delivery-form input[name=end_date]`)
+
+    let msg = ''
+
+    if (start_date.val() == '')
+        msg = 'Start delivery is required'
+
+    else if (end_date.val() == '')
+        msg = 'End delivery is required'
+
+    else if (start_date.val() != '' && end_date.val() != '')
+    {
+        if (start_date.val() == end_date.val())
+            msg = 'Start delivery and end delivery coincide'
+        else if (end_date.val() < start_date.val())
+            msg = 'Invalid'
+    }
+    $('#delivery-range .error').text(msg)
+
+    return msg
+}
+
+function openDeliveryModal(orderID)
+{
+    //clear errors if exist
+    const errors = $(`#delivery-form .error`)
+    errors.each(function ()
+    {
+        errors.text('')
+    })
+
+
+    // prevent editing when there are still input errors
+    const delivery_submit = $('#delivery-form button[type=submit]')
+    delivery_submit.on('click', function (){
+        event.preventDefault()
+        const error = deliveryCheck()
+        if (error != '')
+            $('#delivery-form .general-error').text(error)
+        else
+        {
+            changeOrderStatus(orderID, 'Delivering', $('#delivery-form input[name=start_date]').val(), $('#delivery-form input[name=end_date]').val())
+            $('#delivery-modal').modal('hide');
+        }
+
+
+    })
+
 }
 
 window.onload = function () {

@@ -97,7 +97,7 @@ function loadPromotion(page) {
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+                                <h5 class="modal-title">Edit</h5>
                             </div>
 
                             <div class="modal-body">
@@ -115,8 +115,8 @@ function loadPromotion(page) {
     
                                 <b>Duration:</b> <span class="red-start">*</span>
                                 <div class="input-group input-group-sm mb-2">
-                                    <input type="date" id="start_date" name="start_date" class="form-control" style="padding-right: 5px" oninput="editCheck('start_date')" onblur="editCheck('start_date')">
-                                    <input type="date" id="end_date" name="end_date" class="form-control" style="padding-left: 5px" oninput="editCheck('end_date')" onblur="editCheck('end_date')">
+                                    <input type="date" name="start_date" class="form-control" style="padding-right: 5px" oninput="editCheck('start_date')" onblur="editCheck('start_date')">
+                                    <input type="date" name="end_date" class="form-control" style="padding-left: 5px" oninput="editCheck('end_date')" onblur="editCheck('end_date')">
                                 </div>
                                 <h6 class="start_date error"></h6>
                                 <h6 class="end_date error"></h6>

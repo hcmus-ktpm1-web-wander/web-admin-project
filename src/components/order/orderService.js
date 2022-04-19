@@ -100,10 +100,15 @@ module.exports.getOrders = async (sort = 0, status = null, start = null, end = n
     }
 }
 
-module.exports.updateOrderStatus = async (orderID, status) => {
+module.exports.updateOrderStatus = async (orderID, status, start_delivery = null, end_delivery = null) => {
     try
     {
-        await orderModel.updateOne({_id: orderID},{status: status})
+        console.log(start_delivery)
+        if (status == 'Delivering')
+            await orderModel.update({_id: orderID},{$set: {status, start_delivery: start_delivery, end_delivery: end_delivery}})
+        else
+            await orderModel.update({_id: orderID},{$set: {status}})
+
     }catch (e) {
         throw e
     }
