@@ -11,21 +11,21 @@ function loadPromotion(page) {
                     <td>
                         <div class="d-flex px-2 py-1">
                             <div class="d-flex flex-column justify-content-center">
-                                <h6 class="mb-0 text-sm">${item.code}</h6>
+                                <h6 class="mb-0 text-sm" id="code-cell-${index}">${item.code}</h6>
                             </div>
                         </div>
                     </td>
                     <td>
-                        <p class="text-xs font-weight-bold mb-0">${item.level}</p>
+                        <p class="text-xs font-weight-bold mb-0" id="level-cell-${index}">${item.level}</p>
                     </td>
                     <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">${item.slot}</span>
+                        <span class="text-secondary text-xs font-weight-bold" id="slot-cell-${index}">${item.slot}</span>
                     </td>
                     <td class="align-middle text-center">
-                        <p class="text-xs font-weight-bold mb-0">${start_date} - ${end_date}</p>
+                        <p class="text-xs font-weight-bold mb-0" id="date-cell-${index}">${start_date} - ${end_date}</p>
                     </td>
                     <td class="align-middle text-center text-sm">
-                        <svg data-bs-toggle="modal" data-bs-target='#promotion-edit-${index}' width="20px" height="20px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                        <svg onclick="openEditModal(${index})" data-bs-toggle="modal" data-bs-target='#promotion-edit' width="20px" height="20px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                             viewBox="0 0 423.278 423.278" style="enable-background:new 0 0 423.278 423.278;" xml:space="preserve">
                             <g>
                                 <g>
@@ -60,11 +60,15 @@ function loadPromotion(page) {
                         </svg>                  
                         <svg id="Layer_1" width="20px" height="20px" fill="#FF0000" data-bs-toggle="modal" data-bs-target='#promotion-delete-${index}' data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 105.16 122.88"><defs><style>.cls-1{fill-rule:evenodd;}</style></defs><title>delete</title><path class="cls-1" d="M11.17,37.16H94.65a8.4,8.4,0,0,1,2,.16,5.93,5.93,0,0,1,2.88,1.56,5.43,5.43,0,0,1,1.64,3.34,7.65,7.65,0,0,1-.06,1.44L94,117.31v0l0,.13,0,.28v0a7.06,7.06,0,0,1-.2.9v0l0,.06v0a5.89,5.89,0,0,1-5.47,4.07H17.32a6.17,6.17,0,0,1-1.25-.19,6.17,6.17,0,0,1-1.16-.48h0a6.18,6.18,0,0,1-3.08-4.88l-7-73.49a7.69,7.69,0,0,1-.06-1.66,5.37,5.37,0,0,1,1.63-3.29,6,6,0,0,1,3-1.58,8.94,8.94,0,0,1,1.79-.13ZM5.65,8.8H37.12V6h0a2.44,2.44,0,0,1,0-.27,6,6,0,0,1,1.76-4h0A6,6,0,0,1,43.09,0H62.46l.3,0a6,6,0,0,1,5.7,6V6h0V8.8h32l.39,0a4.7,4.7,0,0,1,4.31,4.43c0,.18,0,.32,0,.5v9.86a2.59,2.59,0,0,1-2.59,2.59H2.59A2.59,2.59,0,0,1,0,23.62V13.53H0a1.56,1.56,0,0,1,0-.31v0A4.72,4.72,0,0,1,3.88,8.88,10.4,10.4,0,0,1,5.65,8.8Zm42.1,52.7a4.77,4.77,0,0,1,9.49,0v37a4.77,4.77,0,0,1-9.49,0v-37Zm23.73-.2a4.58,4.58,0,0,1,5-4.06,4.47,4.47,0,0,1,4.51,4.46l-2,37a4.57,4.57,0,0,1-5,4.06,4.47,4.47,0,0,1-4.51-4.46l2-37ZM25,61.7a4.46,4.46,0,0,1,4.5-4.46,4.58,4.58,0,0,1,5,4.06l2,37a4.47,4.47,0,0,1-4.51,4.46,4.57,4.57,0,0,1-5-4.06l-2-37Z"/></svg>
                     </td>
-                    
+                               
+                </tr>`
+            )
+        })
+        $('#promotion-body').append(`
                     <!-- Delete Modal -->
                     <td>
-                        <form action = '/manage/promotion/delete' method="post">
-                            <div class="modal fade" id='promotion-delete-${index}' tabIndex="-1"
+                        <form id ="delete-form" action = '/manage/promotion/delete' method="post">
+                            <div class="modal fade" tabIndex="-1"
                                  aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -73,7 +77,7 @@ function loadPromotion(page) {
                                             </h5>
                                         </div>
                                         <div class="modal-footer"  style="height:70px">
-                                            <input type="hidden" name="code" value='${item.code}'>
+                                            <input type="hidden" name="delete_code">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No
                                             </button>
                                             <button type="submit" class="btn btn-primary" style="background-color: red" data-bs-dismiss="modal">Yes
@@ -85,11 +89,10 @@ function loadPromotion(page) {
                         </form>
                     </td>
                     
-                    
                     <!-- Edit Modal -->
                     <td>
-                        <form action = '/manage/promotion/edit' method="post">
-                            <div class="modal fade" id='promotion-edit-${index}' tabIndex="-1"
+                        <form id = "edit-form" action = '/manage/promotion/edit' method="post">
+                            <div class="modal fade" id='promotion-edit' tabIndex="-1"
                                  aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -99,41 +102,38 @@ function loadPromotion(page) {
 
                             <div class="modal-body">
                                 <b>Code:</b> <span class="red-start">*</span>
-                                <input type="text" class="form-control" value="${item.code}" aria-label="Code" name="code">
-                                <h6 style="color: red; font-size: 8px; font-style:italic " class="code error"></h6>
+                                <input type="text" class="form-control"  aria-label="Code" name="code" oninput="editCheck('code')" onblur="editCheck('code')">
+                                <h6 class="code error"></h6>
     
                                 <b>Level:</b> <span class="red-start">*</span>
-                                <input type="text" class="form-control" value="${item.level}" aria-label="Level" name="level">
-                                <h6 style="color: red; font-size: 8px; font-style:italic " class="level error"></h6>
+                                <input type="text" class="form-control"  aria-label="Level" name="level" oninput="editCheck('level')" onblur="editCheck('level')">
+                                <h6 class="level error"></h6>
     
                                 <b>Slot:</b> <span class="red-start">*</span>
-                                <input type="text" class="form-control" value="${item.slot}" aria-label="Slot" name="slot">
-                                <h6 style="color: red; font-size: 8px; font-style:italic " class="slot error"></h6>
+                                <input type="text" class="form-control"  aria-label="Slot" name="slot" oninput="editCheck('slot')" onblur="editCheck('slot')">
+                                <h6 class="slot error"></h6>
     
                                 <b>Duration:</b> <span class="red-start">*</span>
                                 <div class="input-group input-group-sm mb-2">
-                                    <input type="date" id="start_date" value="${start_date}" name="start_date" class="form-control" style="padding-right: 5px">
-                                    <input type="date" id="end_date" value="${end_date}" name="end_date" class="form-control" style="padding-left: 5px">
+                                    <input type="date" id="start_date" name="start_date" class="form-control" style="padding-right: 5px" oninput="editCheck('start_date')" onblur="editCheck('start_date')">
+                                    <input type="date" id="end_date" name="end_date" class="form-control" style="padding-left: 5px" oninput="editCheck('end_date')" onblur="editCheck('end_date')">
                                 </div>
-                                <h6 style="color: red; font-size: 8px; font-style:italic " class="start_date error"></h6>
-                                <h6 style="color: red; font-size: 8px; font-style:italic " class="end_date error"></h6>
+                                <h6 class="start_date error"></h6>
+                                <h6 class="end_date error"></h6>
     
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel
                                     </button>
-                                   <input type="hidden" name="current_code" value="${item.code}">
+                                   <input type="hidden" name="edit_code">
                                     <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Edit
                                     </button>
                                 </div>
                             </div>
-					</div>
+                        </div>
                                 </div>
                             </div>
                         </form>
-                    </td>
-                </tr>`
-            )
-        })
+                    </td>`)
 
         $('#promotion-pagination').html(
             `<li class="page-item" style="${data.disablePrev} ">
@@ -165,10 +165,10 @@ function loadPromotion(page) {
 
 window.onload = function () {
     loadPromotion(1)
-    inputInit()
+    addInit()
 }
 
-function isValidInput(input, field) {
+function isValid(input, field) {
     const regex = /[0-9]/g;
     const valid = input.match(regex)
 
@@ -205,21 +205,23 @@ function isValidInput(input, field) {
     return ''
 }
 
-function inputInit() {
+function addInit() {
     const inputs = $(`div[class=modal-body] input`)
+    const test = $(`#test`)
+
     inputs.each(function () {
         const name = $(this).attr("name")
 
         $(this).on("input", function () {
             const input = $(this).val()
-            const error_msg = isValidInput(input, name)
-            $(`.${name}`).text(error_msg)
+            const error_msg = isValid(input, name)
+            $(`#add-form .${name}`).text(error_msg)
         })
 
         $(this).blur(function () {
             const input = $(this).val()
-            const error_msg = isValidInput(input, name)
-            $(`.${name}`).text(error_msg)
+            const error_msg = isValid(input, name)
+            $(`#add-form .${name}`).text(error_msg)
         })
     })
     const submit = $(`.modal-footer button[type=submit]`)
@@ -227,7 +229,7 @@ function inputInit() {
         inputs.each(function (){
             const name = $(this).attr("name")
             const input = $(this).val()
-            const error_msg = isValidInput(input, name)
+            const error_msg = isValid(input, name)
             if (error_msg != '')
             {
                 event.preventDefault()
@@ -239,3 +241,35 @@ function inputInit() {
         })
     })
 }
+
+function openEditModal(index)
+{
+    //init
+    const code_input = $(`#edit-form input[name=code]`)
+    const level_input = $(`#edit-form input[name=level]`)
+    const slot_input = $(`#edit-form input[name=slot]`)
+    const input_hidden = $(`#edit-form input[name=edit_code]`)
+
+    const current_code_val  = $(`#code-cell-${index}`)
+    const current_level_val  = $(`#level-cell-${index}`)
+    const current_slot_val  = $(`#slot-cell-${index}`)
+
+    code_input.val(current_code_val.text())
+    level_input.val(current_level_val.text())
+    slot_input.val(current_slot_val.text())
+    input_hidden.val(index)
+}
+
+function editCheck(field)
+{
+    const input = $(`#edit-form input[name=${field}]`)
+
+    const msg = isValid(input.val(), field)
+
+    const error = $(`#edit-form .${field}`)
+    error.text(msg)
+}
+
+
+
+

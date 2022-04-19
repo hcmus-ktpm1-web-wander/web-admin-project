@@ -8,9 +8,6 @@ const productModel = require("../product/models/productModel");
  */
 module.exports.getOrders = async (sort = 0, status = null, start = null, end = null, user_name = null) => {
     try {
-        console.log(start, end, user_name)
-        console.log(typeof start, typeof end, typeof user_name)
-
         if (start == '' || start == 'null' || start == null)
             start = "1970-01-01"
         if (end == '' || end == 'null' || end == null)
@@ -25,7 +22,7 @@ module.exports.getOrders = async (sort = 0, status = null, start = null, end = n
         end = new Date(date_split[0], date_split[1] - 1, date_split[2])
 
         let orders = null
-        //fetch all data
+
         if (sort == 2) //status sort
         {
             if (user_name)
@@ -95,7 +92,6 @@ module.exports.getOrders = async (sort = 0, status = null, start = null, end = n
 
             // calculate total
             orders[i].total = Math.round(total * 100) / 100;
-
 
         }
         return orders;

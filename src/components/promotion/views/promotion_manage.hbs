@@ -59,7 +59,7 @@
 		</div>
 
 		<!-- Modal add user -->
-		<form action="/manage/promotion/add" method="post">
+		<form id="add-form" action="/manage/promotion/add" method="post">
 			<div class="modal fade" id='add-promotion' tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">
@@ -70,23 +70,23 @@
 						<div class="modal-body">
 							<b>Code:</b> <span class="red-start">*</span>
                             <input type="text" class="form-control" placeholder="Code" aria-label="Code" name="code">
-                            <h6 style="color: red; font-size: 8px; font-style:italic " class="code error"></h6>
+                            <h6  class="code error"></h6>
 
 							<b>Level:</b> <span class="red-start">*</span>
                             <input type="text" class="form-control" placeholder="Level" aria-label="Level" name="level">
-                            <h6 style="color: red; font-size: 8px; font-style:italic " class="level error"></h6>
+                            <h6  class="level error"></h6>
 
                             <b>Slot:</b> <span class="red-start">*</span>
                             <input type="text" class="form-control" placeholder="Slot" aria-label="Slot" name="slot">
-                            <h6 style="color: red; font-size: 8px; font-style:italic " class="slot error"></h6>
+                            <h6  class="slot error"></h6>
 
                             <b>Duration:</b> <span class="red-start">*</span>
                             <div class="input-group input-group-sm mb-2">
                                 <input type="date" id="start_date" name="start_date" class="form-control" style="padding-right: 5px">
                                 <input type="date" id="end_date" name="end_date" class="form-control" style="padding-left: 5px">
                             </div>
-                            <h6 style="color: red; font-size: 8px; font-style:italic " class="start_date error"></h6>
-                            <h6 style="color: red; font-size: 8px; font-style:italic " class="end_date error"></h6>
+                            <h6  class="start_date error"></h6>
+                            <h6  class="end_date error"></h6>
 
 							<div class="modal-footer">
                                 <h6 style="color: red; font-size: 12px; font-style:italic " id="modal-error"></h6>
@@ -105,6 +105,7 @@
             <h4 style="font-weight: bold; color: red">{{error_msg}}</h4>
         </div>
     {{/if}}
+
 	</div>
 
 	<footer class="footer pt-3  "></footer>
