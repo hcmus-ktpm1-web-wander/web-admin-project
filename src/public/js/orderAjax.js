@@ -65,7 +65,7 @@ function paging(page, sort = 0, status_filter = null, start_date = null, end_dat
             }
             str +=
                 `<td class="align-middle text-center text-sm">
-                    <svg onclick="changeOrderStatus('${item._id}', 'Completed')" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    <svg onclick="changeOrderStatus('${item._id}', 'Completed')" data-bs-toggle="modal" data-bs-target='' version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                     viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
                         <circle style="fill:#6DC180;" cx="256" cy="256" r="256"/>
                         <path style="fill:#5CA15D;" d="M256,0v512c141.385,0,256-114.615,256-256S397.385,0,256,0z"/>
@@ -94,7 +94,7 @@ function paging(page, sort = 0, status_filter = null, start_date = null, end_dat
                            c4.172,4.188,10.921,4.188,15.093,0C451.611,432.608,451.611,425.86,447.455,421.704z"/>
                    </svg>
                
-                    <svg onclick="changeOrderStatus('${item._id}', 'Canceled')" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    <svg onclick="changeOrderStatus('${item._id}', 'Canceled')" data-bs-toggle="modal" data-bs-target='' version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                         viewBox="0 0 506.4 506.4" style="enable-background:new 0 0 506.4 506.4;" xml:space="preserve">
                     <circle style="fill:#DF5C4E;" cx="253.2" cy="253.2" r="249.2"/>
                     <path style="fill:#F4EFEF;" d="M281.6,253.2l90.8-90.8c4.4-4.4,4.4-12,0-16.4l-11.2-11.2c-4.4-4.4-12-4.4-16.4,0L254,225.6
