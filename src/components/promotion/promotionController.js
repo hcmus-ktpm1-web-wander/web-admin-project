@@ -26,7 +26,7 @@ exports.addPromotion = async (req,res) => {
     try
     {
         const code = req.body.code
-        const level = req.body.level
+        const level = req.body.level + "%"
         const slot = req.body.slot
         const start_date = req.body.start_date
         const end_date = req.body.end_date
@@ -51,7 +51,8 @@ exports.addPromotion = async (req,res) => {
 
 exports.deletePromotion = async (req, res) => {
     try {
-        await promotionService.deletePromotion(req.body.code);
+        console.log(req.body.delete_code)
+        await promotionService.deletePromotion(req.body.delete_code);
         res.redirect('back');
     } catch (e) {
         res.status(500).json({ message: e.message });

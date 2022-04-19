@@ -10,6 +10,7 @@ exports.getAllPromotion = () => {
 
 exports.createPromotion = async (code, level, slot, start_date, end_date) => {
     try {
+        console.log(level)
         await new promotionModel({code: code, level: level, slot: slot, start_date:start_date, end_date: end_date}).save();
     } catch (err) {
         throw err;
