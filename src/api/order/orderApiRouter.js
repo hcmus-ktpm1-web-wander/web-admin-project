@@ -4,6 +4,8 @@ const orderController = require("../../components/order/orderController");
 
 router.get('/', orderApiController.getOrders);
 
+router.get('/get-by-id', orderApiController.getOrdersByID);
+
 //update status
 router.post("/update", orderApiController.updateOrderStatus);
 

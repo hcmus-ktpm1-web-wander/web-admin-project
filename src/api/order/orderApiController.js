@@ -1,6 +1,7 @@
 const orderService = require('../../components/order/orderService');
 const pagination = require('../../public/js/paging');
 
+
 module.exports.getOrders = async (req, res) => {
     try {
         const sort = parseInt(req.query.sort || 0)
@@ -22,6 +23,18 @@ module.exports.updateOrderStatus = async (req,res) => {
         res.send({message: "success"})
     }
     catch (e) {
+        res.status(500).json({message: e.message});
+    }
+}
+
+module.exports.getOrdersByID = async (req , res) => {
+    try
+    {
+        const order = await orderService.getOrderByID(req.query.orderID)
+        res.send({order: order})
+    }
+    catch (e)
+    {
         res.status(500).json({message: e.message});
     }
 }

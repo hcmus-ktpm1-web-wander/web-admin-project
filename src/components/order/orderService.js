@@ -100,6 +100,17 @@ module.exports.getOrders = async (sort = 0, status = null, start = null, end = n
     }
 }
 
+module.exports.getOrderByID = async (orderID) => {
+    try
+    {
+        return await orderModel.findById(orderID).lean()
+    }
+    catch (e)
+    {
+        throw e
+    }
+}
+
 module.exports.updateOrderStatus = async (orderID, status, start_delivery = null, end_delivery = null) => {
     try
     {
@@ -124,4 +135,5 @@ module.exports.sortByCreatedAt = async (sort) => {
         throw e
     }
 }
+
 

@@ -65,7 +65,7 @@ function paging(page, sort = 0, status_filter = null, start_date = null, end_dat
             }
             str +=
                 `<td class="align-middle text-center text-sm">
-                    <svg onclick="changeOrderStatus('${item._id}', 'Completed')" data-bs-toggle="modal" data-bs-target='' version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    <svg onclick="changeOrderStatus('${item._id}', 'Completed')" data-bs-toggle="modal" data-bs-target='#empty' version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                     viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
                         <circle style="fill:#6DC180;" cx="256" cy="256" r="256"/>
                         <path style="fill:#5CA15D;" d="M256,0v512c141.385,0,256-114.615,256-256S397.385,0,256,0z"/>
@@ -74,7 +74,7 @@ function paging(page, sort = 0, status_filter = null, start_date = null, end_dat
                         <polygon style="fill:#DFDFE1;" points="256,331.361 394.251,193.108 355.463,154.32 256,253.782 "/>
                     </svg>
                     
-                    <svg onclick="openDeliveryModal('${item._id}')" data-bs-toggle="modal" data-bs-target='#delivery-modal' version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    <svg onclick="openDeliveryModal('${item._id}')" data-bs-toggle="modal" data-bs-target='' version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                             viewBox="0 0 511.985 511.985" style="enable-background:new 0 0 511.985 511.985;" xml:space="preserve">
                        <polygon style="fill:#F6BB42;" points="405.331,10.66 106.66,10.66 0,117.329 0,192.656 511.984,207.217 511.984,117.329 "/>
                        <polygon style="fill:#FFCE54;" points="394.643,501.325 0,501.325 0,117.329 511.984,117.329 511.984,383.985 "/>
@@ -313,8 +313,6 @@ function paging(page, sort = 0, status_filter = null, start_date = null, end_dat
 function changeOrderStatus(orderID, status, start_date = null, end_date = null) {
     const url = '/api/order/update'
     $.post(url, { orderID: orderID, status: status, start_date: start_date, end_date: end_date }, function (data) {
-        const order = $(`tr[id=${orderID}]`)
-
         const status_bar = $(`tr[id=${orderID}] .status-bar`)
         status_bar.empty()
         let html = ``
@@ -409,7 +407,7 @@ function filterInit() {
     })
 }
 
-function deliveryCheck()
+function deliveryCheck(field)
 {
     const start_date = $(`#delivery-form input[name=start_date]`)
     const end_date = $(`#delivery-form input[name=end_date]`)
@@ -429,8 +427,8 @@ function deliveryCheck()
         else if (end_date.val() < start_date.val())
             msg = 'Invalid'
     }
-    $('#delivery-range .error').text(msg)
 
+    $('#delivery-modal .error').text(msg)
     return msg
 }
 
@@ -444,13 +442,31 @@ function openDeliveryModal(orderID)
     })
 
 
+    const url =`/api/order/get-by-id?orderID=${orderID}`
+    $.get(url,function (data){
+        const start_input = $(`#delivery-form input[name=start_date]`)
+        const end_input = $(`#delivery-form input[name=end_date]`)
+
+        if (data.order != null)
+        {
+            start_input.val(data.order.start_delivery.split("T")[0])
+            end_input.val(data.order.end_delivery.split("T")[0])
+        }
+        else
+        {
+            start_input.val('')
+            end_input.val('')
+        }
+
+    })
+
     // prevent editing when there are still input errors
     const delivery_submit = $('#delivery-form button[type=submit]')
     delivery_submit.on('click', function (){
         event.preventDefault()
         const error = deliveryCheck()
         if (error != '')
-            $('#delivery-form .general-error').text(error)
+            $('#delivery-form .error').text(error)
         else
         {
             changeOrderStatus(orderID, 'Delivering', $('#delivery-form input[name=start_date]').val(), $('#delivery-form input[name=end_date]').val())
