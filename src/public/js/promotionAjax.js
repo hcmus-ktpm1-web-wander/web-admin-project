@@ -165,7 +165,7 @@ function loadPromotion(page) {
 
 window.onload = function () {
     loadPromotion(1)
-    addInit()
+    Init()
 }
 
 function isValid(input, field) {
@@ -205,9 +205,8 @@ function isValid(input, field) {
     return ''
 }
 
-function addInit() {
-    const inputs = $(`div[class=modal-body] input`)
-    const test = $(`#test`)
+function Init() {
+    const inputs = $(`#add-form input`)
 
     inputs.each(function () {
         const name = $(this).attr("name")
@@ -242,12 +241,38 @@ function addInit() {
     })
 }
 
+function openAddModal()
+{
+    //clear errors if exist
+    const errors = $(`#add-form .error`)
+    errors.each(function ()
+    {
+        errors.text('')
+    })
+
+    //init
+    const inputs = $(`#add-form input`)
+    inputs.each(function (){
+        inputs.val('')
+    })
+
+}
+
 function openEditModal(index)
 {
+    //clear errors if exist
+    const error = $(`#edit-form .error`)
+    error.each(function ()
+    {
+        error.text('')
+    })
+
     //init
     const code_input = $(`#edit-form input[name=code]`)
     const level_input = $(`#edit-form input[name=level]`)
     const slot_input = $(`#edit-form input[name=slot]`)
+    const start_input = $(`#edit-form input[name=start_date]`)
+    const end_input = $(`#edit-form input[name=end_date]`)
     const input_hidden = $(`#edit-form input[name=edit_code]`)
 
     const current_code_val  = $(`#code-cell-${index}`)
@@ -257,6 +282,9 @@ function openEditModal(index)
     code_input.val(current_code_val.text())
     level_input.val(current_level_val.text())
     slot_input.val(current_slot_val.text())
+    start_input.val('')
+    end_input.val('')
+
     input_hidden.val(index)
 }
 
