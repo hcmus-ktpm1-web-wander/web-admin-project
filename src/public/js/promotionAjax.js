@@ -122,10 +122,11 @@ function loadPromotion(page) {
                                 <h6 class="end_date error"></h6>
     
                                 <div class="modal-footer">
+                                     <h6 class="general-error"></h6>
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel
                                     </button>
                                    <input type="hidden" name="edit_code">
-                                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Edit
+                                    <button type="submit" class="btn btn-primary">Edit
                                     </button>
                                 </div>
                             </div>
@@ -223,16 +224,15 @@ function Init() {
             $(`#add-form .${name}`).text(error_msg)
         })
     })
-    const submit = $(`.modal-footer button[type=submit]`)
+    const submit = $(`#add-form .modal-footer button[type=submit]`)
     submit.on('click', function (){
         inputs.each(function (){
-            const name = $(this).attr("name")
-            const input = $(this).val()
-            const error_msg = isValid(input, name)
+            const error_msg = isValid($(this).val(), $(this).attr("name"))
             if (error_msg != '')
             {
                 event.preventDefault()
-                $('#modal-error').text('Failed, please check your inputs')
+                $('#add-form .general-error').text(error_msg)
+                return false
             }
             else
                 submit.submit()
@@ -267,25 +267,38 @@ function openEditModal(index)
         error.text('')
     })
 
-    //init
-    const code_input = $(`#edit-form input[name=code]`)
-    const level_input = $(`#edit-form input[name=level]`)
-    const slot_input = $(`#edit-form input[name=slot]`)
-    const start_input = $(`#edit-form input[name=start_date]`)
-    const end_input = $(`#edit-form input[name=end_date]`)
+    //set default val
+    const inputs = $(`#edit-form input`)
+    inputs.each(function (){
+        const field = $(this).attr("name")
+        const current_text = $(`#${field}-cell-${index}`).text()
+
+        $(this).val(current_text)
+    })
+
+    //set up hidden value
     const input_hidden = $(`#edit-form input[name=edit_code]`)
+    const current_code_val  = $(`#code-cell-${index}`).text()
+    input_hidden.val(current_code_val)
 
-    const current_code_val  = $(`#code-cell-${index}`)
-    const current_level_val  = $(`#level-cell-${index}`)
-    const current_slot_val  = $(`#slot-cell-${index}`)
+    // prevent editing when there are still input errors
+    const edit_btn = $('#edit-form button[type=submit]')
+    edit_btn.on('click', function (){
+        inputs.each(function (){
+            const error_msg = isValid($(this).val(), $(this).attr("name"))
+            if (error_msg != '')
+            {
+                event.preventDefault()
+                $('#edit-form .general-error').text(error_msg)
+                return false
+            }
+            else
+                edit_btn.submit()
 
-    code_input.val(current_code_val.text())
-    level_input.val(current_level_val.text())
-    slot_input.val(current_slot_val.text())
-    start_input.val('')
-    end_input.val('')
+        })
+    })
 
-    input_hidden.val(index)
+
 }
 
 function editCheck(field)

@@ -8,3 +8,10 @@ form .error
     font-size: 8px;
     font-style:italic
 }
+
+form .general-error
+{
+    color: red;
+    font-size: 12px;
+    font-style:italic
+}

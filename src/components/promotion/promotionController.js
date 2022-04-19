@@ -61,14 +61,14 @@ exports.deletePromotion = async (req, res) => {
 exports.editPromotion = async (req,res) => {
     try
     {
-        const current_code = req.body.current_code
-        const code = req.body.code
+        const current_code = req.body.edit_code
+        const new_code = req.body.code
         const level = req.body.level
         const slot = req.body.slot
         const start_date = req.body.start_date
         const end_date = req.body.end_date
 
-        await promotionService.editPromotion(current_code,code,level,slot,start_date,end_date)
+        await promotionService.editPromotion(current_code,new_code,level,slot,start_date,end_date)
 
         res.redirect('/manage/promotion')
 
