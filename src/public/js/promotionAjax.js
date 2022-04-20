@@ -1,5 +1,5 @@
 function loadPromotion(page) {
-    fetch('/api/auth/promotion?page=' + page, {
+    fetch('/api/promotion?page=' + page, {
         method: "GET"
     }).then(r => r.json()).then(data => {
         $('#promotion-body').html('');

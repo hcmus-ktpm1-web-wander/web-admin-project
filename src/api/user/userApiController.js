@@ -39,3 +39,39 @@ module.exports.getInfOfUserByFilter = async (req, res) => {
         res.status(500).json({message: e.message});
     }
 };
+
+/**
+ *  search user by name and email
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
+module.exports.SearchUserByNameAndGmail = async (req, res) => {
+    try {
+        const user = await userService.getInfoBySearch('User',req.query.name);
+        const page = parseInt(req.query.page) || 1;
+        const result = pagination.paging(user, page, 8);
+        res.send(result);
+    } catch (e) {
+        res.status(500).json({message: e.message});
+    }
+};
+
+/**
+ *  search user by name and email
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
+module.exports.SearchAdminByNameAndGmail = async (req, res) => {
+    try {
+        const user = await userService.getInfoBySearch('Admin',req.query.name);
+        const page = parseInt(req.query.page) || 1;
+        const result = pagination.paging(user, page, 8);
+        res.send(result);
+    } catch (e) {
+        res.status(500).json({message: e.message});
+    }
+};

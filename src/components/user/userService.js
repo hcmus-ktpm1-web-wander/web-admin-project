@@ -141,3 +141,21 @@ module.exports.addUser = async (body, file) => {
         throw err;
     }
 }
+
+/**
+ * Get info by search
+ * @param role {string:{Admin, User}}
+ * @param nameOrGmail {string}
+ * @returns {Promise<[Admin-User: model]>}
+ */
+module.exports.getInfoBySearch = async (role, nameOrGmail) => {
+    try {
+        return await userModel.find({
+            $or: [{fullname: {$regex: new RegExp('^' + nameOrGmail + '.*', 'i')}},
+                {email: {$regex: new RegExp('^' + nameOrGmail + '.*', 'i')}}], role
+        }).exec();
+    } catch (err) {
+        throw err;
+    }
+}
+//
