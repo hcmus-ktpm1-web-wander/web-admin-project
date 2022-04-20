@@ -126,28 +126,23 @@ module.exports.addProduct = async (body, files) => {
  * @param existFiles {object}
  * @returns {Promise<void>}
  */
-module.exports.changeProductInfo = async (id, body, files, existFiles) => {
+module.exports.changeProductInfo = async (productID, variation, img) => {
     try {
-        let listImg = [];
-        for (const [key, value] of Object.entries(existFiles)) {
-            listImg.push(value);
-        }
-        for (let i = 0; i < files.length; i++) {
-            listImg.push(await cloudinary.upload(files[i].path, 'product'));
-        }
-
-        await productModel.findByIdAndUpdate({_id: id}, {
+        console.log(img)
+        console.log(variation)
+        await productModel.findByIdAndUpdate({_id: productID}, {
             $set: {
-                name: body.name,
+/*                name: body.name,
                 price: body.price,
                 brand: body.brand,
                 size: body.size,
                 color: body.color,
-                category: body.category,
-                img: listImg,
-                SKU: body.SKU,
+                category: body.category,*/
+                img: img,
+/*                SKU: body.SKU,
                 introduction: body.introduction,
-                infomation: body.infomation,
+                infomation: body.infomation,*/
+                variation: variation
             }
         });
     } catch (err) {

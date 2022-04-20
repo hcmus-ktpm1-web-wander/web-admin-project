@@ -14,3 +14,14 @@ module.exports.getProducts = async (req,res)=>{
         res.status(500).send({message: 'Error in the request'});
     }
 }
+
+module.exports.getProductsByID = async (req , res) => {
+    try{
+        const product = await productService.getProducts(null,null,null,null,null, req.query.productID)
+        res.send({product: product})
+    }
+    catch (e)
+    {
+        res.status(500).send({message: e.message});
+    }
+}

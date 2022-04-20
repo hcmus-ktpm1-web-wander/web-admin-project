@@ -86,6 +86,20 @@ exports.editProduct = async (req, res) => {
     }
 };
 
+exports.edit = async (req, res) => {
+    try {
+        const variation = JSON.parse(req.body.variation)
+        const productID = req.body.productID
+        const img = JSON.parse(req.body.img)
+
+        await productService.changeProductInfo(productID, variation, img);
+
+        res.redirect('back');
+    } catch (e) {
+        res.status(500).json({ message: e.message });
+    }
+};
+
 /************************************* DELETE methods *************************************/
 /**
  *  delete product by id
