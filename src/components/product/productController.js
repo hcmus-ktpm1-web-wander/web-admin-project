@@ -80,22 +80,23 @@ exports.addProduct = async (req, res) => {
  * @param res response
  * @returns {Promise<void>}
  */
-exports.editProduct = async (req, res) => {
+/*exports.editProduct = async (req, res) => {
     try {
         await productService.changeProductInfo(req.params.productID, req.body, req.files, req.body.exist_img);
         res.redirect('back');
     } catch (e) {
         res.status(500).json({ message: e.message });
     }
-};
+};*/
 
 exports.edit = async (req, res) => {
     try {
-        const variation = JSON.parse(req.body.variation)
         const productID = req.body.productID
-        const img = JSON.parse(req.body.img)
+        const variation = JSON.parse(req.body.variation)
 
-        await productService.changeProductInfo(productID, variation, img);
+/*        const img = JSON.parse(req.body.img)*/
+
+        await productService.changeProductInfo(productID, variation);
 
         res.redirect('back');
     } catch (e) {

@@ -127,20 +127,18 @@ module.exports.addProduct = async (body, files) => {
  * @param existFiles {object}
  * @returns {Promise<void>}
  */
-module.exports.changeProductInfo = async (productID, variation, img) => {
+module.exports.changeProductInfo = async (productID, variation, size, color, img = null) => {
     try {
-        console.log(img)
         console.log(variation)
         await productModel.findByIdAndUpdate({ _id: productID }, {
             $set: {
-                /*                name: body.name,
+/*                                name: body.name,
                                 price: body.price,
                                 brand: body.brand,
-                                size: body.size,
-                                color: body.color,
-                                category: body.category,*/
-                img: img,
-                /*                SKU: body.SKU,
+
+                                category: body.category,
+                                img: img,
+                                SKU: body.SKU,
                                 introduction: body.introduction,
                                 infomation: body.infomation,*/
                 variation: variation

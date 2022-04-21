@@ -13,8 +13,8 @@ router.get("/:productID", product_manageController.renderProductDetail);
 router.get("/edit/:productID", product_manageController.renderProductDetailEdit);
 
 /*************************** POST methods ***************************/
-// edit product
-router.put("/edit/:productID", upload.array('img',10), product_manageController.editProduct);
+    /*// edit product
+    router.put("/edit/:productID", upload.array('img',10), product_manageController.editProduct);*/
 
 /*************************** PUT methods ***************************/
 // add product

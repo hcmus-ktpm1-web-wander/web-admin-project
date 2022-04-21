@@ -1,5 +1,5 @@
 function getCurrentLastRow() {
-    return $(`.variation-table tbody`).children().length
+    return $(`#variation-table tbody`).children().length
 }
 
 function addVariation(productID, sizes = null, colors = null, stock = 0) {
@@ -12,136 +12,89 @@ function addVariation(productID, sizes = null, colors = null, stock = 0) {
     table.append(`                                                    
                 <tr>
                     <td>
-                        <select class="size-select" aria-label="Default select example" id="size-select-${last_row}" onclick="loadSizeDropdown('${last_row}')"
+                        <select class="size-select" aria-label="Default select example" id="size-select-${last_row}" 
                             style="border: 1px solid lightgray !important; border-radius: 5px">
                         </select>
                     </td>
                     <td>
-                        
                           <input type="color" class="form-control-color" name="color"
-                          id="color-select-${last_row}"   value="{{this}}">
+                          id="color-select-${last_row}">
                     </td>
 
                     <td>
                         <input type="number"
                         style="border: 1px solid lightgray !important; border-radius: 5px"
-                        name="stock-${last_row}" value="${stock}">
+                        name="stock-${last_row}" value="${stock}" oninput="stockCheck(${last_row})">
+                        <h6 class="stock-${last_row} error"></h6>
                     </td>
                 </tr>`)
-    // < td >
-    // <input type="number" name="price-${last_row}" value="${price}">
-    // </td>
-    //     < select class="color-select" aria - label="Default select example" id = "color-select-${last_row}" onclick = "loadColorDropdown('${last_row}')"
-    // style = "border: 1px solid lightgray !important; border-radius: 5px" >
-    //                     </select >
+    const size_buffer =['S','M','L','XL','2XL','3XL']
 
-    if (sizes) {
-        const size_select = $(`#size-select-${last_row}`)
-        sizes.forEach(size => {
-            size_select.prepend(`<option value="${size}">${size}</option>`)
-        });
-        $(`#size-select-${last_row}`).val(`${sizes[0]}`)
-    }
+    //set size default
+    const size_select = $(`#size-select-${last_row}`)
 
-    if (colors) {
-        const color_select = $(`#color-select-${last_row}`)
-        colors.forEach(color => {
-            color_select.prepend(`<option value="${color}">${color}</option>`)
-        });
-        $(`#color-select-${last_row}`).val(`${colors[0]}`)
-    }
+    for (let i = 0 ; i < size_buffer.length ; i++)
+        size_select.append(`<option value="${size_buffer[i]}">${size_buffer[i]}</option>`)
+
+    size_select.val(`${sizes}`)
+
+    //set color
+    const color_select = $(`#color-select-${last_row}`)
+    for (let i = 0 ; i < color_select.length ; i++)
+        color_select.val(colors)
 }
 
-function loadSizeDropdown(index) {
+
+function stockCheck(row)
+{
+    const positive_regex = '^[+]?\\d+([.]\\d+)?$';
+
+    const value = $(`#variation-table input[name=stock-${row}]`).val()
+
+    const isValid = value.match(positive_regex)
+
+    const error = $(`#variation-table .stock-${row}`)
+
+    let msg =''
+
+    if (isValid == null)
+        msg = 'Please enter a positive number'
+
+    error.text(msg)
+
+    return msg
+}
+
+function loadCurrentData() {
     const productID = $(`input[name=product-id]`).val()
     const url = `/api/product/get?productID=${productID}`
-
     $.get(url, function (data) {
-        const sizes = data.product.size
-        const colors = data.product.color
-        const current_size = $(`#size-select-${index}`).find(":selected").text();
-
-        //variation
-        /*const table_body = $(`.variation-table tbody`).children() //tr*/
-
-        /*       const remainSize = sizes.slice()
-       
-               sizes.forEach(size => {
-                    let count = 0
-                    for (let i = 0; i < table_body.length; i++)
-                        if(size == $(`#size-select-${i}`).find(":selected").text())
-                            count+=1
-                    if (count == colors.length)
-                        remainSize.splice(sizes.indexOf(size),1)
-                });
-       
-       
-               if(current_size != '')
-               {
-                   remainSize.splice(sizes.indexOf(current_size),1)
-                   remainSize.splice(0, 0, current_size);
-               }*/
-
-        const select = $(`#size-select-${index}`)
-        select.empty()
-
-        sizes.forEach(size => {
-            select.append(`<option value="${size}">${size}</option>`)
-        });
-        select.val(`${current_size}`)
+        const variations = data.product.variation
+        if (variations) {
+            variations.forEach(variation => {
+                addVariation(productID, variation.size, variation.color, variation.stock)
+            });
+        }
     })
-    console.log($(`#size-select-${index}`).find(":selected").text())
 }
 
-// function loadColorDropdown(index) {
-//     const productID = $(`input[name=product-id]`).val()
-//     const url = `/api/product/get?productID=${productID}`
-//     $.get(url, function (data) {
-//         const variations = data.product.variation
-//         const colors = data.product.color
-//         const sizes = data.product.size
-//         const current_color = $(`#color-select-${index}`).find(":selected").text();
-
-//         /* //variation
-//          const table_body = $(`.variation-table tbody`).children() //tr
-//          const remainColor = colors.slice()
-
-
-//          const current_size = $(`#size-select-${index}`).find(":selected").text()
-
-//          colors.forEach(color => {
-//              for (let i = 0; i < table_body.length; i++)
-//              {
-//                  if(current_size== $(`#size-select-${i}`).find(":selected").text() && color == $(`#color-select-${i}`).find(":selected").text())
-//                      remainColor.splice(colors.indexOf(color),1)
-//              }
-//          });
-
-//          if(current_color!='')
-//          {
-//              remainColor.splice(colors.indexOf(current_color),1)
-//              remainColor.splice(0, 0, current_color);
-//          }*/
-
-//         const select = $(`#color-select-${index}`)
-//         select.empty()
-
-//         colors.forEach(color => {
-//             select.append(`<option value="${color}">${color}</option>`)
-//         });
-//         select.val(`${current_color}`)
-//     })
-
-// }
-
 function edit(productID) {
-    //variation
-    const table_body = $(`.table tbody`).children() //tr
+
+    const table_body = $(`#variation-table tbody`).children() //tr
     const data = []
+
     for (let i = 0; i < table_body.length; i++) {
+        //stock check
+        const isValid = stockCheck(i)
+        if (isValid != '')
+        {
+            $(`.general-error`).text(isValid)
+            return false;
+        }
+
         const size = $(`#size-select-${i}`).find(":selected").text();
 
-        const color = $(`#color-select-${i}`).find(":selected").text();
+        const color = $(`#color-select-${i}`).val();
 
         const stock = $(`input[name=stock-${i}`).val()
 
@@ -154,30 +107,17 @@ function edit(productID) {
     temp.each(function () {
         img.push($(this).attr("src"))
     })
-
+/*
     //name
     const name = $(`input[name=name]`).val()
 
     //brand
-    const brand = $(`input[name=brand]`).val()
+    const brand = $(`input[name=brand]`).val()*/
 
     const url = `/product/edit`
-    $.post(url, { productID: productID, variation: JSON.stringify(data), img: JSON.stringify(img) }, function (data) {
+    $.post(url, { productID: productID, variation: JSON.stringify(data), img: JSON.stringify(img)}, function (data) {
+        window.location.href = `/product/edit/${productID}`
     })
-}
-
-function loadCurrentData() {
-    const productID = $(`input[name=product-id]`).val()
-    const url = `/api/product/get?productID=${productID}`
-    $.get(url, function (data) {
-        const variations = data.product.variation
-        if (variations) {
-            variations.forEach(variation => {
-                addVariation(productID, [variation.size], [variation.color], variation.stock)
-            });
-        }
-    })
-
 }
 
 window.onload = function () {
