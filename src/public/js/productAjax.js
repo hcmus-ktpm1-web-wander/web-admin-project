@@ -137,24 +137,3 @@ window.onload = function () {
     getProductsByFilter(1)
     Init()
 }
-
-// var numberadd = {{ color.length }} || 0;
-// var div_add_color = document.getElementById('add-color');
-// const add_div = "<div id='color-" + numberadd + "-wrap' class='position-relative mx-1 mb-2'> <input type='color' class='form-control-color' name='color' id=\"color-" + numberadd + "\"> <a id=\"color-" + numberadd + "-minus\"  onmousedown='removeColor(\"color-" + numberadd + "\")'> <i class='fa fa-minus-circle position-absolute' style=' z-index: 1; right:-5px; top:-4px;' aria-hidden='true'> </i > </a > </div >";
-
-// function addColor() {
-//     const _id = 'color-' + numberadd;
-//     const _id_minus = _id + '-minus';
-//     console.log("add color");
-
-//     div_add_color.innerHTML += add_div;
-
-//     numberadd++;
-// }
-
-// function removeColor(id) {
-//     console.log("remove", id)
-//     document.getElementById(id).remove();
-//     document.getElementById(id + '-minus').remove();
-//     document.getElementById(id + '-wrap').remove();
-// }

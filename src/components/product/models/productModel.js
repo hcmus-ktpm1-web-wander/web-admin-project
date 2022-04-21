@@ -13,7 +13,12 @@ const product = new Schema({
     SKU: String,
     introduction: String,
     infomation: String,
-    variation: [{ size: String, color: String, price: Number, stock: Number }],
+    variation: [{
+        size: String,
+        color: String,
+        price: Number,
+        stock: Number
+    }],
     createdAt: Date
 
 }, {

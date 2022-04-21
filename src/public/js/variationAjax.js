@@ -28,25 +28,24 @@ function addVariation(productID, sizes = null, colors = null, stock = 0) {
                         <h6 class="stock-${last_row} error"></h6>
                     </td>
                 </tr>`)
-    const size_buffer =['S','M','L','XL','2XL','3XL']
+    const size_buffer = ['S', 'M', 'L', 'XL', '2XL', '3XL']
 
     //set size default
     const size_select = $(`#size-select-${last_row}`)
 
-    for (let i = 0 ; i < size_buffer.length ; i++)
+    for (let i = 0; i < size_buffer.length; i++)
         size_select.append(`<option value="${size_buffer[i]}">${size_buffer[i]}</option>`)
 
     size_select.val(`${sizes}`)
 
     //set color
     const color_select = $(`#color-select-${last_row}`)
-    for (let i = 0 ; i < color_select.length ; i++)
+    for (let i = 0; i < color_select.length; i++)
         color_select.val(colors)
 }
 
 
-function stockCheck(row)
-{
+function stockCheck(row) {
     const positive_regex = '^[+]?\\d+([.]\\d+)?$';
 
     const value = $(`#variation-table input[name=stock-${row}]`).val()
@@ -55,7 +54,7 @@ function stockCheck(row)
 
     const error = $(`#variation-table .stock-${row}`)
 
-    let msg =''
+    let msg = ''
 
     if (isValid == null)
         msg = 'Please enter a positive number'
@@ -66,7 +65,10 @@ function stockCheck(row)
 }
 
 function loadCurrentData() {
-    const productID = $(`input[name=product-id]`).val()
+    const productID = $("input[name=product-id]").val()
+
+    console.log("id:", productID)
+
     const url = `/api/product/get?productID=${productID}`
     $.get(url, function (data) {
         const variations = data.product.variation
@@ -86,8 +88,7 @@ function edit(productID) {
     for (let i = 0; i < table_body.length; i++) {
         //stock check
         const isValid = stockCheck(i)
-        if (isValid != '')
-        {
+        if (isValid != '') {
             $(`.general-error`).text(isValid)
             return false;
         }
@@ -107,15 +108,28 @@ function edit(productID) {
     temp.each(function () {
         img.push($(this).attr("src"))
     })
-/*
-    //name
-    const name = $(`input[name=name]`).val()
 
-    //brand
-    const brand = $(`input[name=brand]`).val()*/
+    const name = $(`input[name=name]`).val()
+    const price = $(`input[name=price]`).val()
+    const category = $(`input[name=category]`).val()
+    const brand = $(`input[name=brand]`).val()
+    const SKU = $(`input[name=SKU]`).val()
+    const description = $(`input[name=description]`).val()
+    const detail_info = $(`input[name=detail_info]`).val()
 
     const url = `/product/edit`
-    $.post(url, { productID: productID, variation: JSON.stringify(data), img: JSON.stringify(img)}, function (data) {
+    $.post(url, {
+        name: name,
+        price: price,
+        category: category,
+        brand: brand,
+        SKU: SKU,
+        description: description,
+        detail_info: detail_info,
+        productID: productID,
+        variation: JSON.stringify(data),
+        img: JSON.stringify(img)
+    }, function (data) {
         window.location.href = `/product/edit/${productID}`
     })
 }

@@ -138,35 +138,36 @@ module.exports.addProduct = async (body, files) => {
  * @param existFiles {object}
  * @returns {Promise<void>}
  */
-module.exports.changeProductInfo = async (productID, variation, img) => {
+module.exports.changeProductInfo = async (body, files) => {
     try {
-        console.log(variation)
-        await productModel.findByIdAndUpdate({ _id: productID }, {
+        console.log("-- change ---");
+        console.log("body:", body);
+        console.log("files:", files);
+        console.log("+__+");
+
+        let url = [];
+        for (let i = 0; i < files.length; i++) {
+            url.push(await cloudinary.upload(files[i].path, 'product'));
+        }
+
+        console.log("url:", url);
+
+        await productModel.findByIdAndUpdate({ _id: body.productID }, {
             $set: {
-<<<<<<< HEAD
                 name: body.name,
                 price: body.price,
                 brand: body.brand,
 
                 category: body.category,
-                img: img,
+                img: JSON.parse(body.img),
                 SKU: body.SKU,
                 introduction: body.introduction,
                 infomation: body.infomation,
-=======
-                /*                                name: body.name,
-                                                price: body.price,
-                                                brand: body.brand,
-                
-                                                category: body.category,
-                                                img: img,
-                                                SKU: body.SKU,
-                                                introduction: body.introduction,
-                                                infomation: body.infomation,*/
->>>>>>> 93357d87f93fec9ecf619291ae6abac18bdb27a4
-                variation: variation
+                variation: JSON.parse(body.variation)
             }
         });
+
+        console.log("done");
     } catch (err) {
         throw err;
     }

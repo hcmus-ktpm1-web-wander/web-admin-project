@@ -13,15 +13,15 @@ router.get("/:productID", product_manageController.renderProductDetail);
 router.get("/edit/:productID", product_manageController.renderProductDetailEdit);
 
 /*************************** POST methods ***************************/
-    /*// edit product
-    router.put("/edit/:productID", upload.array('img',10), product_manageController.editProduct);*/
+/*// edit product
+router.put("/edit/:productID", upload.array('img',10), product_manageController.editProduct);*/
 
 /*************************** PUT methods ***************************/
 // add product
 router.post("/add-product", upload.array('img'), product_manageController.addProduct);
 
 // edit product
-router.post("/edit", product_manageController.edit);
+router.post("/edit", upload.array('img'), product_manageController.edit);
 
 /*************************** DELETE methods ***************************/
 // delete product

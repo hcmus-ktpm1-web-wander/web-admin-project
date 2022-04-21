@@ -28,8 +28,8 @@ exports.renderProductDetailEdit = async (req, res) => {
         const product = await productService.getProducts(undefined, undefined, undefined, undefined, undefined, req.params.productID);
         console.log("reder detail");
         console.log("product:", product);
-        str_product = JSON.stringify(product);
-        res.render("product/views/product_detail", { active: { ProductManage: true, editProduct: true }, page: "Product detail/edit", product, str_product });
+
+        res.render("product/views/product_detail", { active: { ProductManage: true, editProduct: true }, page: "Product detail/edit", product });
 
     } catch (e) {
         res.status(500).json({ message: e.message });
@@ -46,7 +46,7 @@ exports.renderProductDetailEdit = async (req, res) => {
 exports.renderProductDetail = async (req, res) => {
     try {
         const product = await productService.getProducts(undefined, undefined, undefined, undefined, undefined, req.params.productID);
-        console.log("--get product detail: ", product);
+        console.log("--get product detail - render: ", product);
         res.render("product/views/product_detail", { active: { ProductManage: true }, page: "Product detail", product });
     } catch (e) {
         res.status(500).json({ message: e.message });
@@ -91,12 +91,11 @@ exports.addProduct = async (req, res) => {
 
 exports.edit = async (req, res) => {
     try {
-        const productID = req.body.productID
-        const variation = JSON.parse(req.body.variation)
+        const body = req.body
 
-        const img = JSON.parse(req.body.img)
+        console.log("-- POST edit product: ");
 
-        await productService.changeProductInfo(productID, variation, img);
+        await productService.changeProductInfo(body, req.files);
 
         res.redirect('back');
     } catch (e) {
