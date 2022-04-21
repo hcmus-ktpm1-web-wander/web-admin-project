@@ -83,14 +83,17 @@ module.exports.getDashboard = async (req, res) => {
 
         // total money + period's money + top 3 user + this period product
         orders.forEach(order => {
-            // total money 
-            total += order.total;
+            let discount = 0;
+            if (order.promo)
+                discount = parseInt(order.promo.replace("%", ""));
 
-            console.log("user -:", this.getWeek(present), ' com ', this.isDateInWeek(order.create_date), order.create_date);
+            // total money 
+            total += order.total - (order.total * (discount / 100));
+
             if ((pre == "Week" && this.isDateInWeek(order.create_date)) ||
                 (pre != "Week" && order.create_date.includes(period))) {
                 // total + order
-                period_total += order.total;
+                period_total += order.total - (order.total * (discount / 100));
                 period_total_order += 1;
 
                 // top user
@@ -103,12 +106,12 @@ module.exports.getDashboard = async (req, res) => {
                             fullname: user.fullname,
                             username: user.username,
                             avatar_url: user.avatar_url,
-                            total: Math.round(order.total * 100) / 100,
+                            total: Math.round((order.total - (order.total * (discount / 100))) * 100) / 100,
                             order: 1
                         }
                     }
                 } else {
-                    top_user[order.customer._id].total = Math.round((top_user[order.customer._id].total + order.total) * 100) / 100;
+                    top_user[order.customer._id].total = Math.round((top_user[order.customer._id].total + order.total - (order.total * (discount / 100))) * 100) / 100;
                     top_user[order.customer._id].order += 1;
                 }
 
@@ -138,17 +141,19 @@ module.exports.getDashboard = async (req, res) => {
                     } else {
                         top_product_category[product.category][product._id].quantity += order.products[i].quantity;
                     }
-
-                    // this period order
-                    period_order.push({
-                        order_id: order._id,
-                        total: order.total,
-                        create_date: order.create_date,
-                        promo: order.promo
-                    })
                 }
+
+                // this period order
+                period_order.push({
+                    order_id: order._id,
+                    total: order.total,
+                    create_date: order.create_date,
+                    promo: order.promo
+                })
             }
         });
+
+        console.log("period order:", period_order);
 
         // chart
         {
@@ -200,8 +205,12 @@ module.exports.getDashboard = async (req, res) => {
 
                     orders.forEach(order => {
                         if (this.isDateInWeek(order.create_date) && order.create_date.includes(this_date)) {
+                            let discount = 0;
+                            if (order.promo)
+                                discount = parseInt(order.promo.replace("%", ""));
+
                             // chart bars
-                            tt += order.total;
+                            tt += order.total - (order.total * (discount / 100));
 
                             // chart lines
                             for (let j = 0; j < order.products.length; j++) {
@@ -237,8 +246,12 @@ module.exports.getDashboard = async (req, res) => {
 
                     orders.forEach(order => {
                         if (order.create_date.includes(this_date)) {
+                            let discount = 0;
+                            if (order.promo)
+                                discount = parseInt(order.promo.replace("%", ""));
+
                             // chart bars
-                            tt += order.total;
+                            tt += order.total - (order.total * (discount / 100));
 
                             // chart lines
                             for (let j = 0; j < order.products.length; j++) {
@@ -270,8 +283,12 @@ module.exports.getDashboard = async (req, res) => {
 
                     orders.forEach(order => {
                         if (order.create_date.includes(this_date)) {
+                            let discount = 0;
+                            if (order.promo)
+                                discount = parseInt(order.promo.replace("%", ""));
+
                             // chart bars
-                            tt += order.total;
+                            tt += order.total - (order.total * (discount / 100));
 
                             // chart lines
                             for (let j = 0; j < order.products.length; j++) {
@@ -280,7 +297,7 @@ module.exports.getDashboard = async (req, res) => {
                         }
                     });
 
-                    chart_bars_data.push(tt);
+                    chart_bars_data.push(Math.round(tt * 100) / 100);
                     chart_lines_data["Bags"].push(category["Bags"]);
                     chart_lines_data["Clothing"].push(category["Clothing"]);
                     chart_lines_data["Accessories"].push(category["Accessories"]);
