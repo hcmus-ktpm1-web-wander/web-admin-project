@@ -108,29 +108,72 @@ function paging(page, sort = 0, status_filter = null, start_date = null, end_dat
             if (item.customer._id !== undefined)
                 str += `<div class="mb-1"><b>Customer ID:</b> ${item.customer._id}</div>`
 
-            str += `<div class="mb-1"><b>Customer name:</b> ${item.customer.fullname}</div>
-                                <div class="mb-1"><b>Customer email:</b> ${item.customer.email}</div>
-                                <div class="mb-1"><b>Customer phone:</b> ${item.customer.phone}</div>
-                                <div class="mb-1"><b>Customer address:</b> ${item.customer.address}</div>
-                                <div class="mb-1"><b>Create at:</b> ${item.create_date}</div> `;
+            str += `
+            <div class="mb-1"><b>Customer name:</b> ${item.customer.fullname}</div>
+            <div class="mb-1"><b>Customer email:</b> ${item.customer.email}</div>
+            <div class="mb-1"><b>Customer phone:</b> ${item.customer.phone}</div>
+            <div class="mb-1"><b>Customer address:</b> ${item.customer.address}</div>
+            <div class="mb-1"><b>Create at:</b> ${item.create_date}</div> 
+            
+            `;
+
+            if (item.status === 'Completed' || item.status === 'Delivering') {
+                console.log("-coplete -");
+                const now = (new Date(item.start_delivery)).toString().split(" ");
+                console.log("now:", now);
+                const start = now[2] + ' ' + now[1] + ',' + now[3];
+
+                str += `
+                <div id="delivery-time-${item._id}">
+                    <div class="mb-1"><b>Start delivery at:</b> ${start}</div>
+                </div>`
+            } else if (item.status === "Canceled" && item.start_delivery) {
+                const now = (new Date(item.start_delivery)).toString().split(" ");
+                const start = now[2] + ' ' + now[1] + ',' + now[3];
+                str += `
+                <div id="delivery-time-${item._id}">
+                    <div class="mb-1"><b>Start delivery at:</b> ${start}</div>
+                    <div class="mb-1"><b>End delivery at:</b> Cancel</div>
+                </div>`
+            }
+            if (item.status === 'Completed') {
+                const now = (new Date(item.end_delivery)).toString().split(" ");
+                const end = now[2] + ' ' + now[1] + ',' + now[3];
+                str += `
+                <div id="delivery-time-${item._id}">
+                    <div class="mb-1"><b>End delivery at:</b> ${end}</div>
+                </div>`
+            } else {
+                str += `
+                 <div id="delivery-time-${item._id}"></div>`
+            }
+
 
             if (item.status === 'Delivering') {
-                str += `<div class="mb-3"><b>Status:</b>
-                        <span class="badge badge-sm bg-gradient-secondary">${item.status}</span>
+                str += `<div class="mb-3 d-flex"><b>Status:</b>
+                         <div id="status-bar-${item._id}" style="width: 120px">
+                            <span class="badge badge-sm bg-gradient-secondary">${item.status}</span>
+                        </div>
                     </div> `;
                 str += `<div className="mb-1"><b>Time: </b>${item.start_delivery.split("T")[0]} - ${item.end_delivery.split("T")[0]}</div> `;
 
             } else if (item.status === 'Processing') {
-                str += `<div class="mb-3"><b>Status:</b>
-                        <span class="badge badge-sm bg-gradient-warning">${item.status}</span>
+                str += `<div class="mb-3 d-flex"><b>Status:</b>
+                        <div id="status-bar-${item._id}" style="width: 120px">
+                            <span class="badge badge-sm bg-gradient-warning w-70">${item.status}</span>
+                        </div>
                     </div> `;
             } else if (item.status === 'Completed') {
-                str += `<div class="mb-3"><b>Status:</b>
-                        <span class="badge badge-sm bg-gradient-success">${item.status}</span>
+                str += `<div class="mb-3 d-flex"><b>Status:</b>
+                        <div id="status-bar-${item._id}" style="width: 120px">
+                            <span class="badge badge-sm bg-gradient-success w-70">${item.status}</span>
+                        </div>
                     </div> `;
             } else if (item.status === 'Canceled') {
-                str += `<div class="mb-3"><b>Status:</b>
-                        <span class="badge badge-sm bg-gradient-danger">${item.status}</span>
+                str += `<div class="mb-3 d-flex"><b>Status:</b>
+                        <div id="status-bar-${item._id}" style="width: 120px">
+                            <span class="badge badge-sm bg-gradient-danger w-70">${item.status}</span>
+                        </div>
                     </div> `;
             }
 
@@ -290,14 +333,18 @@ function changeOrderStatus(orderID, status, start_date = null, end_date = null) 
     const url = '/api/order/update'
     $.post(url, { orderID: orderID, status: status, start_date: start_date, end_date: end_date }, function (data) {
         console.log(data);
+        console.log("start date:", start_date);
 
-        const status_badge = $(`tr[id=${orderID}] .status-bar`)
+        const status_badge = $(`tr[id=${orderID}] .status-bar, #status-bar-${orderID}`);
+
         const status_change = $(`#status-${orderID}`)
+        const delivery_time = $(`#delivery-time-${orderID}`)
 
         console.log("status change:", status_change);
         status_badge.empty()
         let html = ``
         let stt = ``
+        let time = ``
 
         if (status === 'Delivering') {
             html = `<span class="badge badge-sm bg-gradient-secondary w-70" style="border-width: 0;">${status}</span>`;
@@ -331,10 +378,33 @@ function changeOrderStatus(orderID, status, start_date = null, end_date = null) 
             html = `<span class="badge badge-sm bg-gradient-danger w-70" style="border-width: 0;">${status}</span>`;
         }
 
-        console.log(html);
-        console.log("status:", stt);
+        if (status === 'Completed' || status === 'Delivering') {
+            const now = (new Date(start_date)).toString().split(" ");
+            const start = now[2] + ' ' + now[1] + ',' + now[3];
+
+            time += `
+                <div class="mb-1"><b>Start delivery at:</b> ${start}</div>`;
+        } else if (status === "Canceled" && start_date) {
+            const now = (new Date(start_date)).toString().split(" ");
+            const start = now[2] + ' ' + now[1] + ',' + now[3];
+            time += `
+                <div class="mb-1"><b>Start delivery at:</b> ${start}</div>
+                <div class="mb-1"><b>End delivery at:</b> Cancel</div>
+                `
+        }
+        if (status === 'Completed') {
+            const now = (new Date(end_date)).toString().split(" ");
+            const end = now[2] + ' ' + now[1] + ',' + now[3];
+            time += `
+                <div class="mb-1"><b>End delivery at:</b> ${end}</div>`
+        }
+
+
+        console.log("time:", time);
+
         status_badge.html(html)
         status_change.html(stt)
+        delivery_time.html(time)
 
     }).fail(function (data) {
         if (data.status === 500)
