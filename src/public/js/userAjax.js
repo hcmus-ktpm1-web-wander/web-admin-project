@@ -312,25 +312,17 @@ function pagingUser(page, Filter) {
 }
 
 function SearchUserByNameAndGmail(e) {
-    const $searchResult = $('#myList');
-    let match = e.value.match(/^[a-zA-Z0-9]*/);
-    let match2 = e.value.match(/\s*/);
-    if (match2[0] === e.value) {
-        $searchResult.html('');
-        return;
-    }
-    if (match[0] === e.value) {
-        fetch('/api/user/search-user?name=' + e.value, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(r => r.json()).then(data => {
-            $('#user-body').html('');
-            $('#user-pagination').html('');
-            data.data.forEach(function (item, index) {
-                $('#user-body').append(
-                    `< tr >
+    fetch('/api/user/search-user?name=' + e.value, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(r => r.json()).then(data => {
+        $('#user-body').html('');
+        $('#user-pagination').html('');
+        data.data.forEach(function (item, index) {
+            $('#user-body').append(
+                `<tr>
                     <td>
                         <div class="d-flex px-2 py-1">
                             <div>
@@ -379,8 +371,6 @@ function SearchUserByNameAndGmail(e) {
                             </li>
                         </ul>
                     </td>
-
-                    <!--User Modal-- >
                     <td>
                         <div class="modal fade" id='account${index}' tabIndex="-1"
                             aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -417,13 +407,13 @@ function SearchUserByNameAndGmail(e) {
                             </div>
                         </div>
                     </td>
-                </tr > `
-                )
-            })
+                </tr> `
+            )
+        })
 
-            if (data.checkErrors) {
-                let str =
-                    `< svg xmlns = "http://www.w3.org/2000/svg" style = "display: none;" >
+        if (data.checkErrors) {
+            let str =
+                `<svg xmlns = "http://www.w3.org/2000/svg" style = "display: none;">
                     <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
                         <path
                             d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
@@ -436,53 +426,44 @@ function SearchUserByNameAndGmail(e) {
                             <use xlink:href="#exclamation-triangle-fill" />
                         </svg>`
 
-                if (data.errors.username) {
-                    str +=
-                        `<div class="mx-4">
+            if (data.errors.username) {
+                str +=
+                    `<div class="mx-4">
                         <b>Username:</b>
                         <span> ${data.errors.username}</span>
                     </div>`;
 
-                } else if (data.errors.password) {
-                    str +=
-                        `<div class="mx-4">
+            } else if (data.errors.password) {
+                str +=
+                    `<div class="mx-4">
                         <b>Password:</b>
                         <span> ${data.errors.password}</span>
                     </div>`
-                } else if (data.errors.confirm_password) {
-                    str +=
-                        `<div class="mx-4">
+            } else if (data.errors.confirm_password) {
+                str +=
+                    `<div class="mx-4">
                         <b>Confirm password:</b>
                         <span> ${data.errors.confirm_password}</span>
                     </div>`
-                }
-                str += `</div>`;
-                $('#errors').html(str);
             }
-        })
-    }
+            str += `</div>`;
+            $('#errors').html(str);
+        }
+    })
 }
 
 function SearchAdminByNameAndGmail(e) {
-    const $searchResult = $('#myList');
-    let match = e.value.match(/^[a-zA-Z0-9]*/);
-    let match2 = e.value.match(/\s*/);
-    if (match2[0] === e.value) {
-        $searchResult.html('');
-        return;
-    }
-    if (match[0] === e.value) {
-        fetch('/api/user/search-admin?name=' + e.value, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(r => r.json()).then(data => {
-            $('#admin-body').html('');
-            $('#admin-pagination').html('');
-            data.data.forEach(function (item, index) {
-                $('#admin-body').append(
-                    `< tr >
+    fetch('/api/user/search-admin?name=' + e.value, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(r => r.json()).then(data => {
+        $('#admin-body').html('');
+        $('#admin-pagination').html('');
+        data.data.forEach(function (item, index) {
+            $('#admin-body').append(
+                `<tr>
                     <td>
                         <div class="d-flex px-2 py-1">
                             <div>
@@ -506,7 +487,6 @@ function SearchAdminByNameAndGmail(e) {
                                 data-bs-toggle="modal" data-bs-target='#account${index}'>View
                         </button>
                     </td>
-                    <!--User Modal-- >
                     <td>
                         <div class="modal fade" id='account${index}' tabIndex="-1"
                             aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -543,11 +523,10 @@ function SearchAdminByNameAndGmail(e) {
                             </div>
                         </div>
                     </td>
-                </tr > `
-                )
-            })
+                </tr> `
+            )
         })
-    }
+    })
 }
 
 window.onload = function () {

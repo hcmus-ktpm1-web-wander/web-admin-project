@@ -88,7 +88,7 @@ function edit(productID) {
     for (let i = 0; i < table_body.length; i++) {
         //stock check
         const isValid = stockCheck(i)
-        if (isValid != '') {
+        if (isValid !== '') {
             $(`.general-error`).text(isValid)
             return false;
         }
@@ -99,7 +99,7 @@ function edit(productID) {
 
         const stock = $(`input[name=stock-${i}`).val()
 
-        data.push({ size: size, color: color, stock: stock })
+        data.push({size: size, color: color, stock: stock})
     }
 
     //img

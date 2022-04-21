@@ -10,24 +10,24 @@
 						<div class="table-responsive p-0">
 							<table class="table align-items-center mb-0">
 								<thead>
-									<tr>
-										<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-											Author
-										</th>
-										<th
+								<tr>
+									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+										Author
+									</th>
+									<th
 											class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-											Function
-										</th>
-										<th
+										Function
+									</th>
+									<th
 											class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-											Employed
-										</th>
-										<th
+										Employed
+									</th>
+									<th
 											class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-											Detail
-										</th>
-										<th class="text-secondary opacity-7"></th>
-									</tr>
+										Detail
+									</th>
+									<th class="text-secondary opacity-7"></th>
+								</tr>
 								</thead>
 								<tbody id="user-body">
 								</tbody>
@@ -47,7 +47,7 @@
 
 			{{!-- button add --}}
 			<button class=" btn btn-primary button-add" data-bs-toggle="modal" data-bs-target='#add-user'
-				onmousedown="addUser()">Add
+					onmousedown="addUser()">Add
 				User
 			</button>
 			<script>
@@ -73,42 +73,42 @@
 							<div class="row">
 								<div class="col-3">
 									<img src="/img/default-avtar.jpg" class="in-avatar rounded float-start" id="avatar"
-										alt="avatar">
+										 alt="avatar">
 								</div>
 								<div class="col-9">
 									<b>Avatar:</b>
 									<input type="file" class="form-control form-control-sm" id="input-avatar"
-										name="avatar_url" accept=".jpg,.jpeg,.png">
+										   name="avatar_url" accept=".jpg,.jpeg,.png">
 								</div>
 							</div>
 
 							<b>Full name:</b> <span class="red-start">*</span>
 							<div class="input-group input-group-sm mb-2">
 								<input type="text" aria-label="First name" class="form-control" placeholder="First name"
-									name="fname">
+									   name="fname">
 								<input type="text" aria-label="Last name" class="form-control" placeholder="Last name"
-									name="lname">
+									   name="lname">
 							</div>
 
 							<b>Username:</b> <span class="red-start">*</span>
 							<div class="input-group input-group-sm mb-2">
 								<span class="input-group-text" id="basic-addon1">@</span>
 								<input type="text" class="form-control" placeholder="Username" aria-label="Username"
-									aria-describedby="basic-addon1" name="username">
+									   aria-describedby="basic-addon1" name="username">
 							</div>
 
 							<b>Password:</b> <span class="red-start">*</span>
 							<div class="mb-2">
 								<div class="input-group input-group-sm mb-1">
 									<input type="password" class="form-control" placeholder="Password" id="passwd"
-										aria-label="Passwd" name="passwd">
+										   aria-label="Passwd" name="passwd">
 									<span class="input-group-text">
 										<i class="far fa-eye-slash" id="togglePassword-passwd"></i>
 									</span>
 								</div>
 								<div class="input-group input-group-sm mb-1">
 									<input type="password" class="form-control form-control-sm" id="confirm-passwd"
-										placeholder="Confirm password" aria-label="Passwd" name="confirm_passwd">
+										   placeholder="Confirm password" aria-label="Passwd" name="confirm_passwd">
 									<span class="input-group-text">
 										<i class="far fa-eye-slash" id="togglePassword-confirmPasswd"></i>
 									</span>
@@ -118,19 +118,19 @@
 							<b>Email:</b> <span class="red-start">*</span>
 							<div class="input-group input-group-sm mb-2">
 								<input type="text" class="form-control" placeholder="Username" aria-label="Username"
-									name='mail_username'>
+									   name='mail_username'>
 								<span class="input-group-text">@</span>
 								<input type="text" class="form-control" name='mail_domain' placeholder="gmail.com"
-									aria-label="Server">
+									   aria-label="Server">
 							</div>
 
 							<b>Address:</b>
 							<input type="text" class="form-control form-control-sm mb-2" placeholder="Address"
-								aria-label="addr" name="address">
+								   aria-label="addr" name="address">
 
 							<b>Phone number:</b>
 							<input type="tel" class="form-control form-control-sm" placeholder="Phone number"
-								aria-label="phone-num" name="phone">
+								   aria-label="phone-num" name="phone">
 
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancle
@@ -177,15 +177,15 @@
 			<a href="javascript:void(0)" class="switch-trigger background-color">
 				<div class="badge-colors my-2 text-start">
 					<span class="badge filter bg-gradient-primary active" data-color="primary"
-						onclick="sidebarColor(this)"></span>
+						  onclick="sidebarColor(this)"></span>
 					<span class="badge filter bg-gradient-dark" data-color="dark" onclick="sidebarColor(this)"></span>
 					<span class="badge filter bg-gradient-info" data-color="info" onclick="sidebarColor(this)"></span>
 					<span class="badge filter bg-gradient-success" data-color="success"
-						onclick="sidebarColor(this)"></span>
+						  onclick="sidebarColor(this)"></span>
 					<span class="badge filter bg-gradient-warning" data-color="warning"
-						onclick="sidebarColor(this)"></span>
+						  onclick="sidebarColor(this)"></span>
 					<span class="badge filter bg-gradient-danger" data-color="danger"
-						onclick="sidebarColor(this)"></span>
+						  onclick="sidebarColor(this)"></span>
 				</div>
 			</a>
 			<!-- Sidenav Type -->
@@ -195,10 +195,10 @@
 			</div>
 			<div class="d-flex">
 				<button class="btn bg-gradient-primary w-100 px-3 mb-2 active" data-class="bg-transparent"
-					onclick="sidebarType(this)">Transparent
+						onclick="sidebarType(this)">Transparent
 				</button>
 				<button class="btn bg-gradient-primary w-100 px-3 mb-2 ms-2" data-class="bg-white"
-					onclick="sidebarType(this)">White
+						onclick="sidebarType(this)">White
 				</button>
 			</div>
 			<p class="text-sm d-xl-none d-block mt-2">You can change the sidenav type just on desktop view.</p>
@@ -208,7 +208,7 @@
 			</div>
 			<div class="form-check form-switch ps-0">
 				<input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed"
-					onclick="navbarFixed(this)">
+					   onclick="navbarFixed(this)">
 			</div>
 		</div>
 	</div>
@@ -245,24 +245,24 @@
 
 
 {{!-- load image from <file> to <img> --}}
-	<script>
-		document.getElementById('input-avatar').onchange = function (evt) {
-			const tgt = evt.target || window.event.srcElement,
+<script>
+	document.getElementById('input-avatar').onchange = function (evt) {
+		const tgt = evt.target || window.event.srcElement,
 				files = tgt.files;
 
-			// FileReader support
-			if (FileReader && files && files.length) {
-				const fr = new FileReader();
-				fr.onload = function () {
-					document.getElementById("avatar").src = fr.result;
-				}
-				fr.readAsDataURL(files[0]);
+		// FileReader support
+		if (FileReader && files && files.length) {
+			const fr = new FileReader();
+			fr.onload = function () {
+				document.getElementById("avatar").src = fr.result;
 			}
-
-			// Not supported
-			else {
-				// fallback -- perhaps submit the input to an iframe and temporarily store
-				// them on the server until the user's session ends.
-			}
+			fr.readAsDataURL(files[0]);
 		}
-	</script>
+
+		// Not supported
+		else {
+			// fallback -- perhaps submit the input to an iframe and temporarily store
+			// them on the server until the user's session ends.
+		}
+	}
+</script>
