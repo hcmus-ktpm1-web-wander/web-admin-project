@@ -522,7 +522,7 @@ function openDeliveryModal(orderID) {
         const start_input = $(`#delivery-form input[name=start_date]`)
         const end_input = $(`#delivery-form input[name=end_date]`)
 
-        if (data.order != null) {
+        if (data.order != null && data.order.status == 'Delivering' && data.order.start_delivery) {
             start_input.val(data.order.start_delivery.split("T")[0])
             end_input.val(data.order.end_delivery.split("T")[0])
         }
@@ -535,6 +535,7 @@ function openDeliveryModal(orderID) {
 
     // prevent editing when there are still input errors
     const delivery_submit = $('#delivery-form button[type=submit]')
+    delivery_submit.unbind()
     delivery_submit.on('click', function () {
         event.preventDefault()
         const error = deliveryCheck()
