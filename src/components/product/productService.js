@@ -35,6 +35,7 @@ module.exports.getProducts = async (sort, category, brand, min, max, id = null) 
             if (sort === undefined) {
                 // case get dashboard
                 products = await productModel.find().lean();
+
                 for (let i = 0; i < products.length; i++) {
                     products[i].thumbnail = products[i].img[0];
                 }
@@ -42,23 +43,23 @@ module.exports.getProducts = async (sort, category, brand, min, max, id = null) 
                 return products;
             } else if (sort !== 0) {
                 if (!category && !brand)
-                    products = await productModel.find({$and: [{price: {$gte: min}}, {price: {$lte: max}}]}).sort({price: sort}).lean()
+                    products = await productModel.find({ $and: [{ price: { $gte: min } }, { price: { $lte: max } }] }).sort({ price: sort }).lean()
 
                 else if (category && brand)
-                    products = await productModel.find({$and: [{category: {"$in": category}}, {brand: {"$in": brand}}, {price: {$gte: min}}, {price: {$lte: max}}]}).sort({price: sort}).lean()
+                    products = await productModel.find({ $and: [{ category: { "$in": category } }, { brand: { "$in": brand } }, { price: { $gte: min } }, { price: { $lte: max } }] }).sort({ price: sort }).lean()
                 else if (category && !brand)
-                    products = await productModel.find({$and: [{category: {"$in": category}}, {price: {$gte: min}}, {price: {$lte: max}}]}).sort({price: sort}).lean()
+                    products = await productModel.find({ $and: [{ category: { "$in": category } }, { price: { $gte: min } }, { price: { $lte: max } }] }).sort({ price: sort }).lean()
                 else
-                    products = await productModel.find({$and: [{brand: {"$in": brand}}, {price: {$gte: min}}, {price: {$lte: max}}]}).sort({price: sort}).lean()
+                    products = await productModel.find({ $and: [{ brand: { "$in": brand } }, { price: { $gte: min } }, { price: { $lte: max } }] }).sort({ price: sort }).lean()
             } else {
                 if (!category && !brand)
-                    products = await productModel.find({$and: [{price: {$gte: min}}, {price: {$lte: max}}]}).lean()
+                    products = await productModel.find({ $and: [{ price: { $gte: min } }, { price: { $lte: max } }] }).lean()
                 else if (category && brand)
-                    products = await productModel.find({$and: [{category: {"$in": category}}, {brand: {"$in": brand}}, {price: {$gte: min}}, {price: {$lte: max}}]}).lean()
+                    products = await productModel.find({ $and: [{ category: { "$in": category } }, { brand: { "$in": brand } }, { price: { $gte: min } }, { price: { $lte: max } }] }).lean()
                 else if (category && !brand)
-                    products = await productModel.find({$and: [{category: {"$in": category}}, {price: {$gte: min}}, {price: {$lte: max}}]}).lean()
+                    products = await productModel.find({ $and: [{ category: { "$in": category } }, { price: { $gte: min } }, { price: { $lte: max } }] }).lean()
                 else
-                    products = await productModel.find({$and: [{brand: {"$in": brand}}, {price: {$gte: min}}, {price: {$lte: max}}]}).lean()
+                    products = await productModel.find({ $and: [{ brand: { "$in": brand } }, { price: { $gte: min } }, { price: { $lte: max } }] }).lean()
             }
 
             for (let i = 0; i < products.length; i++) {
@@ -69,7 +70,7 @@ module.exports.getProducts = async (sort, category, brand, min, max, id = null) 
         } else {
             const product = await productModel.findById(id).lean();
             product.thumbnail = product.img[0];
-            product.img.shift();
+
             return product;
         }
     } catch (err) {
@@ -130,18 +131,18 @@ module.exports.changeProductInfo = async (productID, variation, img) => {
     try {
         console.log(img)
         console.log(variation)
-        await productModel.findByIdAndUpdate({_id: productID}, {
+        await productModel.findByIdAndUpdate({ _id: productID }, {
             $set: {
-/*                name: body.name,
-                price: body.price,
-                brand: body.brand,
-                size: body.size,
-                color: body.color,
-                category: body.category,*/
+                /*                name: body.name,
+                                price: body.price,
+                                brand: body.brand,
+                                size: body.size,
+                                color: body.color,
+                                category: body.category,*/
                 img: img,
-/*                SKU: body.SKU,
-                introduction: body.introduction,
-                infomation: body.infomation,*/
+                /*                SKU: body.SKU,
+                                introduction: body.introduction,
+                                infomation: body.infomation,*/
                 variation: variation
             }
         });
@@ -158,16 +159,16 @@ module.exports.changeProductInfo = async (productID, variation, img) => {
 module.exports.deleteProduct = async (id) => {
     try {
         // delete product
-        await productModel.remove({_id: id});
+        await productModel.remove({ _id: id });
 
         // delete order has this product
-        await orderModel.remove({products: {product_id: id}});
+        await orderModel.remove({ products: { product_id: id } });
 
         // delete comment has this product
-        await reviewModel.remove({productID: id});
+        await reviewModel.remove({ productID: id });
 
         // delete user's cart has this product
-        await userModel.updateMany({productID: id}, {
+        await userModel.updateMany({ productID: id }, {
             $pull: {
                 cart: {
                     productID: id
