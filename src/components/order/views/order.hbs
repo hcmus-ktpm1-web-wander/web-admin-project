@@ -1,75 +1,76 @@
 <link rel="stylesheet" type="text/css" href="/css/order.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<div class = "ms-md-auto pe-md-3 d-flex align-items-end flex-column">
-    <div class = "d-flex align-items-center p-3">
-        <div class="me-4" data-bs-toggle="collapse" href="#collapseFilter" role="button" aria-expanded="false">
-            <i class="fas fa-filter" aria-hidden="true"></i>
-            Filter
-        </div>
-        <div class="d-flex align-items-center justify-content-center">
-                                <span class="me-2 text-center align-middle d-flex align-items-center">
-                                    <i class="fas fa-sort-amount-down me-1" aria-hidden="true"></i>
-                                    Sort
-                                </span>
-            <select class="form-select" aria-label="Default select example" id="sort-dropdown" style="border: 1px solid gray !important; border-radius: 10px">
-                <option value="0">Normal</option>
-                <option value="2">Status</option>
-                <option value="1">(date) Oldest to Latest</option>
-                <option value="-1">(date) Latest to Oldest</option>
-            </select>
-        </div>
-    </div>
+<div class="ms-md-auto pe-md-3 d-flex align-items-end flex-column">
+	<div class="d-flex align-items-center p-3">
+		<div class="me-4" data-bs-toggle="collapse" href="#collapseFilter" role="button" aria-expanded="false">
+			<i class="fas fa-filter" aria-hidden="true"></i>
+			Filter
+		</div>
+		<div class="d-flex align-items-center justify-content-center">
+			<span class="me-2 text-center align-middle d-flex align-items-center">
+				<i class="fas fa-sort-amount-down me-1" aria-hidden="true"></i>
+				Sort
+			</span>
+			<select class="form-select" aria-label="Default select example" id="sort-dropdown"
+				style="border: 1px solid gray !important; border-radius: 10px">
+				<option value="0">Normal</option>
+				<option value="2">Status</option>
+				<option value="1">(date) Oldest to Latest</option>
+				<option value="-1">(date) Latest to Oldest</option>
+			</select>
+		</div>
+	</div>
 </div>
 
 <div>
-    <div class=" collapse p-0" class="collapse" id="collapseFilter">
-        <div class="row">
-            <div class="status col-12 col-md-6 col-lg-4">
-                <div class="p-3">
-                    <h6 class=" text-start mb-2"><b>Status</b></h6>
-                    <input type="checkbox" class="filter-item" id="Completed" />
-                    <label class="btn btn-light" for="Completed">Completed</label>
+	<div class=" collapse p-0" class="collapse" id="collapseFilter">
+		<div class="row">
+			<div class="status col-12 col-md-6 col-lg-4">
+				<div class="p-3">
+					<h6 class=" text-start mb-2"><b>Status</b></h6>
+					<input type="checkbox" class="filter-item" id="Completed" />
+					<label class="btn btn-light" for="Completed">Completed</label>
 
-                    <input type="checkbox" class="filter-item" id="Processing" />
-                    <label class="btn btn-light" for="Processing">Processing</label>
+					<input type="checkbox" class="filter-item" id="Processing" />
+					<label class="btn btn-light" for="Processing">Processing</label>
 
-                    <input type="checkbox" class="filter-item" id="Canceled" />
-                    <label class="btn btn-light" for="Canceled">Canceled</label>
-                </div>
-            </div>
+					<input type="checkbox" class="filter-item" id="Canceled" />
+					<label class="btn btn-light" for="Canceled">Canceled</label>
+				</div>
+			</div>
 
-            <div class="created col-12 col-md-6 col-lg-3">
-                <div class="p-3">
-                    <h6 class=" text-start mb-2">
-                        <b>
-                            Created
-                        </b>
-                    </h6>
-                    <div class="filter-input-container">
-                        <input type="date" class="date-input" name="start-date">
-                        to
-                        <input type="date" class="date-input" name="end-date">
-                    </div>
-                </div>
-            </div>
+			<div class="created col-12 col-md-6 col-lg-3">
+				<div class="p-3">
+					<h6 class=" text-start mb-2">
+						<b>
+							Created
+						</b>
+					</h6>
+					<div class="filter-input-container">
+						<input type="date" class="date-input" name="start-date">
+						to
+						<input type="date" class="date-input" name="end-date">
+					</div>
+				</div>
+			</div>
 
-            <div class="user-name col-12 col-md-6 col-lg-3">
-                <div class="p-3">
-                    <h6 class=" text-start mb-2">
-                        <b>
-                            Username
-                        </b>
-                    </h6>
-                    <div class="filter-input-container">
-                        <input type="text" class="user-name-input" name="user-name">
-                    </div>
-                </div>
-            </div>
+			<div class="user-name col-12 col-md-6 col-lg-3">
+				<div class="p-3">
+					<h6 class=" text-start mb-2">
+						<b>
+							Username
+						</b>
+					</h6>
+					<div class="filter-input-container">
+						<input type="text" class="user-name-input" name="user-name">
+					</div>
+				</div>
+			</div>
 
-        </div>
+		</div>
 
-    </div>
+	</div>
 </div>
 
 <div class="container-fluid py-4">
@@ -101,7 +102,9 @@
 										class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
 										Total
 									</th>
-									<th class="text-secondary opacity-7"></th>
+									<th class="text-center text-secondary opacity-7">
+										Change status
+									</th>
 								</tr>
 							</thead>
 							<tbody id="order-body">

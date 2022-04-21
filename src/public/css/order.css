@@ -7,9 +7,26 @@
 
 }
 
-td svg
+td i
 {
-    width: 32px;
-    height: 32px;
-    margin-right: 8px;
+    font-size: 18px !important;
+    margin: 0px 5px ;
+    transition: 0.3s all ease;
+}
+
+td i:hover {
+    cursor: pointer;
+    font-size: 22px !important;
+}
+
+.fa-check-circle:hover {
+    color: green;
+}
+
+.fa-truck:hover {
+    color: #f0ad4e;
+}
+
+.fa-ban:hover {
+    color: red;
 }

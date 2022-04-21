@@ -17,7 +17,6 @@ function paging(page, sort = 0, status_filter = null, start_date = null, end_dat
                         <div>
                             <span class="text-secondary text-xs font-weight-bold">${item._id}</span>
                         </div>
-
                     </div>
                 </td>
                 <td>
@@ -63,57 +62,37 @@ function paging(page, sort = 0, status_filter = null, start_date = null, end_dat
                     <span>${item.total}$</span>
                 </td>`
             }
-            str +=
-                `<td class="align-middle text-center text-sm">
-                    <svg onclick="changeOrderStatus('${item._id}', 'Completed')" data-bs-toggle="modal" data-bs-target='#empty' version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                    viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
-                        <circle style="fill:#6DC180;" cx="256" cy="256" r="256"/>
-                        <path style="fill:#5CA15D;" d="M256,0v512c141.385,0,256-114.615,256-256S397.385,0,256,0z"/>
-                        <polygon style="fill:#F2F2F4;" points="219.429,367.932 108.606,257.108 147.394,218.32 219.429,290.353 355.463,154.32 
-                            394.251,193.108 "/>
-                        <polygon style="fill:#DFDFE1;" points="256,331.361 394.251,193.108 355.463,154.32 256,253.782 "/>
-                    </svg>
-                    
-                    <svg onclick="openDeliveryModal('${item._id}')" data-bs-toggle="modal" data-bs-target='' version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                            viewBox="0 0 511.985 511.985" style="enable-background:new 0 0 511.985 511.985;" xml:space="preserve">
-                       <polygon style="fill:#F6BB42;" points="405.331,10.66 106.66,10.66 0,117.329 0,192.656 511.984,207.217 511.984,117.329 "/>
-                       <polygon style="fill:#FFCE54;" points="394.643,501.325 0,501.325 0,117.329 511.984,117.329 511.984,383.985 "/>
-                       <polygon style="fill:#E6E9ED;" points="298.647,10.66 213.329,10.66 191.994,138.657 319.99,138.657 "/>
-                       <polygon style="fill:#F5F7FA;" points="319.99,213.326 298.647,223.983 277.335,213.326 255.992,223.983 234.657,213.326 
-                           213.329,223.983 191.994,213.326 191.994,117.329 319.99,117.329 "/>
-                       <g>
-                           <path style="fill:#434A54;" d="M159.995,394.641H53.334c-5.891,0-10.672,4.781-10.672,10.688c0,5.875,4.781,10.656,10.672,10.656
-                               h106.661c5.891,0,10.663-4.781,10.663-10.656C170.658,399.423,165.886,394.641,159.995,394.641z"/>
-                           <path style="fill:#434A54;" d="M106.66,437.327H53.334c-5.891,0-10.672,4.75-10.672,10.656c0,5.875,4.781,10.656,10.672,10.656
-                               h53.326c5.891,0,10.672-4.781,10.672-10.656C117.332,442.077,112.551,437.327,106.66,437.327z"/>
-                       </g>
-                       <path style="fill:#ED5564;" d="M277.335,383.985c0-64.811,52.529-117.332,117.309-117.332c64.811,0,117.341,52.521,117.341,117.332
-                           s-52.53,117.34-117.341,117.34C329.864,501.325,277.335,448.796,277.335,383.985z"/>
-                       <path style="fill:#434A54;" d="M447.455,421.704L447.455,421.704l-42.124-42.125v-59.592c0-5.906-4.781-10.656-10.688-10.656
-                           c-5.875,0-10.655,4.75-10.655,10.656v63.998c0,2.938,1.188,5.625,3.125,7.531l0,0l45.249,45.248l0,0
-                           c4.172,4.188,10.921,4.188,15.093,0C451.611,432.608,451.611,425.86,447.455,421.704z"/>
-                   </svg>
-               
-                    <svg onclick="changeOrderStatus('${item._id}', 'Canceled')" data-bs-toggle="modal" data-bs-target='' version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                        viewBox="0 0 506.4 506.4" style="enable-background:new 0 0 506.4 506.4;" xml:space="preserve">
-                    <circle style="fill:#DF5C4E;" cx="253.2" cy="253.2" r="249.2"/>
-                    <path style="fill:#F4EFEF;" d="M281.6,253.2l90.8-90.8c4.4-4.4,4.4-12,0-16.4l-11.2-11.2c-4.4-4.4-12-4.4-16.4,0L254,225.6
-                        l-90.8-90.8c-4.4-4.4-12-4.4-16.4,0L135.6,146c-4.4,4.4-4.4,12,0,16.4l90.8,90.8L135.6,344c-4.4,4.4-4.4,12,0,16.4l11.2,11.6
-                        c4.4,4.4,12,4.4,16.4,0l90.8-90.8l90.8,90.8c4.4,4.4,12,4.4,16.4,0l11.2-11.6c4.4-4.4,4.4-12,0-16.4L281.6,253.2z"/>
-                    <path d="M253.2,506.4C113.6,506.4,0,392.8,0,253.2S113.6,0,253.2,0s253.2,113.6,253.2,253.2S392.8,506.4,253.2,506.4z M253.2,8
-                        C118,8,8,118,8,253.2s110,245.2,245.2,245.2s245.2-110,245.2-245.2S388.4,8,253.2,8z"/>
-                    <path d="M352.8,379.6c-4,0-8-1.6-11.2-4.4l-88-88l-88,88c-2.8,2.8-6.8,4.4-11.2,4.4c-4,0-8-1.6-11.2-4.4L132,364
-                        c-2.8-2.8-4.4-6.8-4.4-11.2c0-4,1.6-8,4.4-11.2l88-88l-88-88c-2.8-2.8-4.4-6.8-4.4-11.2c0-4,1.6-8,4.4-11.2l11.2-11.2
-                        c6-6,16.4-6,22,0l88,88l88-88c2.8-2.8,6.8-4.4,11.2-4.4l0,0c4,0,8,1.6,11.2,4.4l11.2,11.2c6,6,6,16,0,22l-88,88l88,88
-                        c2.8,2.8,4.4,6.8,4.4,11.2c0,4-1.6,8-4.4,11.2l-11.2,11.2C360.8,378,357.2,379.6,352.8,379.6L352.8,379.6z M253.6,277.2
-                        c1.2,0,2,0.4,2.8,1.2l90.8,90.8c1.6,1.6,3.2,2.4,5.6,2.4l0,0c2,0,4-0.8,5.6-2.4l11.6-11.6c1.6-1.6,2.4-3.2,2.4-5.6
-                        c0-2-0.8-4-2.4-5.6l-90.8-90.8c-0.8-0.8-1.2-1.6-1.2-2.8s0.4-2,1.2-2.8l90.8-90.8c2.8-2.8,2.8-8,0-10.8l-11.2-11.2
-                        c-1.6-1.6-3.2-2.4-5.6-2.4l0,0c-2,0-4,0.8-5.6,2.4L256.8,228c-1.6,1.6-4,1.6-5.6,0l-90.8-90.8c-2.8-2.8-8-2.8-10.8,0L138,148.4
-                        c-1.6,1.6-2.4,3.2-2.4,5.6s0.8,4,2.4,5.6l90.8,90.8c1.6,1.6,1.6,4,0,5.6L138,346.8c-1.6,1.6-2.4,3.2-2.4,5.6c0,2,0.8,4,2.4,5.6
-                        l11.6,11.6c2.8,2.8,8,2.8,10.8,0l90.8-90.8C251.6,277.6,252.4,277.2,253.6,277.2z"/>
-                    </svg>
-                </td>
-                <td>
+
+            if (item.status === 'Delivering') {
+                str +=
+                    `<td class="text-sm" id="status-${item._id}">
+                        <div class="d-flex text-center justify-content-center">
+                            <div data-bs-toggle="tooltip" data-bs-placement="top" title="Set status Complete">
+                                <i class="fa fa-check-circle" aria-hidden="true" onclick="changeOrderStatus('${item._id}', 'Completed')" data-bs-toggle="modal" data-bs-target='#empty'></i>
+                            </div>
+                            <div data-bs-toggle="tooltip" data-bs-placement="top" title="Cancled order">
+                                <i class="fa fa-ban" aria-hidden="true" onclick="changeOrderStatus('${item._id}', 'Canceled')" data-bs-toggle="modal" data-bs-target=''></i>
+                            
+                            </div>
+                        </div>
+                    </td>`
+            } else if (item.status === 'Processing') {
+                str +=
+                    `<td class="text-sm"  id="status-${item._id}">
+                        <div class="d-flex text-center justify-content-center">
+                            <div data-bs-toggle="tooltip" data-bs-placement="top" title="Set status Delivering">
+                                <i class="fa fa-truck" aria-hidden="true" onclick="openDeliveryModal('${item._id}')" data-bs-toggle="modal" data-bs-target='#delivery-modal'></i>
+                            </div>
+                            <div data-bs-toggle="tooltip" data-bs-placement="top" title="Cancled order">
+                                <i class="fa fa-ban" aria-hidden="true" onclick="changeOrderStatus('${item._id}', 'Canceled')" data-bs-toggle="modal" data-bs-target=''></i>
+                            </div>
+                        </div>
+                    </td>`
+            } else
+                str += `<td  id="status-${item._id}"></td>`
+
+            str += ` 
+              <td>
                 <div class="modal fade" id='order${number}' tabIndex="-1"
                      aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -122,7 +101,6 @@ function paging(page, sort = 0, status_filter = null, start_date = null, end_dat
                                 <h5 class="modal-title" id="exampleModalLabel">Order
                                     information
                                 </h5>
-
                             </div>
                             <div class="modal-body">
                                 <h6 class="mb-2"><b>ID: ${item._id}</b></h6>`
@@ -256,14 +234,12 @@ function paging(page, sort = 0, status_filter = null, start_date = null, end_dat
                     <div class="modal-header">
                         <h5 class="modal-title" >Choose delivery time</h5>
                     </div>
-
                     <div class="modal-body">
                         <div class="input-group input-group-sm mb-2">
                             <input type="date" name="start_date" class="form-control" style="padding-right: 5px" oninput="deliveryCheck()" onblur="deliveryCheck()">
                             <input type="date" name="end_date" class="form-control" style="padding-left: 5px" oninput="deliveryCheck()" onblur="deliveryCheck()">
                         </div>
                         <h6 class="delivery error"></h6>
-
                         <div class="modal-footer">
                                 <h6 class="general-error"></h6>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel
@@ -313,19 +289,52 @@ function paging(page, sort = 0, status_filter = null, start_date = null, end_dat
 function changeOrderStatus(orderID, status, start_date = null, end_date = null) {
     const url = '/api/order/update'
     $.post(url, { orderID: orderID, status: status, start_date: start_date, end_date: end_date }, function (data) {
-        const status_bar = $(`tr[id=${orderID}] .status-bar`)
-        status_bar.empty()
+        console.log(data);
+
+        const status_badge = $(`tr[id=${orderID}] .status-bar`)
+        const status_change = $(`#status-${orderID}`)
+
+        console.log("status change:", status_change);
+        status_badge.empty()
         let html = ``
+        let stt = ``
+
         if (status === 'Delivering') {
             html = `<span class="badge badge-sm bg-gradient-secondary w-70" style="border-width: 0;">${status}</span>`;
+
+            stt = `
+                <div class="d-flex text-center justify-content-center">
+                    <div data-bs-toggle="tooltip" data-bs-placement="top" title="Set status Complete">
+                        <i class="fa fa-check-circle" aria-hidden="true" onclick="changeOrderStatus('${orderID}', 'Completed')" data-bs-toggle="modal" data-bs-target='#empty'></i>
+                    </div>
+                    <div data-bs-toggle="tooltip" data-bs-placement="top" title="Cancled order">
+                        <i class="fa fa-ban" aria-hidden="true" onclick="changeOrderStatus('${orderID}', 'Canceled')" data-bs-toggle="modal" data-bs-target=''></i>
+                    
+                    </div>
+                </div>`;
+
         } else if (status === 'Processing') {
             html = `<span class="badge badge-sm bg-gradient-warning w-70" style="border-width: 0;">${status}</span> `;
+
+            stt = `
+                <div class="d-flex text-center justify-content-center">
+                    <div data-bs-toggle="tooltip" data-bs-placement="top" title="Set status Delivering">
+                        <i class="fa fa-truck" aria-hidden="true" onclick="openDeliveryModal('${orderID}')" data-bs-toggle="modal" data-bs-target='#delivery-modal'></i>
+                    </div>
+                    <div data-bs-toggle="tooltip" data-bs-placement="top" title="Cancled order">
+                        <i class="fa fa-ban" aria-hidden="true" onclick="changeOrderStatus('${orderID}', 'Canceled')" data-bs-toggle="modal" data-bs-target=''></i>
+                    </div>
+                </div>`;
         } else if (status === 'Completed') {
             html = `<span class="badge badge-sm bg-gradient-success w-70" style="border-width: 0;">${status}</span> `;
         } else if (status === 'Canceled') {
             html = `<span class="badge badge-sm bg-gradient-danger w-70" style="border-width: 0;">${status}</span>`;
         }
-        status_bar.html(html)
+
+        console.log(html);
+        console.log("status:", stt);
+        status_badge.html(html)
+        status_change.html(stt)
 
     }).fail(function (data) {
         if (data.status === 500)
@@ -407,8 +416,7 @@ function filterInit() {
     })
 }
 
-function deliveryCheck(field)
-{
+function deliveryCheck(field) {
     const start_date = $(`#delivery-form input[name=start_date]`)
     const end_date = $(`#delivery-form input[name=end_date]`)
 
@@ -420,8 +428,7 @@ function deliveryCheck(field)
     else if (end_date.val() == '')
         msg = 'End delivery is required'
 
-    else if (start_date.val() != '' && end_date.val() != '')
-    {
+    else if (start_date.val() != '' && end_date.val() != '') {
         if (start_date.val() == end_date.val())
             msg = 'Start delivery and end delivery coincide'
         else if (end_date.val() < start_date.val())
@@ -432,28 +439,24 @@ function deliveryCheck(field)
     return msg
 }
 
-function openDeliveryModal(orderID)
-{
+function openDeliveryModal(orderID) {
     //clear errors if exist
     const errors = $(`#delivery-form .error`)
-    errors.each(function ()
-    {
+    errors.each(function () {
         errors.text('')
     })
 
 
-    const url =`/api/order/get-by-id?orderID=${orderID}`
-    $.get(url,function (data){
+    const url = `/api/order/get-by-id?orderID=${orderID}`
+    $.get(url, function (data) {
         const start_input = $(`#delivery-form input[name=start_date]`)
         const end_input = $(`#delivery-form input[name=end_date]`)
 
-        if (data.order != null)
-        {
+        if (data.order != null) {
             start_input.val(data.order.start_delivery.split("T")[0])
             end_input.val(data.order.end_delivery.split("T")[0])
         }
-        else
-        {
+        else {
             start_input.val('')
             end_input.val('')
         }
@@ -462,13 +465,12 @@ function openDeliveryModal(orderID)
 
     // prevent editing when there are still input errors
     const delivery_submit = $('#delivery-form button[type=submit]')
-    delivery_submit.on('click', function (){
+    delivery_submit.on('click', function () {
         event.preventDefault()
         const error = deliveryCheck()
         if (error != '')
             $('#delivery-form .error').text(error)
-        else
-        {
+        else {
             changeOrderStatus(orderID, 'Delivering', $('#delivery-form input[name=start_date]').val(), $('#delivery-form input[name=end_date]').val())
             $('#delivery-modal').modal('hide');
         }
@@ -482,5 +484,3 @@ window.onload = function () {
     paging(1);
     filterInit()
 }
-
-

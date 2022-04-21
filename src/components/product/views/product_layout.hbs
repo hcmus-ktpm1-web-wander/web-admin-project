@@ -36,12 +36,21 @@
     <!--===============================================================================================-->
     <link rel="stylesheet" href="/vendors/nice-select/nice-select.css" type="text/css">
 
+    <script src="/vendors/popper.min.js"></script>
 </head>
 {{!-- <div class="w-100 h-100 m-0" id="wait-screen">
     <button class="btn buttonload">
         <i class="fa fa-spinner fa-spin"></i> Loading...
     </button>
 </div> --}}
+
+{{!-- call tooltip everywhere --}}
+<script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+</script>
 
 <body class="g-sidenav-show  bg-gray-100">
     {{!-- begin of navbar --}}
@@ -490,7 +499,6 @@
 <script src="/vendors/jquery/jquery-3.2.1.min.js"></script>
 
 <!--   Core JS Files   -->
-<script src="/vendors/popper.min.js"></script>
 <script src="/vendors/bootstrap5/bootstrap.min.js"></script>
 <script src="/vendors/perfect-scrollbar.min.js"></script>
 <script src="/vendors/smooth-scrollbar.min.js"></script>
