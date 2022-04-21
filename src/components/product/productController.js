@@ -94,9 +94,9 @@ exports.edit = async (req, res) => {
         const productID = req.body.productID
         const variation = JSON.parse(req.body.variation)
 
-/*        const img = JSON.parse(req.body.img)*/
+        const img = JSON.parse(req.body.img)
 
-        await productService.changeProductInfo(productID, variation);
+        await productService.changeProductInfo(productID, variation, img);
 
         res.redirect('back');
     } catch (e) {
