@@ -133,58 +133,12 @@
                                         value="{{brand}}">
                                 </div>
 
-                                <div class="mb-2 text-sm d-flex">
-                                    <b class="me-3">Size: </b>
-                                    <div class="form-check me-2">
-                                        <input class="form-check-input" type="checkbox" name="size" value="XS"
-                                            id="flexCheckDefault">
-                                        <span style="margin-left: -5px;">XS</span>
-                                    </div>
-                                    <div class="form-check me-2">
-                                        <input class="form-check-input" type="checkbox" name="size" value="S"
-                                            id="flexCheckDefault">
-                                        <span style="margin-left: -5px;">S</span>
-                                    </div>
-                                    <div class="form-check me-2">
-                                        <input class="form-check-input" type="checkbox" name="size" value="M"
-                                            id="flexCheckDefault">
-                                        <span style="margin-left: -5px;">M</span>
-                                    </div>
-                                    <div class="form-check me-2">
-                                        <input class="form-check-input" type="checkbox" name="size" value="L"
-                                            id="flexCheckDefault">
-                                        <span style="margin-left: -5px;">L</span>
-                                    </div>
-                                    <div class="form-check me-2">
-                                        <input class="form-check-input" type="checkbox" name="size" value="XL"
-                                            id="flexCheckDefault">
-                                        <span style="margin-left: -5px;">XL</span>
-                                    </div>
-                                    <div class="form-check me-2">
-                                        <input class="form-check-input" type="checkbox" name="size" value="2XL"
-                                            id="flexCheckDefault">
-                                        <span style="margin-left: -5px;">2XL</span>
-                                    </div>
-                                    <div class="form-check me-2">
-                                        <input class="form-check-input" type="checkbox" name="size" value="3XL"
-                                            id="flexCheckDefault">
-                                        <span style="margin-left: -5px;">3XL</span>
-                                    </div>
-                                    <div class="form-check me-2">
-                                        <input class="form-check-input" type="checkbox" name="size" value="4XL"
-                                            id="flexCheckDefault">
-                                        <span style="margin-left: -5px;">4XL</span>
-                                    </div>
-
-
-                                </div>
-
                                 <div class="mb-2 d-flex align-items-center text-sm">
                                     <b>SKU: </b>
                                     <input type="text" class="form-control form-control-sm ms-2" value="{{SKU}}"
                                         name="SKU">
                                 </div>
-                                <div class="mb-2">
+                                {{!-- <div class="mb-2">
                                     <div class="d-flex mb-2">
                                         <b class="text-sm">Color:&nbsp;</b>
 
@@ -236,13 +190,14 @@
                                             document.getElementById(id + '-wrap').remove();
                                         }
                                     </script>
-                                </div>
+                                </div> --}}
 
                                 <div class="mb-2">
                                     <div class="d-flex mb-2">
                                         <b class="text-sm">Variation:&nbsp;</b>
 
-                                        <a class="d-flex align-items-center" style="z-index: 2" onclick="addVariation('{{_id}}', null, null, 0, 0)">
+                                        <a class="d-flex align-items-center" style="z-index: 2"
+                                            onclick="addVariation('{{_id}}', null, null, 0, 0)">
                                             <i class="fa fa-plus-square-o" aria-hidden="true"
                                                 style="font-size: 20px;"></i>
                                         </a>
@@ -250,19 +205,19 @@
                                     </div>
 
                                     <div class="mb-2">
-                                        <table class="variation-table">
-                                            <thead>
-                                                <tr>
-                                                    <th>SIZE</th>
-                                                    <th>COLOR</th>
-                                                    <th>PRICE</th>
-                                                    <th>STOCK</th>
-                                                </tr>
-                                            </thead>
-                                                
-                                            <tbody>
-                                            </tbody>
-                                        </table>
+                                        {{!-- <table class="variation-table"> --}}
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>SIZE</th>
+                                                        <th>COLOR</th>
+                                                        <th>STOCK</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                </tbody>
+                                            </table>
 
                                     </div>
                                 </div>
@@ -271,7 +226,8 @@
                                     onmousedown="cancelEdit()">
                                     Cancle
                                 </button>
-                                <button type="submit" class="btn btn-primary align-bottom ms-2 mt-4 bg-primary" style="width: 150px;" onclick="edit('{{_id}}')" id = "edit-product-btn">
+                                <button type="submit" class="btn btn-primary align-bottom ms-2 mt-4 bg-primary"
+                                    style="width: 150px;" onclick="edit('{{_id}}')" id="edit-product-btn">
                                     Submit
                                 </button>
                             </div>

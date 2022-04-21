@@ -26,7 +26,10 @@ exports.renderProductManage = async (req, res) => {
 exports.renderProductDetailEdit = async (req, res) => {
     try {
         const product = await productService.getProducts(undefined, undefined, undefined, undefined, undefined, req.params.productID);
-        res.render("product/views/product_detail", { active: { ProductManage: true, editProduct: true }, page: "Product detail/edit", product });
+        console.log("reder detail");
+        console.log("product:", product);
+        str_product = JSON.stringify(product);
+        res.render("product/views/product_detail", { active: { ProductManage: true, editProduct: true }, page: "Product detail/edit", product, str_product });
 
     } catch (e) {
         res.status(500).json({ message: e.message });
