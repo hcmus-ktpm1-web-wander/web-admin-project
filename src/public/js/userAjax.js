@@ -112,8 +112,31 @@ function pagingUser(page, Filter) {
     }).then(r => r.json()).then(data => {
         $('#user-body').html('');
         data.data.forEach(function (item, index) {
-            $('#user-body').append(
-                `<tr>
+
+            console.log("data:", item);
+            str = `<tr>`;
+
+            // < div class="d-flex flex-column justify-content-center" >
+            if (item.status === "Banned") {
+                str += `
+                    <td>
+                        <div class="d-flex px-2 py-1">
+                            <div>
+                                <img src="${item.avatar_url}" class="avatar avatar-sm me-3" alt="user1">
+                            </div>
+                            <div class="d-flex flex-column justify-content-center">
+                                <div class="d-flex">
+                                    <h6 class="mb-0 me-3 text-sm">${item.username}</h6>
+                                    <span class="ms-4 mt-2 translate-middle badge rounded-pill bg-danger" style="font-size:10px">
+                                        Banned
+                                    </span >
+                                </div>
+                                <p class="text-xs text-secondary mb-0">${item.email}</p>
+                            </div>
+                        </div>
+                    </td>`
+            } else {
+                str += `
                     <td>
                         <div class="d-flex px-2 py-1">
                             <div>
@@ -124,7 +147,10 @@ function pagingUser(page, Filter) {
                                 <p class="text-xs text-secondary mb-0">${item.email}</p>
                             </div>
                         </div>
-                    </td>
+                    </td>`
+            }
+
+            str += `
                     <td>
                         <p class="text-xs font-weight-bold mb-0">${item.role}</p>
                         <p class="text-xs text-secondary mb-0">Organization</p>
@@ -137,9 +163,9 @@ function pagingUser(page, Filter) {
                                 data-bs-toggle="modal" data-bs-target='#account${index}'>View
                         </button>
                     </td>
-                    <td class="align-middle">
+                     <td class="align-middle">
                         <div class="dropdown-toggle" id="dropdownMenuButton1"
-                             data-bs-toggle="dropdown" aria-expanded="false">
+                                data-bs-toggle="dropdown" aria-expanded="false">
                             Edit
                         </div>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -150,30 +176,43 @@ function pagingUser(page, Filter) {
                                     </button>
                                 </form>
                             </li>
-                            <li>
+                             <li >
                                 <form action="edit/${item._id}?_method=PUT" method="post">
-                                    <select class="form-select" name="to_role"
-                                            onChange='if(this.value !== 0) { this.form.submit();}'>
-                                        <option value="0">Change role</option>
-                                        <option value="User">User</option>
-                                        <option value="Admin">Admin</option>
+                                    <select class="form-select" name="to_status"
+                                        onChange='if(this.value !== 0) { this.form.submit();}'>
+                                        <option value="0">Change status</option>
+                                        <option value="Banned">Banned</option>
+                                        <option value="Unbanned">Unbanned</option>
                                     </select>
                                 </form> 
-                            </li>
-                        </ul>
-                    </td>
+                            </li >`
 
-                    <!-- User Modal -->
+            if (item.status !== "Banned") {
+                str += `<li>
+                            <form action="edit/${item._id}?_method=PUT" method="post">
+                                <select class="form-select" name="to_role"
+                                    onChange='if(this.value !== 0) { this.form.submit();}'>
+                                    <option value="0">Change role</option>
+                                    <option value="User">User</option>
+                                    <option value="Admin">Admin</option>
+                                </select>
+                            </form>
+                        </li >
+                    </ul >
+                </td >`
+            }
+
+            str += `
                     <td>
                         <div class="modal fade" id='account${index}' tabIndex="-1"
-                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="exampleModalLabel">Account
                                             information
                                         </h5>
-    
+
                                     </div>
                                     <div class="modal-body">
                                         <h5 style=" margin-bottom: -3px;">${item.fullname}</h5>
@@ -184,7 +223,7 @@ function pagingUser(page, Filter) {
                                         <div><b>Create at:</b> ${item.employed}</div>
                                         <div><b>Avatar URL:</b>
                                             <a style="text-decoration: underline; color: #67748E;"
-                                               href="{{avatar_url}}" target="_blank">
+                                                href="{{avatar_url}}" target="_blank">
                                                 ${item.avatar_url}</a>
                                         </div>
                                         <div><b>Status:</b> Active</div>
@@ -193,31 +232,32 @@ function pagingUser(page, Filter) {
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Close
+                                            data-bs-dismiss="modal">Close
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </td>
-                </tr>`
-            )
+                </tr > `
+
+            $("#user-body").append(str)
         })
 
         if (data.checkErrors) {
             let str =
-                `<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                `< svg xmlns = "http://www.w3.org/2000/svg" style = "display: none;" >
                     <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
                         <path
-                            d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                            d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
                     </symbol>
-                </svg>
+                </svg >
 
-            <div class="alert alert-danger d-flex align-items-center mt-3" role="alert"
-                 style="background-image: linear-gradient(to right, #e09ea4, #e08d94);">
-                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
-                    <use xlink:href="#exclamation-triangle-fill"/>
-                </svg>`
+                    <div class="alert alert-danger d-flex align-items-center mt-3" role="alert"
+                        style="background-image: linear-gradient(to right, #e09ea4, #e08d94);">
+                        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+                            <use xlink:href="#exclamation-triangle-fill" />
+                        </svg>`
 
             if (data.errors.username) {
                 str +=
@@ -244,11 +284,11 @@ function pagingUser(page, Filter) {
         }
 
         $('#user-pagination').html(
-            `<li class="page-item" style="${data.disablePrev}">
+            `<li class="page-item" style = "${data.disablePrev}" >
                 <button class="page-link" onClick="pagingUser('${data.prev}','${data.filter}')" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </button>
-            </li>
+            </li >
     
             <li class="page-item ${data.hiddenPrev}"
                 style="${data.disablePrev} ${data.numberPrev}">
@@ -290,7 +330,7 @@ function SearchUserByNameAndGmail(e) {
             $('#user-pagination').html('');
             data.data.forEach(function (item, index) {
                 $('#user-body').append(
-                    `<tr>
+                    `< tr >
                     <td>
                         <div class="d-flex px-2 py-1">
                             <div>
@@ -340,17 +380,17 @@ function SearchUserByNameAndGmail(e) {
                         </ul>
                     </td>
 
-                    <!-- User Modal -->
+                    <!--User Modal-- >
                     <td>
                         <div class="modal fade" id='account${index}' tabIndex="-1"
-                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="exampleModalLabel">Account
                                             information
                                         </h5>
-    
+
                                     </div>
                                     <div class="modal-body">
                                         <h5 style=" margin-bottom: -3px;">${item.fullname}</h5>
@@ -361,7 +401,7 @@ function SearchUserByNameAndGmail(e) {
                                         <div><b>Create at:</b> ${item.employed}</div>
                                         <div><b>Avatar URL:</b>
                                             <a style="text-decoration: underline; color: #67748E;"
-                                               href="{{avatar_url}}" target="_blank">
+                                                href="{{avatar_url}}" target="_blank">
                                                 ${item.avatar_url}</a>
                                         </div>
                                         <div><b>Status:</b> Active</div>
@@ -370,31 +410,31 @@ function SearchUserByNameAndGmail(e) {
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Close
+                                            data-bs-dismiss="modal">Close
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </td>
-                </tr>`
+                </tr > `
                 )
             })
 
             if (data.checkErrors) {
                 let str =
-                    `<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                    `< svg xmlns = "http://www.w3.org/2000/svg" style = "display: none;" >
                     <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
                         <path
-                            d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                            d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
                     </symbol>
-                </svg>
+                </svg >
 
-            <div class="alert alert-danger d-flex align-items-center mt-3" role="alert"
-                 style="background-image: linear-gradient(to right, #e09ea4, #e08d94);">
-                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
-                    <use xlink:href="#exclamation-triangle-fill"/>
-                </svg>`
+                    <div class="alert alert-danger d-flex align-items-center mt-3" role="alert"
+                        style="background-image: linear-gradient(to right, #e09ea4, #e08d94);">
+                        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+                            <use xlink:href="#exclamation-triangle-fill" />
+                        </svg>`
 
                 if (data.errors.username) {
                     str +=
@@ -442,7 +482,7 @@ function SearchAdminByNameAndGmail(e) {
             $('#admin-pagination').html('');
             data.data.forEach(function (item, index) {
                 $('#admin-body').append(
-                    `<tr>
+                    `< tr >
                     <td>
                         <div class="d-flex px-2 py-1">
                             <div>
@@ -466,17 +506,17 @@ function SearchAdminByNameAndGmail(e) {
                                 data-bs-toggle="modal" data-bs-target='#account${index}'>View
                         </button>
                     </td>
-                    <!-- User Modal -->
+                    <!--User Modal-- >
                     <td>
                         <div class="modal fade" id='account${index}' tabIndex="-1"
-                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="exampleModalLabel">Account
                                             information
                                         </h5>
-    
+
                                     </div>
                                     <div class="modal-body">
                                         <h5 style=" margin-bottom: -3px;">${item.fullname}</h5>
@@ -487,7 +527,7 @@ function SearchAdminByNameAndGmail(e) {
                                         <div><b>Create at:</b> ${item.employed}</div>
                                         <div><b>Avatar URL:</b>
                                             <a style="text-decoration: underline; color: #67748E;"
-                                               href="{{avatar_url}}" target="_blank">
+                                                href="{{avatar_url}}" target="_blank">
                                                 ${item.avatar_url}</a>
                                         </div>
                                         <div><b>Status:</b> Active</div>
@@ -496,14 +536,14 @@ function SearchAdminByNameAndGmail(e) {
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Close
+                                            data-bs-dismiss="modal">Close
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </td>
-                </tr>`
+                </tr > `
                 )
             })
         })
