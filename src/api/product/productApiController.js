@@ -16,7 +16,7 @@ module.exports.getProducts = async (req, res) => {
 
 
         const product = await productService.getProducts(parseInt(req.query.sort), category, brand, parseFloat(req.query.min), parseFloat(req.query.max));
-        const result = pagination.paging(product, page, 8);
+        const result = pagination.paging(product, page, 10);
         res.send({ result });
     } catch (error) {
         res.status(500).send({ message: 'Error in the request' });

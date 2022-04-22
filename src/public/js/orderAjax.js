@@ -194,6 +194,7 @@ function paging(page, sort = 0, status_filter = null, start_date = null, end_dat
                     <div class="row">`;
 
             item.products.forEach(function (e, i) {
+                console.log("i:", i, " - e:", e);
                 str +=
                     `<div class="col-7">
                         <div class="row">
@@ -203,9 +204,16 @@ function paging(page, sort = 0, status_filter = null, start_date = null, end_dat
                             </div>
                             <div
                                 class="col-9 d-flex flex-column justify-content-center">
-                                <h6 class="mb-0 text-sm">${e.detail.name}</h6>
+                                <h6 class="mb-0 text-sm" style="white-space: normal;">${e.detail.name}</h6>
                                 <span
-                                    class="text-secondary text-xs font-weight-bold">${e.detail._id}</span>
+                                    class="text-secondary text-xs font-weight-bold">${e.detail._id}
+                                </span>
+                                <div class="d-flex align-items-center text-sm">
+                                    <div>
+                                        Size: ${e.size}
+                                    </div>
+                                    <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-left:5px; background-color: ${e.color}"></span>
+                                </div>
                             </div>
                         </div>
                     </div>

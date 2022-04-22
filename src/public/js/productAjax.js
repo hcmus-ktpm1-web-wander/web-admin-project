@@ -23,11 +23,15 @@ function getProductsByFilter(page, category = null, brand = null, min_price = '0
             $('#list-product-render').append(`
            <div class="card mx-2 my-2" style="width: 18rem;">
 						<div class="card-img">
-							<img src="${item.thumbnail}" class="card-img-top" alt="thumbnail">
+                            <a href="/product/${item._id}">
+							    <img src="${item.thumbnail}" class="card-img-top" alt="thumbnail">
+                            </a>
 						</div>
 						<div class="card-body">
-							<h6 class="card-title">${item.name}</h6>
-							<div class="card-text mb-3 text-sm">Price: <b>${item.price}$</b></div>
+							<h6 class="card-title">
+                                <a href="/product/${item._id}">${item.name}</a>
+                            </h6>
+							<div class="card-text mb-3">Price: <b>${item.price}$</b></div>
 							<a href="/product/${item._id}" class="btn btn-primary" style="z-index: 1;">Detail</a>
 						</div>
 					</div>`);

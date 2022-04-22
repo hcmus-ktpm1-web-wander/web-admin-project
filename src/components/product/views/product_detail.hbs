@@ -7,7 +7,7 @@
         {{#if active.editProduct}}
         {{#product}}
 
-        <form action="/product/edit/{{_id}}?_method=PUT" method="post" enctype="multipart/form-data">
+        <form id="edit-product-form"action="/product/edit/{{_id}}?_method=PUT" method="post" enctype="multipart/form-data">
             <input type="hidden" name="product-id" value="{{_id}}">
             <div class="card pb-3 mb-4">
                 <div class="card-body ">
@@ -36,6 +36,7 @@
                                 <i class="fa fa-plus-square-o" aria-hidden="true" style="font-size: 35px;"></i>
                             </a>
 
+                            <!--add img script-->
                             <script>
                                 const number_existed_img = {{ img.length }};
                                 var number_add = number_existed_img;
@@ -84,7 +85,7 @@
                                     </h3>
 
                                     <span class="badge bg-info d-flex align-items-center ms-2" style="height: 30px;">
-                                        Best saler
+                                        Best seller
                                     </span>
 
                                 </div>
@@ -152,7 +153,6 @@
                                     </div>
 
                                     <div class="mb-2">
-                                        {{!-- <table class="variation-table"> --}}
                                             <table class="table" id="variation-table">
                                                 <thead>
                                                     <tr>
@@ -161,17 +161,15 @@
                                                         <th>STOCK</th>
                                                     </tr>
                                                 </thead>
-
                                                 <tbody>
                                                 </tbody>
                                             </table>
-
                                     </div>
                                 </div>
 
                                 <button type="button" class="btn btn-secondary align-bottom mt-4" style="width: 120px;"
                                     onmousedown="cancelEdit()">
-                                    Cancle
+                                    Cancel
                                 </button>
                                 <button type="submit" class="btn btn-primary align-bottom ms-2 mt-4 bg-primary"
                                     style="width: 150px;" id="edit-product-btn">
