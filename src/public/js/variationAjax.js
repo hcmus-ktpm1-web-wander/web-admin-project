@@ -24,7 +24,8 @@ function addVariation(productID, sizes = null, colors = null, stock = 0) {
                     <td>
                         <input type="number"
                         style="border: 1px solid lightgray !important; border-radius: 5px"
-                        name="stock" value="${stock}" oninput="stockCheck(${last_row})">
+                        name="stock-${last_row}" value="${stock}" oninput="stockCheck(${last_row})">
+                        <h6 class="stock-${last_row} error"></h6>
                     </td>
                 </tr>`)
     const size_buffer = ['S', 'M', 'L', 'XL', '2XL', '3XL']
