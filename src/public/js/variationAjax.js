@@ -8,9 +8,8 @@ function addVariation(productID, sizes = null, colors = null, stock = 0) {
 
     const table = $(`.table tbody`)
     const last_row = getCurrentLastRow() || 0
-
     table.append(`                                                    
-                <tr>
+                <tr id="table-row-${last_row}">
                     <td>
                         <select class="size-select" aria-label="Default select example" id="size-select-${last_row}" 
                             style="border: 1px solid lightgray !important; border-radius: 5px" name="size">
@@ -24,9 +23,10 @@ function addVariation(productID, sizes = null, colors = null, stock = 0) {
                     <td>
                         <input type="number"
                         style="border: 1px solid lightgray !important; border-radius: 5px"
-                        name="stock-${last_row}" value="${stock}" oninput="stockCheck(${last_row})">
+                        id="stock-${last_row}" name="stock" value="${stock}" oninput="stockCheck(${last_row})">
                         <h6 class="stock-${last_row} error"></h6>
                     </td>
+                  
                 </tr>`)
     const size_buffer = ['S', 'M', 'L', 'XL', '2XL', '3XL']
 
@@ -44,11 +44,10 @@ function addVariation(productID, sizes = null, colors = null, stock = 0) {
         color_select.val(colors)
 }
 
-
 function stockCheck(row) {
     const positive_regex = '^[+]?\\d+([.]\\d+)?$';
 
-    const value = $(`#variation-table input[name=stock-${row}]`).val()
+    const value = $(`#variation-table input[id=stock-${row}]`).val()
 
     const isValid = value.match(positive_regex)
 
@@ -77,6 +76,50 @@ function loadCurrentData() {
                 addVariation(productID, variation.size, variation.color, variation.stock)
             });
         }
+    })
+}
+
+function initEditBtn()
+{
+    const productID = $("input[name=product-id]").val()
+    const form = $(`#edit-product-form`)
+
+    const submit_btn = $(`#edit-product-btn`)
+    submit_btn.on('click', function (){
+        event.preventDefault()
+        const table_body = $(`#variation-table tbody`).children() // rows
+
+        for (let i = 0; i < table_body.length; i++) {
+            //stock check
+            const isValid = stockCheck(i)
+            if (isValid != '')
+            {
+                $(`.general-error`).text(isValid)
+                return false;
+            }
+        }
+
+        //get all value
+        let variations = []
+        for (let i = 0; i < table_body.length; i++) {
+            //stock check
+            const row = $(`#table-row-${i}`)
+
+            //get size
+            const size = row.find('.size-select').val()
+
+            //get size
+            const color = row.find(`#color-select-${i}`).val()
+
+            //get size
+            const stock = row.find(`#stock-${i}`).val()
+
+            variations.push({size: size, color: color, stock: stock})
+        }
+        const temp = JSON.stringify(variations)
+        $(`#variation-table tbody`).append(`<input type=hidden name='variation' value='${temp}'>`)
+        form.submit()
+
     })
 }
 
@@ -146,4 +189,5 @@ window.onload = function () {
     // })
 
     loadCurrentData()
+    initEditBtn()
 }

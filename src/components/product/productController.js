@@ -91,6 +91,8 @@ exports.editProduct = async (req, res) => {
             req.body.exist_img = [req.body.exist_img];
         }
 
+        req.body.variation=JSON.parse(req.body.variation)
+        console.log(req.body)
         await productService.changeProductInfo(req.params.productID, req.body, req.files, req.body.exist_img);
         res.redirect('back');
     } catch (e) {
@@ -98,19 +100,6 @@ exports.editProduct = async (req, res) => {
     }
 };
 
-// exports.edit = async (req, res) => {
-//     try {
-//         const body = req.body
-
-//         console.log("-- POST edit product: ");
-
-//         await productService.changeProductInfo(body, req.files);
-
-//         res.redirect('back');
-//     } catch (e) {
-//         res.status(500).json({ message: e.message });
-//     }
-// };
 
 /************************************* DELETE methods *************************************/
 /**

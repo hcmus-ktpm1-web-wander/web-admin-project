@@ -200,7 +200,7 @@ module.exports.changeProductInfo = async (id, body, files, existFiles) => {
         console.log("+__+");
 
         let listImg = [];
-        for (i = 0; i < existFiles.length; i++) {
+        for (let i = 0; i < existFiles.length; i++) {
             listImg.push(existFiles[i]);
         }
 
@@ -210,15 +210,6 @@ module.exports.changeProductInfo = async (id, body, files, existFiles) => {
 
         console.log("url:", listImg);
         console.log("body.variation:", body.variation);
-
-        let variation = []
-        for (i = 0; i < body.color.length; i++) {
-            variation.push({
-                color: body.color[i],
-                size: body.size[i],
-                stock: body.stock[i]
-            })
-        }
 
         await productModel.findByIdAndUpdate({ _id: id }, {
             $set: {
@@ -232,7 +223,7 @@ module.exports.changeProductInfo = async (id, body, files, existFiles) => {
                 SKU: body.SKU,
                 introduction: body.introduction,
                 infomation: body.infomation,
-                variation: variation
+                variation: body.variation
             }
         });
 
