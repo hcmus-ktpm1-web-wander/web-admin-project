@@ -274,6 +274,16 @@ function initEditBtn() {
     })
 }
 
+function checkPrice(e) {
+    if (e.value === '') return
+    if (isNaN(e.value)) {
+        e.value = 0
+    }
+    if (e.value > 9999999)
+        e.value = 9999999
+    if (e.value < 1)
+        e.value = 0
+}
 
 window.onload = function () {
     const category = ['Bags', 'Accessories']
