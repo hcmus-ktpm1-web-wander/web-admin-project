@@ -139,10 +139,6 @@ function loadCurrentData() {
 // }
 
 window.onload = function () {
-    // const edit_btn = $('#edit-product-btn')
-    // edit_btn.on('click', function () {
-    //     event.preventDefault()
-    // })
 
     loadCurrentData()
 }
