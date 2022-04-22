@@ -12,8 +12,9 @@ function addVariation(productID, sizes = null, colors = null, stock = 0) {
                 <tr id="table-row-${last_row}">
                     <td>
                         <select class="size-select" aria-label="Default select example" id="size-select-${last_row}" 
-                            style="border: 1px solid lightgray !important; border-radius: 5px" name="size">
+                            style="border: 1px solid lightgray !important; border-radius: 5px" name="size" onchange="sizeCheck(${last_row})">
                         </select>
+                        <h6 class="size-${last_row} error"></h6>
                     </td>
                     <td>
                           <input type="color" class="form-control-color" name="color"
@@ -42,6 +43,19 @@ function addVariation(productID, sizes = null, colors = null, stock = 0) {
     const color_select = $(`#color-select-${last_row}`)
     for (let i = 0; i < color_select.length; i++)
         color_select.val(colors)
+}
+
+function sizeCheck(row)
+{
+    const value = $(`#variation-table #size-select-${row}`).val()
+    const error = $(`#variation-table .size-${row}`)
+
+    let msg = ''
+    if (value == null)
+        msg = 'Size is required'
+
+    error.text(msg)
+    return msg
 }
 
 function stockCheck(row) {
@@ -91,10 +105,17 @@ function initEditBtn()
 
         for (let i = 0; i < table_body.length; i++) {
             //stock check
-            const isValid = stockCheck(i)
-            if (isValid != '')
+            const isValidSize = sizeCheck(i)
+            if (isValidSize != '')
             {
-                $(`.general-error`).text(isValid)
+                $(`.general-error`).text(isValidSize)
+                return false;
+            }
+
+            const isValidStock = stockCheck(i)
+            if (isValidStock != '')
+            {
+                $(`.general-error`).text(isValidStock)
                 return false;
             }
         }
@@ -102,7 +123,6 @@ function initEditBtn()
         //get all value
         let variations = []
         for (let i = 0; i < table_body.length; i++) {
-            //stock check
             const row = $(`#table-row-${i}`)
 
             //get size
@@ -119,75 +139,11 @@ function initEditBtn()
         const temp = JSON.stringify(variations)
         $(`#variation-table tbody`).append(`<input type=hidden name='variation' value='${temp}'>`)
         form.submit()
-
     })
 }
 
-// function edit(productID) {
-
-//     const table_body = $(`#variation-table tbody`).children() //tr
-//     const data = []
-
-//     for (let i = 0; i < table_body.length; i++) {
-//         //stock check
-//         const isValid = stockCheck(i)
-//         if (isValid !== '') {
-//             $(`.general-error`).text(isValid)
-//             return false;
-//         }
-
-//         const size = $(`#size-select-${i}`).find(":selected").text();
-
-//         const color = $(`#color-select-${i}`).val();
-
-//         const stock = $(`input[name=stock-${i}`).val()
-
-//         data.push({ size: size, color: color, stock: stock })
-//     }
-
-//     //img
-//     const img = []
-//     const temp = $(`#add-img div[class=col-3] img`)
-//     temp.each(function () {
-//         img.push($(this).attr("src"))
-//     })
-
-//     const name = $(`input[name=name]`).val()
-//     const price = $(`input[name=price]`).val()
-//     const category = $(`input[name=category]`).val()
-//     const brand = $(`input[name=brand]`).val()
-//     const SKU = $(`input[name=SKU]`).val()
-//     const description = $(`input[name=description]`).val()
-//     const detail_info = $(`input[name=detail_info]`).val()
-
-//     const url = `/product/edit/${productID}`
-//     fetch(url, {
-//         method: "PUT",
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify({
-//             name: name,
-//             price: price,
-//             category: category,
-//             brand: brand,
-//             SKU: SKU,
-//             description: description,
-//             detail_info: detail_info,
-//             productID: productID,
-//             variation: data,
-//             img: img
-//         })
-//     })
-//     // window.location.href = `/product/edit/${productID}`
-// }
 
 window.onload = function () {
-    // const edit_btn = $('#edit-product-btn')
-    // edit_btn.on('click', function () {
-    //     event.preventDefault()
-    // })
-
     loadCurrentData()
     initEditBtn()
 }
