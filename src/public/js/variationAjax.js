@@ -117,7 +117,7 @@ function edit(productID) {
     const description = $(`input[name=description]`).val()
     const detail_info = $(`input[name=detail_info]`).val()
 
-    const url = `/product/edit`
+    const url = `/product/edit/${productID}`
     $.post(url, {
         name: name,
         price: price,

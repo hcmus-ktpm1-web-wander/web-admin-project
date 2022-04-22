@@ -32,7 +32,6 @@ function getProductsByFilter(page, category = null, brand = null, min_price = '0
 						</div>
 					</div>`);
         });
-        /*onClick="getProductsByFilter(${data.result.prev},${category}, ${brand}, ${min_price}, ${max_price})"*/
         $('#product-pagination').html(
             `<li class="page-item" style="${data.result.disablePrev} ">
                 <button class="page-link" onClick='getProductsByFilter(${data.result.prev},${category},${brand},${min_price}, ${max_price})' aria-label="Previous">

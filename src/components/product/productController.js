@@ -87,6 +87,9 @@ exports.editProduct = async (req, res) => {
         console.log("body: ", req.body);
         console.log("files: ", req.files);
         console.log("exist:", req.body.exist_img);
+        if (!Array.isArray(req.body.exist_img)) {
+            req.body.exist_img = [req.body.exist_img];
+        }
 
         await productService.changeProductInfo(req.params.productID, req.body, req.files, req.body.exist_img);
         res.redirect('back');
