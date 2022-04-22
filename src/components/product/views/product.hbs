@@ -80,28 +80,28 @@
                                     <div class="row">
                                         <div class="form-check col-6">
                                             <input class="form-check-input" type="radio" name="category" id="category"
-                                                value="bag">
+                                                value="Bags">
                                             <label class="form-check-label" for="flexRadioDefault1">
-                                                Bag
+                                                Bags
                                             </label>
                                         </div>
                                         <div class="form-check col-6">
                                             <input class="form-check-input" type="radio" name="category" id="category"
-                                                value="clothing">
+                                                value="Clothing">
                                             <label class="form-check-label" for="flexRadioDefault1">
                                                 Clothing
                                             </label>
                                         </div>
                                         <div class="form-check col-6">
                                             <input class="form-check-input" type="radio" name="category" id="category"
-                                                value="shoes">
+                                                value="Shoes">
                                             <label class="form-check-label" for="flexRadioDefault1">
                                                 Shoes
                                             </label>
                                         </div>
                                         <div class="form-check col-6">
                                             <input class="form-check-input" type="radio" name="category" id="category"
-                                                value="accessories">
+                                                value="Accessories">
                                             <label class="form-check-label" for="flexRadioDefault1">
                                                 Accessories
                                             </label>
@@ -151,44 +151,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="mb-2 text-sm d-flex">
-                                    <b class="me-3">Size: </b>
-                                    <div class="form-check">
-                                        <input type="checkbox" class="filter-item" id="sz-xs" name="size" value="XS" />
-                                        <label class="btn btn-light p-2" for="sz-xs">XS</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input type="checkbox" class="filter-item" id="sz-s" name="size" value="S" />
-                                        <label class="btn btn-light p-2" for="sz-s">S</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input type="checkbox" class="filter-item" id="sz-m" name="size" value="M" />
-                                        <label class="btn btn-light p-2" for="sz-m">M</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input type="checkbox" class="filter-item" id="sz-l" name="size" value="L" />
-                                        <label class="btn btn-light p-2" for="sz-l">L</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input type="checkbox" class="filter-item" id="sz-xl" name="size" value="XL" />
-                                        <label class="btn btn-light p-2" for="sz-xl">XL</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input type="checkbox" class="filter-item" id="sz-2xl" name="size"
-                                            value="2XL" />
-                                        <label class="btn btn-light p-2" for="sz-2xl">2XL</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input type="checkbox" class="filter-item" id="sz-3xl" name="size"
-                                            value="3XL" />
-                                        <label class="btn btn-light p-2" for="sz-3xl">3XL</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input type="checkbox" class="filter-item" id="sz-4xl" name="size"
-                                            value="4XL" />
-                                        <label class="btn btn-light p-2" for="sz-4xl">4XL</label>
-                                    </div>
-                                </div>
+
 
                                 <div class="mb-2 d-flex align-items-center text-sm">
                                     <b>SKU: </b>
@@ -196,63 +159,31 @@
                                         name="SKU">
                                 </div>
 
-
                                 <div class="mb-2">
                                     <div class="d-flex mb-2">
-                                        <b class="text-sm">Color:&nbsp;</b>
+                                        <b class="text-sm">Variation:&nbsp;</b>
 
-                                        <a class="d-flex align-items-center" style="z-index: 2;"
-                                            onmousedown="addColor()">
+                                        <a class="d-flex align-items-center" style="z-index: 2"
+                                            onclick="addVariation(null, null, null, 0, 0)">
                                             <i class="fa fa-plus-square-o" aria-hidden="true"
                                                 style="font-size: 20px;"></i>
                                         </a>
 
-
-
                                     </div>
 
                                     <div class="mb-2">
-                                        <div class="mb-2 d-flex flex-wrap" id="add-color">
-                                            {{#color}}
-                                            <div id="color-{{@index}}-wrap" class="position-relative mx-1 mb-2">
-                                                <input type="color" class="form-control-color" name="color"
-                                                    id="color-{{@index}}" value="{{this}}">
-
-                                                <a id="color-{{@index}}-minus"
-                                                    onmousedown="removeColor('color-{{@index}}')">
-                                                    <i class="fa fa-minus-circle position-absolute"
-                                                        style=" z-index: 1; right:-5px; top:-4px;"
-                                                        aria-hidden="true"></i>
-                                                </a>
-                                            </div>
-                                            {{/color}}
-                                        </div>
-
+                                        <table class="table" id="variation-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>SIZE</th>
+                                                    <th>COLOR</th>
+                                                    <th>STOCK</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
                                     </div>
-
-                                    <script>
-                                        var numberadd = 0;
-                                        var div_add_color = document.getElementById('add-color');
-                                        const add_div = "<div id='color-" + numberadd + "-wrap' class='position-relative mx-1 mb-2'> <input type='color' class='form-control-color' name='color' id=\"color-" + numberadd + "\"> <a id=\"color-" + numberadd + "-minus\"  onmousedown='removeColor(\"color-" + numberadd + "\")'> <i class='fa fa-minus-circle position-absolute' style=' z-index: 1; right:-5px; top:-4px;' aria-hidden='true'> </i > </a > </div >";
-
-                                        const addColor = () => {
-                                            const _id = 'color-' + numberadd;
-                                            const _id_minus = _id + '-minus';
-                                            console.log("add color");
-
-                                            div_add_color.innerHTML += add_div;
-
-                                            numberadd++;
-                                        }
-
-                                        function removeColor(id) {
-                                            console.log("remove", id)
-                                            document.getElementById(id).remove();
-                                            document.getElementById(id + '-minus').remove();
-                                            document.getElementById(id + '-wrap').remove();
-                                        }
-                                    </script>
-
                                 </div>
 
                                 <div class=" mb-3 text-sm">

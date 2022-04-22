@@ -63,7 +63,12 @@ exports.renderProductDetail = async (req, res) => {
  */
 exports.addProduct = async (req, res) => {
     try {
+        console.log("--- add product ----");
+        console.log("body: ", req.body);
+
         await productService.addProduct(req.body, req.files);
+
+
         res.redirect('back');
     }
     catch (e) {
@@ -91,7 +96,7 @@ exports.editProduct = async (req, res) => {
             req.body.exist_img = [req.body.exist_img];
         }
 
-        req.body.variation=JSON.parse(req.body.variation)
+        req.body.variation = JSON.parse(req.body.variation)
         console.log(req.body)
         await productService.changeProductInfo(req.params.productID, req.body, req.files, req.body.exist_img);
         res.redirect('back');

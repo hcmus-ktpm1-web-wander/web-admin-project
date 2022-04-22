@@ -16,7 +16,6 @@ const product = new Schema({
     variation: [{
         size: String,
         color: String,
-        price: Number,
         stock: Number
     }],
     createdAt: Date
