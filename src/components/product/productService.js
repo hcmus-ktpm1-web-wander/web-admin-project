@@ -203,11 +203,23 @@ module.exports.changeProductInfo = async (id, body, files, existFiles) => {
         for (i = 0; i < existFiles.length; i++) {
             listImg.push(existFiles[i]);
         }
+
         for (let i = 0; i < files.length; i++) {
             listImg.push(await cloudinary.upload(files[i].path, 'product'));
         }
+
         console.log("url:", listImg);
         console.log("body.variation:", body.variation);
+
+        let variation = []
+        for (i = 0; i < body.color.length; i++) {
+            variation.push({
+                color: body.color[i],
+                size: body.size[i],
+                stock: body.stock[i]
+            })
+        }
+
         await productModel.findByIdAndUpdate({ _id: id }, {
             $set: {
                 name: body.name,
@@ -220,7 +232,7 @@ module.exports.changeProductInfo = async (id, body, files, existFiles) => {
                 SKU: body.SKU,
                 introduction: body.introduction,
                 infomation: body.infomation,
-                variation: body.variation
+                variation: variation
             }
         });
 
