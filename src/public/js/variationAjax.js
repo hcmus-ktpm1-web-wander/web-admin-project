@@ -99,7 +99,7 @@ function edit(productID) {
 
         const stock = $(`input[name=stock-${i}`).val()
 
-        data.push({size: size, color: color, stock: stock})
+        data.push({ size: size, color: color, stock: stock })
     }
 
     //img
@@ -134,11 +134,11 @@ function edit(productID) {
     })
 }
 
-window.onload = function () {
-    const edit_btn = $('#edit-product-btn')
-    edit_btn.on('click', function () {
-        event.preventDefault()
-    })
+// window.onload = function () {
+//     const edit_btn = $('#edit-product-btn')
+//     edit_btn.on('click', function () {
+//         event.preventDefault()
+//     })
 
-    loadCurrentData()
-}
+//     loadCurrentData()
+// }

@@ -7,7 +7,7 @@
         {{#if active.editProduct}}
         {{#product}}
 
-        <form>
+        <form action="/product/edit/{{_id}}?_method=PUT" method="post" enctype="multipart/form-data">
             <input type="hidden" name="product-id" value="{{_id}}">
             <div class="card pb-3 mb-4">
                 <div class="card-body ">
@@ -97,14 +97,14 @@
                                     <div class="row">
                                         <div class="form-check col-6">
                                             <input class="form-check-input" type="radio" name="category" id="category"
-                                                value="bag">
+                                                value="Bags">
                                             <label class="form-check-label" for="flexRadioDefault1">
                                                 Bag
                                             </label>
                                         </div>
                                         <div class="form-check col-6">
                                             <input class="form-check-input" type="radio" name="category" id="category"
-                                                value="clothing">
+                                                value="Clothing">
                                             <label class="form-check-label" for="flexRadioDefault1">
                                                 Clothing
                                             </label>
@@ -113,14 +113,14 @@
                                     <div class="row">
                                         <div class="form-check col-6">
                                             <input class="form-check-input" type="radio" name="category" id="category"
-                                                value="shoes">
+                                                value="Shoes">
                                             <label class="form-check-label" for="flexRadioDefault1">
                                                 Shoes
                                             </label>
                                         </div>
                                         <div class="form-check col-6">
                                             <input class="form-check-input" type="radio" name="category" id="category"
-                                                value="accessories">
+                                                value="Accessories">
                                             <label class="form-check-label" for="flexRadioDefault1">
                                                 Accessories
                                             </label>
@@ -138,59 +138,6 @@
                                     <input type="text" class="form-control form-control-sm ms-2" value="{{SKU}}"
                                         name="SKU">
                                 </div>
-                                {{!-- <div class="mb-2">
-                                    <div class="d-flex mb-2">
-                                        <b class="text-sm">Color:&nbsp;</b>
-
-                                        <a class="d-flex align-items-center" style="z-index: 2;"
-                                            onmousedown="addColor()">
-                                            <i class="fa fa-plus-square-o" aria-hidden="true"
-                                                style="font-size: 20px;"></i>
-                                        </a>
-
-                                    </div>
-
-                                    <div class="mb-2">
-                                        <div class="mb-2 d-flex flex-wrap" id="add-color">
-                                            {{#color}}
-                                            <div id="color-{{@index}}-wrap" class="position-relative mx-1 mb-2">
-                                                <input type="color" class="form-control-color" name="color"
-                                                    id="color-{{@index}}" value="{{this}}">
-
-                                                <a id="color-{{@index}}-minus"
-                                                    onmousedown="removeColor('color-{{@index}}')">
-                                                    <i class="fa fa-minus-circle position-absolute"
-                                                        style=" z-index: 1; right:-5px; top:-4px;"
-                                                        aria-hidden="true"></i>
-                                                </a>
-                                            </div>
-                                            {{/color}}
-                                        </div>
-                                    </div>
-
-                                    <script>
-                                        var numberadd = {{ color.length }};
-                                        var div_add_color = document.getElementById('add-color');
-                                        const add_div = "<div id='color-" + numberadd + "-wrap' class='position-relative mx-1 mb-2'> <input type='color' class='form-control-color' name='color' id=\"color-" + numberadd + "\"> <a id=\"color-" + numberadd + "-minus\"  onmousedown='removeColor(\"color-" + numberadd + "\")'> <i class='fa fa-minus-circle position-absolute' style=' z-index: 1; right:-5px; top:-4px;' aria-hidden='true'> </i > </a > </div >";
-
-                                        function addColor() {
-                                            const _id = 'color-' + numberadd;
-                                            const _id_minus = _id + '-minus';
-                                            console.log("add color");
-
-                                            div_add_color.innerHTML += add_div;
-
-                                            numberadd++;
-                                        }
-
-                                        function removeColor(id) {
-                                            console.log("remove", id)
-                                            document.getElementById(id).remove();
-                                            document.getElementById(id + '-minus').remove();
-                                            document.getElementById(id + '-wrap').remove();
-                                        }
-                                    </script>
-                                </div> --}}
 
                                 <div class="mb-2">
                                     <div class="d-flex mb-2">
@@ -227,9 +174,10 @@
                                     Cancle
                                 </button>
                                 <button type="submit" class="btn btn-primary align-bottom ms-2 mt-4 bg-primary"
-                                    style="width: 150px;" onclick="edit('{{_id}}')" id="edit-product-btn">
+                                    style="width: 150px;" id="edit-product-btn">
                                     Submit
                                 </button>
+                                {{!-- onclick="edit('{{_id}}')" --}}
                                 <h6 class="general-error" style="color: red; font-style: italic"></h6>
                             </div>
                         </div>
@@ -529,5 +477,3 @@
             }
         }
     </script>
-    <script src="/js/variationAjax.js"></script>
-    {{!-- {{ color.length }}; --}}

@@ -30,6 +30,15 @@ module.exports.getAllProducts = async () => {
  */
 module.exports.getProducts = async (sort, category, brand, min, max, id = null) => {
     try {
+        console.log("--- getProducts ---");
+        console.log("sort:", sort);
+        console.log("category:", category);
+        console.log("brand:", brand);
+        console.log("min:", min);
+        console.log("max:", max);
+        console.log("id:", id);
+
+
         if (id === null) {
             let products = null;
             if (sort === undefined) {
@@ -60,6 +69,7 @@ module.exports.getProducts = async (sort, category, brand, min, max, id = null) 
                 else
                     products = await productModel.find({ $and: [{ brand: { "$in": brand } }, { price: { $gte: min } }, { price: { $lte: max } }] }).sort({ price: sort }).lean()
             } else {
+                console.log("sort = 0");
                 if (!category && !brand)
                     products = await productModel.find({ $and: [{ price: { $gte: min } }, { price: { $lte: max } }] }).lean()
                 else if (category && brand)
@@ -74,6 +84,7 @@ module.exports.getProducts = async (sort, category, brand, min, max, id = null) 
                 products[i].thumbnail = products[i].img[0];
             }
 
+            console.log("products:", products);
             return products;
         } else {
             const product = await productModel.findById(id).lean();
@@ -130,6 +141,49 @@ module.exports.addProduct = async (body, files) => {
     }
 }
 
+// /**
+//  * change product
+//  * @param id {String}
+//  * @param body {Object}
+//  * @param files {Object}
+//  * @param existFiles {object}
+//  * @returns {Promise<void>}
+//  */
+// module.exports.changeProductInfo = async (body, files) => {
+//     try {
+//         console.log("-- change ---");
+//         console.log("body:", body);
+//         console.log("files:", files);
+//         console.log("+__+");
+
+//         let url = [];
+//         for (let i = 0; i < files.length; i++) {
+//             url.push(await cloudinary.upload(files[i].path, 'product'));
+//         }
+
+//         console.log("url:", url);
+
+//         await productModel.findByIdAndUpdate({ _id: body.productID }, {
+//             $set: {
+//                 name: body.name,
+//                 price: body.price,
+//                 brand: body.brand,
+
+//                 category: body.category,
+//                 img: JSON.parse(body.img),
+//                 SKU: body.SKU,
+//                 introduction: body.introduction,
+//                 infomation: body.infomation,
+//                 variation: JSON.parse(body.variation)
+//             }
+//         });
+
+//         console.log("done");
+//     } catch (err) {
+//         throw err;
+//     }
+// }
+
 /**
  * change product
  * @param id {String}
@@ -138,28 +192,31 @@ module.exports.addProduct = async (body, files) => {
  * @param existFiles {object}
  * @returns {Promise<void>}
  */
-module.exports.changeProductInfo = async (body, files) => {
+module.exports.changeProductInfo = async (id, body, files, existFiles) => {
     try {
-        console.log("-- change ---");
+        console.log("-- change v2---");
         console.log("body:", body);
-        console.log("files:", files);
+        // console.log("files:", files);
         console.log("+__+");
 
-        let url = [];
-        for (let i = 0; i < files.length; i++) {
-            url.push(await cloudinary.upload(files[i].path, 'product'));
+        let listImg = [];
+        for (const [key, value] of Object.entries(existFiles)) {
+            listImg.push(value);
         }
+        for (let i = 0; i < files.length; i++) {
+            listImg.push(await cloudinary.upload(files[i].path, 'product'));
+        }
+        console.log("url:", listImg);
 
-        console.log("url:", url);
-
-        await productModel.findByIdAndUpdate({ _id: body.productID }, {
+        await productModel.findByIdAndUpdate({ _id: id }, {
             $set: {
                 name: body.name,
                 price: body.price,
                 brand: body.brand,
-
+                size: body.size,
+                color: body.color,
                 category: body.category,
-                img: JSON.parse(body.img),
+                img: listImg,
                 SKU: body.SKU,
                 introduction: body.introduction,
                 infomation: body.infomation,

@@ -80,28 +80,34 @@ exports.addProduct = async (req, res) => {
  * @param res response
  * @returns {Promise<void>}
  */
-/*exports.editProduct = async (req, res) => {
+exports.editProduct = async (req, res) => {
     try {
+        console.log("--edit product: ------");
+        console.log("id:", req.params.productID);
+        console.log("body: ", req.body);
+        console.log("files: ", req.files);
+        console.log("exist:", req.body.exist_img);
+
         await productService.changeProductInfo(req.params.productID, req.body, req.files, req.body.exist_img);
         res.redirect('back');
     } catch (e) {
         res.status(500).json({ message: e.message });
     }
-};*/
-
-exports.edit = async (req, res) => {
-    try {
-        const body = req.body
-
-        console.log("-- POST edit product: ");
-
-        await productService.changeProductInfo(body, req.files);
-
-        res.redirect('back');
-    } catch (e) {
-        res.status(500).json({ message: e.message });
-    }
 };
+
+// exports.edit = async (req, res) => {
+//     try {
+//         const body = req.body
+
+//         console.log("-- POST edit product: ");
+
+//         await productService.changeProductInfo(body, req.files);
+
+//         res.redirect('back');
+//     } catch (e) {
+//         res.status(500).json({ message: e.message });
+//     }
+// };
 
 /************************************* DELETE methods *************************************/
 /**
