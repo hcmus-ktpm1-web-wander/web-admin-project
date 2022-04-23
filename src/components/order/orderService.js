@@ -28,9 +28,9 @@ module.exports.getOrders = async (sort = 0, status = null, start = null, end = n
             if (user_name)
             {
                 if (status != null)
-                    orders = await orderModel.find({$and: [{status: {"$in": status}}, {timestamp: {$gte: start}}, {timestamp: {$lte: end}}, {username: {$in: user_name}}]}).sort({status: 1}).lean();
+                    orders = await orderModel.find({$and: [{status: {"$in": status}}, {timestamp: {$gte: start}}, {timestamp: {$lte: end}}, {username: { $regex: new RegExp('^' + user_name + '.*', 'i') }}]}).sort({status: 1}).lean();
                 else
-                    orders = await orderModel.find({$and: [{timestamp: {$gte: start}}, {timestamp: {$lte: end}}, {username: {$in: user_name}}]}).sort({status: 1}).lean();
+                    orders = await orderModel.find({$and: [{timestamp: {$gte: start}}, {timestamp: {$lte: end}}, {username: { $regex: new RegExp('^' + user_name + '.*', 'i') }}]}).sort({status: 1}).lean();
             }
             else
             {
@@ -47,9 +47,9 @@ module.exports.getOrders = async (sort = 0, status = null, start = null, end = n
             if (user_name)
             {
                 if (status != null)
-                    orders = await orderModel.find({$and: [{status: {"$in": status}}, {timestamp: {$gte: start}}, {timestamp: {$lte: end}}, {username: {$in: user_name}}]}).sort({timestamp: sort}).lean();
+                    orders = await orderModel.find({$and: [{status: {"$in": status}}, {timestamp: {$gte: start}}, {timestamp: {$lte: end}}, {username: { $regex: new RegExp('^' + user_name + '.*', 'i') }}]}).sort({timestamp: sort}).lean();
                 else
-                    orders = await orderModel.find({$and: [{timestamp: {$gte: start}}, {timestamp: {$lte: end}}, {username: {$in: user_name}}]}).sort({timestamp: sort}).lean();
+                    orders = await orderModel.find({$and: [{timestamp: {$gte: start}}, {timestamp: {$lte: end}}, {username: { $regex: new RegExp('^' + user_name + '.*', 'i') }}]}).sort({timestamp: sort}).lean();
             }
             else {
                 if (status != null)
@@ -65,9 +65,9 @@ module.exports.getOrders = async (sort = 0, status = null, start = null, end = n
             if (user_name)
             {
                 if (status != null)
-                    orders = await orderModel.find({$and: [{status: {"$in": status}}, {timestamp: {$gte: start}}, {timestamp: {$lte: end}}, {username: {$in: user_name}}]}).lean();
+                    orders = await orderModel.find({$and: [{status: {"$in": status}}, {timestamp: {$gte: start}}, {timestamp: {$lte: end}}, {username: { $regex: new RegExp('^' + user_name + '.*', 'i') }}]}).lean();
                 else
-                    orders = await orderModel.find({$and: [{timestamp: {$gte: start}}, {timestamp: {$lte: end}}, {username: {$in: user_name}}]}).lean();
+                    orders = await orderModel.find({$and: [{timestamp: {$gte: start}}, {timestamp: {$lte: end}}, {username: { $regex: new RegExp('^' + user_name + '.*', 'i') }}]}).lean();
             }
             else
             {

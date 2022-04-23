@@ -45,6 +45,11 @@ function addVariation(productID, sizes = null, colors = null, stock = 0) {
         color_select.val(colors)
 }
 
+function isExistVariation()
+{
+
+}
+
 function sizeCheck(row) {
     const value = $(`#variation-table #size-select-${row}`).val()
     const error = $(`#variation-table .size-${row}`)
