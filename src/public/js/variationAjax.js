@@ -17,7 +17,7 @@ function addVariation(productID, sizes = null, colors = null, stock = 0) {
                         <h6 class="size-${last_row} error"></h6>
                     </td>
                     <td>
-                          <input type="color" class="form-control-color" name="color"
+                          <input type="color" class="form-control-color" name="color" oninput="colorCheck(${last_row})"
                           id="color-select-${last_row}">
                     </td>
 
@@ -45,38 +45,107 @@ function addVariation(productID, sizes = null, colors = null, stock = 0) {
         color_select.val(colors)
 }
 
-function isExistVariation()
+function isExistVariation(row)
 {
+    const table_body = $(`#variation-table tbody`).children() // rows
+    const latest_size = $(`#variation-table #size-select-${row}`).val()
+    const latest_color = $(`#variation-table #color-select-${row}`).val()
 
+    let start = 0
+    let end = table_body.length-1
+
+    if (row != getCurrentLastRow()-1)
+    {
+        end = table_body.length
+    }
+
+
+    for (let i = start; i < end; i++) {
+        if (row == i)
+            continue;
+
+        const size = $(`#table-row-${i}`).find('.size-select').val()
+        const color = $(`#table-row-${i}`).find(`#color-select-${i}`).val()
+
+        console.log(i,size)
+/*        console.log(color,latest_color)*/
+        if (size == latest_size && color == latest_color)
+            return `Duplicate variations`
+    }
+    return ''
 }
 
-function sizeCheck(row) {
+
+function sizeCheck(row, general = null) {
     const value = $(`#variation-table #size-select-${row}`).val()
-    const error = $(`#variation-table .size-${row}`)
 
     let msg = ''
-    if (value == null)
+
+    const value2 = isExistVariation(row)
+
+    if (value2 != '')
+        msg = value2;
+
+    else if (value == null)
         msg = 'Size is required'
 
-    error.text(msg)
+    if (general ==null )
+        $(`#variation-table .size-${row}`).text(msg)
+
+
+    else
+    {
+        const size_errors = $(`#variation-table h6[class^="size"][class$="error"]`)
+        size_errors.each(function () {
+            $(this).text('')
+        })
+        $(`.general-error`).text(msg)
+
+    }
+
+
     return msg
 }
 
-function stockCheck(row) {
+function colorCheck(row, general = null) {
+    let msg = ''
+
+    const value = isExistVariation(row)
+
+    if (value != '')
+        msg = value;
+
+    if (general ==null )
+        $(`#variation-table .size-${row}`).text(msg)
+
+    else
+    {
+        const size_errors = $(`#variation-table h6[class^="size"][class$="error"]`)
+        size_errors.each(function () {
+            $(this).text('')
+        })
+        $(`.general-error`).text(msg)
+    }
+
+    return msg
+}
+
+function stockCheck(row,general = true) {
     const positive_regex = '^[+]?\\d+([.]\\d+)?$';
 
     const value = $(`#variation-table input[id=stock-${row}]`).val()
 
     const isValid = value.match(positive_regex)
 
-    const error = $(`#variation-table .stock-${row}`)
-
     let msg = ''
 
     if (isValid == null)
         msg = 'Please enter a positive number'
 
-    error.text(msg)
+    if (!general)
+        $(`.general-error`).text(msg)
+    else
+        $(`#variation-table .stock-${row}`).text(msg)
 
     return msg
 }
@@ -98,7 +167,6 @@ function loadCurrentData() {
 }
 
 function initEditBtn() {
-    const productID = $("input[name=product-id]").val()
     const form = $(`#edit-product-form`)
 
     const submit_btn = $(`#edit-product-btn`)
@@ -108,15 +176,13 @@ function initEditBtn() {
 
         for (let i = 0; i < table_body.length; i++) {
             //stock check
-            const isValidSize = sizeCheck(i)
+            const isValidSize = sizeCheck(i,true)
             if (isValidSize != '') {
-                $(`.general-error`).text(isValidSize)
                 return false;
             }
 
-            const isValidStock = stockCheck(i)
+            const isValidStock = stockCheck(i,true)
             if (isValidStock != '') {
-                $(`.general-error`).text(isValidStock)
                 return false;
             }
         }
