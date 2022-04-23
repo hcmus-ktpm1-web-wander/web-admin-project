@@ -20,6 +20,13 @@ function getProductsByFilter(page, category = null, brand = null, min_price = '0
 
         $('#list-product-render').html('');
         data.result.data.forEach(function (item, index) {
+            let status = `<span class="badge bg-success" style="margin-left: 10px">On stock</span>`
+            const check = stockCheck(item)
+            if (check == 2)
+                status = `<span class="badge bg-danger" style="margin-left: 10px">Out of stock</span>`
+            else if (check == 1)
+                status = `<span class="badge bg-info" style="margin-left: 10px">Coming soon</span>`
+
             $('#list-product-render').append(`
            <div class="card mx-2 my-2" style="width: 18rem;">
 						<div class="card-img">
@@ -31,7 +38,7 @@ function getProductsByFilter(page, category = null, brand = null, min_price = '0
 							<h6 class="card-title">
                                 <a href="/product/${item._id}">${item.name}</a>
                             </h6>
-							<div class="card-text mb-3">Price: <b>${item.price}$</b></div>
+							<div class="card-text mb-3">Price: <b>${item.price}$</b>${status}</div>
 							<a href="/product/${item._id}" class="btn btn-primary" style="z-index: 1;">Detail</a>
 						</div>
 					</div>`);
@@ -283,6 +290,20 @@ function checkPrice(e) {
         e.value = 9999999
     if (e.value < 1)
         e.value = 0
+}
+
+function stockCheck(product)
+{
+    const variation = product.variation
+
+    if (variation == undefined)
+        return 1 // coming soon
+
+    for (let i = 0; i < variation.length; i++)
+        if (variation[i].stock > 0)
+            return 0 // on stock
+
+    return 2 //out of stock
 }
 
 window.onload = function () {
