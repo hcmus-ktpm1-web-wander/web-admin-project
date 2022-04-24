@@ -153,7 +153,6 @@ module.exports.getDashboard = async (req, res) => {
             }
         });
 
-        console.log("period order:", period_order);
 
         // chart
         {
@@ -181,13 +180,17 @@ module.exports.getDashboard = async (req, res) => {
                 chart_lines_data["Shoes"].push(category["Shoes"]);
             } else if (pre === "Week") { //done
                 curr = new Date;
-                const firstday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 1));
-                const lastday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 7));
+                let dy = curr.getDay();
 
-                for (i = 1; ; i++) {
-                    const d = new Date(curr.setDate(curr.getDate() - curr.getDay() + i));
+                let firstday = new Date(curr.setDate(curr.getDate() - dy + (dy == 0 ? -6 : 1)))
+                let lastday = new Date(curr.setDate(curr.getDate() - dy + 6))
+
+                console.log("--------");
+                for (i = 0; i <= 7; i++) {
+                    const d = new Date(curr.setDate(firstday.getDate() + i));
                     const dd = d.toString().split(" ");
                     var this_date = dd[2] + ' ' + dd[1] + ',' + dd[3];
+                    console.log("date:", this_date);
 
                     if (i == 1) {
                         monday = firstday.toString().split(" ");
@@ -377,9 +380,11 @@ module.exports.sortTopProduct = (items) => {
 
 module.exports.isDateInWeek = (date) => {
     //https://www.timeanddate.com/date/weeknumber.html
-    curr = new Date;
-    var firstday = new Date(curr.setDate(curr.getDate() - curr.getDay()));
-    var lastday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 6));
+    let curr = new Date();
+    let dy = curr.getDay();
+
+    let firstday = new Date(curr.setDate(curr.getDate() - dy + (dy == 0 ? -6 : 1)))
+    let lastday = new Date(curr.setDate(curr.getDate() - dy + 6))
 
     let d = date.split(" ");
 
@@ -392,8 +397,9 @@ module.exports.isDateInWeek = (date) => {
     if (date_ >= firstday && date_ <= lastday) {
         return true;
     }
-    else
+    else {
         return false
+    }
 }
 
 module.exports.daysInMonth = (month, year) => {

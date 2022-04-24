@@ -229,6 +229,7 @@ function getTopCategory(category) {
     });
 }
 
+
 function drawCharBars(label, data, period) {
     $("#chart-bars-container").html(`<canvas id="chart-bars" class="chart-canvas" height="170"></canvas>`)
 
