@@ -22,7 +22,7 @@ const product = new Schema({
     createdAt: Date
 
 }, {
-    versionKey: false // You should be aware of the outcome after set to false
+    versionKey: false
 });
 
 module.exports = mongoose.model('product', product, 'product');
