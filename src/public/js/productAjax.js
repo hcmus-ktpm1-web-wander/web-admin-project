@@ -178,7 +178,10 @@ function addVariation(productID, sizes = null, colors = null, stock = 0) {
     const size_select = $(`#size-select-${last_row}`)
 
     for (let i = 0; i < size_buffer.length; i++)
-        size_select.append(`<option value="${size_buffer[i]}">${size_buffer[i]}</option>`)
+        if (i == 0)
+            size_select.append(`<option value="${size_buffer[i]}">${size_buffer[i]}</option>`)
+        else
+            size_select.append(`<option value="${size_buffer[i]}">${size_buffer[i]}</option>`)
 
     size_select.val(`${sizes}`)
 
@@ -292,8 +295,7 @@ function checkPrice(e) {
         e.value = 0
 }
 
-function stockCheck(product)
-{
+function stockCheck(product) {
     const variation = product.variation
 
     if (variation == undefined)
@@ -304,6 +306,30 @@ function stockCheck(product)
             return 0 // on stock
 
     return 2 //out of stock
+}
+
+function checkAndSubmit(form_id) {
+    console.log("--- check and submit ---");
+    let form = $('#' + form_id);
+    let input_name = $('input[name=name]');
+    let input_price = $('input[name=price]');
+    let input_stock = $('input[name=stock]');
+    let input_size = $('#size-select-0');
+    let input_img = $('input[name=img]');
+
+    console.log("name:", input_name.val());
+    console.log("price:", input_price.val());
+    console.log("stock:", input_stock.val());
+    console.log("size:", input_size.val());
+    console.log("img:", input_img.val());
+
+    if (input_name.val() == "" || input_price.val() == "" || input_size.val() == null || input_img.val() == undefined) {
+        alert("Please fill all the fields");
+        return false;
+    }
+
+    form.submit()
+
 }
 
 window.onload = function () {

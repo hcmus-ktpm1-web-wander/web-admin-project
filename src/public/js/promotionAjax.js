@@ -44,11 +44,14 @@ function loadPromotion(page) {
                                             <h5 class="modal-title" id="exampleModalLabel">Are you sure?
                                             </h5>
                                         </div>
+                                        <div class="modal-body">
+                                            Are you sure to delete this promotion?
+                                        </div>
                                         <div class="modal-footer"  style="height:70px">
                                             <input type="hidden" name="delete_code">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancle
                                             </button>
-                                            <button type="submit" class="btn btn-primary" style="background-color: red" data-bs-dismiss="modal">Yes
+                                            <button type="submit" class="btn btn-primary" style="background-color: red" data-bs-dismiss="modal">Delete
                                             </button>
                                         </div>
                                     </div>

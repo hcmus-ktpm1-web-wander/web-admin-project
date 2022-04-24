@@ -45,17 +45,15 @@ function addVariation(productID, sizes = null, colors = null, stock = 0) {
         color_select.val(colors)
 }
 
-function isExistVariation(row)
-{
+function isExistVariation(row) {
     const table_body = $(`#variation-table tbody`).children() // rows
     const latest_size = $(`#variation-table #size-select-${row}`).val()
     const latest_color = $(`#variation-table #color-select-${row}`).val()
 
     let start = 0
-    let end = table_body.length-1
+    let end = table_body.length - 1
 
-    if (row != getCurrentLastRow()-1)
-    {
+    if (row != getCurrentLastRow() - 1) {
         end = table_body.length
     }
 
@@ -67,8 +65,8 @@ function isExistVariation(row)
         const size = $(`#table-row-${i}`).find('.size-select').val()
         const color = $(`#table-row-${i}`).find(`#color-select-${i}`).val()
 
-        console.log(i,size)
-/*        console.log(color,latest_color)*/
+        console.log(i, size)
+        /*        console.log(color,latest_color)*/
         if (size == latest_size && color == latest_color)
             return `Duplicate variations`
     }
@@ -89,12 +87,11 @@ function sizeCheck(row, general = null) {
     else if (value == null)
         msg = 'Size is required'
 
-    if (general ==null )
+    if (general == null)
         $(`#variation-table .size-${row}`).text(msg)
 
 
-    else
-    {
+    else {
         const size_errors = $(`#variation-table h6[class^="size"][class$="error"]`)
         size_errors.each(function () {
             $(this).text('')
@@ -115,11 +112,10 @@ function colorCheck(row, general = null) {
     if (value != '')
         msg = value;
 
-    if (general ==null )
+    if (general == null)
         $(`#variation-table .size-${row}`).text(msg)
 
-    else
-    {
+    else {
         const size_errors = $(`#variation-table h6[class^="size"][class$="error"]`)
         size_errors.each(function () {
             $(this).text('')
@@ -130,7 +126,7 @@ function colorCheck(row, general = null) {
     return msg
 }
 
-function stockCheck(row,general = true) {
+function stockCheck(row, general = true) {
     const positive_regex = '^[+]?\\d+([.]\\d+)?$';
 
     const value = $(`#variation-table input[id=stock-${row}]`).val()
@@ -176,15 +172,23 @@ function initEditBtn() {
 
         for (let i = 0; i < table_body.length; i++) {
             //stock check
-            const isValidSize = sizeCheck(i,true)
+            const isValidSize = sizeCheck(i, true)
             if (isValidSize != '') {
                 return false;
             }
 
-            const isValidStock = stockCheck(i,true)
+            const isValidStock = stockCheck(i, true)
             if (isValidStock != '') {
                 return false;
             }
+        }
+
+        let input_name = $('input[name=name]');
+        let input_price = $('input[name=price]');
+
+        if (input_name.val() == "" || input_price.val() == "") {
+            alert("Please fill all the fields");
+            return;
         }
 
         //get all value
@@ -208,6 +212,7 @@ function initEditBtn() {
         form.submit()
     })
 }
+
 
 
 window.onload = function () {
