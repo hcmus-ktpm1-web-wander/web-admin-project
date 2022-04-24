@@ -112,6 +112,8 @@ module.exports.addProduct = async (body, files) => {
 
         // body to model
         body['img'] = url;
+        body['thumb'] = url[0];
+
         if (body.brand === "") {
             body['brand'] = "BoBui";
         }
@@ -141,6 +143,7 @@ module.exports.addProduct = async (body, files) => {
         body['variation'] = variation;
 
         body['createdAt'] = new Date();
+
 
         console.log("body:", body);
 
