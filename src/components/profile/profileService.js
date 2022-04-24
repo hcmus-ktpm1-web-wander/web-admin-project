@@ -72,7 +72,10 @@ module.exports.changeAvatar = async (id, file) => {
  */
 module.exports.getInfoByID = async (id) => {
     try {
-        return await userModel.findById(id).lean();
+        const user = await userModel.findById(id).lean();
+        console.log("user: ", user);
+        return user;
+
     } catch (err) {
         throw err;
     }

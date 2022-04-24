@@ -125,12 +125,14 @@ function editInfo() {
     }).then(r => r.json()).then(data => {
     });
 
-    $('#edit-info-btn').val("true");
     getInfo();
+    $('#edit-info-btn').val("true");
+
+
 }
 
 function changePassword() {
-    if($('#old-passwd').val() === ' ' || $('#new-passwd').val() === '' || $('#confirm-passwd').val() === '') {
+    if ($('#old-passwd').val() === ' ' || $('#new-passwd').val() === '' || $('#confirm-passwd').val() === '') {
         $('#cancle-pass').click();
         $('#check-profile-change-password').html(
             `<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
