@@ -153,7 +153,14 @@ function loadCurrentData() {
 
     const url = `/api/product/get?productID=${productID}`
     $.get(url, function (data) {
+        console.log("data:", data);
         const variations = data.product.variation
+
+        // set check category
+        $('input[value=' + data.product.category + ']').prop("checked", true);
+
+
+        // set variation
         if (variations) {
             variations.forEach(variation => {
                 addVariation(productID, variation.size, variation.color, variation.stock)
