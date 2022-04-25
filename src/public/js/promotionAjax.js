@@ -93,7 +93,7 @@ function loadPromotion(page) {
                                 <h6 class="end_date error"></h6>
     
                                 <div class="modal-footer">
-                                     <h6 class="general-error"></h6>
+                                     <h6 class="general-error" style="color: red"></h6>
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel
                                     </button>
                                    <input type="hidden" name="edit_code">
@@ -237,7 +237,10 @@ function openEditModal(index) {
     const inputs = $(`#edit-form input`)
     inputs.each(function () {
         const field = $(this).attr("name")
-        const current_text = $(`#${field}-cell-${index}`).text()
+        let current_text = $(`#${field}-cell-${index}`).text()
+
+        if (current_text.endsWith('%'))
+            current_text = current_text.slice(0,current_text.length-1)
 
         $(this).val(current_text)
     })
