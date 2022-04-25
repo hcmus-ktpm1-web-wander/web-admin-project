@@ -1,5 +1,5 @@
 function pagingAdmin(page, filter) {
-    let url = '/api/user/admin?filter=' + filter.value + '&page=' + page;
+    let url = '/api/user/admin?filter=' + filter + '&page=' + page;
     if (filter === 0) {
         url = '/api/user/admin?filter=' + 0 + '&page=' + page
     }
@@ -102,9 +102,9 @@ function pagingAdmin(page, filter) {
     })
 }
 
-function pagingUser(page, Filter) {
-    let url = '/api/user/user?filter=' + Filter.value + '&page=' + page;
-    if (Filter === 0) {
+function pagingUser(page, filter) {
+    let url = '/api/user/user?filter=' + filter + '&page=' + page;
+    if (filter === 0) {
         url = '/api/user/user?filter=' + 0 + '&page=' + page
     }
     fetch(url, {
@@ -112,8 +112,6 @@ function pagingUser(page, Filter) {
     }).then(r => r.json()).then(data => {
         $('#user-body').html('');
         data.data.forEach(function (item, index) {
-
-            console.log("data:", item);
             str = `<tr>`;
 
             // < div class="d-flex flex-column justify-content-center" >
@@ -530,6 +528,6 @@ function SearchAdminByNameAndGmail(e) {
 }
 
 window.onload = function () {
-    pagingUser(1, 0);
-    pagingAdmin(1, 0);
+    pagingUser(1, '0');
+    pagingAdmin(1, '0');
 }

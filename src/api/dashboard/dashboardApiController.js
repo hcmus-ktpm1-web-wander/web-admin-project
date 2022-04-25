@@ -11,7 +11,7 @@ const productService = require('../../components/product/productService');
  */
 module.exports.getDashboard = async (req, res) => {
     try {
-        console.log('-- dashboard api - getDashboard');
+        // console.log('-- dashboard api - getDashboard');
         // fetch database
         const orders = await orderService.getOrders();
         const products = await productService.getProducts(undefined, undefined, undefined, undefined, undefined, null);
@@ -266,7 +266,7 @@ module.exports.getDashboard = async (req, res) => {
                 for (i = 0; i < 12; i++) {
                     const d = new Date(date.getFullYear(), i, 1).toString().split(" ");
                     const this_date = d[1] + ',' + d[3];
-                    console.log("this_date: ", this_date);
+                    // console.log("this_date: ", this_date);
                     let tt = 0;
 
                     let category = {
