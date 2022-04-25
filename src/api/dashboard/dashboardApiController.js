@@ -185,17 +185,11 @@ module.exports.getDashboard = async (req, res) => {
                 let firstday = new Date(curr.setDate(curr.getDate() - dy + (dy == 0 ? -6 : 1)))
                 let lastday = new Date(curr.setDate(curr.getDate() - dy + 6))
 
-                console.log("--------");
+
                 for (i = 0; i <= 7; i++) {
                     const d = new Date(curr.setDate(firstday.getDate() + i));
                     const dd = d.toString().split(" ");
                     var this_date = dd[2] + ' ' + dd[1] + ',' + dd[3];
-                    console.log("date:", this_date);
-
-                    if (i == 1) {
-                        monday = firstday.toString().split(" ");
-                        this_date = monday[2] + ' ' + monday[1] + ',' + monday[3];
-                    }
 
                     let tt = 0;
 
@@ -206,6 +200,7 @@ module.exports.getDashboard = async (req, res) => {
                         "Shoes": 0
                     };
 
+                    j = 0;
                     orders.forEach(order => {
                         if (this.isDateInWeek(order.create_date) && order.create_date.includes(this_date)) {
                             let discount = 0;
@@ -227,9 +222,6 @@ module.exports.getDashboard = async (req, res) => {
                     chart_lines_data["Clothing"].push(category["Clothing"]);
                     chart_lines_data["Accessories"].push(category["Accessories"]);
                     chart_lines_data["Shoes"].push(category["Shoes"]);
-
-                    if (d.toString().split(" ")[2] == lastday.toString().split(" ")[2])
-                        break;
                 }
             } else if (pre === "Month") { // done
                 const date = new Date();
@@ -318,7 +310,7 @@ module.exports.getDashboard = async (req, res) => {
             return [key, top_user[key]];
         });
 
-        console.log("top 3 user:", top_three_user);
+        // console.log("top 3 user:", top_three_user);
 
         // Sort the array based on the second element
         for (let i = 0; i < top_three_user.length - 1; i++) {
@@ -338,8 +330,8 @@ module.exports.getDashboard = async (req, res) => {
         top_product_category["Accessories"] = this.sortTopProduct(top_product_category["Accessories"]);
         top_product_category["Shoes"] = this.sortTopProduct(top_product_category["Shoes"]);
 
-        console.log("---------");
-        console.log("top product category: ", top_product_category);
+        // console.log("---------");
+        // console.log("top product category: ", top_product_category);
 
         res.send({
             total_user, total, total_product, period_total, period_total_order, period_order, top_three_user, period_new_client, period, chart_bars_data, chart_lines_data, chart_label, top_product, top_product_category
@@ -388,7 +380,7 @@ module.exports.isDateInWeek = (date) => {
 
     let d = date.split(" ");
 
-    const day = d[0];
+    const day = parseInt(d[0]) + 1;
     const month = d[1].split(",")[0];
     const year = d[1].split(",")[1];
 
