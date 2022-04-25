@@ -101,61 +101,6 @@ module.exports.changeStatus = async (id, to_status) => {
     }
 }
 
-/**
- * insert user
- * @param body{object}
- * @param file{object}
- * @returns {Promise<void>}
- */
-module.exports.addUser = async (body, file) => {
-    try {
-        if (file) {
-            var url = await cloudinary.upload(file.path, 'user_avatar');
-        }
-
-        // get datetime
-        const now = (new Date()).toString().split(" ");
-
-        new mongoose.Types.ObjectId().toHexString();
-
-        // check email
-        if (body.mail_username !== '' && body.mail_domain !== "") {
-            body.mail_domain = '@' + body.mail_domain;
-        } else if (body.mail_username !== '' && body.mail_domain === "") {
-            body.mail_domain = '@gmail.com';
-        }
-
-        // body to model
-        body['fullname'] = body.fname + ' ' + body.lname;
-        body["role"] = body.role;
-        body['email'] = body.mail_username + body.mail_domain;
-        body['employed'] = now[2] + ' ' + now[1] + ',' + now[3];
-        body['avatar_url'] = url;
-        body['phone'] = body.phone.replace(/\D/g, '');
-        body['intro'] = "";
-        body['username'] = body.username;
-        body['confirm'] = true;
-
-        await bcrypt.hash(body.passwd, 4).then(async (hash) => {
-            body['password'] = hash;
-
-            // delete unnecessary field
-            delete body.fname;
-            delete body.lname;
-            delete body.passwd;
-            delete body.confirm_passwd;
-            delete body.mail_username;
-            delete body.mail_domain;
-
-            await userModel.create(body);
-        });
-        // // insert
-        // await model.insertMany(body)
-
-    } catch (err) {
-        throw err;
-    }
-}
 
 /**
  * Get info by search

@@ -57,47 +57,6 @@ exports.renderUserManage = async (req, res) => {
 };
 
 
-/************************************* POST methods *************************************/
-/**
- *  add user
- *
- * @param req request
- * @param res response
- * @returns {Promise<void>}
- */
-exports.addUser = async (req, res) => {
-    try {
-        // validate request
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            const e = {};
-            for (let i = 0; i < errors.array().length; i++) {
-                if (errors.array()[i].param === "passwd") {
-                    e.password = errors.array()[i].msg;
-                }
-                else if (errors.array()[i].param === "phone") {
-                    e.phone = errors.array()[i].msg;
-                }
-                else if (errors.array()[i].param === "username") {
-                    e.username = errors.array()[i].msg;
-                }
-                else if (errors.array()[i].param === "confirm_passwd") {
-                    e.confirm_password = errors.array()[i].msg;
-                }
-            }
-            req.session.errors = e;
-            res.redirect('back');
-        }
-        else {
-            // insert data to database
-            await service.addUser(req.body, req.file);
-            res.redirect('back');
-        }
-    } catch (e) {
-        res.status(500).json({ message: e.message });
-    }
-};
-
 /************************************* PUT methods *************************************/
 /**
  *  edit role of user
