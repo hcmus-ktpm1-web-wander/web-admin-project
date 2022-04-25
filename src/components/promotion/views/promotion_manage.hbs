@@ -10,28 +10,28 @@
 						<div class="table-responsive p-0">
 							<table class="table align-items-center mb-0">
 								<thead>
-								<tr>
-									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-										Code
-									</th>
-									<th
+									<tr>
+										<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+											Code
+										</th>
+										<th
 											class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-										Level
-									</th>
-									<th
+											Level
+										</th>
+										<th
 											class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-										Slot
-									</th>
-                                    <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Duration
-                                    </th>
-									<th
+											Slot
+										</th>
+										<th
 											class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-									</th>
+											Duration
+										</th>
+										<th
+											class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+										</th>
 
-									<th class="text-secondary opacity-7"></th>
-								</tr>
+										<th class="text-secondary opacity-7"></th>
+									</tr>
 								</thead>
 								<tbody id="promotion-body">
 								</tbody>
@@ -50,7 +50,8 @@
 		<div class="row d-flex flex-column align-items-center">
 
 			{{!-- button add --}}
-			<button onclick="openAddModal()" class=" btn btn-primary button-add" data-bs-toggle="modal" data-bs-target='#add-promotion'>Add
+			<button onclick="openAddModal()" class=" btn btn-primary button-add" data-bs-toggle="modal"
+				data-bs-target='#add-promotion'>Add
 				Promotion
 			</button>
 		</div>
@@ -60,7 +61,8 @@
 
 		<!-- Modal add user -->
 		<form id="add-form" action="/manage/promotion/add" method="post">
-			<div class="modal fade" id='add-promotion' tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal fade" id='add-promotion' tabindex="-1" aria-labelledby="exampleModalLabel"
+				aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
@@ -69,27 +71,27 @@
 
 						<div class="modal-body">
 							<b>Code:</b> <span class="red-start">*</span>
-                            <input type="text" class="form-control" placeholder="Code" aria-label="Code" name="code">
-                            <h6  class="code error"></h6>
+							<input type="text" class="form-control" placeholder="Code" aria-label="Code" name="code">
+							<h6 class="code error"></h6>
 
 							<b>Level:</b> <span class="red-start">*</span>
-                            <input type="text" class="form-control" placeholder="Level" aria-label="Level" name="level">
-                            <h6  class="level error"></h6>
+							<input type="text" class="form-control" placeholder="Level" aria-label="Level" name="level">
+							<h6 class="level error"></h6>
 
-                            <b>Slot:</b> <span class="red-start">*</span>
-                            <input type="text" class="form-control" placeholder="Slot" aria-label="Slot" name="slot">
-                            <h6  class="slot error"></h6>
+							<b>Slot:</b> <span class="red-start">*</span>
+							<input type="text" class="form-control" placeholder="Slot" aria-label="Slot" name="slot">
+							<h6 class="slot error"></h6>
 
-                            <b>Duration:</b> <span class="red-start">*</span>
-                            <div class="input-group input-group-sm mb-2">
-                                <input type="date" name="start_date" class="form-control" style="padding-right: 5px">
-                                <input type="date" name="end_date" class="form-control" style="padding-left: 5px">
-                            </div>
-                            <h6  class="start_date error"></h6>
-                            <h6  class="end_date error"></h6>
+							<b>Duration:</b> <span class="red-start">*</span>
+							<div class="input-group input-group-sm mb-2">
+								<input type="date" name="start_date" class="form-control" style="padding-right: 5px">
+								<input type="date" name="end_date" class="form-control" style="padding-left: 5px">
+							</div>
+							<h6 class="start_date error"></h6>
+							<h6 class="end_date error"></h6>
 
 							<div class="modal-footer">
-                                <h6 class="general-error"></h6>
+								<h6 class="general-error"></h6>
 								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel
 								</button>
 								<button type="submit" class="btn btn-primary">Confirm
@@ -100,81 +102,15 @@
 				</div>
 			</div>
 		</form>
-    {{#if error_msg}}
-        <div style="text-align: center">
-            <h4 style="font-weight: bold; color: red">{{error_msg}}</h4>
-        </div>
-    {{/if}}
+		{{#if error_msg}}
+		<div style="text-align: center">
+			<h4 style="font-weight: bold; color: red">{{error_msg}}</h4>
+		</div>
+		{{/if}}
 
 	</div>
 
 	<footer class="footer pt-3  "></footer>
 </main>
 
-
-<div class="fixed-plugin">
-	<a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
-		<i class="fa fa-cog py-2"> </i>
-	</a>
-	<div class="card shadow-lg ">
-		<div class="card-header pb-0 pt-3 ">
-			<div class="float-start">
-				<h5 class="mt-3 mb-0">Soft UI Configurator</h5>
-				<p>See our dashboard options.</p>
-			</div>
-			<div class="float-end mt-4">
-				<button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
-					<i class="fa fa-close"></i>
-				</button>
-			</div>
-			<!-- End Toggle Button -->
-		</div>
-		<hr class="horizontal dark my-1">
-		<div class="card-body pt-sm-3 pt-0">
-			<!-- Sidebar Backgrounds -->
-			<div>
-				<h6 class="mb-0">Sidebar Colors</h6>
-			</div>
-			<a href="javascript:void(0)" class="switch-trigger background-color">
-				<div class="badge-colors my-2 text-start">
-					<span class="badge filter bg-gradient-primary active" data-color="primary"
-						  onclick="sidebarColor(this)"></span>
-					<span class="badge filter bg-gradient-dark" data-color="dark" onclick="sidebarColor(this)"></span>
-					<span class="badge filter bg-gradient-info" data-color="info" onclick="sidebarColor(this)"></span>
-					<span class="badge filter bg-gradient-success" data-color="success"
-						  onclick="sidebarColor(this)"></span>
-					<span class="badge filter bg-gradient-warning" data-color="warning"
-						  onclick="sidebarColor(this)"></span>
-					<span class="badge filter bg-gradient-danger" data-color="danger"
-						  onclick="sidebarColor(this)"></span>
-				</div>
-			</a>
-			<!-- Sidenav Type -->
-			<div class="mt-3">
-				<h6 class="mb-0">Sidenav Type</h6>
-				<p class="text-sm">Choose between 2 different sidenav types.</p>
-			</div>
-			<div class="d-flex">
-				<button class="btn bg-gradient-primary w-100 px-3 mb-2 active" data-class="bg-transparent"
-						onclick="sidebarType(this)">Transparent
-				</button>
-				<button class="btn bg-gradient-primary w-100 px-3 mb-2 ms-2" data-class="bg-white"
-						onclick="sidebarType(this)">White
-				</button>
-			</div>
-			<p class="text-sm d-xl-none d-block mt-2">You can change the sidenav type just on desktop view.</p>
-			<!-- Navbar Fixed -->
-			<div class="mt-3">
-				<h6 class="mb-0">Navbar Fixed</h6>
-			</div>
-			<div class="form-check form-switch ps-0">
-				<input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed"
-					   onclick="navbarFixed(this)">
-			</div>
-		</div>
-	</div>
-</div>
-
 <script src="/js/promotionAjax.js"></script>
-
-
