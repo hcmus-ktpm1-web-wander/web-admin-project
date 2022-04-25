@@ -204,7 +204,11 @@ function sizeCheck(row) {
 }
 
 function stockCheck(row) {
+    console.log("stockCheck");
+
     const positive_regex = '^[+]?\\d+([.]\\d+)?$';
+
+    console.log("positive_regex", positive_regex);
 
     const value = $(`#variation-table input[id=stock-${row}]`).val()
 
@@ -298,7 +302,7 @@ function checkPrice(e) {
 function stockCheck(product) {
     const variation = product.variation
 
-    if (variation == undefined)
+    if (variation == undefined || variation.length == 0)
         return 1 // coming soon
 
     for (let i = 0; i < variation.length; i++)
@@ -313,17 +317,9 @@ function checkAndSubmit(form_id) {
     let form = $('#' + form_id);
     let input_name = $('input[name=name]');
     let input_price = $('input[name=price]');
-    let input_stock = $('input[name=stock]');
-    let input_size = $('#size-select-0');
     let input_img = $('input[name=img]');
 
-    console.log("name:", input_name.val());
-    console.log("price:", input_price.val());
-    console.log("stock:", input_stock.val());
-    console.log("size:", input_size.val());
-    console.log("img:", input_img.val());
-
-    if (input_name.val() == "" || input_price.val() == "" || input_size.val() == null || input_img.val() == undefined) {
+    if (input_name.val() == "" || input_price.val() == "" || input_img.val() == undefined) {
         alert("Please fill all the fields");
         return false;
     }
