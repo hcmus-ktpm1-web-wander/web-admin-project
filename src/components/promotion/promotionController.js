@@ -39,7 +39,6 @@ exports.addPromotion = async (req,res) => {
         }
         else
         {
-            req.session.errors = 'Code already exists'
             res.redirect('/manage/promotion')
         }
 
